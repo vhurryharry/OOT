@@ -1,0 +1,9 @@
+---
+app_name: school
+nginx_worker_connections: 8000
+nginx_path: /etc/nginx
+nginx_log_path: /var/log/nginx
+nginx_cache_path: /var/cache/nginx
+nginx_cache_key_storage_size: 10m
+nginx_cache_size: 250m
+nginx_cache_inactive: 1h

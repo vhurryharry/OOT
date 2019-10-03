@@ -1,0 +1,29 @@
+---
+- name: upgrade base
+  apt:
+    upgrade: dist
+
+- name: install base utilities
+  apt:
+    update_cache: yes
+    state: latest
+    pkg:
+      - curl
+      - git
+      - vim
+      - apt-transport-https
+      - software-properties-common
+
+- name: set time zone to UTC
+  timezone:
+    name: UTC
+
+- name: create deploy user
+  user:
+    name: deploy
+    groups:
+      - '{{ web_group }}'
+    state: present
+    shell: /bin/bash
+    system: no
+    createhome: yes

@@ -1,0 +1,28 @@
+---
+- name: install GPG
+  apt:
+    pkg: gnupg
+    state: present
+
+- name: add nodesource key
+  apt_key:
+    url: https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280
+    id: '68576280'
+    state: present
+
+- name: add nodesource PPA
+  apt_repository:
+    repo: 'deb https://deb.nodesource.com/node_12.x {{ ansible_distribution_release }} main'
+    state: present
+
+- name: add nodesource source PPA
+  apt_repository:
+    repo: 'deb-src https://deb.nodesource.com/node_12.x {{ ansible_distribution_release }} main'
+    state: present
+
+- name: install node.js
+  apt:
+    update_cache: yes
+    state: latest
+    pkg:
+      - nodejs

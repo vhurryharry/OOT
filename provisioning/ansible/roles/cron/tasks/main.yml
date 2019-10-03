@@ -1,0 +1,6 @@
+- name: setup cron
+  cron:
+    user: '{{ web_user }}'
+    name: 'run internal oro cron'
+    minute: '*/1'
+    job: 'echo "" > /dev/null'

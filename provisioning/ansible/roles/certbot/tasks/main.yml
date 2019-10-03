@@ -1,0 +1,32 @@
+---
+- name: add certbot PPA
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
+
+- name: install certbot
+  apt:
+    update_cache: yes
+    state: latest
+    pkg:
+      - certbot
+      - python-certbot-nginx
+
+- name: check if certificate already exists
+  stat:
+    path: /etc/letsencrypt/live/{{ app_name }}/cert.pem
+  register: letsencrypt_cert
+
+- name: stop services to allow certbot to generate a cert
+  service:
+    name: "nginx"
+    state: stopped
+  when: not letsencrypt_cert.stat.exists
+
+- name: generate new certificate if one doesn't exist
+  command: "certbot certonly --standalone --noninteractive --agree-tos --email {{ app_email }} -d {{ app_domain }}"
+  when: not letsencrypt_cert.stat.exists
+
+- name: Generate dhparams
+  shell: openssl dhparam -out /etc/letsencrypt/ssl-dhparams.pem 4096
+  args:
+    creates: /etc/letsencrypt/ssl-dhparams.pem

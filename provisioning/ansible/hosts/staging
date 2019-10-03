@@ -1,0 +1,2 @@
+[school]
+157.245.139.205 ansible_python_interpreter=/usr/bin/python3 app_domain=dev.oliveoilschool.org app_email=admin@oliveoilschool.org

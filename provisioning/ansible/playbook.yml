@@ -1,0 +1,12 @@
+---
+- hosts: school
+  remote_user: root
+  become: yes
+  roles:
+    - common
+    - nodejs
+    - dotnet
+    - certbot
+    - nginx
+    #- systemd
+    - cron
