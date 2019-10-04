@@ -1,0 +1,35 @@
+---
+- name: add PPA repository
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+    update_cache: yes
+
+- name: install php
+  apt:
+    state: latest
+    pkg:
+      - php7.3-common
+      - php7.3-cli
+      - php7.3-intl
+      - php7.3-curl
+      - php7.3-fpm
+      - php7.3-mysql
+      - php7.3-mbstring
+      - php7.3-memcached
+      - php7.3-apcu
+      - php7.3-xml
+      - php7.3-soap
+      - php7.3-zip
+  notify: start php-fpm
+
+- name: setup php configuration
+  template:
+    src: php.ini.j2
+    dest: /etc/php/7.3/fpm/php.ini
+  notify: restart php-fpm
+
+- name: setup php-fpm configuration
+  template:
+    src: php-fpm.conf.j2
+    dest: /etc/php/7.3/fpm/php-fpm.conf
+  notify: restart php-fpm

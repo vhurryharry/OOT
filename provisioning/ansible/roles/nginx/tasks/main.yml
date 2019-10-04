@@ -41,6 +41,35 @@
     state: link
   notify: reload nginx
 
+- name: create www-data user
+  user:
+    name: www-data
+    groups:
+      - www-data
+    state: present
+    shell: /bin/sh
+    system: no
+    createhome: no
+
+- name: create base web path
+  file:
+    path: '{{ web_path }}'
+    owner: '{{ web_user }}'
+    group: '{{ web_group }}'
+    mode: 'a+rwX'
+    state: directory
+
+- name: create shared application directories (var)
+  file:
+    name: '{{ web_path }}/{{ app_name }}/shared/var/{{ item }}'
+    owner: '{{ web_user }}'
+    group: '{{ web_group }}'
+    state: directory
+    mode: 'a+rwX'
+  with_items:
+    - cache
+    - log
+
 - name: configure nginx to start on boot
   service:
     name: nginx

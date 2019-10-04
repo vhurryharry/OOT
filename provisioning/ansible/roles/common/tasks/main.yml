@@ -27,3 +27,8 @@
     shell: /bin/bash
     system: no
     createhome: yes
+
+- name: add deploy user ssh key
+  authorized_key:
+    user: deploy
+    key: "{{ lookup('file', deploy_ssh_key) }}"

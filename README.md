@@ -39,4 +39,4 @@ The included playbook is responsible for defining an optimized application
 server on top of Ubuntu LTS. To run the playbook for a production server:
 
     $ pip install ansible
-    $ ansible-playbook -i provisioning/ansible/hosts/production provisioning/ansible/playbook.yml --ask-vault-pass
+    $ ansible-playbook -i provisioning/ansible/hosts/production provisioning/ansible/playbook.yml -e "deploy_ssh_key=~/.ssh/id_rsa.pub" --ask-vault-pass
