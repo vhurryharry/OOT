@@ -1,0 +1,8 @@
+dist/
+build/
+node_modules/
+vendor/
+var/
+composer.json
+composer.lock
+package.json

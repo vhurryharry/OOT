@@ -1,18 +1,19 @@
 # Olive Oil School
+
 Web application for e-learning.
 
 ## Usage
 
 To start working on the project:
 
-    $ dotnet restore
-    $ yarn install
+    $ composer install
+    $ npm install
 
 ## Running tests
 
 To run the project tests and validate the coding standards:
 
-    $ dotnet test
+    $ composer test
 
 ## Documentation
 
@@ -20,7 +21,7 @@ This project follows the OpenAPI 3.0 standard. You can find the
 specification at `docs/openapi.yaml`. Tools are included to build
 the documentation:
 
-    $ dotnet build:docs
+    $ npm run build:docs
     $ firefox dist/index.html
 
 ## Provisioning
