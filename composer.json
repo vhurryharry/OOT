@@ -10,6 +10,7 @@
     "symfony/asset": "^4.3",
     "symfony/cache": "^4.3",
     "symfony/console": "^4.3",
+    "symfony/dotenv": "^4.3",
     "symfony/framework-bundle": "^4.3",
     "symfony/mailer": "^4.3",
     "symfony/mailgun-mailer": "^4.3",
@@ -24,8 +25,7 @@
     "friendsofphp/php-cs-fixer": "^2.15",
     "phpstan/phpstan": "^0.11.16",
     "phpunit/phpunit": "^8.3",
-    "sensiolabs/security-checker": "^6.0",
-    "symfony/dotenv": "^4.3"
+    "sensiolabs/security-checker": "^6.0"
   },
   "config": {
     "preferred-install": {
