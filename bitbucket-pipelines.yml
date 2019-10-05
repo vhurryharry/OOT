@@ -1,0 +1,35 @@
+pipelines:
+  default:
+    - step:
+      name: Backend tests
+      image: php:7.3.10
+      caches:
+        - composer
+      script:
+        - apt-get update && apt-get install -y unzip
+        - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+        - composer install
+        - composer test
+
+    - step:
+      name: Frontend tests
+      image: node:12.11.1
+      caches:
+        - node
+      script:
+        - npm install
+        - npm test
+        - npm run lint:check
+
+    - step:
+      name: Deploy
+      image: ruby:2.4.6
+      caches:
+        - bundler
+      script:
+        - bundle install
+        - cap production deploy
+
+definitions:
+  caches:
+    bundler: ./vendor
