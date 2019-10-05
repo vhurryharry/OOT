@@ -29,6 +29,7 @@ pipelines:
         caches:
           - bundler
         script:
+          - gem install bundler
           - bundle install
           - cap staging deploy
 
@@ -40,6 +41,7 @@ pipelines:
         caches:
           - bundler
         script:
+          - gem install bundler
           - bundle install
           - cap production deploy
 
