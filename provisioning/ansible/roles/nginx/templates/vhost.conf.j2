@@ -4,7 +4,7 @@ server {
     listen 443 ssl default_server deferred;
 
     server_name {{ app_domain }};
-    root {{ web_path }}/{{ app_name }};
+    root {{ web_path }}/{{ app_name }}/current/public;
 
     client_max_body_size 8m;
 

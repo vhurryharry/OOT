@@ -67,7 +67,6 @@
     state: directory
     mode: 'a+rwX'
   with_items:
-    - cache
     - log
 
 - name: configure nginx to start on boot
