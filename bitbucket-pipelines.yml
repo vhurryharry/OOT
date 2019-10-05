@@ -26,7 +26,6 @@ pipelines:
         name: Deploy to staging
         image: ruby:2.4.6
         deployment: Staging
-        trigger: manual
         caches:
           - bundler
         script:
