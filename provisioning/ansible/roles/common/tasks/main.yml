@@ -32,3 +32,7 @@
   authorized_key:
     user: deploy
     key: "{{ lookup('file', deploy_ssh_key) }}"
+
+- name: generate deploy SSH key
+  openssh_keypair:
+    path: /home/deploy/.ssh/id_rsa
