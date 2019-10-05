@@ -22,8 +22,21 @@ pipelines:
           - npm run lint:check
 
     - step:
-        name: Deploy
+        name: Deploy to staging
         image: ruby:2.4.6
+        deployment: Staging
+        trigger: manual
+        caches:
+          - bundler
+        script:
+          - bundle install
+          - cap staging deploy
+
+    - step:
+        name: Deploy to production
+        image: ruby:2.4.6
+        deployment: Production
+        trigger: manual
         caches:
           - bundler
         script:
