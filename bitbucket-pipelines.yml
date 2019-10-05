@@ -2,7 +2,7 @@ pipelines:
   default:
     - step:
         name: Backend tests
-        image: php:7.3.10
+        image: php:7.3
         caches:
           - composer
         script:
@@ -13,7 +13,7 @@ pipelines:
 
     - step:
         name: Frontend tests
-        image: node:12.11.1
+        image: node:12.11
         caches:
           - node
         script:
