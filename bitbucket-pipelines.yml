@@ -24,7 +24,7 @@ pipelines:
 
     - step:
         name: Deploy to staging
-        image: ruby:2.4.6
+        image: ruby:latest
         deployment: Staging
         caches:
           - bundler
@@ -34,7 +34,7 @@ pipelines:
 
     - step:
         name: Deploy to production
-        image: ruby:2.4.6
+        image: ruby:latest
         deployment: Production
         trigger: manual
         caches:
