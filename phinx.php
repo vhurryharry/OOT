@@ -22,7 +22,7 @@ return [
         'default_database' => $environment,
         'default_migration_table' => 'migration',
         $environment => [
-            'adapter' => getenv('DB_DRIVER'),
+            'adapter' => 'pgsql',
             'host' => getenv('DB_HOST'),
             'port' => getenv('DB_PORT'),
             'name' => getenv('DB_NAME'),
