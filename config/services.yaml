@@ -10,3 +10,11 @@ services:
   App\Controller\:
     resource: '../src/Controller'
     tags: ['controller.service_arguments']
+
+  App\Database:
+    arguments:
+      - host: '%env(DB_HOST)%'
+        port: '%env(DB_PORT)%'
+        dbname: '%env(DB_NAME)%'
+        username: '%env(DB_USERNAME)%'
+        password: '%env(DB_PASSWORD)%'

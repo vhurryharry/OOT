@@ -2,3 +2,6 @@ parameters:
     level: 7
     paths:
         - src
+    ignoreErrors:
+        - '/Parameter #1 \$seqname of method PDO::lastInsertId/'
+        - '/Negated boolean expression is always false./'

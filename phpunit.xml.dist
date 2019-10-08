@@ -15,6 +15,11 @@
     <env name="SHELL_VERBOSITY" value="-1" />
     <env name="KERNEL_CLASS" value="App\Kernel" />
     <env name="SYMFONY_DEPRECATIONS_HELPER" value="99999" />
+    <env name="DB_HOST" value="localhost" />
+    <env name="DB_PORT" value="5432" />
+    <env name="DB_NAME" value="oo_test" />
+    <env name="DB_USERNAME" value="root" />
+    <env name="DB_PASSWORD" value="123456" />
   </php>
 
   <testsuites>
