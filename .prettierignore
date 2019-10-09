@@ -3,6 +3,11 @@ build/
 node_modules/
 vendor/
 var/
+public/assets/
+provisioning/.terraform/
+frontend/package-lock.json
+frontend/package.json
 composer.json
 composer.lock
 package.json
+package-lock.json
