@@ -19,11 +19,13 @@
     "symfony/security": "^4.3",
     "symfony/security-bundle": "^4.3",
     "symfony/templating": "^4.3",
+    "symfony/twig-bundle": "^4.3",
     "symfony/web-server-bundle": "^4.3",
     "symfony/yaml": "^4.3"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.15",
+    "fzaninotto/faker": "^1.8",
     "phpstan/phpstan": "^0.11.16",
     "phpunit/phpunit": "^8.3",
     "sensiolabs/security-checker": "^6.0"
@@ -53,7 +55,7 @@
     ],
     "phpunit": "phpunit",
     "phpstan": "phpstan analyze",
-    "serve": "php bin/console server:start *:8080",
+    "serve": "php bin/console server:run *:8080",
     "test": [
       "@lint:check",
       "@phpunit",

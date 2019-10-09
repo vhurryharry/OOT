@@ -15,8 +15,6 @@ class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
-    private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
-
     public function registerBundles(): iterable
     {
         $contents = require $this->getProjectDir() . '/config/bundles.php';
@@ -38,18 +36,18 @@ class Kernel extends BaseKernel
         $container->setParameter('container.dumper.inline_class_loader', true);
         $confDir = $this->getProjectDir() . '/config';
 
-        $loader->load($confDir . '/{packages}/*' . self::CONFIG_EXTS, 'glob');
-        $loader->load($confDir . '/{packages}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, 'glob');
-        $loader->load($confDir . '/{services}' . self::CONFIG_EXTS, 'glob');
-        $loader->load($confDir . '/{services}_' . $this->environment . self::CONFIG_EXTS, 'glob');
+        $loader->load($confDir . '/{packages}/*.yaml', 'glob');
+        $loader->load($confDir . '/{packages}/' . $this->environment . '/**/*.yaml', 'glob');
+        $loader->load($confDir . '/{services}.yaml', 'glob');
+        $loader->load($confDir . '/{services}_' . $this->environment . '.yaml', 'glob');
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
         $confDir = $this->getProjectDir() . '/config';
 
-        $routes->import($confDir . '/{routes}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, '/', 'glob');
-        $routes->import($confDir . '/{routes}/*' . self::CONFIG_EXTS, '/', 'glob');
-        $routes->import($confDir . '/{routes}' . self::CONFIG_EXTS, '/', 'glob');
+        $routes->import($confDir . '/{routes}/' . $this->environment . '/**/*.yaml', '/', 'glob');
+        $routes->import($confDir . '/{routes}/*.yaml', '/', 'glob');
+        $routes->import($confDir . '/{routes}.yaml', '/', 'glob');
     }
 }

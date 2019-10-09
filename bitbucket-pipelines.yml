@@ -11,6 +11,8 @@ pipelines:
               - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
               - composer install
               - composer test
+            services:
+              - postgres
 
         - step:
             name: Frontend tests
@@ -48,3 +50,10 @@ pipelines:
 definitions:
   caches:
     bundler: ./vendor
+  services:
+    postgres:
+      image: postgres
+      variables:
+        POSTGRES_DB: 'oo_test'
+        POSTGRES_USER: 'root'
+        POSTGRES_PASSWORD: '123456'

@@ -18,6 +18,7 @@ dist/
 node_modules/
 public/build/
 public/bundles/
+public/assets/
 var/
 vendor/
 .env
