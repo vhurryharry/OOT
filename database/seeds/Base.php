@@ -9,6 +9,12 @@ class Base extends AbstractSeed
 {
     public function run(): void
     {
+        $this->createPages();
+        $this->createMenu();
+    }
+
+    protected function createPages(): void
+    {
         $entities = [
             [
                 'id' => Uuid::uuid4(),
@@ -22,6 +28,21 @@ class Base extends AbstractSeed
         $this
             ->table('entity')
             ->insert($entities)
+            ->save();
+    }
+
+    protected function createMenu(): void
+    {
+        $menus = [
+            [
+                'title' => 'Homepage',
+                'link' => 'homepage',
+            ],
+        ];
+
+        $this
+            ->table('menu')
+            ->insert($menus)
             ->save();
     }
 }
