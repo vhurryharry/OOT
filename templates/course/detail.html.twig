@@ -1,0 +1,38 @@
+{% extends 'shell.html.twig' %}
+
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block body %}
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        {{ course.title }}
+      </h1>
+
+      <div class="select">
+        <select>
+          {% for option in options %}
+            <option>{{ option.title }} ${{ option.price / 100 }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      {{ course.content }}
+
+      <h1>Instructors</h1>
+      {% for instructor in instructors %}
+        <p>{{ instructor.name }}</p>
+      {% endfor %}
+
+      <h1>Testimonials</h1>
+      {% for testimonial in testimonials %}
+        <p>{{ testimonial.content }}</p>
+      {% endfor %}
+
+      <h1>Reviews</h1>
+      {% for review in reviews %}
+        <p>{{ review.content }} ({{ review.rating }})</p>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}
