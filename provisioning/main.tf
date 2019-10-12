@@ -45,6 +45,37 @@ resource "digitalocean_droplet" "web01" {
   }
 }
 
+# Setup database cluster
+resource "digitalocean_database_cluster" "db01" {
+  name = "db01"
+  engine = "pg"
+  version = "11"
+  size = "db-s-1vcpu-1gb"
+  region = "nyc1"
+  node_count = 1
+  tags = ["web"]
+}
+
 output "web01_ip" {
   value = digitalocean_droplet.web01.ipv4_address
+}
+
+output "db01_ip" {
+  value = digitalocean_database_cluster.db01.private_host
+}
+
+output "db01_uri" {
+  value = digitalocean_database_cluster.db01.private_uri
+}
+
+output "db01_database" {
+  value = digitalocean_database_cluster.db01.database
+}
+
+output "db01_user" {
+  value = digitalocean_database_cluster.db01.user
+}
+
+output "db01_pass" {
+  value = digitalocean_database_cluster.db01.password
 }

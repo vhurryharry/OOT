@@ -4,8 +4,8 @@
   become: yes
   roles:
     - common
+    - nodejs
     - php
     - certbot
     - nginx
-    #- systemd
     - cron

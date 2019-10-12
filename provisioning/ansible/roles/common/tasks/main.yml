@@ -36,3 +36,12 @@
 - name: generate deploy SSH key
   openssh_keypair:
     path: /home/deploy/.ssh/id_rsa
+
+- name: add sudo powers for deploy to restart php
+  template:
+    src: sudoers.j2
+    dest: /etc/sudoers.d/deploy
+    owner: root
+    group: root
+    mode: '0644'
+  tags: sudoers
