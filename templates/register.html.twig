@@ -1,0 +1,15 @@
+{% extends 'shell.html.twig' %}
+
+{% block body %}
+  <section class="section">
+    <div class="container">
+      <h1>Create your account</h1>
+      {{ form_errors(form) }}
+
+      <form method="POST" action="{{ path('register') }}">
+        {% include 'form/register.html.twig' %}
+
+        <button type="submit">Register</button>
+      </form>
+  </section>
+{% endblock %}

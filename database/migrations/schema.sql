@@ -214,7 +214,7 @@ create trigger apply_update_timestamp before update on menu for each row execute
 -- Customers
 create table customer (
   id                    uuid unique not null primary key,
-  login                 text,
+  login                 text unique,
   first_name            text,
   last_name             text,
   password              text,

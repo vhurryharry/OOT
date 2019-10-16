@@ -4,13 +4,24 @@
     <base href="/assets/" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %} | Olive Oil Times Education Lab</title>
   </head>
   <body>
+    {% include 'navbar.html.twig' %}
+
+    <div class="container">
+      {% for label, messages in app.flashes %}
+        {% for message in messages %}
+          <div class="notification is-{{ label }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+
     {% block body %}
     {% endblock %}
 
     {% include 'assets.html' %}
-    <app-root/>
   </body>
 </html>

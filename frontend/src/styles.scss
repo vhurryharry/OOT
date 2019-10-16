@@ -1,1 +1,118 @@
-@import '~bulma/bulma.sass';
+// Color palette
+$grey: #8c9b9d;
+$grey-light: #a9afb7;
+$grey-lighter: #dee2e5;
+$orange: #e67e22;
+$yellow: #f1b70e;
+$green: #2ecc71;
+$turquoise: #1abc9c;
+$blue: #3498db;
+$purple: #8e44ad;
+$red: #e74c3c;
+$white-ter: #ecf0f1;
+$primary: #34495e !default;
+$yellow-invert: #fff;
+
+// Typography
+$font-family-sans-serif:
+  // Safari for OS X and iOS (San Francisco) -apple-system,
+  // Chrome < 56 for OS X (San Francisco)
+    BlinkMacSystemFont,
+  // Windows
+    'Segoe UI',
+  // Android
+    'Roboto',
+  // Basic web fallback
+    'Helvetica Neue',
+  Arial, sans-serif,
+  // Emoji fonts
+    'Apple Color Emoji',
+  'Segoe UI Emoji', 'Segoe UI Symbol';
+
+$family-monospace: 'Inconsolata', 'Consolas', 'Monaco', monospace;
+
+// Navbar
+$navbar-dropdown-arrow: #333;
+$dropdown-content-arrow: #333;
+$dropdown-item-active-background-color: #333;
+
+// Modals
+$modal-card-head-radius: 0;
+$modal-card-foot-radius: 0;
+$modal-background-background-color: #fff;
+$modal-card-head-background-color: #fff;
+$modal-card-foot-background-color: #fff;
+
+// Import components
+@import '~bulma/sass/utilities/_all';
+@import '~bulma/sass/base/_all';
+@import '~bulma/sass/elements/_all';
+@import '~bulma/sass/form/_all';
+@import '~bulma/sass/components/navbar';
+@import '~bulma/sass/components/modal';
+@import '~bulma/sass/layout/hero';
+@import '~bulma/sass/layout/section';
+
+// Animations
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+@-webkit-keyframes slideInDown {
+  from {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.slideInDown {
+  -webkit-animation-name: slideInDown;
+  animation-name: slideInDown;
+}
+
+.animated {
+  -webkit-animation-duration: 500ms;
+  animation-duration: 500ms;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}

@@ -1,0 +1,20 @@
+{% extends 'shell.html.twig' %}
+
+{% block body %}
+  <section class="section">
+    <div class="container">
+      <h1>Login</h1>
+      {{ form_errors(form) }}
+      {% if error %}
+        <div class="alert alert-danger">
+          {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+      {% endif %}
+
+      <form method="POST" action="{{ path('login') }}">
+        {% include 'form/login.html.twig' %}
+
+        <button type="submit">Login</button>
+      </form>
+  </section>
+{% endblock %}

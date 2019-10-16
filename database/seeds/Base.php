@@ -23,6 +23,41 @@ class Base extends AbstractSeed
                 'type' => 'page',
                 'content' => 'foobar',
             ],
+            [
+                'id' => Uuid::uuid4(),
+                'slug' => 'faq',
+                'title' => 'FAQ',
+                'type' => 'page',
+                'content' => 'foobar',
+            ],
+            [
+                'id' => Uuid::uuid4(),
+                'slug' => 'about',
+                'title' => 'About',
+                'type' => 'page',
+                'content' => 'foobar',
+            ],
+            [
+                'id' => Uuid::uuid4(),
+                'slug' => 'get-updates',
+                'title' => 'Get Updates',
+                'type' => 'page',
+                'content' => 'foobar',
+            ],
+            [
+                'id' => Uuid::uuid4(),
+                'slug' => 'sommelier-registry',
+                'title' => 'Sommelier Registry',
+                'type' => 'page',
+                'content' => 'foobar',
+            ],
+            [
+                'id' => Uuid::uuid4(),
+                'slug' => 'contact',
+                'title' => 'Contact',
+                'type' => 'page',
+                'content' => 'foobar',
+            ],
         ];
 
         $this
@@ -37,6 +72,30 @@ class Base extends AbstractSeed
             [
                 'title' => 'Homepage',
                 'link' => 'homepage',
+            ],
+            [
+                'title' => 'Courses',
+                'link' => 'courses',
+            ],
+            [
+                'title' => 'FAQ',
+                'link' => 'faq',
+            ],
+            [
+                'title' => 'About',
+                'link' => 'about',
+            ],
+            [
+                'title' => 'Get Updates',
+                'link' => 'get-updates',
+            ],
+            [
+                'title' => 'Sommelier Registry',
+                'link' => 'sommelier-registry',
+            ],
+            [
+                'title' => 'Contact',
+                'link' => 'contact',
             ],
         ];
 
