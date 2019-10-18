@@ -61,11 +61,11 @@ output "web01_ip" {
 }
 
 output "db01_ip" {
-  value = digitalocean_database_cluster.db01.private_host
+  value = digitalocean_database_cluster.db01.host
 }
 
 output "db01_uri" {
-  value = digitalocean_database_cluster.db01.private_uri
+  value = digitalocean_database_cluster.db01.uri
 }
 
 output "db01_database" {

@@ -46,6 +46,11 @@ server {
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_param PATH_INFO $fastcgi_path_info;
         fastcgi_param HTTPS on;
+        fastcgi_param DB_HOST {{ db_host }};
+        fastcgi_param DB_PORT {{ db_port }};
+        fastcgi_param DB_NAME {{ db_name }};
+        fastcgi_param DB_USERNAME {{ db_username }};
+        fastcgi_param DB_PASSWORD {{ db_password }};
     }
 
     location ~* ^[^(\.php)]+\.(jpg|jpeg|gif|png|ico|css|pdf|ppt|txt|bmp|rtf|js)$ {
