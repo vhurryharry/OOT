@@ -1,3 +1,15 @@
-controllers:
-  resource: '../src/Controller'
+course:
+  resource: 'App\Controller\CourseController'
+  type: annotation
+
+customer:
+  resource: 'App\Controller\CustomerController'
+  type: annotation
+
+order:
+  resource: 'App\Controller\OrderController'
+  type: annotation
+
+default:
+  resource: 'App\Controller\DefaultController'
   type: annotation
