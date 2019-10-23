@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
+    {% set assets = include('assets.html')|split('<link rel=') %}
     <base href="/assets/" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %} | Olive Oil Times Education Lab</title>
+    <link rel={{ assets[1]|raw }}
   </head>
   <body>
     {% include 'navbar.html.twig' %}
@@ -19,9 +21,9 @@
       {% endfor %}
     </div>
 
-    {% block body %}
-    {% endblock %}
+    {% block body %}{% endblock %}
 
-    {% include 'assets.html' %}
+    {% block javascript %}{% endblock %}
+    {{ assets[0]|raw }}
   </body>
 </html>

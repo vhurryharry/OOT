@@ -86,9 +86,9 @@
             <div class="field has-addons">
               <div class="control is-expanded">
                 <div class="select is-fullwidth">
-                  <select>
+                  <select name="option">
                     {% for option in options %}
-                      <option>{{ option.title }} ${{ option.price / 100 }}</option>
+                      <option value="{{ option.id }}">{{ option.title }} ${{ option.price / 100 }}</option>
                     {% endfor %}
                   </select>
                 </div>
@@ -103,6 +103,4 @@
       </div>
     </div>
   </section>
-
-  <app-root id="app">
 {% endblock %}
