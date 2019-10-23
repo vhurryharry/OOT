@@ -51,6 +51,8 @@ server {
         fastcgi_param DB_NAME {{ db_name }};
         fastcgi_param DB_USERNAME {{ db_username }};
         fastcgi_param DB_PASSWORD {{ db_password }};
+        fastcgi_param STRIPE_PKEY {{ stripe_pkey }};
+        fastcgi_param STRIPE_SKEY {{ stripe_skey }};
     }
 
     location ~* ^[^(\.php)]+\.(jpg|jpeg|gif|png|ico|css|pdf|ppt|txt|bmp|rtf|js)$ {
