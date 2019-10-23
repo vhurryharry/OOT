@@ -490,3 +490,19 @@ create table course_reservation_history (
 
 create index on course_reservation_history(reservation);
 create index on course_reservation_history(created_at);
+
+-- Course cart
+create table course_cart (
+  id                uuid unique not null primary key,
+  cart_id           uuid not null,
+  course_option_id  int references course_option(id),
+  gift_for          text,
+  created_at        timestamptz not null default now(),
+  updated_at        timestamptz not null default now()
+);
+
+create index on course_cart using btree (id);
+create index on course_cart using btree (cart_id);
+create index on course_cart(created_at);
+create index on course_cart(updated_at);
+create trigger apply_update_timestamp before update on course_cart for each row execute procedure apply_update_timestamp();
