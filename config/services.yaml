@@ -25,3 +25,11 @@ services:
         dbname: '%env(DB_NAME)%'
         username: '%env(DB_USERNAME)%'
         password: '%env(DB_PASSWORD)%'
+
+  App\EventListener\TrackerListener:
+    tags:
+      - {
+          name: kernel.event_listener,
+          event: kernel.response,
+          method: onResponse,
+        }

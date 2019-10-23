@@ -6,3 +6,4 @@ parameters:
         - '/Parameter #1 \$seqname of method PDO::lastInsertId/'
         - '/Negated boolean expression is always false./'
         - '/LoginFormAuthenticator/'
+        - '/Parameter \#1 \$apiKey of static method Stripe\\Stripe\:\:setApiKey/'

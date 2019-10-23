@@ -44,7 +44,7 @@ class CourseController extends AbstractController
             throw new NotFoundHttpException();
         }
 
-        $options = $this->db->findAll('select title, price, location, dates from course_option where course = ? and deleted_at is null', [$course['id']]);
+        $options = $this->db->findAll('select id, title, price, location, dates from course_option where course = ? and deleted_at is null', [$course['id']]);
         $reviews = $this->db->findAll('select title, content, rating from course_review where course = ? and deleted_at is null', [$course['id']]);
         $testimonials = $this->db->findAll('select title, content, author_text from course_testimonial where course = ? and deleted_at is null', [$course['id']]);
         $instructors = $this->db->findAll("select concat(i.first_name, ' ', i.last_name) as name from course_instructor as ci join customer as i on ci.customer_id = i.id where ci.course_id = ? and i.deleted_at is null", [$course['id']]);
