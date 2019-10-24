@@ -6,6 +6,7 @@
     "ext-ctype": "*",
     "ext-iconv": "*",
     "ircmaxell/random-lib": "^1.2",
+    "moneyphp/money": "^3.2",
     "ramsey/uuid": "^3.8",
     "robmorgan/phinx": "^0.11.1",
     "sensio/framework-extra-bundle": "^5.4",

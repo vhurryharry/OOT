@@ -50,6 +50,25 @@ class CustomerRepository
         );
     }
 
+    public function createGuest(string $email): Customer
+    {
+        $customer = new Customer();
+        $customer->setId(Uuid::uuid4());
+        $customer->setPassword($this->getRandomKey());
+
+        $this->db->execute(
+            "insert into customer (id, login, password, password_expires_at, status) values (?, ?, ?, ?, 'active')",
+            [
+                $customer->getId()->toString(),
+                $email,
+                $this->encoder->encodePassword($customer, $customer->getPassword()),
+                (new DateTime('now'))->format('Y-m-d H:i:sO'),
+            ]
+        );
+
+        return $customer;
+    }
+
     protected function getRandomKey(int $size = 32): string
     {
         $generator = (new Factory())->getLowStrengthGenerator();

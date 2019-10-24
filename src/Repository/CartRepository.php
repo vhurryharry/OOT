@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Database;
+use App\Entity\Cart;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use RuntimeException;
@@ -51,14 +52,19 @@ class CartRepository
         );
     }
 
-    public function get(): array
+    public function get(): Cart
     {
-        return $this->db->findAll(
+        $items = $this->db->findAll(
             'select co.title, co.price, co.location, co.dates, c.thumbnail, ca.id, ca.gift_for from course_cart as ca join course_option as co on ca.course_option_id = co.id join course as c on co.course = c.id where ca.cart_id = ?',
             [
                 $this->getCartId(),
             ]
         );
+
+        $cart = new Cart();
+        $cart->setItems($items);
+
+        return $cart;
     }
 
     protected function getCartId(): string
@@ -74,5 +80,7 @@ class CartRepository
         if (!$cartId) {
             throw new RuntimeException('No cart id available.');
         }
+
+        return $cartId;
     }
 }

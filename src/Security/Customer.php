@@ -4,10 +4,17 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class Customer implements UserInterface
 {
+    /**
+     * @var UuidInterface
+     */
+    private $id;
+
     /**
      * @var ?string
      */
@@ -23,10 +30,16 @@ class Customer implements UserInterface
      */
     private $roles = [];
 
-    public function __construct(string $login = null, string $password = null)
+    public function __construct(string $login = null, string $password = null, UuidInterface $id = null)
     {
+        $this->id = $id ?? Uuid::uuid4();
         $this->login = $login;
         $this->password = $password;
+    }
+
+    public function getId(): UuidInterface
+    {
+        return $this->id;
     }
 
     public function getLogin(): ?string
