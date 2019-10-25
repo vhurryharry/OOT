@@ -42,6 +42,11 @@ class Customer implements UserInterface
         return $this->id;
     }
 
+    public function setId(UuidInterface $id): void
+    {
+        $this->id = $id;
+    }
+
     public function getLogin(): ?string
     {
         return $this->login;

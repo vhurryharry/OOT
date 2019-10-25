@@ -19,7 +19,7 @@ class OrderRepository
         $this->db = $db;
     }
 
-    public function save(Order $order): Order
+    public function save(Order $order): void
     {
         $this->db->execute(
             'insert into course_payment (id, transaction_id, customer) values (?, ?, ?)',

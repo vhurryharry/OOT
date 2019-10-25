@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Controller\Output\OrderOutput;
+use App\Entity\Order;
+use App\Entity\Payment;
 use App\Repository\CartRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\OrderRepository;
 use App\Security\Customer;
-use Money\Currencies\ISOCurrencies;
-use Money\Formatter\IntlMoneyFormatter;
-use NumberFormatter;
+use Ramsey\Uuid\Uuid;
 use Stripe\Charge;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,14 +26,31 @@ class OrderController extends AbstractController
      */
     protected $cartRepository;
 
+    /**
+     * @var OrderRepository
+     */
+    protected $orderRepository;
+
+    /**
+     * @var CustomerRepository
+     */
+    protected $customerRepository;
+
+    /**
+     * @var OrderOutput
+     */
+    protected $output;
+
     public function __construct(
         CartRepository $cartRepository,
         OrderRepository $orderRepository,
-        CustomerRepository $customerRepository
+        CustomerRepository $customerRepository,
+        OrderOutput $output
     ) {
         $this->cartRepository = $cartRepository;
         $this->orderRepository = $orderRepository;
         $this->customerRepository = $customerRepository;
+        $this->output = $output;
     }
 
     /**
@@ -49,18 +67,24 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/api/order/recalculate", name="api_recalculate_order", methods={"POST"})
+     * @Route("/api/order/remove", name="api_remove_course", methods={"POST"})
      */
-    public function recalculateOrder(Request $request)
+    public function removeCourse(Request $request)
+    {
+        $this->cartRepository->remove(Uuid::fromString($request->request->get('id')));
+        $cart = $this->cartRepository->get();
+
+        return new JsonResponse($this->output->fromCart($cart));
+    }
+
+    /**
+     * @Route("/api/order/recalculate", name="api_recalculate", methods={"POST"})
+     */
+    public function recalculate(Request $request)
     {
         $cart = $this->cartRepository->get();
-        $numberFormatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, new ISOCurrencies());
 
-        return new JsonResponse([
-            'items' => $cart->getItems(),
-            'grandTotal' => $moneyFormatter->format($cart->getGrandTotal()),
-        ]);
+        return new JsonResponse($this->output->fromCart($cart));
     }
 
     /**
@@ -69,14 +93,13 @@ class OrderController extends AbstractController
     public function placeOrder(Request $request)
     {
         $cart = $this->cartRepository->get();
-
         $customer = $this->getUser();
 
         if (!($customer instanceof Customer)) {
             $customer = $this->customerRepository->createGuest(
-                $request->get('email'),
-                $request->get('name'),
-                $request->get('phone')
+                $request->request->get('email'),
+                $request->request->get('name'),
+                $request->request->get('phone')
             );
         }
 
@@ -89,22 +112,27 @@ class OrderController extends AbstractController
             'amount' => $cart->getGrandTotal()->getAmount(),
             'currency' => strtolower($cart->getCurrency()->getCode()),
             'description' => 'Course Order #' . $order->getNumber(),
-            'source' => $request->get('token'),
+            'source' => $request->request->get('token'),
             'metadata' => [
                 'order_number' => $order->getNumber(),
             ],
         ]);
 
         if ($transaction->status !== 'succeeded') {
-            $this->addFlash('danger', $transaction->failure_message ?? 'Unable to process payment.');
-
-            return $this->redirectToRoute('order');
+            return new JsonResponse(
+                [
+                    'message' => $transaction->failure_message ?? 'Unable to process payment',
+                ],
+                JsonResponse::HTTP_PAYMENT_REQUIRED
+            );
         }
 
         $payment = new Payment($transaction->id);
         $order->setPayment($payment);
         $this->orderRepository->save($order);
 
-        return $this->render('orderSuccess.html.twig');
+        return new JsonResponse([
+            'number' => $order->getNumber(),
+        ]);
     }
 }

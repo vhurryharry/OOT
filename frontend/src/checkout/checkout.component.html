@@ -10,10 +10,11 @@
         </p>
       </figure>
       <p>{{ item.title }}</p>
+      <button (click)="remove(item)">remove</button>
     </article>
   </div>
   <div class="column">
-    <p><strong>Grand total: </strong> ${{ order.grandTotal }}</p>
+    <p><strong>Grand total: </strong> {{ order.grandTotal }}</p>
   </div>
 </div>
 
@@ -95,7 +96,9 @@
     <div class="field-label">
       <label class="label">Payment</label>
     </div>
-    <div class="field-body">
+    <div class="field-body hero">
+      <div id="card-info" #cardInfo></div>
+      <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
     </div>
   </div>
 
@@ -111,10 +114,5 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="container">
-    <div id="card-info" #cardInfo></div>
-    <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
   </div>
 </form>

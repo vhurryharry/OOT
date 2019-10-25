@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Database;
 use App\Security\Customer;
+use DateTime;
 use Ramsey\Uuid\Uuid;
 use RandomLib\Factory;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -50,7 +51,7 @@ class CustomerRepository
         );
     }
 
-    public function createGuest(string $email): Customer
+    public function createGuest(string $email, string $name, string $phone): Customer
     {
         $customer = new Customer();
         $customer->setId(Uuid::uuid4());

@@ -6,7 +6,7 @@ namespace App\Entity;
 
 use RandomLib\Factory;
 
-class Order
+class Order extends Cart
 {
     const PENDING_CONFIRMATION = 'pending_confirmation';
 
@@ -25,9 +25,20 @@ class Order
      */
     protected $customerId;
 
-    public function __construct()
+    /**
+     * @var Payment
+     */
+    protected $payment;
+
+    public function __construct(string $customerId)
     {
         $this->number = $this->generateNumber();
+        $this->customerId = $customerId;
+    }
+
+    public function getNumber(): string
+    {
+        return $this->number;
     }
 
     public function getStatus(): string
@@ -40,9 +51,14 @@ class Order
         return $this->customerId;
     }
 
-    public function setCustomerId(string $customerId): void
+    public function getPayment(): Payment
     {
-        $this->customerId = $customerId;
+        return $this->payment;
+    }
+
+    public function setPayment(Payment $payment): void
+    {
+        $this->payment = $payment;
     }
 
     protected function generateNumber(): string

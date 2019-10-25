@@ -54,12 +54,23 @@ class CartRepository
 
     public function get(): Cart
     {
-        $items = $this->db->findAll(
-            'select co.title, co.price, co.location, co.dates, c.thumbnail, ca.id, ca.gift_for from course_cart as ca join course_option as co on ca.course_option_id = co.id join course as c on co.course = c.id where ca.cart_id = ?',
-            [
-                $this->getCartId(),
-            ]
-        );
+        $query = <<<SQL
+select
+    co.id as course_option_id,
+    co.title as title,
+    co.price as price,
+    co.location as location,
+    co.dates as dates,
+    c.thumbnail as thumbnail,
+    c.id as course_id,
+    ca.id as id,
+    ca.gift_for as gift_for
+from course_cart as ca
+join course_option as co on ca.course_option_id = co.id
+join course as c on co.course = c.id
+where ca.cart_id = ?
+SQL;
+        $items = $this->db->findAll($query, [$this->getCartId()]);
 
         $cart = new Cart();
         $cart->setItems($items);

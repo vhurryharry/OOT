@@ -451,7 +451,6 @@ create table course_payment (
   transaction_id    text not null,
   metadata          jsonb,
   customer          uuid references customer(id),
-  course            uuid references course(id),
   created_at        timestamptz not null default now()
 );
 
@@ -466,7 +465,7 @@ create table course_reservation (
   course_id         uuid references course(id),
   customer_id       uuid references customer(id),
   status            text not null,
-  payment           int references course_payment(id),
+  payment           uuid references course_payment(id),
   option_title      text not null,
   option_price      int not null,
   option_location   point,

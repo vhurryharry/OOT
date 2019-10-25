@@ -62,13 +62,32 @@ export class CheckoutComponent implements AfterViewInit, OnInit, OnDestroy {
     this.changeDetector.detectChanges();
   }
 
+  async remove(item) {
+    this.orderService
+      .remove(item)
+      .subscribe((response: any) => {
+        this.order = response;
+      });
+  }
+
   async onSubmit(form: NgForm) {
     const { token, error } = await stripe.createToken(this.card);
 
     if (error) {
-      console.log('Something is wrong:', error);
-    } else {
-      console.log('Success!', token);
+      console.log('Stripe error:', error);
+
+      return;
     }
+
+    this.orderService
+      .placeOrder({
+        token: token.id,
+        phone: this.phone,
+        name: this.name,
+        email: this.email,
+      })
+      .subscribe((response: any) => {
+        console.log(response);
+      });
   }
 }

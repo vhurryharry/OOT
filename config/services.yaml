@@ -33,3 +33,24 @@ services:
           event: kernel.response,
           method: onResponse,
         }
+
+  App\EventListener\ParseJsonRequest:
+    tags:
+      - {
+          name: kernel.event_listener,
+          event: kernel.request,
+          method: parseRequest,
+        }
+
+  App\EventListener\RequestIdentifier:
+    tags:
+      - {
+          name: kernel.event_listener,
+          event: kernel.request,
+          method: identifyRequest,
+        }
+      - {
+          name: kernel.event_listener,
+          event: kernel.response,
+          method: identifyResponse,
+        }

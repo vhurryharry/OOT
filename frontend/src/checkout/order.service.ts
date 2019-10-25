@@ -11,4 +11,14 @@ export class OrderService {
   getCurrentOrder() {
     return this.http.post('/api/order/recalculate', {});
   }
+
+  remove(item) {
+    return this.http.post('/api/order/remove', {
+      id: item.id,
+    });
+  }
+
+  placeOrder(order) {
+    return this.http.post('/api/order/place', order);
+  }
 }
