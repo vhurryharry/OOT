@@ -11,7 +11,7 @@ class ParseJsonRequest
     public function parseRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
-        $content = $request->getContent();
+        $content = (string) $request->getContent();
 
         if ($request->getContentType() != 'json') {
             return;

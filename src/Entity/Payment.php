@@ -10,7 +10,7 @@ use Ramsey\Uuid\UuidInterface;
 class Payment
 {
     /**
-     * @var string
+     * @var UuidInterface
      */
     protected $id;
 

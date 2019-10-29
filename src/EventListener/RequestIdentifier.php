@@ -25,9 +25,10 @@ class RequestIdentifier
     {
         $request = $event->getRequest();
         $response = $event->getResponse();
+        $requestId = $request->headers->get('X-Request-ID');
 
-        if ($request->headers->has('X-Request-ID')) {
-            $response->headers->set('X-Request-ID', $request->headers->get('X-Request-ID'));
+        if ($requestId) {
+            $response->headers->set('X-Request-ID', $requestId);
         }
     }
 }

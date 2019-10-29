@@ -34,6 +34,7 @@ class Order extends Cart
     {
         $this->number = $this->generateNumber();
         $this->customerId = $customerId;
+        parent::__construct();
     }
 
     public function getNumber(): string
