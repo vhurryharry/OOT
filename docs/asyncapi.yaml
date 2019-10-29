@@ -1,0 +1,78 @@
+asyncapi: '2.0.0-rc1'
+id: 'https://bitbucket.org/janestreetmedia/school/'
+defaultContentType: application/json
+info:
+  title: API - Events
+  version: '1.0.0'
+tags:
+  - name: Course
+    description: Events related to courses
+channels:
+  course.created:
+    publish:
+      message:
+        title: Course has been created
+        summary: Contains information about the course that has been created.
+        contentType: application/json
+        tags:
+          - name: Course
+        payload:
+          $ref: '#/components/schemas/courseEvent'
+  course.updated:
+    publish:
+      message:
+        title: Course has been updated
+        summary: Contains information about the course that has been updated.
+        contentType: application/json
+        tags:
+          - name: Course
+        payload:
+          $ref: '#/components/schemas/courseEvent'
+  course.removed:
+    publish:
+      message:
+        title: Course has been removed
+        summary: Contains information about the course that has been removed.
+        contentType: application/json
+        tags:
+          - name: Course
+        payload:
+          $ref: '#/components/schemas/courseEvent'
+components:
+  schemas:
+    courseEvent:
+      type: object
+      properties:
+        name:
+          description: Unique event name
+          type: string
+          example: foo.bar.event
+        timestamp:
+          description: Timestamp for when the event was emitted
+          type: string
+          format: date-time
+          example: '2018-11-28T18:25:32+00:00'
+        payload:
+          type: object
+          properties:
+            uuid:
+              description: Unique course identifier.
+              type: string
+              format: uuid
+              example: ef98092e-f34e-11e8-8eb2-f2801f1b9fd1
+            options:
+              type: array
+              description: List of course options
+              items:
+                type: object
+                properties:
+                  uuid:
+                    description: Unique variation identifier
+                    type: string
+                    format: uuid
+                    example: ef98092e-f34e-11e8-8eb2-f2801f1b9fd1
+            updatedAt:
+              description: Timestamp for when the course item was last updated.
+              type: string
+              format: date-time
+              example: '2018-11-28T18:25:32+00:00'

@@ -1,0 +1,251 @@
+openapi: '3.0.0'
+tags:
+  - name: 'General'
+    description: API endpoints available for all clients
+  - name: 'Public: Courses'
+    description: Course information endpoints
+
+servers: []
+info:
+  version: '1.0'
+  title: School API
+  description: 'API for LMS'
+  contact:
+    name: JSM
+    url: 'https://bitbucket.org/janestreetmedia'
+    email: 'admin@oliveoilschool.org'
+
+paths:
+  /:
+    get:
+      summary: A manifest of the API
+      description: Returns a manifest of the API
+      tags:
+        - 'General'
+      operationId: index
+      responses:
+        '200':
+          description: The application's manifest
+  /_healthcheck:
+    get:
+      summary: Respond if the application is up
+      description: Returns a response if the application is reachable.
+      tags:
+        - 'General'
+      operationId: healthcheck
+      responses:
+        '200':
+          description: The application is responding
+
+  # Public: Courses
+  /course/search:
+    post:
+      summary: Search for courses
+      description: Based on a criteria, returns a list of matching courses.
+      tags:
+        - 'Public: Course'
+      operationId: course.search
+      requestBody:
+        description: Search criteria used to find courses
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchCriteria'
+      responses:
+        '200':
+          description: List of courses matching the criteria.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CourseResult'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    # Courses
+    CreateCourseRequest:
+      allOf:
+        - $ref: '#/components/schemas/CourseRequest'
+    UpdateCourseRequest:
+      required:
+        - uuid
+      properties:
+        uuid:
+          description: Unique course identifier
+          type: string
+          format: uuid
+          example: ef98092e-f34e-11e8-8eb2-f2801f1b9fd1
+      allOf:
+        - $ref: '#/components/schemas/CourseRequest'
+    CourseRequest:
+      properties:
+        name:
+          description: Course name
+          type: string
+          example: Olive Oil 101
+        slug:
+          description: Course slug
+          type: string
+          example: olive-oil-101
+    CourseResult:
+      required:
+        - uuid
+        - updatedAt
+      properties:
+        uuid:
+          description: Unique course identifier
+          type: string
+          format: uuid
+          example: ef98092e-f34e-11e8-8eb2-f2801f1b9fd1
+        name:
+          description: Course name
+          type: string
+          example: Olive Oil 101
+        slug:
+          description: Course slug
+          type: string
+          example: olive-oil-101
+        updatedAt:
+          description: Timestamp for when the course was last updated
+          type: string
+          format: date-time
+          example: '2018-11-28T18:25:32+00:00'
+    Course:
+      required:
+        - uuid
+      properties:
+        uuid:
+          description: Unique course identifier
+          type: string
+          format: uuid
+          example: ef98092e-f34e-11e8-8eb2-f2801f1b9fd1
+        metadata:
+          type: object
+          properties: {}
+        updatedAt:
+          description: Timestamp for when the course was last updated
+          type: string
+          format: date-time
+          example: '2018-11-28T18:25:32+00:00'
+    Courses:
+      type: array
+      items:
+        $ref: '#/components/schemas/Course'
+
+    # Core
+    BasicCriteria:
+      properties:
+        uuid:
+          description: Unique entity identifier
+          type: string
+          format: uuid
+          example: ef98092e-f34e-11e8-8eb2-f2801f1b9fd1
+    SearchCriteria:
+      required:
+        - store
+      properties:
+        name:
+          description: Search for resources with this name.
+          type: string
+          example: '101'
+    Error:
+      required:
+        - title
+        - status
+        - detail
+      properties:
+        type:
+          type: string
+          description: |
+            A URI reference [RFC3986] that identifies the
+            problem type.  This specification encourages that, when
+            dereferenced, it provide human-readable documentation for the
+            problem type (e.g., using HTML [W3C.REC-html5-20141028]).  When
+            this member is not present, its value is assumed to be
+            "about:blank".
+          example: /cart-not-found
+        title:
+          description: |
+            A short, human-readable summary of the problem
+            type.  It SHOULD NOT change from occurrence to occurrence of the
+            problem, except for purposes of localization
+          type: string
+          example: Customer not found
+        status:
+          description: The HTTP status code generated by the origin server for this occurrence of the problem.
+          type: integer
+          format: int32
+          example: 404
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+          example: Customer [dd24f8d6-f355-11e8-8eb2-f2801f1b9fd1] was not found
+        instance:
+          description: A unique identifier of the problematic request.
+          type: string
+          example: dd24f8d6
+    ValidationError:
+      required:
+        - title
+        - status
+        - detail
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the
+            problem type.  This specification encourages that, when
+            dereferenced, it provide human-readable documentation for the
+            problem type (e.g., using HTML [W3C.REC-html5-20141028]).  When
+            this member is not present, its value is assumed to be
+            "about:blank".
+          type: string
+          example: /validation-error
+        title:
+          description: |
+            A short, human-readable summary of the problem
+            type.  It SHOULD NOT change from occurrence to occurrence of the
+            problem, except for purposes of localization
+          type: string
+          example: Invalid request parameters
+        status:
+          description: The HTTP status code generated by the origin server for this occurrence of the problem.
+          type: integer
+          format: int32
+          example: 400
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+          example: Invalid request paramters [uuid, name].
+        invalid-params:
+          description: List of invalid parameters and respective errors
+          type: array
+          items:
+            required:
+              - name
+              - reason
+            properties:
+              name:
+                description: Field name
+                type: string
+                example: uuid
+              reason:
+                description: Validation error details
+                type: string
+                example: Invalid uuid format
