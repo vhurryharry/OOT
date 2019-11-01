@@ -4,6 +4,8 @@ parameters:
   env(DB_NAME): oo
   env(DB_USERNAME): root
   env(DB_PASSWORD): 123456
+  env(STRIPE_PKEY): pk_test
+  env(STRIPE_SKEY): sk_test
 
 services:
   _defaults:
