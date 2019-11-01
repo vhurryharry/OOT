@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Security;
 
 use App\Repository\CustomerRepository;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -49,6 +50,10 @@ class CustomerProvider implements UserProviderInterface
             throw new UsernameNotFoundException();
         }
 
-        return new Customer($customer['login'], $customer['password']);
+        return new Customer(
+            $customer['login'],
+            $customer['password'],
+            Uuid::fromString($customer['id'])
+        );
     }
 }

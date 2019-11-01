@@ -17,8 +17,7 @@ $yellow-invert: #fff;
 $font-family-sans-serif:
   // Safari for OS X and iOS (San Francisco) -apple-system,
   // Chrome < 56 for OS X (San Francisco) BlinkMacSystemFont,
-  // Windows
-    'Segoe UI',
+  // Windows 'Segoe UI',
   // Android
     'Roboto',
   // Basic web fallback
@@ -47,10 +46,9 @@ $modal-card-foot-background-color: #fff;
 @import '~bulma/sass/base/_all';
 @import '~bulma/sass/elements/_all';
 @import '~bulma/sass/form/_all';
+@import '~bulma/sass/components/_all';
 @import '~bulma/sass/grid/_all';
 @import '~bulma/sass/layout/_all';
-@import '~bulma/sass/components/navbar';
-@import '~bulma/sass/components/modal';
 
 // Animations
 @-webkit-keyframes fadeIn {

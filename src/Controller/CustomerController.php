@@ -9,6 +9,7 @@ use App\Form\RegisterType;
 use App\Repository\CustomerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -54,6 +55,24 @@ class CustomerController extends AbstractController
         return $this->render('login.html.twig', [
             'form' => $form->createView(),
             'error' => $auth->getLastAuthenticationError(),
+        ]);
+    }
+
+    /**
+     * @Route("/account", name="account")
+     */
+    public function account(Request $request)
+    {
+        $customer = $this->getUser();
+
+        if (!$customer) {
+            throw new NotFoundHttpException();
+        }
+
+        $reservations = $this->customerRepository->findReservations($customer);
+
+        return $this->render('account.html.twig', [
+            'reservations' => $reservations,
         ]);
     }
 }

@@ -29,6 +29,14 @@ class CustomerRepository
         $this->encoder = $encoder;
     }
 
+    public function findReservations(Customer $customer): array
+    {
+        return $this->db->findAll(
+            'select * from course_reservation as cr join course as c on cr.course_id = c.id where cr.customer_id = ?',
+            [$customer->getId()->toString()]
+        );
+    }
+
     public function findByLogin(string $login): array
     {
         return $this->db->find(

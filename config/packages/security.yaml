@@ -18,4 +18,5 @@ security:
           - App\Security\LoginFormAuthenticator
 
   access_control:
+    - { path: '^/account', roles: ROLE_USER }
     - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
