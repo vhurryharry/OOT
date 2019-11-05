@@ -11,6 +11,7 @@ class Base extends AbstractSeed
     {
         $this->createPages();
         $this->createMenu();
+        $this->createTestimonials();
     }
 
     protected function createPages(): void
@@ -104,4 +105,60 @@ class Base extends AbstractSeed
             ->insert($menus)
             ->save();
     }
+
+    protected function createTestimonials(): void
+    {
+        $testimonials = [
+            [
+                'title' => 'The quality and range of instruction were at a level that far surpassed my expectations.',
+                'author_text' => 'Willem, The Netherlands',
+            ],
+            [
+                'title' => 'Fabulous course with incredible amounts of information that will be used as a reference guide for years to come.',
+                'author_text' => 'An olive oil producer from Turkey',
+            ],
+            [
+                'title' => 'I loved every minute of it. I am very proud to be part of this group.',
+                'author_text' => 'Wilma van Grinsven – Padberg, Oil & Vinegar chain owner',
+            ],
+            [
+                'title' => 'I highly recommend it. Every day was absolutely worth it.',
+                'author_text' => 'Elise LaGamba, grocery executive',
+            ],
+            [
+                'title' => 'Whether you’re a chef, an importer like me, no matter what area you’re in, you should do this course.',
+                'author_text' => 'Thomas Sheridan, importer',
+            ],
+            [
+                'title' => 'I enjoyed from the first thing in the morning to the last minute when I go home. The course was extremely well done.',
+                'author_text' => 'Karim Fitouri, Olivko',
+            ],
+            [
+                'title' => 'The course was eye-opening and led by inspiring experts.',
+                'author_text' => 'Ann Bartyzel',
+            ],
+            [
+                'title' => 'An awesome course. Very excited to stay in touch with all of my new colleagues and educate more and more.',
+                'author_text' => 'A corporate chef from California',
+            ],
+            [
+                'title' => 'Best class ever for learning about what I love.',
+                'author_text' => 'Olive oil producer from California',
+            ],
+            [
+                'title' => 'This was awesome! Thank you so much for offering this program in California.',
+                'author_text' => 'Theo Epstein – chef, speaker and olive oil producer',
+            ],
+            [
+                'title' => 'Thanks for a wonderful week! I’ve found my tribe!',
+                'author_text' => 'Certified Sommelier, Germany',
+            ],
+        ];
+
+        $this
+            ->table('course_testimonial')
+            ->insert($testimonials)
+            ->save();
+    }
+
 }

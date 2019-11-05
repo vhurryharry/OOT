@@ -1,14 +1,121 @@
 {% extends 'shell.html.twig' %}
 
 {% block body %}
+  <section class="hero" style="background: url('assets/cta.png');background-size: cover">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <div class="columns">
+          <div class="column">
+            <h1 class="title is-spaced">World-Class Olive Oil Education</h1>
+            <h2 class="subtitle">Innovative programs to empower a generation of olive oil experts.</h2>
+            <div class="buttons is-centered">
+              <a class="control button is-primary" href="#">Upcoming courses</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container has-text-centered">
+      <h2 class="title">You need to know this</h2>
+      <h2 class="subtitle">Join the growing community of impassioned experts who are using their knowledge to make big things happen.</h2>
+
+      <div class="columns is-multiline">
+        <div class="column is-6 is-4-desktop"><img src="placeholder/icons/check.svg" alt="">
+          <h4 class="title is-4">Retailers</h4>
+          <p>Learn how to choose high-quality olive oils and communicate their benefits to customers.</p>
+        </div>
+        <div class="column is-6 is-4-desktop"><img src="placeholder/icons/check.svg" alt="">
+          <h4 class="title is-4">Chefs & Restaurateurs</h4>
+          <p>Get the most value from your key ingredient and win customers.</p>
+        </div>
+        <div class="column is-6 is-4-desktop"><img src="placeholder/icons/check.svg" alt="">
+          <h4 class="title is-4">Importers & Distributors</h4>
+          <p>Source better products and get what you pay for every time.</p>
+        </div>
+        <div class="column is-6 is-4-desktop"><img src="placeholder/icons/check.svg" alt="">
+          <h4 class="title is-4">Foodservice Professionals</h4>
+          <p>Know how to source authentic products and manage quality through the supply chain.</p>
+        </div>
+        <div class="column is-6 is-4-desktop"><img src="placeholder/icons/check.svg" alt="">
+          <h4 class="title is-4">Producers</h4>
+          <p>Learn harvesting, milling and production best practices to make award-winning oils.</p>
+        </div>
+        <div class="column is-6 is-4-desktop"><img src="placeholder/icons/check.svg" alt="">
+          <h4 class="title is-4">Everyone Else</h4>
+          <p>If you care about the food you eat, this course will change your life.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section">
     <div class="container">
-      <h1 class="title">
-        Hello World
-      </h1>
-      <p class="subtitle">
-        Lorem ipsum dolor sit amet.
-      </p>
+      <div class="columns">
+        <div class="column is-4">
+          <h2 class="title is-3">Join the growing community of olive oil experts</h2>
+          <p class="subtitle is-5">It’s like no other olive oil course in the world – an interactive, fast-paced curriculum designed to inspire and empower a generation of olive oil educators.</p>
+          <div class="buttons"><a class="button is-primary" href="#">Join us!</a></div>
+        </div>
+        <div class="column is-8 has-text-centered">
+          <div class="columns is-multiline">
+            {% for testimonial in testimonials %}
+              <div class="column is-6">
+                <div class="card" style="height: 100%">
+                  <div class="card-content">
+                    <img class="is-pulled-left" src="assets/quote.svg" />
+                    <p class="block">{{ testimonial.title }}</p>
+                    <p class="has-text-grey has-text-right is-italic">{{ testimonial.author_text }}</p>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column">
+          <h2 class="title is-spaced">Gallery</h2>
+          <p class="subtitle">Lorem ipsum dolor sit amet.</p><a href="#">View our gallery</a>
+        </div>
+        <div class="column">
+          <div class="columns is-multiline">
+            <div class="column is-6"><a href="#"><img src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2" alt=""></a></div>
+            <div class="column is-6"><a href="#"><img src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2" alt=""></a></div>
+            <div class="column is-6"><a href="#"><img src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2" alt=""></a></div>
+            <div class="column is-6"><a href="#"><img src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2" alt=""></a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column is-7 has-text-centered">
+          <h3 class="title">Get updates on courses</h3>
+          <p class="subtitle">Space is limited and courses sell out quickly. Sign up to be notified when courses are added to the calendar.</p>
+          <p>Text <strong>olive</strong> to <a href="sms:474747">474747</a> (U.S. and Canada) to get an alert when new courses are added.</p>
+        </div>
+        <div class="column is-5">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input class="input" type="email" placeholder="Email" aria-label="email" aria-describedby="call-to-action-button-04">
+            </div>
+            <div class="control">
+              <button class="button is-primary" id="call-to-action-button-04">Subscribe</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 {% endblock %}

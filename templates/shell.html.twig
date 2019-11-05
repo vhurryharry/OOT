@@ -5,7 +5,8 @@
     <base href="/assets/" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock %} | Olive Oil Times Education Lab</title>
+    <title>{% block title %}{% endblock %} | Olive Oil Sommelier Certification Programs</title>
+    <meta name="description" content="Interactive, fast-paced programs designed to inspire and empower a generation of olive oil experts and educators." />
     <link rel={{ assets[1]|raw }}
   </head>
   <body>
@@ -22,6 +23,56 @@
     </div>
 
     {% block body %}{% endblock %}
+
+    <footer class="footer">
+      <div class="container">
+        <div class="columns is-desktop">
+          <div class="column is-5">
+            <h3 class="title is-5">
+              <a href="#">Olive Oil Times</a>
+            </h3>
+            <h3 class="subtitle is-6">
+              Education Lab
+            </h3>
+            <p class="block">Interactive, fast-paced programs designed to inspire and empower a generation of olive oil experts and educators.</p>
+            <div class="buttons"><a class="button" href="#"><img src="placeholder/icons/twitter.svg" alt=""></a><a class="button" href="#"><img src="placeholder/icons/facebook-f.svg" alt=""></a><a class="button" href="#"><img src="placeholder/icons/instagram.svg" alt=""></a></div>
+          </div>
+          <div class="column">
+            <h3 class="title is-6">Courses</h3>
+            <ul>
+              <li><a href="#">All Courses</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Gallery</a></li>
+              <li><a href="#">Sommelier Registry</a></li>
+            </ul>
+          </div>
+          <div class="column">
+            <h6 class="title is-6">Education Lab</h6>
+            <ul>
+              <li><a href="#">About us</a></li>
+              <li><a href="#">Instructors</a></li>
+              <li><a href="#">Press</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="column">
+            <h6 class="title is-6">Contact</h6>
+            <ul>
+              <li><a href="#">learn@oliveoilschool.org</a></li>
+              <li><a href="#">+1 (212) 729-3600</a></li>
+              <li><a href="#">Chat now</a></li>
+            </ul>
+          </div>
+        </div>
+        <hr>
+        <div class="columns">
+          <div class="column"><a href="#">Terms and conditions</a></div>
+          <div class="column has-text-right-tablet">
+            <p class="subtitle is-6">&copy; {{ "now"|date('Y') }} Olive Oil Times. All right reserved.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
 
     {% block javascript %}{% endblock %}
     {{ assets[0]|raw }}

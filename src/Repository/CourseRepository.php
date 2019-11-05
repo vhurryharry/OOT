@@ -21,7 +21,7 @@ class CourseRepository
 
     public function findAll(): array
     {
-        return $this->db->findAll('select title, slug from course where deleted_at is null');
+        return $this->db->findAll('select title, hero, slug from course where deleted_at is null');
     }
 
     public function findBySlug(string $slug): array

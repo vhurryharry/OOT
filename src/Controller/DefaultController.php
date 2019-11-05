@@ -26,7 +26,11 @@ class DefaultController extends AbstractController
      */
     public function homepage()
     {
-        return $this->render('homepage.html.twig');
+        $testimonials = $this->db->findAll('select title, author_text from course_testimonial where author_text is not null and deleted_at is null limit 4');
+
+        return $this->render('homepage.html.twig', [
+            'testimonials' => $testimonials,
+        ]);
     }
 
     /**

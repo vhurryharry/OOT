@@ -3,104 +3,184 @@
 {% block title %}{{ course.title }}{% endblock %}
 
 {% block body %}
-  <section class="section">
-    <div class="container">
-      <section class="hero">
-        <div class="hero-body">
-          <div class="container">
-            <h1 class="title">
-              {{ course.title }}
-            </h1>
-            <h2 class="subtitle">
-              {{ course.hero }}
-            </h2>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title">{{ course.title }}</h1>
+        <h2 class="subtitle">Polished finish elegant court shoe work duty stretchy slingback strap mid kitten heel this ladylike design slingback strap mid kitten heel this ladylike design.</h2>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero" style="background: url('https://bulma.dev/placeholder/pictures/bg_16-4.svg?primary=00d1b2');background-size: cover">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <div class="columns">
+          <div class="column is-6 is-4-desktop is-offset-3 is-offset-8-desktop">
+            <div class="card">
+              <div class="card-content">
+                <h2 class="title is-4 is-spaced">New York</h2>
+                <p class="subtitle is-6">
+                  Olive Oil Sommelier Certification
+                  May 11-15, 2020
+                  Level 1: May 11-13 9:00AM - 4:00PM
+                  Level 2: May 14-15 9:00AM - 4:00PM
+                </p>
+
+                <form method="POST" action="{{ path('order') }}">
+                  <div class="field has-addons">
+                    <div class="control is-expanded">
+                      <div class="select is-fullwidth">
+                        <select name="option">
+                          {% for option in course.options %}
+                            <option value="{{ option.id }}">{{ option.title }} ${{ option.price / 100 }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="control">
+                      <button class="button is-primary">Enroll</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+  </section>
 
+  <section class="section">
+    <div class="container has-text-centered">
+      <h2 class="title">Some of our awesome features</h2>
+      <div class="columns is-multiline">
+        <div class="column is-6 is-3-desktop"><img src="placeholder/icons/check.svg" alt="">
+          <h4 class="title is-4">Knowledge</h4>
+          <p>Duis qui mollit qui ad nulla velit cillum dolore tempor.</p>
+        </div>
+        <div class="column is-6 is-3-desktop"><img src="placeholder/icons/check.svg" alt="">
+          <h4 class="title is-4">Certification</h4>
+          <p>Exercitation officia adipisicing in nostrud in tempor voluptate deserunt dolore magna.</p>
+        </div>
+        <div class="column is-6 is-3-desktop"><img src="placeholder/icons/check.svg" alt="">
+          <h4 class="title is-4">Market</h4>
+          <p>Qui quis laboris laboris velit cupidatat ea voluptate sunt ut exercitation nulla magna minim non occaecat.</p>
+        </div>
+        <div class="column is-6 is-3-desktop"><img src="placeholder/icons/check.svg" alt="">
+          <h4 class="title is-4">Value</h4>
+          <p>Est esse aliquip aute culpa sunt elit proident ut magna consectetur occaecat ut ad cupidatat aute ut non.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column is-8">
+          <h1 class="title is-spaced">Location</h1>
+          <p class="subtitle">Sunt incididunt qui laborum tempor nulla dolor sit aliquip aliquip elit veniam cillum labore dolor ex dolor.</p>
+        </div>
+        <div class="column is-4"><img src="https://oliveoilschool.org/wp-content/uploads/2018/09/ny-map.jpg" alt=""></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container has-text-centered">
+      <h2 class="title">Instructors</h2>
+      <p class="subtitle">Amet ea pariatur cillum culpa irure ex culpa laborum consequat</p>
       <div class="columns">
-        <div class="column is-two-thirds">
-          {{ course.content }}
+        {% for instructor in course.instructors %}
+          <div class="column">
+            <div class="level">
+              <div class="level-item">
+                <figure class="image is-128x128"><img class="is-rounded" src="https://bulma.dev/placeholder/pictures/bg_circle.svg?primary=00d1b2" alt=""></figure>
+              </div>
+            </div>
+            <h5 class="title is-5">{{ instructor.name }}</h5>
+            <p class="subtitle is-6">Tagline</p>
+            <p>In nostrud dolore dolor in incididunt exercitation pariatur ex fugiat est reprehenderit aute aute proident sit nisi fugiat.</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
 
-          <hr />
-
-          <h3 class="title is-4">Instructors</h3>
-          <div class="columns">
-            {% for instructor in course.instructors %}
-              <div class="column is-one-quarter has-text-centered">
-                <div class="box">
-                  <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
-                  <div class="content">
-                    <p>
-                      <strong>{{ instructor.name}}</strong>
-                    </p>
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-4">
+          <h2 class="title">Testimonials</h2>
+          <p class="subtitle">Eu anim esse minim et esse deserunt do exercitation sit ut eu sit culpa est nostrud qui veniam.</p>
+        </div>
+        <div class="column is-8 has-text-centered">
+          <div class="columns is-multiline">
+            {% for testimonial in course.testimonials|slice(0, 4) %}
+              <div class="column is-6">
+                <div class="card">
+                  <div class="card-content"><img src="asseys/quote.svg">
+                    <p class="block">{{ testimonial.content }}</p>
+                    <h5 class="title is-5">{{ testimonial.author_text }}</h5>
+                    <p class="has-text-grey has-text-right is-italic">{{ testimonial.author_text }}</p>
                   </div>
                 </div>
               </div>
             {% endfor %}
           </div>
-
-          <h3 class="title is-4">Testimonials</h3>
-          {% for testimonial in course.testimonials %}
-            <div class="box">
-              <article class="media">
-                <div class="media-left">
-                  <figure class="image is-64x64">
-                    <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
-                  </figure>
-                </div>
-                <div class="media-content">
-                  <div class="content">
-                    <p>
-                      <strong>John Smith</strong> <small>@johnsmith</small>
-                      <br>
-                      {{ testimonial.content }}
-                    </p>
-                  </div>
-                </div>
-              </article>
-            </div>
-          {% endfor %}
-
-          <h3 class="title is-4">Reviews</h3>
-          {% for review in course.reviews %}
-            <div class="box">
-              <p>
-                {{ review.content }}
-              </p>
-
-              {% for i in range(0, 5) %}
-                {% if i <= review.rating %}
-                  <span class="icon is-small">★</span>
-                {% else %}
-                  <span class="icon is-small">☆</span>
-                {% endif %}
-              {% endfor %}
-            </div>
-          {% endfor %}
-        </div>
-        <div class="column">
-          <h3 class="title is-4">Enroll now</h3>
-
-          <form method="POST" action="{{ path('order') }}">
-            <div class="field has-addons">
-              <div class="control is-expanded">
-                <div class="select is-fullwidth">
-                  <select name="option">
-                    {% for option in course.options %}
-                      <option value="{{ option.id }}">{{ option.title }} ${{ option.price / 100 }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-
-              <div class="control">
-                <button class="button is-primary">Enroll</button>
-              </div>
-            </div>
-          </form>
         </div>
       </div>
     </div>
   </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="title has-text-centered">Gallery</h2>
+      <div class="columns is-multiline">
+        <div class="column is-4"><a href="#"><img src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2" alt=""></a></div>
+        <div class="column is-4"><a href="#"><img src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2" alt=""></a></div>
+        <div class="column is-4"><a href="#"><img src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2" alt=""></a></div>
+        <div class="column is-4"><a href="#"><img src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2" alt=""></a></div>
+        <div class="column is-4"><a href="#"><img src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2" alt=""></a></div>
+        <div class="column is-4"><a href="#"><img src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2" alt=""></a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="title has-text-centered">Student Reviews</h2>
+      <div class="columns is-multiline">
+        {% for review in course.reviews %}
+          <div class="column is-4">
+            <div class="card">
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-left">
+                    <figure class="image is-64x64"><img class="is-rounded" src="https://bulma.dev/placeholder/pictures/bg_circle.svg?primary=00d1b2" alt=""></figure>
+                  </div>
+                  <div class="media-content">
+                    <div class="title is-6">Sint Consectetur</div>
+                    <div class="subtitle">
+                      {% for i in range(0, 5) %}
+                        {% if i <= review.rating %}
+                          <span class="icon is-small is-size-4 has-text-warning">★</span>
+                        {% else %}
+                          <span class="icon is-small is-size-4 has-text-grey-light">☆</span>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="content">{{ review.content }}</div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
 {% endblock %}
