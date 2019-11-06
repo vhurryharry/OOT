@@ -7,7 +7,7 @@
     <div class="hero-body">
       <div class="container has-text-centered">
         <h1 class="title">{{ course.title }}</h1>
-        <h2 class="subtitle">Polished finish elegant court shoe work duty stretchy slingback strap mid kitten heel this ladylike design slingback strap mid kitten heel this ladylike design.</h2>
+        <h2 class="subtitle">{{ course.hero }}</h2>
       </div>
     </div>
   </section>
@@ -19,13 +19,12 @@
           <div class="column is-6 is-4-desktop is-offset-3 is-offset-8-desktop">
             <div class="card">
               <div class="card-content">
-                <h2 class="title is-4 is-spaced">New York</h2>
-                <p class="subtitle is-6">
-                  Olive Oil Sommelier Certification
-                  May 11-15, 2020
-                  Level 1: May 11-13 9:00AM - 4:00PM
-                  Level 2: May 14-15 9:00AM - 4:00PM
-                </p>
+                <h2 class="title is-4 is-spaced">{{ course.city }}</h2>
+                <ul class="subtitle is-6">
+                  {% for date in getSeparateDates(course) %}
+                    <li>{{ date.option }}: {{ date.details }}</li>
+                  {% endfor %}
+                </ul>
 
                 <form method="POST" action="{{ path('order') }}">
                   <div class="field has-addons">
@@ -33,7 +32,7 @@
                       <div class="select is-fullwidth">
                         <select name="option">
                           {% for option in course.options %}
-                            <option value="{{ option.id }}">{{ option.title }} ${{ option.price / 100 }}</option>
+                            <option value="{{ option.id }}">{{ option.title }} - ${{ option.price / 100 }}</option>
                           {% endfor %}
                         </select>
                       </div>

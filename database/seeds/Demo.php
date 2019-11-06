@@ -24,6 +24,8 @@ class Demo extends AbstractSeed
                 'type' => 'student',
                 'status' => $faker->randomElement(['active', 'pending_confirmation', 'locked']),
                 'accepts_marketing' => $faker->boolean,
+                'tagline' => $faker->bs,
+                'occupation' => $faker->jobTitle,
             ];
         }
 
@@ -38,6 +40,8 @@ class Demo extends AbstractSeed
                 'type' => 'instructor',
                 'status' => 'active',
                 'accepts_marketing' => $faker->boolean,
+                'tagline' => $faker->bs,
+                'occupation' => 'Instructor',
             ];
         }
 
@@ -49,6 +53,9 @@ class Demo extends AbstractSeed
         // Courses
         foreach (range(1, 5) as $index) {
             $id = Uuid::uuid4()->toString();
+            $combo = [];
+            $date = $faker->dateTimeThisMonth();
+
             $courses[] = [
                 'id' => $id,
                 'slug' => $faker->slug,
@@ -58,22 +65,40 @@ class Demo extends AbstractSeed
                 'content' => $faker->paragraphs(1, true),
                 'program' => $faker->paragraphs(3, true),
                 'display_order' => $faker->numberBetween(1, 10),
+                'spots' => 32,
+                'location' => sprintf('(%s,%s)', $faker->latitude, $faker->longitude),
+                'start_date' => $date->format('Y-m-d'),
+                'city' => $faker->city,
+                'address' => $faker->address,
+                'hero' => $faker->bs,
+                'tagline' => $faker->catchPhrase,
             ];
 
             // Options
             foreach (range(1, 3) as $index) {
-                $date = $faker->dateTimeThisYear();
                 $firstDate = $date->format('Y-m-d H:i:s');
                 $date->modify('+1 day');
                 $secondDate = $date->format('Y-m-d H:i:s');
 
-                $courseOptions[] = [
-                    'title' => 'Option ' . $faker->randomElement(['A', 'B', 'C']),
-                    'price' => $faker->numberBetween(80000, 500000),
-                    'location' => sprintf('(%s,%s)', $faker->latitude, $faker->longitude),
-                    'dates' => json_encode([$firstDate, $secondDate]),
-                    'course' => $id,
-                ];
+                if ($index == 3) {
+                    $courseOptions[] = [
+                        'title' => 'Level 1 & 2',
+                        'price' => $faker->numberBetween(80000, 500000),
+                        'dates' => json_encode($combo),
+                        'course' => $id,
+                        'combo' => true,
+                    ];
+                } else {
+                    $combo[] = $firstDate;
+                    $combo[] = $secondDate;
+                    $courseOptions[] = [
+                        'title' => 'Level ' . $index,
+                        'price' => $faker->numberBetween(80000, 500000),
+                        'dates' => json_encode([$firstDate, $secondDate]),
+                        'course' => $id,
+                        'combo' => false,
+                    ];
+                }
             }
 
             // Reviews
@@ -118,16 +143,22 @@ class Demo extends AbstractSeed
             }
         }
 
+        foreach (range(1, 20) as $index) {
+            $faq[] = [
+                'title' => $faker->sentence() . '?',
+                'content' => $faker->paragraphs(1, true),
+                'course' => $faker->randomElement($courses)['id'],
+            ];
+        }
+
         $this
             ->table('course')
             ->insert($courses)
             ->save();
-
         $this
             ->table('course_option')
             ->insert($courseOptions)
             ->save();
-
         $this
             ->table('course_review')
             ->insert($courseReviews)
@@ -143,6 +174,10 @@ class Demo extends AbstractSeed
         $this
             ->table('course_reservation')
             ->insert($courseReservation)
+            ->save();
+        $this
+            ->table('faq')
+            ->insert($faq)
             ->save();
     }
 }

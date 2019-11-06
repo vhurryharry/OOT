@@ -57,12 +57,12 @@ class CartRepository
         $query = <<<SQL
 select
     co.id as course_option_id,
-    co.title as title,
+    co.title as option,
     co.price as price,
-    co.location as location,
+    c.location as location,
     co.dates as dates,
-    c.thumbnail as thumbnail,
     c.id as course_id,
+    c.title as title,
     ca.id as id,
     ca.gift_for as gift_for
 from course_cart as ca

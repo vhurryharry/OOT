@@ -23,6 +23,9 @@ export class CheckoutComponent implements AfterViewInit, OnInit, OnDestroy {
   error: string;
   order: any;
   ready = false;
+  enrollmentPending = false;
+  showSuccessModal = false;
+  placedOrder = null;
 
   // Order placement parameters
   card: any;
@@ -42,7 +45,23 @@ export class CheckoutComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.card = elements.create('card');
+    const style = {
+      base: {
+        color: '#8c9b9d',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#a9afb7'
+        }
+      },
+      invalid: {
+        color: '#e74c3c',
+        iconColor: '#e74c3c'
+      }
+    };
+
+    this.card = elements.create('card', {style: style});
     this.card.mount(this.cardInfo.nativeElement);
     this.card.addEventListener('change', this.cardHandler);
   }
@@ -72,9 +91,11 @@ export class CheckoutComponent implements AfterViewInit, OnInit, OnDestroy {
 
   async onSubmit(form: NgForm) {
     const { token, error } = await stripe.createToken(this.card);
+    this.enrollmentPending = true;
 
     if (error) {
       console.log('Stripe error:', error);
+      this.enrollmentPending = false;
 
       return;
     }
@@ -87,7 +108,8 @@ export class CheckoutComponent implements AfterViewInit, OnInit, OnDestroy {
         email: this.email,
       })
       .subscribe((response: any) => {
-        console.log(response);
+        this.placedOrder = response;
+        this.showSuccessModal = true;
       });
   }
 }

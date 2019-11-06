@@ -160,5 +160,4 @@ class Base extends AbstractSeed
             ->insert($testimonials)
             ->save();
     }
-
 }
