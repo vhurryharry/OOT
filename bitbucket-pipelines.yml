@@ -10,6 +10,7 @@ pipelines:
               - apt-get update && apt-get install -y unzip libpq-dev
               - docker-php-ext-install pdo_pgsql
               - docker-php-ext-install xsl
+              - docker-php-ext-enable xsl
               - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
               - composer install
               - composer test
