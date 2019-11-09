@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\EventListener;
+namespace App\Listener;
 
 use App\Security\RequestId;
 use Symfony\Component\HttpKernel\Event\RequestEvent;

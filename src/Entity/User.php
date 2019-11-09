@@ -2,48 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Security;
+namespace App\Entity;
 
 use Carbon\Carbon;
 use JsonSerializable;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
-class Customer implements UserInterface, JsonSerializable
+class User implements JsonSerializable
 {
-    public const ACTIVE = 'active';
-    public const INACTIVE = 'inactive';
-    public const PENDING_CONFIRMATION = 'pending_confirmation';
-    public const PENDING_PASSWORD_RESET = 'pending_password_reset';
-    public const SUSPENDED = 'suspended';
-    public const LOCKED = 'locked';
-    public const PASSWORD_EXPIRED = 'password_expired';
-
     /**
-     * @var UuidInterface
+     * @var int
      */
     protected $id;
-
-    /**
-     * @var ?string
-     */
-    protected $login;
-
-    /**
-     * @var ?string
-     */
-    protected $password;
-
-    /**
-     * @var ?string
-     */
-    protected $rawPassword;
-
-    /**
-     * @var string[]
-     */
-    protected $roles = [];
 
     /**
      * @var ?array
@@ -53,12 +22,7 @@ class Customer implements UserInterface, JsonSerializable
     /**
      * @var string
      */
-    protected $type;
-
-    /**
-     * @var string
-     */
-    protected $status = self::ACTIVE;
+    protected $status;
 
     /**
      * @var ?string
@@ -66,19 +30,9 @@ class Customer implements UserInterface, JsonSerializable
     protected $confirmationToken;
 
     /**
-     * @var bool
-     */
-    protected $acceptsMarketing = false;
-
-    /**
      * @var Carbon
      */
     protected $createdAt;
-
-    /**
-     * @var Carbon
-     */
-    protected $registeredAt;
 
     /**
      * @var Carbon
@@ -101,6 +55,16 @@ class Customer implements UserInterface, JsonSerializable
     protected $passwordExpiresAt;
 
     /**
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @var string
+     */
+    protected $email;
+
+    /**
      * @var ?string
      */
     protected $firstName;
@@ -111,105 +75,33 @@ class Customer implements UserInterface, JsonSerializable
     protected $lastName;
 
     /**
-     * @var ?string
+     * @var ?int
      */
-    protected $tagline;
+    protected $role;
 
     /**
-     * @var ?string
+     * @var string
      */
-    protected $occupation;
-
-    /**
-     * @var ?Carbon
-     */
-    protected $birthDate;
+    protected $password;
 
     /**
      * @var ?string
      */
     protected $mfa;
 
-    public function __construct(string $login = null, UuidInterface $id = null)
-    {
-        $this->id = $id ?? Uuid::uuid4();
-        $this->login = $login;
-        $this->createdAt = Carbon::now();
-        $this->updatedAt = $this->createdAt;
-        $this->registeredAt = $this->createdAt;
-    }
+    /**
+     * @var ?array
+     */
+    protected $permissions;
 
-    public function getId(): UuidInterface
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(UuidInterface $id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
-    }
-
-    public function getLogin(): ?string
-    {
-        return $this->login;
-    }
-
-    public function setLogin(string $login): void
-    {
-        $this->login = $login;
-    }
-
-    public function getUsername(): string
-    {
-        return (string) $this->login;
-    }
-
-    public function getEmail(): string
-    {
-        return (string) $this->login;
-    }
-
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
-
-        return $roles;
-    }
-
-    public function setRoles(array $roles): void
-    {
-        $this->roles = $roles;
-    }
-
-    public function getPassword(): string
-    {
-        return (string) $this->password;
-    }
-
-    public function setPassword(string $password): void
-    {
-        $this->password = $password;
-    }
-
-    public function getRawPassword(): ?string
-    {
-        return $this->rawPassword;
-    }
-
-    public function setRawPassword(string $rawPassword): void
-    {
-        $this->rawPassword = $rawPassword;
-    }
-
-    public function getSalt()
-    {
-        return null;
-    }
-
-    public function eraseCredentials(): void
-    {
-        $this->rawPassword = null;
     }
 
     public function getMetadata(): ?array
@@ -220,16 +112,6 @@ class Customer implements UserInterface, JsonSerializable
     public function setMetadata(array $metadata): void
     {
         $this->metadata = $metadata;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): void
-    {
-        $this->type = $type;
     }
 
     public function getStatus(): string
@@ -252,16 +134,6 @@ class Customer implements UserInterface, JsonSerializable
         $this->confirmationToken = $confirmationToken;
     }
 
-    public function acceptsMarketing(): bool
-    {
-        return $this->acceptsMarketing;
-    }
-
-    public function setAcceptsMarketing(bool $acceptsMarketing): void
-    {
-        $this->acceptsMarketing = $acceptsMarketing;
-    }
-
     public function getCreatedAt(): Carbon
     {
         return $this->createdAt;
@@ -270,16 +142,6 @@ class Customer implements UserInterface, JsonSerializable
     public function setCreatedAt(Carbon $createdAt): void
     {
         $this->createdAt = $createdAt;
-    }
-
-    public function getRegisteredAt(): Carbon
-    {
-        return $this->registeredAt;
-    }
-
-    public function setRegisteredAt(Carbon $registeredAt): void
-    {
-        $this->registeredAt = $registeredAt;
     }
 
     public function getUpdatedAt(): Carbon
@@ -322,13 +184,24 @@ class Customer implements UserInterface, JsonSerializable
         $this->passwordExpiresAt = $passwordExpiresAt;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
-        if (!$this->firstName) {
-            return $this->login;
-        }
+        return $this->name;
+    }
 
-        return $this->firstName . ' ' . $this->lastName;
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
     }
 
     public function getFirstName(): ?string
@@ -351,34 +224,24 @@ class Customer implements UserInterface, JsonSerializable
         $this->lastName = $lastName;
     }
 
-    public function getTagline(): ?string
+    public function getRole(): ?int
     {
-        return $this->tagline;
+        return $this->role;
     }
 
-    public function setTagline(string $tagline): void
+    public function setRole(int $role): void
     {
-        $this->tagline = $tagline;
+        $this->role = $role;
     }
 
-    public function getOccupation(): ?string
+    public function getPassword(): string
     {
-        return $this->occupation;
+        return $this->password;
     }
 
-    public function setOccupation(string $occupation): void
+    public function setPassword(string $password): void
     {
-        $this->occupation = $occupation;
-    }
-
-    public function getBirthDate(): ?Carbon
-    {
-        return $this->birthDate;
-    }
-
-    public function setBirthDate(Carbon $birthDate): void
-    {
-        $this->birthDate = $birthDate;
+        $this->password = $password;
     }
 
     public function getMfa(): ?string
@@ -391,20 +254,26 @@ class Customer implements UserInterface, JsonSerializable
         $this->mfa = $mfa;
     }
 
-    public static function fromDatabase(array $row): Customer
+    public function getPermissions(): ?array
     {
-        $instance = new Customer($row['login'], Uuid::fromString($row['id']));
+        return $this->permissions;
+    }
 
-        if (isset($row['password'])) {
-            $instance->setPassword($row['password']);
+    public function setPermissions(array $permissions): void
+    {
+        $this->permissions = $permissions;
+    }
+
+    public static function fromDatabase(array $row): User
+    {
+        $instance = new User();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
         }
 
         if (isset($row['metadata'])) {
             $instance->setMetadata(json_decode($row['metadata'], true));
-        }
-
-        if (isset($row['type'])) {
-            $instance->setType($row['type']);
         }
 
         if (isset($row['status'])) {
@@ -415,16 +284,8 @@ class Customer implements UserInterface, JsonSerializable
             $instance->setConfirmationToken($row['confirmation_token']);
         }
 
-        if (isset($row['accepts_marketing'])) {
-            $instance->setAcceptsMarketing($row['accepts_marketing']);
-        }
-
         if (isset($row['created_at'])) {
             $instance->setCreatedAt(new Carbon($row['created_at']));
-        }
-
-        if (isset($row['registered_at'])) {
-            $instance->setRegisteredAt(new Carbon($row['registered_at']));
         }
 
         if (isset($row['updated_at'])) {
@@ -443,6 +304,14 @@ class Customer implements UserInterface, JsonSerializable
             $instance->setPasswordExpiresAt(new Carbon($row['password_expires_at']));
         }
 
+        if (isset($row['name'])) {
+            $instance->setName($row['name']);
+        }
+
+        if (isset($row['email'])) {
+            $instance->setEmail($row['email']);
+        }
+
         if (isset($row['first_name'])) {
             $instance->setFirstName($row['first_name']);
         }
@@ -451,20 +320,20 @@ class Customer implements UserInterface, JsonSerializable
             $instance->setLastName($row['last_name']);
         }
 
-        if (isset($row['tagline'])) {
-            $instance->setTagline($row['tagline']);
+        if (isset($row['role'])) {
+            $instance->setRole($row['role']);
         }
 
-        if (isset($row['occupation'])) {
-            $instance->setOccupation($row['occupation']);
-        }
-
-        if (isset($row['birth_date'])) {
-            $instance->setBirthDate(new Carbon($row['birth_date']));
+        if (isset($row['password'])) {
+            $instance->setPassword($row['password']);
         }
 
         if (isset($row['mfa'])) {
             $instance->setMfa($row['mfa']);
+        }
+
+        if (isset($row['permissions'])) {
+            $instance->setPermissions(json_decode($row['permissions'], true));
         }
 
         return $instance;
@@ -475,24 +344,21 @@ class Customer implements UserInterface, JsonSerializable
         return [
             'id' => $this->id,
             'metadata' => json_encode($this->metadata),
-            'type' => $this->type,
             'status' => $this->status,
             'confirmation_token' => $this->confirmationToken,
-            'accepts_marketing' => $this->acceptsMarketing,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
-            'registered_at' => $this->registeredAt->format('Y-m-d H:i:s'),
             'updated_at' => $this->updatedAt->format('Y-m-d H:i:s'),
             'deleted_at' => $this->deletedAt ? $this->deletedAt->format('Y-m-d H:i:s') : null,
             'expires_at' => $this->expiresAt ? $this->expiresAt->format('Y-m-d H:i:s') : null,
-            'login' => $this->login,
             'password_expires_at' => $this->passwordExpiresAt ? $this->passwordExpiresAt->format('Y-m-d H:i:s') : null,
+            'name' => $this->name,
+            'email' => $this->email,
             'first_name' => $this->firstName,
             'last_name' => $this->lastName,
-            'tagline' => $this->tagline,
-            'occupation' => $this->occupation,
-            'birth_date' => $this->birthDate ? $this->birthDate->format('Y-m-d H:i:s') : null,
+            'role' => $this->role,
             'password' => $this->password,
             'mfa' => $this->mfa,
+            'permissions' => json_encode($this->permissions),
         ];
     }
 
@@ -501,24 +367,21 @@ class Customer implements UserInterface, JsonSerializable
         return [
             'id' => $this->id,
             'metadata' => $this->metadata,
-            'type' => $this->type,
             'status' => $this->status,
             'confirmationToken' => $this->confirmationToken,
-            'acceptsMarketing' => $this->acceptsMarketing,
             'createdAt' => $this->createdAt->format('Y-m-d\TH:i:s'),
-            'registeredAt' => $this->registeredAt->format('Y-m-d\TH:i:s'),
             'updatedAt' => $this->updatedAt->format('Y-m-d\TH:i:s'),
             'deletedAt' => $this->deletedAt ? $this->deletedAt->format('Y-m-d\TH:i:s') : null,
             'expiresAt' => $this->expiresAt ? $this->expiresAt->format('Y-m-d\TH:i:s') : null,
-            'login' => $this->login,
             'passwordExpiresAt' => $this->passwordExpiresAt ? $this->passwordExpiresAt->format('Y-m-d\TH:i:s') : null,
+            'name' => $this->name,
+            'email' => $this->email,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
-            'tagline' => $this->tagline,
-            'occupation' => $this->occupation,
-            'birthDate' => $this->birthDate ? $this->birthDate->format('Y-m-d\TH:i:s') : null,
+            'role' => $this->role,
             'password' => $this->password,
             'mfa' => $this->mfa,
+            'permissions' => $this->permissions,
         ];
     }
 }

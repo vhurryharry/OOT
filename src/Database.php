@@ -108,6 +108,31 @@ class Database
         return $stmt;
     }
 
+    public function insert(string $table, array $params): int
+    {
+        $params = array_filter($params);
+        $columns = [];
+        $values = [];
+        $placeholders = [];
+
+        foreach ($params as $column => $value) {
+            $placeholder = ':' . $column;
+            $columns[] = $column;
+            $placeholders[] = $placeholder;
+            $values[$placeholder] = $value;
+        }
+
+        return $this->execute(
+            sprintf(
+                'insert into "%s" (%s) values (%s)',
+                $table,
+                implode(',', $columns),
+                implode(',', $placeholders)
+            ),
+            $values
+        );
+    }
+
     public function beginTransaction(): void
     {
         $this->getConnection()->beginTransaction();

@@ -7,6 +7,8 @@ namespace App\Controller;
 use App\Controller\Output\OrderOutput;
 use App\Entity\Order;
 use App\Entity\Payment;
+use App\Event\CustomerAutoRegistered;
+use App\Event\OrderPlaced;
 use App\Repository\CartRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\OrderRepository;
@@ -18,6 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class OrderController extends AbstractController
 {
@@ -41,16 +44,23 @@ class OrderController extends AbstractController
      */
     protected $output;
 
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
     public function __construct(
         CartRepository $cartRepository,
         OrderRepository $orderRepository,
         CustomerRepository $customerRepository,
-        OrderOutput $output
+        OrderOutput $output,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->cartRepository = $cartRepository;
         $this->orderRepository = $orderRepository;
         $this->customerRepository = $customerRepository;
         $this->output = $output;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -101,6 +111,8 @@ class OrderController extends AbstractController
                 $request->request->get('name'),
                 $request->request->get('phone')
             );
+
+            $this->eventDispatcher->dispatch(new CustomerAutoRegistered($customer));
         }
 
         $order = new Order($customer->getId()->toString());
@@ -130,6 +142,7 @@ class OrderController extends AbstractController
         $payment = new Payment($transaction->id);
         $order->setPayment($payment);
         $this->orderRepository->save($order);
+        $this->eventDispatcher->dispatch(new OrderPlaced($order));
 
         return new JsonResponse([
             'number' => $order->getNumber(),

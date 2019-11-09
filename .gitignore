@@ -12,6 +12,7 @@ override.tf.json
 *.retry
 
 # Application
+bin/setup
 log/
 build/
 dist/

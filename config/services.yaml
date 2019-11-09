@@ -14,7 +14,7 @@ services:
 
   App\:
     resource: '../src/*'
-    exclude: '../src/{DependencyInjection,Kernel.php}'
+    exclude: '../src/{DependencyInjection,Event,Entity,Kernel.php}'
 
   App\Controller\:
     resource: '../src/Controller'
@@ -28,7 +28,7 @@ services:
         username: '%env(DB_USERNAME)%'
         password: '%env(DB_PASSWORD)%'
 
-  App\EventListener\TrackerListener:
+  App\Listener\TrackerListener:
     tags:
       - {
           name: kernel.event_listener,
@@ -36,7 +36,7 @@ services:
           method: onResponse,
         }
 
-  App\EventListener\ParseJsonRequest:
+  App\Listener\ParseJsonRequest:
     tags:
       - {
           name: kernel.event_listener,
@@ -44,7 +44,7 @@ services:
           method: parseRequest,
         }
 
-  App\EventListener\RequestIdentifier:
+  App\Listener\RequestIdentifier:
     tags:
       - {
           name: kernel.event_listener,

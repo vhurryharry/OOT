@@ -6,7 +6,7 @@ namespace App\Repository;
 
 use App\Database;
 use App\Security\Customer;
-use DateTime;
+use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
 use RandomLib\Factory;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -45,34 +45,42 @@ class CustomerRepository
         );
     }
 
-    public function register(array $form): void
+    public function register(array $form): Customer
     {
-        $this->db->execute(
-            'insert into customer (id, login, password, confirmation_token, accepts_marketing) values (?, ?, ?, ?, ?)',
-            [
-                Uuid::uuid4()->toString(),
-                $form['email'],
-                $this->encoder->encodePassword(new Customer(), $form['password']),
-                $this->getRandomKey(),
-                0,
-            ]
+        $rawPassword = $form['password'];
+        $customer = new Customer(
+            $form['email'],
+            Uuid::uuid4()
         );
+
+        $customer->setPassword($this->encoder->encodePassword($customer, $rawPassword));
+        $customer->setConfirmationToken($this->getRandomKey());
+        $customer->setStatus(Customer::PENDING_CONFIRMATION);
+
+        $this->db->insert(
+            'customer',
+            $customer->toDatabase(),
+        );
+
+        return $customer;
     }
 
     public function createGuest(string $email, string $name, string $phone): Customer
     {
-        $customer = new Customer();
-        $customer->setId(Uuid::uuid4());
-        $customer->setPassword($this->getRandomKey());
+        $rawPassword = $this->getRandomKey();
+        $customer = new Customer(
+            $email,
+            Uuid::uuid4()
+        );
 
-        $this->db->execute(
-            "insert into customer (id, login, password, password_expires_at, status) values (?, ?, ?, ?, 'active')",
-            [
-                $customer->getId()->toString(),
-                $email,
-                $this->encoder->encodePassword($customer, $customer->getPassword()),
-                (new DateTime('now'))->format('Y-m-d H:i:sO'),
-            ]
+        $customer->setPassword($this->encoder->encodePassword($customer, $rawPassword));
+        $customer->setRawPassword($rawPassword);
+        $customer->setPasswordExpiresAt(Carbon::now());
+        $customer->setStatus(Customer::PENDING_PASSWORD_RESET);
+
+        $this->db->insert(
+            'customer',
+            $customer->toDatabase(),
         );
 
         return $customer;

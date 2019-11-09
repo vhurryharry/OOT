@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Event\CustomerRegistered;
 use App\Form\LoginType;
 use App\Form\RegisterType;
 use App\Repository\CustomerRepository;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class CustomerController extends AbstractController
 {
@@ -20,9 +22,15 @@ class CustomerController extends AbstractController
      */
     protected $customerRepository;
 
-    public function __construct(CustomerRepository $customerRepository)
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
+    public function __construct(CustomerRepository $customerRepository, EventDispatcherInterface $eventDispatcher)
     {
         $this->customerRepository = $customerRepository;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -34,8 +42,9 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->customerRepository->register($form->getData());
+            $customer = $this->customerRepository->register($form->getData());
             $this->addFlash('info', 'You will receive a confirmation email shortly.');
+            $this->eventDispatcher->dispatch(new CustomerRegistered($customer));
 
             return $this->redirectToRoute('homepage');
         }
