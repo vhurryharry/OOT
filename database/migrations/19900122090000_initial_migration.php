@@ -10,4 +10,9 @@ class InitialMigration extends AbstractMigration
     {
         $this->execute(file_get_contents(__DIR__ . '/schema.sql'));
     }
+
+    public function down(): void
+    {
+        $this->execute(file_get_contents(__DIR__ . '/clear.sql'));
+    }
 }
