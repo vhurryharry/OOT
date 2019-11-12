@@ -20,6 +20,7 @@ node_modules/
 public/build/
 public/bundles/
 public/assets/
+public/admin
 var/
 vendor/
 .env

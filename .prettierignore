@@ -4,9 +4,12 @@ node_modules/
 vendor/
 var/
 public/assets/
+public/admin/
 provisioning/.terraform/
 frontend/package-lock.json
 frontend/package.json
+admin/package-lock.json
+admin/package.json
 composer.json
 composer.lock
 package.json

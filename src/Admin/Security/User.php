@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Admin\Security;
 
 use Carbon\Carbon;
 use JsonSerializable;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements JsonSerializable
+class User implements UserInterface, JsonSerializable
 {
     /**
      * @var int
@@ -75,11 +76,6 @@ class User implements JsonSerializable
     protected $lastName;
 
     /**
-     * @var ?int
-     */
-    protected $role;
-
-    /**
      * @var string
      */
     protected $password;
@@ -93,6 +89,12 @@ class User implements JsonSerializable
      * @var ?array
      */
     protected $permissions;
+
+    public function __construct()
+    {
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = $this->createdAt;
+    }
 
     public function getId(): int
     {
@@ -204,6 +206,24 @@ class User implements JsonSerializable
         $this->email = $email;
     }
 
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return $roles;
+    }
+
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+
     public function getFirstName(): ?string
     {
         return $this->firstName;
@@ -224,24 +244,24 @@ class User implements JsonSerializable
         $this->lastName = $lastName;
     }
 
-    public function getRole(): ?int
-    {
-        return $this->role;
-    }
-
-    public function setRole(int $role): void
-    {
-        $this->role = $role;
-    }
-
     public function getPassword(): string
     {
-        return $this->password;
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): void
     {
         $this->password = $password;
+    }
+
+    public function getRawPassword(): ?string
+    {
+        return $this->rawPassword;
+    }
+
+    public function setRawPassword(string $rawPassword): void
+    {
+        $this->rawPassword = $rawPassword;
     }
 
     public function getMfa(): ?string
@@ -262,6 +282,16 @@ class User implements JsonSerializable
     public function setPermissions(array $permissions): void
     {
         $this->permissions = $permissions;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function eraseCredentials(): void
+    {
+        $this->rawPassword = null;
     }
 
     public static function fromDatabase(array $row): User
