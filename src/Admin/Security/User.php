@@ -83,12 +83,22 @@ class User implements UserInterface, JsonSerializable
     /**
      * @var ?string
      */
+    protected $rawPassword;
+
+    /**
+     * @var ?string
+     */
     protected $mfa;
 
     /**
-     * @var ?array
+     * @var array
      */
-    protected $permissions;
+    protected $permissions = [];
+
+    /**
+     * @var array
+     */
+    protected $roles = [];
 
     public function __construct()
     {
@@ -274,7 +284,7 @@ class User implements UserInterface, JsonSerializable
         $this->mfa = $mfa;
     }
 
-    public function getPermissions(): ?array
+    public function getPermissions(): array
     {
         return $this->permissions;
     }
@@ -350,10 +360,6 @@ class User implements UserInterface, JsonSerializable
             $instance->setLastName($row['last_name']);
         }
 
-        if (isset($row['role'])) {
-            $instance->setRole($row['role']);
-        }
-
         if (isset($row['password'])) {
             $instance->setPassword($row['password']);
         }
@@ -385,7 +391,6 @@ class User implements UserInterface, JsonSerializable
             'email' => $this->email,
             'first_name' => $this->firstName,
             'last_name' => $this->lastName,
-            'role' => $this->role,
             'password' => $this->password,
             'mfa' => $this->mfa,
             'permissions' => json_encode($this->permissions),
@@ -408,7 +413,6 @@ class User implements UserInterface, JsonSerializable
             'email' => $this->email,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
-            'role' => $this->role,
             'password' => $this->password,
             'mfa' => $this->mfa,
             'permissions' => $this->permissions,
