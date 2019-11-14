@@ -223,10 +223,7 @@ class User implements UserInterface, JsonSerializable
 
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
-
-        return $roles;
+        return array_merge($this->permissions, $this->roles, ['ROLE_USER']);
     }
 
     public function setRoles(array $roles): void
