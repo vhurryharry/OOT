@@ -1,0 +1,10 @@
+<form clrForm [formGroup]="courseForm" clrLayout="vertical" (ngSubmit)="onSubmit()">
+  <clr-input-container>
+    <label>Title</label>
+    <input clrInput type="text" formControlName="title" required />
+    <clr-control-helper>Course title</clr-control-helper>
+    <clr-control-error>The course title is required</clr-control-error>
+  </clr-input-container>
+
+  <button class="btn btn-primary" type="submit" [disabled]="!courseForm.valid">Submit</button>
+</form>

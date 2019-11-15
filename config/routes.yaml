@@ -3,6 +3,11 @@ admin:
   type: annotation
   prefix: /admin
 
+admin_api:
+  resource: 'App\Admin\Controller\Api\CourseController'
+  type: annotation
+  prefix: /admin/api
+
 course:
   resource: 'App\Controller\CourseController'
   type: annotation

@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --extractCss=true --outputHashing=all",
+    "watch": "ng build --watch --extractCss=true --outputHashing=all",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

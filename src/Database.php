@@ -89,6 +89,11 @@ class Database
         return $results;
     }
 
+    public function count(string $table): int
+    {
+        return (int) $this->fetchValue('select count(*) from ' . $table);
+    }
+
     public function execute(string $query, array $params = []): int
     {
         if (empty($params)) {
