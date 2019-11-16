@@ -49,6 +49,6 @@
 <clr-modal [(clrModalOpen)]="showCreateUser" [clrModalSize]="'md'">
   <h3 class="modal-title">Create user</h3>
   <div class="modal-body">
-    <admin-create-user (onFinish)='showCreateUser = false'></admin-create-user>
+    <admin-create-user (finished)='showCreateUser = false'></admin-create-user>
   </div>
 </clr-modal>

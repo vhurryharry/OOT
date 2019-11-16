@@ -61,7 +61,7 @@ export class CheckoutComponent implements AfterViewInit, OnInit, OnDestroy {
       }
     };
 
-    this.card = elements.create('card', {style: style});
+    this.card = elements.create('card', {style});
     this.card.mount(this.cardInfo.nativeElement);
     this.card.addEventListener('change', this.cardHandler);
   }

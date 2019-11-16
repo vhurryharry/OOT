@@ -8,7 +8,7 @@ import { RepositoryService } from '../../repository.service';
 })
 export class CreateUserComponent {
   @Output()
-  onFinish = new EventEmitter();
+  finished = new EventEmitter();
 
   loading = false;
   userForm = this.fb.group({
@@ -38,7 +38,7 @@ export class CreateUserComponent {
       .create('user', this.userForm.value)
       .subscribe((result: any) => {
         this.loading = false;
-        this.onFinish.emit(this.userForm.value);
+        this.finished.emit(this.userForm.value);
       });
   }
 }
