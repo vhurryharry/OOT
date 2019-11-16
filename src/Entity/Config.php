@@ -53,6 +53,21 @@ class Config implements JsonSerializable
         return $instance;
     }
 
+    public static function fromJson(array $row): Config
+    {
+        $instance = new Config();
+
+        if (isset($row['key'])) {
+            $instance->setKey($row['key']);
+        }
+
+        if (isset($row['value'])) {
+            $instance->setValue($row['value']);
+        }
+
+        return $instance;
+    }
+
     public function toDatabase(): array
     {
         return [

@@ -199,7 +199,7 @@ class CourseReservation implements JsonSerializable
         }
 
         if (isset($row['option_dates'])) {
-            $instance->setOptionDates(json_decode($row['option_dates'], true));
+            $instance->setOptionDates((array) json_decode($row['option_dates'], true));
         }
 
         if (isset($row['created_at'])) {
@@ -240,6 +240,61 @@ class CourseReservation implements JsonSerializable
 
         if (isset($row['option_location'])) {
             $instance->setOptionLocation($row['option_location']);
+        }
+
+        return $instance;
+    }
+
+    public static function fromJson(array $row): CourseReservation
+    {
+        $instance = new CourseReservation();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['optionDates'])) {
+            $instance->setOptionDates($row['optionDates']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['updatedAt'])) {
+            $instance->setUpdatedAt(new Carbon($row['updatedAt']));
+        }
+
+        if (isset($row['number'])) {
+            $instance->setNumber($row['number']);
+        }
+
+        if (isset($row['courseId'])) {
+            $instance->setCourseId($row['courseId']);
+        }
+
+        if (isset($row['customerId'])) {
+            $instance->setCustomerId($row['customerId']);
+        }
+
+        if (isset($row['status'])) {
+            $instance->setStatus($row['status']);
+        }
+
+        if (isset($row['payment'])) {
+            $instance->setPayment($row['payment']);
+        }
+
+        if (isset($row['optionTitle'])) {
+            $instance->setOptionTitle($row['optionTitle']);
+        }
+
+        if (isset($row['optionPrice'])) {
+            $instance->setOptionPrice($row['optionPrice']);
+        }
+
+        if (isset($row['optionLocation'])) {
+            $instance->setOptionLocation($row['optionLocation']);
         }
 
         return $instance;

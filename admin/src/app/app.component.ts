@@ -5,5 +5,9 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  title = 'admin';
+  currentModule = 'content';
+
+  switchModule(module) {
+    this.currentModule = module;
+  }
 }

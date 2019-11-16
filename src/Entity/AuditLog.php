@@ -154,15 +154,54 @@ class AuditLog implements JsonSerializable
         }
 
         if (isset($row['old'])) {
-            $instance->setOld(json_decode($row['old'], true));
+            $instance->setOld((array) json_decode($row['old'], true));
         }
 
         if (isset($row['new'])) {
-            $instance->setNew(json_decode($row['new'], true));
+            $instance->setNew((array) json_decode($row['new'], true));
         }
 
         if (isset($row['created_at'])) {
             $instance->setCreatedAt(new Carbon($row['created_at']));
+        }
+
+        return $instance;
+    }
+
+    public static function fromJson(array $row): AuditLog
+    {
+        $instance = new AuditLog();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['tableName'])) {
+            $instance->setTableName($row['tableName']);
+        }
+
+        if (isset($row['tableId'])) {
+            $instance->setTableId($row['tableId']);
+        }
+
+        if (isset($row['user'])) {
+            $instance->setUser($row['user']);
+        }
+
+        if (isset($row['action'])) {
+            $instance->setAction($row['action']);
+        }
+
+        if (isset($row['old'])) {
+            $instance->setOld($row['old']);
+        }
+
+        if (isset($row['new'])) {
+            $instance->setNew($row['new']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
         }
 
         return $instance;

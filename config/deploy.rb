@@ -36,6 +36,9 @@ namespace :app do
           execute :mkdir, '-p public/assets'
           execute :setfacl, '-R -m u:www-data:rwX -m u:deploy:rwX public/assets'
           execute :setfacl, '-dR -m u:www-data:rwx -m u:deploy:rwx public/assets'
+          execute :mkdir, '-p public/admin'
+          execute :setfacl, '-R -m u:www-data:rwX -m u:deploy:rwX public/admin'
+          execute :setfacl, '-dR -m u:www-data:rwx -m u:deploy:rwx public/admin'
         end
       end
     end
@@ -44,6 +47,11 @@ namespace :app do
     task :build do
       on roles(:app) do
         within "#{release_path}/frontend" do
+          execute :npm, 'ci --silent --no-progress --no-color'
+          execute :npm, 'run build --prod'
+        end
+
+        within "#{release_path}/admin" do
           execute :npm, 'ci --silent --no-progress --no-color'
           execute :npm, 'run build --prod'
         end

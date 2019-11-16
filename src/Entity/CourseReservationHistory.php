@@ -73,6 +73,25 @@ class CourseReservationHistory implements JsonSerializable
         return $instance;
     }
 
+    public static function fromJson(array $row): CourseReservationHistory
+    {
+        $instance = new CourseReservationHistory();
+
+        if (isset($row['reservation'])) {
+            $instance->setReservation($row['reservation']);
+        }
+
+        if (isset($row['status'])) {
+            $instance->setStatus($row['status']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        return $instance;
+    }
+
     public function toDatabase(): array
     {
         return [

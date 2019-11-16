@@ -239,7 +239,62 @@ class Entity implements JsonSerializable
         }
 
         if (isset($row['metadata'])) {
-            $instance->setMetadata(json_decode($row['metadata'], true));
+            $instance->setMetadata((array) json_decode($row['metadata'], true));
+        }
+
+        return $instance;
+    }
+
+    public static function fromJson(array $row): Entity
+    {
+        $instance = new Entity();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['updatedAt'])) {
+            $instance->setUpdatedAt(new Carbon($row['updatedAt']));
+        }
+
+        if (isset($row['deletedAt'])) {
+            $instance->setDeletedAt(new Carbon($row['deletedAt']));
+        }
+
+        if (isset($row['slug'])) {
+            $instance->setSlug($row['slug']);
+        }
+
+        if (isset($row['category'])) {
+            $instance->setCategory($row['category']);
+        }
+
+        if (isset($row['title'])) {
+            $instance->setTitle($row['title']);
+        }
+
+        if (isset($row['type'])) {
+            $instance->setType($row['type']);
+        }
+
+        if (isset($row['content'])) {
+            $instance->setContent($row['content']);
+        }
+
+        if (isset($row['metaTitle'])) {
+            $instance->setMetaTitle($row['metaTitle']);
+        }
+
+        if (isset($row['metaDescription'])) {
+            $instance->setMetaDescription($row['metaDescription']);
+        }
+
+        if (isset($row['metadata'])) {
+            $instance->setMetadata($row['metadata']);
         }
 
         return $instance;

@@ -22,15 +22,6 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/", name="admin_dashboard")
-     */
-    public function dashboard()
-    {
-        return $this->render('admin/dashboard.html.twig', [
-        ]);
-    }
-
-    /**
      * @Route("/login", name="admin_login")
      */
     public function login(AuthenticationUtils $authenticationUtils)
@@ -41,6 +32,16 @@ class DefaultController extends AbstractController
         return $this->render('admin/login.html.twig', [
             'error' => $error,
             'last_username' => $lastUsername,
+        ]);
+    }
+
+    /**
+     * @Route("/", name="admin_dashboard")
+     * @Route("/{uri}", name="admin_dashboard_uri")
+     */
+    public function dashboard()
+    {
+        return $this->render('admin/dashboard.html.twig', [
         ]);
     }
 }

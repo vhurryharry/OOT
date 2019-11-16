@@ -264,6 +264,65 @@ class Notification implements JsonSerializable
         return $instance;
     }
 
+    public static function fromJson(array $row): Notification
+    {
+        $instance = new Notification();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['course'])) {
+            $instance->setCourse($row['course']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['updatedAt'])) {
+            $instance->setUpdatedAt(new Carbon($row['updatedAt']));
+        }
+
+        if (isset($row['deletedAt'])) {
+            $instance->setDeletedAt(new Carbon($row['deletedAt']));
+        }
+
+        if (isset($row['title'])) {
+            $instance->setTitle($row['title']);
+        }
+
+        if (isset($row['content'])) {
+            $instance->setContent($row['content']);
+        }
+
+        if (isset($row['contentRich'])) {
+            $instance->setContentRich($row['contentRich']);
+        }
+
+        if (isset($row['type'])) {
+            $instance->setType($row['type']);
+        }
+
+        if (isset($row['event'])) {
+            $instance->setEvent($row['event']);
+        }
+
+        if (isset($row['fromEmail'])) {
+            $instance->setFromEmail($row['fromEmail']);
+        }
+
+        if (isset($row['fromName'])) {
+            $instance->setFromName($row['fromName']);
+        }
+
+        if (isset($row['fromNumber'])) {
+            $instance->setFromNumber($row['fromNumber']);
+        }
+
+        return $instance;
+    }
+
     public function toDatabase(): array
     {
         return [

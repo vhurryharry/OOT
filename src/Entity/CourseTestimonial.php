@@ -188,6 +188,49 @@ class CourseTestimonial implements JsonSerializable
         return $instance;
     }
 
+    public static function fromJson(array $row): CourseTestimonial
+    {
+        $instance = new CourseTestimonial();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['title'])) {
+            $instance->setTitle($row['title']);
+        }
+
+        if (isset($row['content'])) {
+            $instance->setContent($row['content']);
+        }
+
+        if (isset($row['author'])) {
+            $instance->setAuthor($row['author']);
+        }
+
+        if (isset($row['authorText'])) {
+            $instance->setAuthorText($row['authorText']);
+        }
+
+        if (isset($row['course'])) {
+            $instance->setCourse($row['course']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['updatedAt'])) {
+            $instance->setUpdatedAt(new Carbon($row['updatedAt']));
+        }
+
+        if (isset($row['deletedAt'])) {
+            $instance->setDeletedAt(new Carbon($row['deletedAt']));
+        }
+
+        return $instance;
+    }
+
     public function toDatabase(): array
     {
         return [

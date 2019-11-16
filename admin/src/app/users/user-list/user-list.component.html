@@ -1,0 +1,54 @@
+<clr-datagrid
+  (clrDgRefresh)="refresh($event)"
+  [clrDgLoading]="loading"
+  [(clrDgSelected)]="selected">
+  <clr-dg-placeholder>No users found.</clr-dg-placeholder>
+
+  <clr-dg-action-bar>
+    <button type="button" class="btn btn-secondary" (click)="onCreate()"><clr-icon shape="file"></clr-icon> Create user</button>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-secondary" (click)="onEdit()" *ngIf="selected.length == 1"><clr-icon shape="pencil"></clr-icon> Edit</button>
+      <button type="button" class="btn btn-secondary" (click)="onDelete()"><clr-icon shape="trash"></clr-icon> Delete</button>
+      <button type="button" class="btn btn-secondary" (click)="onRestore()"><clr-icon shape="undo"></clr-icon> Restore</button>
+    </div>
+  </clr-dg-action-bar>
+
+  <clr-dg-column [clrDgField]="'name'">Username</clr-dg-column>
+  <clr-dg-column [clrDgField]="'email'">Email</clr-dg-column>
+  <clr-dg-column [clrDgField]="'firstName'">First name</clr-dg-column>
+  <clr-dg-column [clrDgField]="'lastName'">Last name</clr-dg-column>
+  <clr-dg-column [clrDgField]="'permissions'">Permissions</clr-dg-column>
+  <clr-dg-column [clrDgField]="'status'">Status</clr-dg-column>
+  <clr-dg-column [clrDgField]="'createdAt'">Created at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'updatedAt'">Last update</clr-dg-column>
+  <clr-dg-column [clrDgField]="'expiresAt'">Expires at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deletedAt'">Deleted?</clr-dg-column>
+
+  <clr-dg-row *ngFor="let user of users" [clrDgItem]="user">
+    <clr-dg-cell>{{user.name}}</clr-dg-cell>
+    <clr-dg-cell>{{user.email}}</clr-dg-cell>
+    <clr-dg-cell>{{user.firstName}}</clr-dg-cell>
+    <clr-dg-cell>{{user.lastName}}</clr-dg-cell>
+    <clr-dg-cell>{{user.permissions.join(', ')}}</clr-dg-cell>
+    <clr-dg-cell>{{user.status}}</clr-dg-cell>
+    <clr-dg-cell>{{user.createdAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{user.updatedAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{user.expiresAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{user.deletedAt | date:'short'}}</clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+    of {{total}} users
+    <clr-dg-pagination #pagination [clrDgTotalItems]="total"></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
+
+
+<clr-modal [(clrModalOpen)]="showCreateUser" [clrModalSize]="'md'">
+  <h3 class="modal-title">Create user</h3>
+  <div class="modal-body">
+    <admin-create-user (onFinish)='showCreateUser = false'></admin-create-user>
+  </div>
+</clr-modal>

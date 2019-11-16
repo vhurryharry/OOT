@@ -131,6 +131,37 @@ class Email implements JsonSerializable
         return $instance;
     }
 
+    public static function fromJson(array $row): Email
+    {
+        $instance = new Email();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['email'])) {
+            $instance->setEmail($row['email']);
+        }
+
+        if (isset($row['customer'])) {
+            $instance->setCustomer($row['customer']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['updatedAt'])) {
+            $instance->setUpdatedAt(new Carbon($row['updatedAt']));
+        }
+
+        if (isset($row['deletedAt'])) {
+            $instance->setDeletedAt(new Carbon($row['deletedAt']));
+        }
+
+        return $instance;
+    }
+
     public function toDatabase(): array
     {
         return [

@@ -310,7 +310,7 @@ class User implements UserInterface, JsonSerializable
         }
 
         if (isset($row['metadata'])) {
-            $instance->setMetadata(json_decode($row['metadata'], true));
+            $instance->setMetadata((array) json_decode($row['metadata'], true));
         }
 
         if (isset($row['status'])) {
@@ -367,6 +367,81 @@ class User implements UserInterface, JsonSerializable
 
         if (isset($row['permissions'])) {
             $instance->setPermissions(json_decode($row['permissions'], true));
+        }
+
+        return $instance;
+    }
+
+    public static function fromJson(array $row): User
+    {
+        $instance = new User();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['metadata'])) {
+            $instance->setMetadata($row['metadata']);
+        }
+
+        if (isset($row['status'])) {
+            $instance->setStatus($row['status']);
+        }
+
+        if (isset($row['confirmationToken'])) {
+            $instance->setConfirmationToken($row['confirmationToken']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['updatedAt'])) {
+            $instance->setUpdatedAt(new Carbon($row['updatedAt']));
+        }
+
+        if (isset($row['deletedAt'])) {
+            $instance->setDeletedAt(new Carbon($row['deletedAt']));
+        }
+
+        if (isset($row['expiresAt'])) {
+            $instance->setExpiresAt(new Carbon($row['expiresAt']));
+        }
+
+        if (isset($row['passwordExpiresAt'])) {
+            $instance->setPasswordExpiresAt(new Carbon($row['passwordExpiresAt']));
+        }
+
+        if (isset($row['name'])) {
+            $instance->setName($row['name']);
+        }
+
+        if (isset($row['email'])) {
+            $instance->setEmail($row['email']);
+        }
+
+        if (isset($row['firstName'])) {
+            $instance->setFirstName($row['firstName']);
+        }
+
+        if (isset($row['lastName'])) {
+            $instance->setLastName($row['lastName']);
+        }
+
+        if (isset($row['role'])) {
+            $instance->setRole($row['role']);
+        }
+
+        if (isset($row['password'])) {
+            $instance->setPassword($row['password']);
+        }
+
+        if (isset($row['mfa'])) {
+            $instance->setMfa($row['mfa']);
+        }
+
+        if (isset($row['permissions'])) {
+            $instance->setPermissions($row['permissions']);
         }
 
         return $instance;

@@ -169,6 +169,45 @@ class Document implements JsonSerializable
         return $instance;
     }
 
+    public static function fromJson(array $row): Document
+    {
+        $instance = new Document();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['title'])) {
+            $instance->setTitle($row['title']);
+        }
+
+        if (isset($row['content'])) {
+            $instance->setContent($row['content']);
+        }
+
+        if (isset($row['type'])) {
+            $instance->setType($row['type']);
+        }
+
+        if (isset($row['source'])) {
+            $instance->setSource($row['source']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['updatedAt'])) {
+            $instance->setUpdatedAt(new Carbon($row['updatedAt']));
+        }
+
+        if (isset($row['deletedAt'])) {
+            $instance->setDeletedAt(new Carbon($row['deletedAt']));
+        }
+
+        return $instance;
+    }
+
     public function toDatabase(): array
     {
         return [

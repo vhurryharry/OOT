@@ -169,6 +169,45 @@ class CustomerLoginHistory implements JsonSerializable
         return $instance;
     }
 
+    public static function fromJson(array $row): CustomerLoginHistory
+    {
+        $instance = new CustomerLoginHistory();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['customer'])) {
+            $instance->setCustomer($row['customer']);
+        }
+
+        if (isset($row['city'])) {
+            $instance->setCity($row['city']);
+        }
+
+        if (isset($row['country'])) {
+            $instance->setCountry($row['country']);
+        }
+
+        if (isset($row['latlng'])) {
+            $instance->setLatlng($row['latlng']);
+        }
+
+        if (isset($row['userAgent'])) {
+            $instance->setUserAgent($row['userAgent']);
+        }
+
+        if (isset($row['ip'])) {
+            $instance->setIp($row['ip']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        return $instance;
+    }
+
     public function toDatabase(): array
     {
         return [

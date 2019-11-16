@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+// Typography
+$clr-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+  'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+  'Segoe UI Symbol';
+
+$clr-monoFont: 'Inconsolata', 'Consolas', 'Monaco', monospace;
+$clr-table-fontsize: 0.75rem;
+$clr-thead-font-size: 0.75rem;
+
+$clr-p1-font-size: 0.8rem;
+$clr-p2-font-size: 0.75rem;
+$clr-p3-font-size: 0.75rem;
+$clr-p4-font-size: 0.75rem;
+$clr-p5-font-size: 0.75rem;
+$clr-p6-font-size: 0.75rem;
+
+// Clarity
+@import '../node_modules/@clr/ui/src/utils/components.clarity';

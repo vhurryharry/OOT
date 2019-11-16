@@ -347,7 +347,7 @@ class Address implements JsonSerializable
         }
 
         if (isset($row['metadata'])) {
-            $instance->setMetadata(json_decode($row['metadata'], true));
+            $instance->setMetadata((array) json_decode($row['metadata'], true));
         }
 
         if (isset($row['created_at'])) {
@@ -376,6 +376,93 @@ class Address implements JsonSerializable
 
         if (isset($row['last_name'])) {
             $instance->setLastName($row['last_name']);
+        }
+
+        if (isset($row['line1'])) {
+            $instance->setLine1($row['line1']);
+        }
+
+        if (isset($row['line2'])) {
+            $instance->setLine2($row['line2']);
+        }
+
+        if (isset($row['city'])) {
+            $instance->setCity($row['city']);
+        }
+
+        if (isset($row['state'])) {
+            $instance->setState($row['state']);
+        }
+
+        return $instance;
+    }
+
+    public static function fromJson(array $row): Address
+    {
+        $instance = new Address();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['country'])) {
+            $instance->setCountry($row['country']);
+        }
+
+        if (isset($row['zipcode'])) {
+            $instance->setZipcode($row['zipcode']);
+        }
+
+        if (isset($row['company'])) {
+            $instance->setCompany($row['company']);
+        }
+
+        if (isset($row['phone'])) {
+            $instance->setPhone($row['phone']);
+        }
+
+        if (isset($row['taxId'])) {
+            $instance->setTaxId($row['taxId']);
+        }
+
+        if (isset($row['docType'])) {
+            $instance->setDocType($row['docType']);
+        }
+
+        if (isset($row['docNumber'])) {
+            $instance->setDocNumber($row['docNumber']);
+        }
+
+        if (isset($row['metadata'])) {
+            $instance->setMetadata($row['metadata']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['updatedAt'])) {
+            $instance->setUpdatedAt(new Carbon($row['updatedAt']));
+        }
+
+        if (isset($row['type'])) {
+            $instance->setType($row['type']);
+        }
+
+        if (isset($row['deletedAt'])) {
+            $instance->setDeletedAt(new Carbon($row['deletedAt']));
+        }
+
+        if (isset($row['customer'])) {
+            $instance->setCustomer($row['customer']);
+        }
+
+        if (isset($row['firstName'])) {
+            $instance->setFirstName($row['firstName']);
+        }
+
+        if (isset($row['lastName'])) {
+            $instance->setLastName($row['lastName']);
         }
 
         if (isset($row['line1'])) {

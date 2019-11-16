@@ -1,12 +1,17 @@
+admin_api_customer:
+  resource: 'App\Admin\Controller\Api\CourseController'
+  type: annotation
+  prefix: /admin/api/course
+
+admin_api_user:
+  resource: 'App\Admin\Controller\Api\UserController'
+  type: annotation
+  prefix: /admin/api/user
+
 admin:
   resource: 'App\Admin\Controller\DefaultController'
   type: annotation
   prefix: /admin
-
-admin_api:
-  resource: 'App\Admin\Controller\Api\CourseController'
-  type: annotation
-  prefix: /admin/api
 
 course:
   resource: 'App\Controller\CourseController'

@@ -131,7 +131,7 @@ class Role implements JsonSerializable
         }
 
         if (isset($row['permissions'])) {
-            $instance->setPermissions(json_decode($row['permissions'], true));
+            $instance->setPermissions((array) json_decode($row['permissions'], true));
         }
 
         if (isset($row['created_at'])) {
@@ -144,6 +144,41 @@ class Role implements JsonSerializable
 
         if (isset($row['deleted_at'])) {
             $instance->setDeletedAt(new Carbon($row['deleted_at']));
+        }
+
+        return $instance;
+    }
+
+    public static function fromJson(array $row): Role
+    {
+        $instance = new Role();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['name'])) {
+            $instance->setName($row['name']);
+        }
+
+        if (isset($row['parent'])) {
+            $instance->setParent($row['parent']);
+        }
+
+        if (isset($row['permissions'])) {
+            $instance->setPermissions($row['permissions']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['updatedAt'])) {
+            $instance->setUpdatedAt(new Carbon($row['updatedAt']));
+        }
+
+        if (isset($row['deletedAt'])) {
+            $instance->setDeletedAt(new Carbon($row['deletedAt']));
         }
 
         return $instance;

@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Admin\Controller\Api;
 
 use App\Admin\Repository\State;
+use App\Admin\Security\User;
 use App\Database;
-use App\Entity\Course;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CourseController extends AbstractController
+class UserController extends AbstractController
 {
     /**
      * @var Database
@@ -30,20 +30,30 @@ class CourseController extends AbstractController
     public function search(Request $request)
     {
         $state = State::fromDatagrid($request->request->all());
-        $courses = $this->db->findAll(
-            'select * from course ' . $state->toQuery(),
+        $users = $this->db->findAll(
+            'select * from "user" ' . $state->toQuery(),
             $state->toQueryParams()
         );
 
         $items = [];
-        foreach ($courses as $course) {
-            $items[] = (Course::fromDatabase($course))->jsonSerialize();
+        foreach ($users as $user) {
+            $items[] = (User::fromDatabase($user))->jsonSerialize();
         }
 
         return new JsonResponse([
             'items' => $items,
-            'total' => $this->db->count('course'),
+            'total' => $this->db->count('user'),
         ]);
+    }
+
+    /**
+     * @Route("/create", methods={"POST"})
+     */
+    public function create(Request $request)
+    {
+        $this->db->insert('user', User::fromJson($request->request->all())->toDatabase());
+
+        return new JsonResponse();
     }
 
     /**
@@ -59,7 +69,7 @@ class CourseController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update course set deleted_at = now() where %s', implode('or ', $params)),
+            sprintf('update user set deleted_at = now() where %s', implode('or ', $params)),
             $ids
         );
 
@@ -79,7 +89,7 @@ class CourseController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update course set deleted_at = null where %s', implode('or ', $params)),
+            sprintf('update user set deleted_at = null where %s', implode('or ', $params)),
             $ids
         );
 
@@ -99,7 +109,7 @@ class CourseController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update course set deleted_at = null where %s', implode('or ', $params)),
+            sprintf('update user set deleted_at = null where %s', implode('or ', $params)),
             $ids
         );
 

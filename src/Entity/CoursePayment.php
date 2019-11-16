@@ -98,7 +98,7 @@ class CoursePayment implements JsonSerializable
         }
 
         if (isset($row['metadata'])) {
-            $instance->setMetadata(json_decode($row['metadata'], true));
+            $instance->setMetadata((array) json_decode($row['metadata'], true));
         }
 
         if (isset($row['customer'])) {
@@ -107,6 +107,33 @@ class CoursePayment implements JsonSerializable
 
         if (isset($row['created_at'])) {
             $instance->setCreatedAt(new Carbon($row['created_at']));
+        }
+
+        return $instance;
+    }
+
+    public static function fromJson(array $row): CoursePayment
+    {
+        $instance = new CoursePayment();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['transactionId'])) {
+            $instance->setTransactionId($row['transactionId']);
+        }
+
+        if (isset($row['metadata'])) {
+            $instance->setMetadata($row['metadata']);
+        }
+
+        if (isset($row['customer'])) {
+            $instance->setCustomer($row['customer']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
         }
 
         return $instance;

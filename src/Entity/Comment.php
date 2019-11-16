@@ -131,6 +131,37 @@ class Comment implements JsonSerializable
         return $instance;
     }
 
+    public static function fromJson(array $row): Comment
+    {
+        $instance = new Comment();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['entity'])) {
+            $instance->setEntity($row['entity']);
+        }
+
+        if (isset($row['author'])) {
+            $instance->setAuthor($row['author']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['updatedAt'])) {
+            $instance->setUpdatedAt(new Carbon($row['updatedAt']));
+        }
+
+        if (isset($row['deletedAt'])) {
+            $instance->setDeletedAt(new Carbon($row['deletedAt']));
+        }
+
+        return $instance;
+    }
+
     public function toDatabase(): array
     {
         return [

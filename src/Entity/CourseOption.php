@@ -162,7 +162,7 @@ class CourseOption implements JsonSerializable
         }
 
         if (isset($row['dates'])) {
-            $instance->setDates(json_decode($row['dates'], true));
+            $instance->setDates((array) json_decode($row['dates'], true));
         }
 
         if (isset($row['combo'])) {
@@ -183,6 +183,49 @@ class CourseOption implements JsonSerializable
 
         if (isset($row['deleted_at'])) {
             $instance->setDeletedAt(new Carbon($row['deleted_at']));
+        }
+
+        return $instance;
+    }
+
+    public static function fromJson(array $row): CourseOption
+    {
+        $instance = new CourseOption();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['title'])) {
+            $instance->setTitle($row['title']);
+        }
+
+        if (isset($row['price'])) {
+            $instance->setPrice($row['price']);
+        }
+
+        if (isset($row['dates'])) {
+            $instance->setDates($row['dates']);
+        }
+
+        if (isset($row['combo'])) {
+            $instance->setCombo($row['combo']);
+        }
+
+        if (isset($row['course'])) {
+            $instance->setCourse($row['course']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['updatedAt'])) {
+            $instance->setUpdatedAt(new Carbon($row['updatedAt']));
+        }
+
+        if (isset($row['deletedAt'])) {
+            $instance->setDeletedAt(new Carbon($row['deletedAt']));
         }
 
         return $instance;

@@ -245,6 +245,61 @@ class Pageview implements JsonSerializable
         return $instance;
     }
 
+    public static function fromJson(array $row): Pageview
+    {
+        $instance = new Pageview();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['tableName'])) {
+            $instance->setTableName($row['tableName']);
+        }
+
+        if (isset($row['tableId'])) {
+            $instance->setTableId($row['tableId']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['customer'])) {
+            $instance->setCustomer($row['customer']);
+        }
+
+        if (isset($row['city'])) {
+            $instance->setCity($row['city']);
+        }
+
+        if (isset($row['country'])) {
+            $instance->setCountry($row['country']);
+        }
+
+        if (isset($row['latlng'])) {
+            $instance->setLatlng($row['latlng']);
+        }
+
+        if (isset($row['userAgent'])) {
+            $instance->setUserAgent($row['userAgent']);
+        }
+
+        if (isset($row['ip'])) {
+            $instance->setIp($row['ip']);
+        }
+
+        if (isset($row['url'])) {
+            $instance->setUrl($row['url']);
+        }
+
+        if (isset($row['title'])) {
+            $instance->setTitle($row['title']);
+        }
+
+        return $instance;
+    }
+
     public function toDatabase(): array
     {
         return [

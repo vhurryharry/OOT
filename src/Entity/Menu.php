@@ -168,6 +168,45 @@ class Menu implements JsonSerializable
         return $instance;
     }
 
+    public static function fromJson(array $row): Menu
+    {
+        $instance = new Menu();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['title'])) {
+            $instance->setTitle($row['title']);
+        }
+
+        if (isset($row['link'])) {
+            $instance->setLink($row['link']);
+        }
+
+        if (isset($row['displayOrder'])) {
+            $instance->setDisplayOrder($row['displayOrder']);
+        }
+
+        if (isset($row['parent'])) {
+            $instance->setParent($row['parent']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['updatedAt'])) {
+            $instance->setUpdatedAt(new Carbon($row['updatedAt']));
+        }
+
+        if (isset($row['deletedAt'])) {
+            $instance->setDeletedAt(new Carbon($row['deletedAt']));
+        }
+
+        return $instance;
+    }
+
     public function toDatabase(): array
     {
         return [

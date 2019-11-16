@@ -168,6 +168,45 @@ class UserLoginHistory implements JsonSerializable
         return $instance;
     }
 
+    public static function fromJson(array $row): UserLoginHistory
+    {
+        $instance = new UserLoginHistory();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['user'])) {
+            $instance->setUser($row['user']);
+        }
+
+        if (isset($row['city'])) {
+            $instance->setCity($row['city']);
+        }
+
+        if (isset($row['country'])) {
+            $instance->setCountry($row['country']);
+        }
+
+        if (isset($row['latlng'])) {
+            $instance->setLatlng($row['latlng']);
+        }
+
+        if (isset($row['userAgent'])) {
+            $instance->setUserAgent($row['userAgent']);
+        }
+
+        if (isset($row['ip'])) {
+            $instance->setIp($row['ip']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        return $instance;
+    }
+
     public function toDatabase(): array
     {
         return [

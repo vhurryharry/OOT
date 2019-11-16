@@ -1,0 +1,43 @@
+<form clrForm [formGroup]="userForm" clrLayout="vertical" (ngSubmit)="onSubmit()">
+  <clr-input-container>
+    <label>Username</label>
+    <input clrInput type="text" formControlName="name" required />
+    <clr-control-error>The username is required</clr-control-error>
+  </clr-input-container>
+
+  <clr-input-container>
+    <label>Email</label>
+    <input clrInput type="email" formControlName="email" required />
+    <clr-control-error>The email is required</clr-control-error>
+  </clr-input-container>
+
+  <clr-input-container>
+    <label>First name</label>
+    <input clrInput type="text" formControlName="firstName" />
+  </clr-input-container>
+
+  <clr-input-container>
+    <label>Last name</label>
+    <input clrInput type="text" formControlName="lastName" />
+  </clr-input-container>
+
+  <clr-input-container>
+    <label>Password</label>
+    <input clrInput type="password" formControlName="password" required />
+    <clr-control-error>Password is required</clr-control-error>
+  </clr-input-container>
+
+  <div formArrayName="permissions">
+    <div *ngFor="let permission of permissions.controls; let i=index">
+      <clr-input-container>
+        <label>Permission</label>
+        <input clrInput type="text" [formControlName]="i" />
+      </clr-input-container>
+    </div>
+
+    <button type="button" class="btn btn-sm btn-secondary" (click)="addPermission()">Add permission</button>
+  </div>
+
+  <button class="btn btn-primary" type="submit" [disabled]="!userForm.valid" *ngIf="!loading">Submit</button>
+  <clr-spinner *ngIf="loading">Creating...</clr-spinner>
+</form>

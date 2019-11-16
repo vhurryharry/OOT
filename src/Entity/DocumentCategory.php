@@ -130,6 +130,37 @@ class DocumentCategory implements JsonSerializable
         return $instance;
     }
 
+    public static function fromJson(array $row): DocumentCategory
+    {
+        $instance = new DocumentCategory();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['name'])) {
+            $instance->setName($row['name']);
+        }
+
+        if (isset($row['parent'])) {
+            $instance->setParent($row['parent']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['updatedAt'])) {
+            $instance->setUpdatedAt(new Carbon($row['updatedAt']));
+        }
+
+        if (isset($row['deletedAt'])) {
+            $instance->setDeletedAt(new Carbon($row['deletedAt']));
+        }
+
+        return $instance;
+    }
+
     public function toDatabase(): array
     {
         return [

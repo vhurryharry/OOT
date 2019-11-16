@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use Carbon\Carbon;
 use JsonSerializable;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 class Course implements JsonSerializable
@@ -316,7 +315,7 @@ class Course implements JsonSerializable
         $instance = new Course();
 
         if (isset($row['id'])) {
-            $instance->setId(Uuid::fromString($row['id']));
+            $instance->setId($row['id']);
         }
 
         if (isset($row['program'])) {
@@ -324,7 +323,7 @@ class Course implements JsonSerializable
         }
 
         if (isset($row['metadata'])) {
-            $instance->setMetadata(json_decode($row['metadata'], true));
+            $instance->setMetadata((array) json_decode($row['metadata'], true));
         }
 
         if (isset($row['location'])) {
@@ -381,6 +380,93 @@ class Course implements JsonSerializable
 
         if (isset($row['meta_description'])) {
             $instance->setMetaDescription($row['meta_description']);
+        }
+
+        if (isset($row['thumbnail'])) {
+            $instance->setThumbnail($row['thumbnail']);
+        }
+
+        if (isset($row['hero'])) {
+            $instance->setHero($row['hero']);
+        }
+
+        if (isset($row['content'])) {
+            $instance->setContent($row['content']);
+        }
+
+        return $instance;
+    }
+
+    public static function fromJson(array $row): Course
+    {
+        $instance = new Course();
+
+        if (isset($row['id'])) {
+            $instance->setId($row['id']);
+        }
+
+        if (isset($row['program'])) {
+            $instance->setProgram($row['program']);
+        }
+
+        if (isset($row['metadata'])) {
+            $instance->setMetadata($row['metadata']);
+        }
+
+        if (isset($row['location'])) {
+            $instance->setLocation($row['location']);
+        }
+
+        if (isset($row['address'])) {
+            $instance->setAddress($row['address']);
+        }
+
+        if (isset($row['city'])) {
+            $instance->setCity($row['city']);
+        }
+
+        if (isset($row['startDate'])) {
+            $instance->setStartDate(new Carbon($row['startDate']));
+        }
+
+        if (isset($row['spots'])) {
+            $instance->setSpots($row['spots']);
+        }
+
+        if (isset($row['displayOrder'])) {
+            $instance->setDisplayOrder($row['displayOrder']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['updatedAt'])) {
+            $instance->setUpdatedAt(new Carbon($row['updatedAt']));
+        }
+
+        if (isset($row['slug'])) {
+            $instance->setSlug($row['slug']);
+        }
+
+        if (isset($row['deletedAt'])) {
+            $instance->setDeletedAt(new Carbon($row['deletedAt']));
+        }
+
+        if (isset($row['title'])) {
+            $instance->setTitle($row['title']);
+        }
+
+        if (isset($row['tagline'])) {
+            $instance->setTagline($row['tagline']);
+        }
+
+        if (isset($row['metaTitle'])) {
+            $instance->setMetaTitle($row['metaTitle']);
+        }
+
+        if (isset($row['metaDescription'])) {
+            $instance->setMetaDescription($row['metaDescription']);
         }
 
         if (isset($row['thumbnail'])) {
