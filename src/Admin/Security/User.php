@@ -428,10 +428,6 @@ class User implements UserInterface, JsonSerializable
             $instance->setLastName($row['lastName']);
         }
 
-        if (isset($row['role'])) {
-            $instance->setRole($row['role']);
-        }
-
         if (isset($row['password'])) {
             $instance->setPassword($row['password']);
         }
