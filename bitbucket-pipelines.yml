@@ -18,7 +18,7 @@ pipelines:
               - postgres
 
         - step:
-            name: Frontend tests
+            name: Integration tests
             image: node:latest
             caches:
               - node
@@ -26,6 +26,26 @@ pipelines:
               - npm install
               - npm test
               - npm run lint:check
+
+        - step:
+            name: Frontend tests
+            image: node:latest
+            caches:
+              - node
+            script:
+              - cd frontend
+              - npm install
+              - npm run lint
+
+        - step:
+            name: Admin tests
+            image: node:latest
+            caches:
+              - node
+            script:
+              - cd admin
+              - npm install
+              - npm run lint
 
     - step:
         name: Deploy to staging
