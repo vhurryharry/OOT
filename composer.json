@@ -62,7 +62,7 @@
       "bin/console lint:yaml config"
     ],
     "phpunit": "phpunit",
-    "phpstan": "phpstan analyze",
+    "phpstan": "phpstan analyze --debug -vvv --no-progress",
     "serve": "php bin/console server:run *:8080",
     "test": [
       "@lint:check",
