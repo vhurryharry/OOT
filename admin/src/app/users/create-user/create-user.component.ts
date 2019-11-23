@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { RepositoryService } from '../../repository.service';
 
@@ -6,12 +6,16 @@ import { RepositoryService } from '../../repository.service';
   selector: 'admin-create-user',
   templateUrl: './create-user.component.html'
 })
-export class CreateUserComponent {
+export class CreateUserComponent implements OnChanges {
   @Output()
   finished = new EventEmitter();
 
+  @Input()
+  update: any;
+
   loading = false;
   userForm = this.fb.group({
+    id: [''],
     name: ['', Validators.required],
     email: ['', Validators.required],
     firstName: [''],
@@ -24,6 +28,18 @@ export class CreateUserComponent {
 
   constructor(private fb: FormBuilder, private repository: RepositoryService) { }
 
+  ngOnChanges() {
+    if (this.update) {
+      this.loading = true;
+      this.repository
+        .find('user', this.update.id)
+        .subscribe((result: any) => {
+          this.loading = false;
+          this.userForm.patchValue(result);
+        });
+    }
+  }
+
   get permissions() {
     return this.userForm.get('permissions') as FormArray;
   }
@@ -34,11 +50,22 @@ export class CreateUserComponent {
 
   onSubmit() {
     this.loading = true;
-    this.repository
-      .create('user', this.userForm.value)
-      .subscribe((result: any) => {
-        this.loading = false;
-        this.finished.emit(this.userForm.value);
-      });
+
+    if (!this.update) {
+      delete this.userForm.value['id'];
+      this.repository
+        .create('user', this.userForm.value)
+        .subscribe((result: any) => {
+          this.loading = false;
+          this.finished.emit(this.userForm.value);
+        });
+    } else {
+      this.repository
+        .update('user', this.userForm.value)
+        .subscribe((result: any) => {
+          this.loading = false;
+          this.finished.emit(this.userForm.value);
+        });
+    }
   }
 }

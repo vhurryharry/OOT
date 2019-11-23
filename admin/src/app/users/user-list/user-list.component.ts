@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
 import { RepositoryService } from '../../repository.service';
+import { FileService } from '../../file.service';
 
 @Component({
   selector: 'admin-user-list',
@@ -11,13 +12,14 @@ export class UserListComponent implements OnInit {
 
   users = [];
   selected = [];
+  singleSelection = null;
   lastState = {};
   total: number;
   loading = true;
   showCreateUser = false;
   showEditUser = false;
 
-  constructor(private repository: RepositoryService) { }
+  constructor(private repository: RepositoryService, private fileService: FileService) { }
 
   ngOnInit() {
   }
@@ -40,7 +42,15 @@ export class UserListComponent implements OnInit {
   }
 
   onEdit() {
-    console.log(this.getSelectedIds());
+    this.singleSelection = this.selected[0];
+    this.showEditUser = true;
+  }
+
+  onContentUpdated() {
+    this.showCreateUser = false;
+    this.showEditUser = false;
+    this.refresh(this.lastState);
+    this.selected = [];
   }
 
   onDelete() {
@@ -64,11 +74,23 @@ export class UserListComponent implements OnInit {
   }
 
   onExportAll() {
-    console.log(this.selected);
+    this.loading = true;
+    this.repository
+      .export('user', this.getSelectedIds())
+      .subscribe((result: any) => {
+        this.fileService.saveAsCsv(result.csv, 'all_users.csv');
+        this.loading = false;
+      });
   }
 
   onExportSelected() {
-    console.log(this.selected);
+    this.loading = true;
+    this.repository
+      .export('user', this.getSelectedIds())
+      .subscribe((result: any) => {
+        this.fileService.saveAsCsv(result.csv, 'selected_users.csv');
+        this.loading = false;
+      });
   }
 
   getSelectedIds() {

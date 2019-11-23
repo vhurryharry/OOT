@@ -6,10 +6,12 @@ namespace App\Admin\Controller\Api;
 
 use App\Admin\Repository\State;
 use App\Admin\Security\User;
+use App\CsvExporter;
 use App\Database;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
@@ -19,9 +21,15 @@ class UserController extends AbstractController
      */
     protected $db;
 
-    public function __construct(Database $db)
+    /**
+     * @var CsvExporter
+     */
+    protected $csv;
+
+    public function __construct(Database $db, CsvExporter $csv)
     {
         $this->db = $db;
+        $this->csv = $csv;
     }
 
     /**
@@ -47,11 +55,34 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/find", methods={"POST"})
+     */
+    public function find(Request $request)
+    {
+        $user = $this->db->find('select * from "user" where id = ?', [$request->get('id')]);
+        if (!$user) {
+            throw new NotFoundHttpException();
+        }
+
+        return new JsonResponse(User::fromDatabase($user));
+    }
+
+    /**
      * @Route("/create", methods={"POST"})
      */
     public function create(Request $request)
     {
         $this->db->insert('user', User::fromJson($request->request->all())->toDatabase());
+
+        return new JsonResponse();
+    }
+
+    /**
+     * @Route("/update", methods={"POST"})
+     */
+    public function update(Request $request)
+    {
+        $this->db->update('user', User::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -69,7 +100,7 @@ class UserController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update user set deleted_at = now() where %s', implode('or ', $params)),
+            sprintf('update "user" set deleted_at = now() where %s', implode('or ', $params)),
             $ids
         );
 
@@ -89,7 +120,7 @@ class UserController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update user set deleted_at = null where %s', implode('or ', $params)),
+            sprintf('update "user" set deleted_at = null where %s', implode('or ', $params)),
             $ids
         );
 
@@ -108,11 +139,15 @@ class UserController extends AbstractController
             $params[] = 'id = ?';
         }
 
-        $this->db->execute(
-            sprintf('update user set deleted_at = null where %s', implode('or ', $params)),
-            $ids
-        );
+        if (empty($params)) {
+            $users = $this->db->findAll('select * from "user"');
+        } else {
+            $users = $this->db->findAll(
+                sprintf('select * from "user" where %s', implode('or ', $params)),
+                $ids
+            );
+        }
 
-        return new JsonResponse();
+        return new JsonResponse(['csv' => $this->csv->export($users)]);
     }
 }

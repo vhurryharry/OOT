@@ -11,6 +11,10 @@ export class RepositoryService {
     return this.http.post('/admin/api/' + module + '/search', {state});
   }
 
+  find(module, id) {
+    return this.http.post('/admin/api/' + module + '/find', {id});
+  }
+
   create(module, data) {
     return this.http.post('/admin/api/' + module + '/create', data);
   }
@@ -25,5 +29,9 @@ export class RepositoryService {
 
   restore(module, ids) {
     return this.http.post('/admin/api/' + module + '/restore', {ids});
+  }
+
+  export(module, ids) {
+    return this.http.post('/admin/api/' + module + '/export', {ids});
   }
 }

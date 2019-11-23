@@ -138,6 +138,27 @@ class Database
         );
     }
 
+    public function update(string $table, array $params): int
+    {
+        $params = array_filter($params);
+        $values = [];
+        $placeholders = [];
+
+        foreach ($params as $column => $value) {
+            $placeholders[] = sprintf('%s = :%s', $column, $column);
+            $values[':' . $column] = $value;
+        }
+
+        return $this->execute(
+            sprintf(
+                'update "%s" set %s where id = :id',
+                $table,
+                implode(',', $placeholders)
+            ),
+            $values
+        );
+    }
+
     public function beginTransaction(): void
     {
         $this->getConnection()->beginTransaction();

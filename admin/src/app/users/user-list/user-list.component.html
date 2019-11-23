@@ -12,6 +12,17 @@
       <button type="button" class="btn btn-secondary" (click)="onDelete()"><clr-icon shape="trash"></clr-icon> Delete</button>
       <button type="button" class="btn btn-secondary" (click)="onRestore()"><clr-icon shape="undo"></clr-icon> Restore</button>
     </div>
+
+    <clr-dropdown>
+      <button type="button" class="btn btn-secondary" clrDropdownTrigger>
+        Export
+        <clr-icon shape="caret down"></clr-icon>
+      </button>
+      <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
+        <button type="button" (click)="onExportAll()" clrDropdownItem>Export all</button>
+        <button type="button" (click)="onExportSelected()" [disabled]="selected.length === 0" clrDropdownItem>Export selected</button>
+      </clr-dropdown-menu>
+    </clr-dropdown>
   </clr-dg-action-bar>
 
   <clr-dg-column [clrDgField]="'name'">Username</clr-dg-column>
@@ -45,10 +56,16 @@
   </clr-dg-footer>
 </clr-datagrid>
 
-
 <clr-modal [(clrModalOpen)]="showCreateUser" [clrModalSize]="'md'">
   <h3 class="modal-title">Create user</h3>
   <div class="modal-body">
-    <admin-create-user (finished)='showCreateUser = false'></admin-create-user>
+    <admin-create-user (finished)='onContentUpdated()'></admin-create-user>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="showEditUser" [clrModalSize]="'md'">
+  <h3 class="modal-title">Edit user</h3>
+  <div class="modal-body">
+    <admin-create-user [(update)]="singleSelection" (finished)="onContentUpdated()"></admin-create-user>
   </div>
 </clr-modal>
