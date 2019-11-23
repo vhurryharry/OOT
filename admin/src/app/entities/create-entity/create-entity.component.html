@@ -1,0 +1,37 @@
+<form clrForm [formGroup]="entityForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+  <clr-input-container>
+    <label>Slug</label>
+    <input clrInput type="text" formControlName="slug" required />
+    <clr-control-error>The Slug is required</clr-control-error>
+  </clr-input-container>
+  <clr-input-container>
+    <label>Category</label>
+    <input clrInput type="text" formControlName="category" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>Title</label>
+    <input clrInput type="text" formControlName="title" required />
+    <clr-control-error>The Title is required</clr-control-error>
+  </clr-input-container>
+  <clr-input-container>
+    <label>Type</label>
+    <input clrInput type="text" formControlName="type" required />
+    <clr-control-error>The Type is required</clr-control-error>
+  </clr-input-container>
+  <clr-input-container>
+    <label>Content</label>
+    <input clrInput type="text" formControlName="content" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>Meta Title</label>
+    <input clrInput type="text" formControlName="metaTitle" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>Meta Description</label>
+    <input clrInput type="text" formControlName="metaDescription" />
+  </clr-input-container>
+
+  <button class="btn btn-primary" type="submit" [disabled]="!entityForm.valid" *ngIf="!loading">Submit</button>
+</form>
+
+<clr-spinner *ngIf="loading"></clr-spinner>

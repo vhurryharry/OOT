@@ -1,0 +1,65 @@
+<clr-datagrid
+  (clrDgRefresh)="refresh($event)"
+  [clrDgLoading]="loading"
+  [(clrDgSelected)]="selected">
+  <clr-dg-placeholder>No roles found.</clr-dg-placeholder>
+
+  <clr-dg-action-bar>
+    <button type="button" class="btn btn-secondary" (click)="onCreate()"><clr-icon shape="file"></clr-icon> Create role</button>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-secondary" (click)="onEdit()" *ngIf="selected.length == 1"><clr-icon shape="pencil"></clr-icon> Edit</button>
+      <button type="button" class="btn btn-secondary" (click)="onDelete()"><clr-icon shape="trash"></clr-icon> Delete</button>
+      <button type="button" class="btn btn-secondary" (click)="onRestore()"><clr-icon shape="undo"></clr-icon> Restore</button>
+    </div>
+
+    <clr-dropdown>
+      <button type="button" class="btn btn-secondary" clrDropdownTrigger>
+        Export
+        <clr-icon shape="caret down"></clr-icon>
+      </button>
+      <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
+        <button type="button" (click)="onExportAll()" clrDropdownItem>Export all</button>
+        <button type="button" (click)="onExportSelected()" [disabled]="selected.length === 0" clrDropdownItem>Export selected</button>
+      </clr-dropdown-menu>
+    </clr-dropdown>
+  </clr-dg-action-bar>
+
+    <clr-dg-column [clrDgField]="'id'">Id</clr-dg-column>
+    <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
+    <clr-dg-column [clrDgField]="'parent'">Parent</clr-dg-column>
+    <clr-dg-column [clrDgField]="'permissions'">Permissions</clr-dg-column>
+    <clr-dg-column [clrDgField]="'createdAt'">Created At</clr-dg-column>
+    <clr-dg-column [clrDgField]="'updatedAt'">Updated At</clr-dg-column>
+    <clr-dg-column [clrDgField]="'deletedAt'">Deleted At</clr-dg-column>
+  
+  <clr-dg-row *ngFor="let role of roles" [clrDgItem]="role">
+            <clr-dg-cell>{{role.id}}</clr-dg-cell>
+                <clr-dg-cell>{{role.name}}</clr-dg-cell>
+                <clr-dg-cell>{{role.parent}}</clr-dg-cell>
+                <clr-dg-cell>{{role.permissions}}</clr-dg-cell>
+                <clr-dg-cell>{{role.createdAt | date:'short'}}</clr-dg-cell>
+                <clr-dg-cell>{{role.updatedAt | date:'short'}}</clr-dg-cell>
+                <clr-dg-cell>{{role.deletedAt | date:'short'}}</clr-dg-cell>
+          </clr-dg-row>
+
+  <clr-dg-footer>
+    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+    of {{total}} roles
+    <clr-dg-pagination #pagination [clrDgTotalItems]="total"></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
+
+<clr-modal [(clrModalOpen)]="showCreateRole" [clrModalSize]="'md'">
+  <h3 class="modal-title">Create role</h3>
+  <div class="modal-body">
+    <admin-create-role (finished)='onContentUpdated()'></admin-create-role>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="showEditRole" [clrModalSize]="'md'">
+  <h3 class="modal-title">Edit role</h3>
+  <div class="modal-body">
+    <admin-create-role [(update)]="singleSelection" (finished)="onContentUpdated()"></admin-create-role>
+  </div>
+</clr-modal>

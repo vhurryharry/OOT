@@ -1,0 +1,69 @@
+<clr-datagrid
+  (clrDgRefresh)="refresh($event)"
+  [clrDgLoading]="loading"
+  [(clrDgSelected)]="selected">
+  <clr-dg-placeholder>No entities found.</clr-dg-placeholder>
+
+  <clr-dg-action-bar>
+    <button type="button" class="btn btn-secondary" (click)="onCreate()"><clr-icon shape="file"></clr-icon> Create entity</button>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-secondary" (click)="onEdit()" *ngIf="selected.length == 1"><clr-icon shape="pencil"></clr-icon> Edit</button>
+      <button type="button" class="btn btn-secondary" (click)="onDelete()"><clr-icon shape="trash"></clr-icon> Delete</button>
+      <button type="button" class="btn btn-secondary" (click)="onRestore()"><clr-icon shape="undo"></clr-icon> Restore</button>
+    </div>
+
+    <clr-dropdown>
+      <button type="button" class="btn btn-secondary" clrDropdownTrigger>
+        Export
+        <clr-icon shape="caret down"></clr-icon>
+      </button>
+      <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
+        <button type="button" (click)="onExportAll()" clrDropdownItem>Export all</button>
+        <button type="button" (click)="onExportSelected()" [disabled]="selected.length === 0" clrDropdownItem>Export selected</button>
+      </clr-dropdown-menu>
+    </clr-dropdown>
+  </clr-dg-action-bar>
+
+  <clr-dg-column [clrDgField]="'slug'">Slug</clr-dg-column>
+  <clr-dg-column [clrDgField]="'category'">Category</clr-dg-column>
+  <clr-dg-column [clrDgField]="'title'">Title</clr-dg-column>
+  <clr-dg-column [clrDgField]="'type'">Type</clr-dg-column>
+  <clr-dg-column [clrDgField]="'metaTitle'">Meta Title</clr-dg-column>
+  <clr-dg-column [clrDgField]="'metaDescription'">Meta Description</clr-dg-column>
+  <clr-dg-column [clrDgField]="'createdAt'">Created at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'updatedAt'">Updated at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deletedAt'">Deleted at</clr-dg-column>
+
+  <clr-dg-row *ngFor="let entity of entities" [clrDgItem]="entity">
+    <clr-dg-cell>{{entity.slug}}</clr-dg-cell>
+    <clr-dg-cell>{{entity.category}}</clr-dg-cell>
+    <clr-dg-cell>{{entity.title}}</clr-dg-cell>
+    <clr-dg-cell>{{entity.type}}</clr-dg-cell>
+    <clr-dg-cell>{{entity.metaTitle}}</clr-dg-cell>
+    <clr-dg-cell>{{entity.metaDescription}}</clr-dg-cell>
+    <clr-dg-cell>{{entity.createdAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{entity.updatedAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{entity.deletedAt | date:'short'}}</clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+    of {{total}} entities
+    <clr-dg-pagination #pagination [clrDgTotalItems]="total"></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
+
+<clr-modal [(clrModalOpen)]="showCreateEntity" [clrModalSize]="'md'">
+  <h3 class="modal-title">Create entity</h3>
+  <div class="modal-body">
+    <admin-create-entity (finished)='onContentUpdated()'></admin-create-entity>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="showEditEntity" [clrModalSize]="'md'">
+  <h3 class="modal-title">Edit entity</h3>
+  <div class="modal-body">
+    <admin-create-entity [(update)]="singleSelection" (finished)="onContentUpdated()"></admin-create-entity>
+  </div>
+</clr-modal>

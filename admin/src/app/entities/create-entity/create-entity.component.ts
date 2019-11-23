@@ -3,10 +3,10 @@ import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@ang
 import { RepositoryService } from '../../repository.service';
 
 @Component({
-  selector: 'admin-create-user',
-  templateUrl: './create-user.component.html'
+  selector: 'admin-create-entity',
+  templateUrl: './create-entity.component.html'
 })
-export class CreateUserComponent implements OnChanges {
+export class CreateEntityComponent implements OnChanges {
   @Output()
   finished = new EventEmitter();
 
@@ -14,16 +14,15 @@ export class CreateUserComponent implements OnChanges {
   update: any;
 
   loading = false;
-  userForm = this.fb.group({
+  entityForm = this.fb.group({
     id: [''],
-    name: ['', Validators.required],
-    email: ['', Validators.required],
-    firstName: [''],
-    lastName: [''],
-    password: ['', Validators.required],
-    permissions: this.fb.array([
-      this.fb.control('')
-    ])
+    slug: ['', Validators.required],
+    category: [''],
+    title: ['', Validators.required],
+    type: ['', Validators.required],
+    content: [''],
+    metaTitle: [''],
+    metaDescription: ['']
   });
 
   constructor(private fb: FormBuilder, private repository: RepositoryService) { }
@@ -32,39 +31,31 @@ export class CreateUserComponent implements OnChanges {
     if (this.update) {
       this.loading = true;
       this.repository
-        .find('user', this.update.id)
+        .find('entity', this.update.id)
         .subscribe((result: any) => {
           this.loading = false;
-          this.userForm.patchValue(result);
+          this.entityForm.patchValue(result);
         });
     }
-  }
-
-  get permissions() {
-    return this.userForm.get('permissions') as FormArray;
-  }
-
-  addPermission() {
-    this.permissions.push(this.fb.control(''));
   }
 
   onSubmit() {
     this.loading = true;
 
     if (!this.update) {
-      delete this.userForm.value.id;
+      delete this.entityForm.value.id;
       this.repository
-        .create('user', this.userForm.value)
+        .create('entity', this.entityForm.value)
         .subscribe((result: any) => {
           this.loading = false;
-          this.finished.emit(this.userForm.value);
+          this.finished.emit(this.entityForm.value);
         });
     } else {
       this.repository
-        .update('user', this.userForm.value)
+        .update('entity', this.entityForm.value)
         .subscribe((result: any) => {
           this.loading = false;
-          this.finished.emit(this.userForm.value);
+          this.finished.emit(this.entityForm.value);
         });
     }
   }

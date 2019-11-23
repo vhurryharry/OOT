@@ -1,0 +1,25 @@
+<form clrForm [formGroup]="documentForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+  <clr-input-container>
+    <label>Title</label>
+    <input clrInput type="text" formControlName="title" required />
+    <clr-control-error>The title is required</clr-control-error>
+  </clr-input-container>
+  <clr-input-container>
+    <label>Content</label>
+    <input clrInput type="text" formControlName="content" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>Type</label>
+    <input clrInput type="text" formControlName="type" required />
+    <clr-control-error>The type is required</clr-control-error>
+  </clr-input-container>
+  <clr-input-container>
+    <label>Source</label>
+    <input clrInput type="text" formControlName="source" required />
+    <clr-control-error>The source is required</clr-control-error>
+  </clr-input-container>
+
+  <button class="btn btn-primary" type="submit" [disabled]="!documentForm.valid" *ngIf="!loading">Submit</button>
+</form>
+
+<clr-spinner *ngIf="loading"></clr-spinner>

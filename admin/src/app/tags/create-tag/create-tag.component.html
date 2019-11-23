@@ -1,0 +1,25 @@
+<form clrForm [formGroup]="tagForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+    <clr-input-container>
+    <label>Id</label>
+    <input clrInput type="text" formControlName="id" required />
+        <clr-control-error>The Id is required</clr-control-error>
+      </clr-input-container>
+    <clr-input-container>
+    <label>Name</label>
+    <input clrInput type="text" formControlName="name" required />
+        <clr-control-error>The Name is required</clr-control-error>
+      </clr-input-container>
+    <clr-input-container>
+    <label>Created At</label>
+    <input clrInput type="text" formControlName="createdAt" required />
+        <clr-control-error>The Created At is required</clr-control-error>
+      </clr-input-container>
+    <clr-input-container>
+    <label>Deleted At</label>
+    <input clrInput type="text" formControlName="deletedAt" />
+      </clr-input-container>
+  
+  <button class="btn btn-primary" type="submit" [disabled]="!tagForm.valid" *ngIf="!loading">Submit</button>
+</form>
+
+<clr-spinner *ngIf="loading"></clr-spinner>

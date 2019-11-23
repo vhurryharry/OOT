@@ -1,0 +1,23 @@
+<form clrForm [formGroup]="menuForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+  <clr-input-container>
+    <label>Title</label>
+    <input clrInput type="text" formControlName="title" required />
+    <clr-control-error>The Title is required</clr-control-error>
+  </clr-input-container>
+  <clr-input-container>
+    <label>Link</label>
+    <input clrInput type="text" formControlName="link" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>Display Order</label>
+    <input clrInput type="text" formControlName="displayOrder" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>Parent</label>
+    <input clrInput type="text" formControlName="parent" />
+  </clr-input-container>
+
+  <button class="btn btn-primary" type="submit" [disabled]="!menuForm.valid" *ngIf="!loading">Submit</button>
+</form>
+
+<clr-spinner *ngIf="loading"></clr-spinner>

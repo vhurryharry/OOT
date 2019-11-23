@@ -1,7 +1,52 @@
-admin_api_customer:
+admin_api_audit_log:
+  resource: 'App\Admin\Controller\Api\AuditLogController'
+  type: annotation
+  prefix: /admin/api/audit-log
+
+admin_api_category:
+  resource: 'App\Admin\Controller\Api\CategoryController'
+  type: annotation
+  prefix: /admin/api/category
+
+admin_api_course:
   resource: 'App\Admin\Controller\Api\CourseController'
   type: annotation
   prefix: /admin/api/course
+
+admin_api_document:
+  resource: 'App\Admin\Controller\Api\DocumentController'
+  type: annotation
+  prefix: /admin/api/document
+
+admin_api_entity:
+  resource: 'App\Admin\Controller\Api\EntityController'
+  type: annotation
+  prefix: /admin/api/entity
+
+admin_api_faq:
+  resource: 'App\Admin\Controller\Api\FaqController'
+  type: annotation
+  prefix: /admin/api/faq
+
+admin_api_menu:
+  resource: 'App\Admin\Controller\Api\MenuController'
+  type: annotation
+  prefix: /admin/api/menu
+
+admin_api_notification:
+  resource: 'App\Admin\Controller\Api\NotificationController'
+  type: annotation
+  prefix: /admin/api/notification
+
+admin_api_role:
+  resource: 'App\Admin\Controller\Api\RoleController'
+  type: annotation
+  prefix: /admin/api/role
+
+admin_api_tag:
+  resource: 'App\Admin\Controller\Api\TagController'
+  type: annotation
+  prefix: /admin/api/tag
 
 admin_api_user:
   resource: 'App\Admin\Controller\Api\UserController'

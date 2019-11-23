@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use Carbon\Carbon;
 use JsonSerializable;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 class Entity implements JsonSerializable
@@ -195,7 +196,7 @@ class Entity implements JsonSerializable
         $instance = new Entity();
 
         if (isset($row['id'])) {
-            $instance->setId($row['id']);
+            $instance->setId(Uuid::fromString($row['id']));
         }
 
         if (isset($row['created_at'])) {
@@ -250,7 +251,7 @@ class Entity implements JsonSerializable
         $instance = new Entity();
 
         if (isset($row['id'])) {
-            $instance->setId($row['id']);
+            $instance->setId(Uuid::fromString($row['id']));
         }
 
         if (isset($row['createdAt'])) {
