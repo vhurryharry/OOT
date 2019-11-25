@@ -1,0 +1,59 @@
+<form clrForm [formGroup]="studentForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+  <clr-input-container>
+    <label>Status</label>
+    <input clrInput type="text" formControlName="status" required />
+    <clr-control-error>The Status is required</clr-control-error>
+  </clr-input-container>
+  <clr-input-container>
+    <label>Confirmation Token</label>
+    <input clrInput type="text" formControlName="confirmationToken" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>Accepts Marketing</label>
+    <input clrInput type="text" formControlName="acceptsMarketing" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>Expires At</label>
+    <input clrInput type="text" formControlName="expiresAt" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>Login</label>
+    <input clrInput type="text" formControlName="login" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>Password Expires At</label>
+    <input clrInput type="text" formControlName="passwordExpiresAt" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>First Name</label>
+    <input clrInput type="text" formControlName="firstName" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>Last Name</label>
+    <input clrInput type="text" formControlName="lastName" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>Tagline</label>
+    <input clrInput type="text" formControlName="tagline" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>Occupation</label>
+    <input clrInput type="text" formControlName="occupation" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>Birth Date</label>
+    <input clrInput type="text" formControlName="birthDate" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>Password</label>
+    <input clrInput type="text" formControlName="password" />
+  </clr-input-container>
+  <clr-input-container>
+    <label>MFA</label>
+    <input clrInput type="text" formControlName="mfa" />
+  </clr-input-container>
+
+  <button class="btn btn-primary" type="submit" [disabled]="!studentForm.valid" *ngIf="!loading">Submit</button>
+</form>
+
+<clr-spinner *ngIf="loading"></clr-spinner>

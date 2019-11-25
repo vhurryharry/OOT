@@ -25,17 +25,15 @@
     </clr-dropdown>
   </clr-dg-action-bar>
 
-    <clr-dg-column [clrDgField]="'id'">Id</clr-dg-column>
-    <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
-    <clr-dg-column [clrDgField]="'createdAt'">Created At</clr-dg-column>
-    <clr-dg-column [clrDgField]="'deletedAt'">Deleted At</clr-dg-column>
-  
+  <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
+  <clr-dg-column [clrDgField]="'createdAt'">Created at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deletedAt'">Deleted at</clr-dg-column>
+
   <clr-dg-row *ngFor="let tag of tags" [clrDgItem]="tag">
-            <clr-dg-cell>{{tag.id}}</clr-dg-cell>
-                <clr-dg-cell>{{tag.name}}</clr-dg-cell>
-                <clr-dg-cell>{{tag.createdAt | date:'short'}}</clr-dg-cell>
-                <clr-dg-cell>{{tag.deletedAt | date:'short'}}</clr-dg-cell>
-          </clr-dg-row>
+    <clr-dg-cell>{{tag.name}}</clr-dg-cell>
+    <clr-dg-cell>{{tag.createdAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{tag.deletedAt | date:'short'}}</clr-dg-cell>
+  </clr-dg-row>
 
   <clr-dg-footer>
     {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}

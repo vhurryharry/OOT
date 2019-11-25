@@ -25,23 +25,21 @@
     </clr-dropdown>
   </clr-dg-action-bar>
 
-    <clr-dg-column [clrDgField]="'id'">Id</clr-dg-column>
-    <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
-    <clr-dg-column [clrDgField]="'parent'">Parent</clr-dg-column>
-    <clr-dg-column [clrDgField]="'permissions'">Permissions</clr-dg-column>
-    <clr-dg-column [clrDgField]="'createdAt'">Created At</clr-dg-column>
-    <clr-dg-column [clrDgField]="'updatedAt'">Updated At</clr-dg-column>
-    <clr-dg-column [clrDgField]="'deletedAt'">Deleted At</clr-dg-column>
-  
+  <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
+  <clr-dg-column [clrDgField]="'parent'">Parent</clr-dg-column>
+  <clr-dg-column [clrDgField]="'permissions'">Permissions</clr-dg-column>
+  <clr-dg-column [clrDgField]="'createdAt'">Created at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'updatedAt'">Updated at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deletedAt'">Deleted at</clr-dg-column>
+
   <clr-dg-row *ngFor="let role of roles" [clrDgItem]="role">
-            <clr-dg-cell>{{role.id}}</clr-dg-cell>
-                <clr-dg-cell>{{role.name}}</clr-dg-cell>
-                <clr-dg-cell>{{role.parent}}</clr-dg-cell>
-                <clr-dg-cell>{{role.permissions}}</clr-dg-cell>
-                <clr-dg-cell>{{role.createdAt | date:'short'}}</clr-dg-cell>
-                <clr-dg-cell>{{role.updatedAt | date:'short'}}</clr-dg-cell>
-                <clr-dg-cell>{{role.deletedAt | date:'short'}}</clr-dg-cell>
-          </clr-dg-row>
+    <clr-dg-cell>{{role.name}}</clr-dg-cell>
+    <clr-dg-cell>{{role.parent}}</clr-dg-cell>
+    <clr-dg-cell>{{role.permissions.join(', ')}}</clr-dg-cell>
+    <clr-dg-cell>{{role.createdAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{role.updatedAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{role.deletedAt | date:'short'}}</clr-dg-cell>
+  </clr-dg-row>
 
   <clr-dg-footer>
     {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}

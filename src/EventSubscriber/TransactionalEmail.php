@@ -10,8 +10,8 @@ use App\Event\CustomerRegistered;
 use App\Event\OrderPlaced;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Mime\NamedAddress;
 use Twig\Environment;
 
 class TransactionalEmail implements EventSubscriberInterface
@@ -57,7 +57,7 @@ class TransactionalEmail implements EventSubscriberInterface
         $htmlTemplate = $this->twig->createTemplate($notification['content_rich']);
 
         $email = (new Email())
-            ->from(new NamedAddress($notification['from_email'], $notification['from_name']))
+            ->from(new Address($notification['from_email'], $notification['from_name']))
             ->to($customer->getEmail())
             ->subject($notification['title'])
             ->text($textTemplate->render(['customer' => $customer]))

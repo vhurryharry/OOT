@@ -391,6 +391,85 @@ class Customer implements UserInterface, JsonSerializable
         $this->mfa = $mfa;
     }
 
+    public static function fromJson(array $row): Customer
+    {
+        $instance = new Customer($row['login'], Uuid::fromString($row['id']));
+
+        if (isset($row['metadata'])) {
+            $instance->setMetadata($row['metadata']);
+        }
+
+        if (isset($row['type'])) {
+            $instance->setType($row['type']);
+        }
+
+        if (isset($row['status'])) {
+            $instance->setStatus($row['status']);
+        }
+
+        if (isset($row['confirmationToken'])) {
+            $instance->setConfirmationToken($row['confirmationToken']);
+        }
+
+        if (isset($row['acceptsMarketing'])) {
+            $instance->setAcceptsMarketing($row['acceptsMarketing']);
+        }
+
+        if (isset($row['createdAt'])) {
+            $instance->setCreatedAt(new Carbon($row['createdAt']));
+        }
+
+        if (isset($row['registeredAt'])) {
+            $instance->setRegisteredAt(new Carbon($row['registeredAt']));
+        }
+
+        if (isset($row['updatedAt'])) {
+            $instance->setUpdatedAt(new Carbon($row['updatedAt']));
+        }
+
+        if (isset($row['deletedAt'])) {
+            $instance->setDeletedAt(new Carbon($row['deletedAt']));
+        }
+
+        if (isset($row['expiresAt'])) {
+            $instance->setExpiresAt(new Carbon($row['expiresAt']));
+        }
+
+        if (isset($row['passwordExpiresAt'])) {
+            $instance->setPasswordExpiresAt(new Carbon($row['passwordExpiresAt']));
+        }
+
+        if (isset($row['firstName'])) {
+            $instance->setFirstName($row['firstName']);
+        }
+
+        if (isset($row['lastName'])) {
+            $instance->setLastName($row['lastName']);
+        }
+
+        if (isset($row['tagline'])) {
+            $instance->setTagline($row['tagline']);
+        }
+
+        if (isset($row['occupation'])) {
+            $instance->setOccupation($row['occupation']);
+        }
+
+        if (isset($row['birthDate'])) {
+            $instance->setBirthDate(new Carbon($row['birthDate']));
+        }
+
+        if (isset($row['password'])) {
+            $instance->setPassword($row['password']);
+        }
+
+        if (isset($row['mfa'])) {
+            $instance->setMfa($row['mfa']);
+        }
+
+        return $instance;
+    }
+
     public static function fromDatabase(array $row): Customer
     {
         $instance = new Customer($row['login'], Uuid::fromString($row['id']));

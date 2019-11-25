@@ -15,14 +15,11 @@ export class CreateRoleComponent implements OnChanges {
 
   loading = false;
   roleForm = this.fb.group({
-        id: ['', Validators.required],
-        name: ['', Validators.required],
-        parent: ['', ],
-        permissions: ['', ],
-        createdAt: ['', Validators.required],
-        updatedAt: ['', Validators.required],
-        deletedAt: ['', ],
-      });
+    id: [''],
+    name: ['', Validators.required],
+    parent: ['', ],
+    permissions: ['', ],
+  });
 
   constructor(private fb: FormBuilder, private repository: RepositoryService) { }
 

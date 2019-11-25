@@ -12,6 +12,9 @@ import { DocumentListComponent } from './documents/document-list/document-list.c
 import { UserListComponent } from './users/user-list/user-list.component';
 import { RoleListComponent } from './roles/role-list/role-list.component';
 import { AuditLogListComponent } from './audit-logs/audit-log-list/audit-log-list.component';
+import { StudentListComponent } from './students/student-list/student-list.component';
+import { InstructorListComponent } from './instructors/instructor-list/instructor-list.component';
+import { OrderListComponent } from './orders/order-list/order-list.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -24,6 +27,11 @@ const routes: Routes = [
   { path: 'tags', component: TagListComponent },
   { path: 'menus', component: MenuListComponent },
   { path: 'faqs', component: FaqListComponent },
+
+  // Business
+  { path: 'students', component: StudentListComponent },
+  { path: 'instructors', component: InstructorListComponent },
+  { path: 'orders', component: OrderListComponent },
 
   // System
   { path: 'users', component: UserListComponent },

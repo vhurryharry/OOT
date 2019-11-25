@@ -52,6 +52,17 @@ import { CreateRoleComponent } from './roles/create-role/create-role.component';
 // Audit
 import { AuditLogListComponent } from './audit-logs/audit-log-list/audit-log-list.component';
 
+// Students
+import { StudentListComponent } from './students/student-list/student-list.component';
+import { CreateStudentComponent } from './students/create-student/create-student.component';
+
+// Instructors
+import { InstructorListComponent } from './instructors/instructor-list/instructor-list.component';
+import { CreateInstructorComponent } from './instructors/create-instructor/create-instructor.component';
+
+// Orders
+import { OrderListComponent } from './orders/order-list/order-list.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,6 +88,11 @@ import { AuditLogListComponent } from './audit-logs/audit-log-list/audit-log-lis
     RoleListComponent,
     CreateRoleComponent,
     AuditLogListComponent,
+    StudentListComponent,
+    CreateStudentComponent,
+    InstructorListComponent,
+    CreateInstructorComponent,
+    OrderListComponent,
   ],
   imports: [
     BrowserModule,

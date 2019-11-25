@@ -17,6 +17,14 @@
       <a
         class="nav-link"
         routerLink=""
+        (click)="switchModule('business')"
+        [ngClass]="{'active': currentModule == 'business'}"
+        >
+        <span class="nav-text">Business</span>
+      </a>
+      <a
+        class="nav-link"
+        routerLink=""
         (click)="switchModule('system')"
         [ngClass]="{'active': currentModule == 'system'}"
         >
@@ -64,6 +72,20 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/faqs" routerLinkActive="active">FAQs</a>
+      </li>
+    </ul>
+  </nav>
+
+  <nav class="subnav" *ngIf="currentModule == 'business'">
+    <ul class="nav">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/students" routerLinkActive="active">Students</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/instructors" routerLinkActive="active">Instructors</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/orders" routerLinkActive="active">Orders</a>
       </li>
     </ul>
   </nav>

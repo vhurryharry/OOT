@@ -3,29 +3,36 @@ import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@ang
 import { RepositoryService } from '../../repository.service';
 
 @Component({
-  selector: 'admin-create-notification',
-  templateUrl: './create-notification.component.html'
+  selector: 'admin-create-student',
+  templateUrl: './create-student.component.html'
 })
-export class CreateNotificationComponent implements OnChanges {
+export class CreateStudentComponent implements OnChanges {
   @Output()
   finished = new EventEmitter();
 
   @Input()
   update: any;
 
+  @Input()
+  type: string;
+
   loading = false;
-  notificationForm = this.fb.group({
-        id: [''],
-        course: ['', ],
-        title: ['', Validators.required],
-        content: ['', ],
-        contentRich: ['', ],
-        type: ['', Validators.required],
-        event: ['', Validators.required],
-        fromEmail: ['', ],
-        fromName: ['', ],
-        fromNumber: ['', ],
-      });
+  studentForm = this.fb.group({
+    id: [''],
+    status: ['', Validators.required],
+    confirmationToken: ['', ],
+    acceptsMarketing: ['', ],
+    expiresAt: ['', ],
+    login: ['', ],
+    passwordExpiresAt: ['', ],
+    firstName: ['', ],
+    lastName: ['', ],
+    tagline: ['', ],
+    occupation: ['', ],
+    birthDate: ['', ],
+    password: ['', ],
+    mfa: ['', ],
+  });
 
   constructor(private fb: FormBuilder, private repository: RepositoryService) { }
 
@@ -33,31 +40,33 @@ export class CreateNotificationComponent implements OnChanges {
     if (this.update) {
       this.loading = true;
       this.repository
-        .find('notification', this.update.id)
+        .find('student', this.update.id)
         .subscribe((result: any) => {
           this.loading = false;
-          this.notificationForm.patchValue(result);
+          this.studentForm.patchValue(result);
         });
     }
   }
 
   onSubmit() {
     this.loading = true;
+    const payload = this.studentForm.value;
+    payload.type = 'student';
 
     if (!this.update) {
-      delete this.notificationForm.value.id;
+      delete payload.id;
       this.repository
-        .create('notification', this.notificationForm.value)
+        .create('student', payload)
         .subscribe((result: any) => {
           this.loading = false;
-          this.finished.emit(this.notificationForm.value);
+          this.finished.emit(payload);
         });
     } else {
       this.repository
-        .update('notification', this.notificationForm.value)
+        .update('student', payload)
         .subscribe((result: any) => {
           this.loading = false;
-          this.finished.emit(this.notificationForm.value);
+          this.finished.emit(payload);
         });
     }
   }

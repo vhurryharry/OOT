@@ -53,6 +53,16 @@ admin_api_user:
   type: annotation
   prefix: /admin/api/user
 
+admin_api_customer:
+  resource: 'App\Admin\Controller\Api\CustomerController'
+  type: annotation
+  prefix: /admin/api/customer
+
+admin_api_order:
+  resource: 'App\Admin\Controller\Api\OrderController'
+  type: annotation
+  prefix: /admin/api/order
+
 admin:
   resource: 'App\Admin\Controller\DefaultController'
   type: annotation

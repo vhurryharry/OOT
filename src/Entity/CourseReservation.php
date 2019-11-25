@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use Carbon\Carbon;
 use JsonSerializable;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 class CourseReservation implements JsonSerializable
@@ -215,11 +216,11 @@ class CourseReservation implements JsonSerializable
         }
 
         if (isset($row['course_id'])) {
-            $instance->setCourseId($row['course_id']);
+            $instance->setCourseId(Uuid::fromString($row['course_id']));
         }
 
         if (isset($row['customer_id'])) {
-            $instance->setCustomerId($row['customer_id']);
+            $instance->setCustomerId(Uuid::fromString($row['customer_id']));
         }
 
         if (isset($row['status'])) {
@@ -270,11 +271,11 @@ class CourseReservation implements JsonSerializable
         }
 
         if (isset($row['courseId'])) {
-            $instance->setCourseId($row['courseId']);
+            $instance->setCourseId(Uuid::fromString($row['courseId']));
         }
 
         if (isset($row['customerId'])) {
-            $instance->setCustomerId($row['customerId']);
+            $instance->setCustomerId(Uuid::fromString($row['customerId']));
         }
 
         if (isset($row['status'])) {

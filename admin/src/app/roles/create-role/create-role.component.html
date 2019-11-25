@@ -1,37 +1,18 @@
 <form clrForm [formGroup]="roleForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
-    <clr-input-container>
-    <label>Id</label>
-    <input clrInput type="text" formControlName="id" required />
-        <clr-control-error>The Id is required</clr-control-error>
-      </clr-input-container>
-    <clr-input-container>
+  <clr-input-container>
     <label>Name</label>
     <input clrInput type="text" formControlName="name" required />
-        <clr-control-error>The Name is required</clr-control-error>
-      </clr-input-container>
-    <clr-input-container>
+    <clr-control-error>The Name is required</clr-control-error>
+  </clr-input-container>
+  <clr-input-container>
     <label>Parent</label>
     <input clrInput type="text" formControlName="parent" />
-      </clr-input-container>
-    <clr-input-container>
+  </clr-input-container>
+  <clr-input-container>
     <label>Permissions</label>
     <input clrInput type="text" formControlName="permissions" />
-      </clr-input-container>
-    <clr-input-container>
-    <label>Created At</label>
-    <input clrInput type="text" formControlName="createdAt" required />
-        <clr-control-error>The Created At is required</clr-control-error>
-      </clr-input-container>
-    <clr-input-container>
-    <label>Updated At</label>
-    <input clrInput type="text" formControlName="updatedAt" required />
-        <clr-control-error>The Updated At is required</clr-control-error>
-      </clr-input-container>
-    <clr-input-container>
-    <label>Deleted At</label>
-    <input clrInput type="text" formControlName="deletedAt" />
-      </clr-input-container>
-  
+  </clr-input-container>
+
   <button class="btn btn-primary" type="submit" [disabled]="!roleForm.valid" *ngIf="!loading">Submit</button>
 </form>
 
