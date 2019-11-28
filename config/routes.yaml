@@ -13,6 +13,11 @@ admin_api_course:
   type: annotation
   prefix: /admin/api/course
 
+admin_api_course_option:
+  resource: 'App\Admin\Controller\Api\CourseOptionController'
+  type: annotation
+  prefix: /admin/api/course/options
+
 admin_api_document:
   resource: 'App\Admin\Controller\Api\DocumentController'
   type: annotation

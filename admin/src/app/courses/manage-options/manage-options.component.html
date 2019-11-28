@@ -27,6 +27,31 @@
 </clr-datagrid>
 
 <form clrForm [formGroup]="optionForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+  <clr-input-container>
+    <label>Title</label>
+    <input clrInput type="text" formControlName="title" required />
+    <clr-control-error>The title is required</clr-control-error>
+  </clr-input-container>
+  <clr-input-container>
+    <label>Price</label>
+    <input clrInput type="number" min="1" step="any" formControlName="price" required />
+    <clr-control-error>The price is required</clr-control-error>
+  </clr-input-container>
+  <clr-toggle-wrapper>
+    <label>Is this a combo option?</label>
+    <input type="checkbox" clrToggle formControlName="combo" />
+  </clr-toggle-wrapper>
+
+  <div formArrayName="dates">
+    <div *ngFor="let date of dates.controls; let i=index">
+      <clr-date-container>
+        <label>Course date</label>
+        <input type="date" clrDate [formControlName]="i" />
+      </clr-date-container>
+    </div>
+
+    <button type="button" class="btn btn-sm btn-secondary" (click)="addDate()">Add date</button>
+  </div>
 
   <button class="btn btn-primary pull-right" type="submit" [disabled]="!optionForm.valid" *ngIf="!loading">Add</button>
 </form>

@@ -15,9 +15,12 @@ export class ManageOptionsComponent implements OnChanges {
   options = [];
   optionForm = this.fb.group({
     id: [''],
-    name: ['', Validators.required],
-    parent: ['', ],
-    permissions: ['', ],
+    title: ['', Validators.required],
+    price: ['', Validators.required],
+    combo: [false],
+    dates: this.fb.array([
+      this.fb.control('')
+    ])
   });
 
   constructor(private fb: FormBuilder, private repository: RepositoryService) { }
@@ -39,20 +42,41 @@ export class ManageOptionsComponent implements OnChanges {
 
   onSubmit() {
     this.loading = true;
+    const payload = this.optionForm.value;
+    payload.course = this.update.id;
 
     if (!this.update) {
-      delete this.optionForm.value.id;
+      delete payload.id;
       this.repository
-        .create('course/options', this.optionForm.value)
+        .create('course/options', payload)
         .subscribe((result: any) => {
           this.loading = false;
+          this.ngOnChanges();
         });
     } else {
       this.repository
-        .update('course/options', this.optionForm.value)
+        .update('course/options', payload)
         .subscribe((result: any) => {
           this.loading = false;
+          this.ngOnChanges();
         });
     }
+  }
+
+  onRemove(id) {
+    this.loading = true;
+    this.repository
+      .delete('course', [id])
+      .subscribe((result: any) => {
+        this.ngOnChanges();
+      });
+  }
+
+  get dates() {
+    return this.optionForm.get('dates') as FormArray;
+  }
+
+  addDate() {
+    this.dates.push(this.fb.control(''));
   }
 }

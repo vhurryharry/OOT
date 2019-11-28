@@ -8,7 +8,6 @@ use App\Admin\Repository\State;
 use App\CsvExporter;
 use App\Database;
 use App\Entity\Course;
-use App\Entity\CourseOption;
 use App\Security\Customer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -81,21 +80,6 @@ class CourseController extends AbstractController
             $item = (Customer::fromDatabase($instructor))->jsonSerialize();
             $relation = ['relation' => $instructor['relation']];
             $result[] = array_merge($item, $relation);
-        }
-
-        return new JsonResponse($result);
-    }
-
-    /**
-     * @Route("/options/find", methods={"POST"})
-     */
-    public function findOptions(Request $request)
-    {
-        $options = $this->db->findAll('select * from course_option where course = ?', [$request->get('id')]);
-
-        $result = [];
-        foreach ($options as $option) {
-            $result[] = (CourseOption::fromDatabase($option))->jsonSerialize();
         }
 
         return new JsonResponse($result);
