@@ -39,6 +39,12 @@ class Category implements JsonSerializable
      */
     protected $deletedAt;
 
+    public function __construct()
+    {
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = $this->createdAt;
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -142,8 +148,8 @@ class Category implements JsonSerializable
             $instance->setName($row['name']);
         }
 
-        if (isset($row['parent'])) {
-            $instance->setParent($row['parent']);
+        if (isset($row['parent']) && !empty($row['parent'])) {
+            $instance->setParent((int) $row['parent']);
         }
 
         if (isset($row['createdAt'])) {

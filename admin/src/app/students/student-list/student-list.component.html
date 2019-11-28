@@ -34,11 +34,9 @@
   <clr-dg-column [clrDgField]="'registeredAt'">Registered at</clr-dg-column>
   <clr-dg-column [clrDgField]="'updatedAt'">Updated at</clr-dg-column>
   <clr-dg-column [clrDgField]="'deletedAt'">Deleted at</clr-dg-column>
-  <clr-dg-column [clrDgField]="'tagline'">Tagline</clr-dg-column>
-  <clr-dg-column [clrDgField]="'occupation'">Occupation</clr-dg-column>
   <clr-dg-column [clrDgField]="'birthDate'">Birth Date</clr-dg-column>
 
-  <clr-dg-row *ngFor="let student of students" [clrDgItem]="student">
+  <clr-dg-row *ngFor="let student of students" [clrDgItem]="student" [ngClass]="{'deleted-row': student.deletedAt != null}">
     <clr-dg-cell>{{student.firstName}}</clr-dg-cell>
     <clr-dg-cell>{{student.lastName}}</clr-dg-cell>
     <clr-dg-cell>{{student.login}}</clr-dg-cell>
@@ -48,8 +46,6 @@
     <clr-dg-cell>{{student.registeredAt | date:'short'}}</clr-dg-cell>
     <clr-dg-cell>{{student.updatedAt | date:'short'}}</clr-dg-cell>
     <clr-dg-cell>{{student.deletedAt | date:'short'}}</clr-dg-cell>
-    <clr-dg-cell>{{student.tagline}}</clr-dg-cell>
-    <clr-dg-cell>{{student.occupation}}</clr-dg-cell>
     <clr-dg-cell>{{student.birthDate | date:'short'}}</clr-dg-cell>
   </clr-dg-row>
 

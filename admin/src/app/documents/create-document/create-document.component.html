@@ -19,7 +19,7 @@
     <clr-control-error>The source is required</clr-control-error>
   </clr-input-container>
 
-  <button class="btn btn-primary" type="submit" [disabled]="!documentForm.valid" *ngIf="!loading">Submit</button>
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!documentForm.valid" *ngIf="!loading">Submit</button>
 </form>
 
 <clr-spinner *ngIf="loading"></clr-spinner>

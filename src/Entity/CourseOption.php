@@ -6,6 +6,12 @@ namespace App\Entity;
 
 use Carbon\Carbon;
 use JsonSerializable;
+use Money\Currencies\ISOCurrencies;
+use Money\Currency;
+use Money\Formatter\IntlMoneyFormatter;
+use Money\Money;
+use NumberFormatter;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 class CourseOption implements JsonSerializable
@@ -31,7 +37,7 @@ class CourseOption implements JsonSerializable
     protected $dates;
 
     /**
-     * @var array
+     * @var bool
      */
     protected $combo;
 
@@ -95,12 +101,12 @@ class CourseOption implements JsonSerializable
         $this->dates = $dates;
     }
 
-    public function getCombo(): array
+    public function getCombo(): bool
     {
         return $this->combo;
     }
 
-    public function setCombo(array $combo): void
+    public function setCombo(bool $combo): void
     {
         $this->combo = $combo;
     }
@@ -162,7 +168,14 @@ class CourseOption implements JsonSerializable
         }
 
         if (isset($row['dates'])) {
-            $instance->setDates((array) json_decode($row['dates'], true));
+            $rawDates = json_decode($row['dates'], true);
+            $dates = [];
+
+            foreach ($rawDates as $rawDate) {
+                $dates[] = new Carbon($rawDate);
+            }
+
+            $instance->setDates($dates);
         }
 
         if (isset($row['combo'])) {
@@ -170,7 +183,7 @@ class CourseOption implements JsonSerializable
         }
 
         if (isset($row['course'])) {
-            $instance->setCourse($row['course']);
+            $instance->setCourse(Uuid::fromString($row['course']));
         }
 
         if (isset($row['created_at'])) {
@@ -209,11 +222,11 @@ class CourseOption implements JsonSerializable
         }
 
         if (isset($row['combo'])) {
-            $instance->setCombo($row['combo']);
+            $instance->setCombo((bool) $row['combo']);
         }
 
         if (isset($row['course'])) {
-            $instance->setCourse($row['course']);
+            $instance->setCourse(Uuid::fromString($row['course']));
         }
 
         if (isset($row['createdAt'])) {
@@ -248,11 +261,23 @@ class CourseOption implements JsonSerializable
 
     public function jsonSerialize(): array
     {
+        $numberFormatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
+        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, new ISOCurrencies());
+        $dates = [];
+
+        foreach ((array) $this->dates as $date) {
+            $dates[] = $date->format('m/d');
+        }
+
+        $dates = array_values(array_unique($dates));
+
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'price' => $this->price,
-            'dates' => $this->dates,
+            'price' => $moneyFormatter->format(
+                new Money($this->price, new Currency('USD')),
+            ),
+            'dates' => $dates,
             'combo' => $this->combo,
             'course' => $this->course,
             'createdAt' => $this->createdAt->format('Y-m-d\TH:i:s'),

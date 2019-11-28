@@ -36,7 +36,7 @@
   <clr-dg-column [clrDgField]="'expiresAt'">Expires at</clr-dg-column>
   <clr-dg-column [clrDgField]="'deletedAt'">Deleted?</clr-dg-column>
 
-  <clr-dg-row *ngFor="let user of users" [clrDgItem]="user">
+  <clr-dg-row *ngFor="let user of users" [clrDgItem]="user" [ngClass]="{'deleted-row': user.deletedAt != null}">
     <clr-dg-cell>{{user.name}}</clr-dg-cell>
     <clr-dg-cell>{{user.email}}</clr-dg-cell>
     <clr-dg-cell>{{user.firstName}}</clr-dg-cell>

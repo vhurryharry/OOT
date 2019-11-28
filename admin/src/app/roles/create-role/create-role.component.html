@@ -13,7 +13,7 @@
     <input clrInput type="text" formControlName="permissions" />
   </clr-input-container>
 
-  <button class="btn btn-primary" type="submit" [disabled]="!roleForm.valid" *ngIf="!loading">Submit</button>
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!roleForm.valid" *ngIf="!loading">Submit</button>
 </form>
 
 <clr-spinner *ngIf="loading"></clr-spinner>

@@ -34,4 +34,16 @@ export class RepositoryService {
   export(module, ids) {
     return this.http.post('/admin/api/' + module + '/export', {ids});
   }
+
+  move(module, id, type) {
+    return this.http.post('/admin/api/' + module + '/move', {type, id});
+  }
+
+  attach(type, payload) {
+    return this.http.post('/admin/api/attach/' + type, payload);
+  }
+
+  detach(type, payload) {
+    return this.http.post('/admin/api/detach/' + type, payload);
+  }
 }

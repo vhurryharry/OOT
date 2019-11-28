@@ -27,20 +27,30 @@
 
   <clr-dg-column [clrDgField]="'title'">Title</clr-dg-column>
   <clr-dg-column [clrDgField]="'link'">Link</clr-dg-column>
-  <clr-dg-column [clrDgField]="'displayOrder'">Display Order</clr-dg-column>
   <clr-dg-column [clrDgField]="'parent'">Parent</clr-dg-column>
-  <clr-dg-column [clrDgField]="'createdAt'">Created At</clr-dg-column>
-  <clr-dg-column [clrDgField]="'updatedAt'">Updated At</clr-dg-column>
-  <clr-dg-column [clrDgField]="'deletedAt'">Deleted At</clr-dg-column>
+  <clr-dg-column [clrDgField]="'createdAt'">Created at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'updatedAt'">Updated at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deletedAt'">Deleted at</clr-dg-column>
+  <clr-dg-column>Order</clr-dg-column>
 
-  <clr-dg-row *ngFor="let menu of menus" [clrDgItem]="menu">
+  <clr-dg-row *ngFor="let menu of menus" [clrDgItem]="menu" [ngClass]="{'deleted-row': menu.deletedAt != null}">
     <clr-dg-cell>{{menu.title}}</clr-dg-cell>
     <clr-dg-cell>{{menu.link}}</clr-dg-cell>
-    <clr-dg-cell>{{menu.displayOrder}}</clr-dg-cell>
     <clr-dg-cell>{{menu.parent}}</clr-dg-cell>
     <clr-dg-cell>{{menu.createdAt | date:'short'}}</clr-dg-cell>
     <clr-dg-cell>{{menu.updatedAt | date:'short'}}</clr-dg-cell>
     <clr-dg-cell>{{menu.deletedAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>
+      {{ menu.displayOrder }}
+      <div class="btn-group btn-secondary btn-icon">
+        <button class="btn btn-sm" (click)="onMoveUp(menu.id)">
+          ▲ Move up
+        </button>
+        <button class="btn btn-sm" (click)="onMoveDown(menu.id)">
+          ▼ Move down
+        </button>
+      </div>
+    </clr-dg-cell>
   </clr-dg-row>
 
   <clr-dg-footer>

@@ -67,7 +67,7 @@ class State
         ];
     }
 
-    public function toQuery(): string
+    public function toQuery(string $order = null): string
     {
         $query = '';
         $conditionals = [];
@@ -80,7 +80,11 @@ class State
             $query .= sprintf('where %s ', implode(' AND ', $conditionals));
         }
 
-        $query .= sprintf('limit %d offset %d', $this->limit, $this->offset);
+        if ($order) {
+            $query .= ' order by ' . $order;
+        }
+
+        $query .= sprintf(' limit %d offset %d', $this->limit, $this->offset);
 
         return $query;
     }

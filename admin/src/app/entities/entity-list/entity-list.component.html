@@ -35,7 +35,7 @@
   <clr-dg-column [clrDgField]="'updatedAt'">Updated at</clr-dg-column>
   <clr-dg-column [clrDgField]="'deletedAt'">Deleted at</clr-dg-column>
 
-  <clr-dg-row *ngFor="let entity of entities" [clrDgItem]="entity">
+  <clr-dg-row *ngFor="let entity of entities" [clrDgItem]="entity" [ngClass]="{'deleted-row': entity.deletedAt != null}">
     <clr-dg-cell>{{entity.slug}}</clr-dg-cell>
     <clr-dg-cell>{{entity.category}}</clr-dg-cell>
     <clr-dg-cell>{{entity.title}}</clr-dg-cell>
@@ -54,14 +54,14 @@
   </clr-dg-footer>
 </clr-datagrid>
 
-<clr-modal [(clrModalOpen)]="showCreateEntity" [clrModalSize]="'md'">
+<clr-modal [(clrModalOpen)]="showCreateEntity" [clrModalSize]="'xl'">
   <h3 class="modal-title">Create entity</h3>
   <div class="modal-body">
     <admin-create-entity (finished)='onContentUpdated()'></admin-create-entity>
   </div>
 </clr-modal>
 
-<clr-modal [(clrModalOpen)]="showEditEntity" [clrModalSize]="'md'">
+<clr-modal [(clrModalOpen)]="showEditEntity" [clrModalSize]="'xl'">
   <h3 class="modal-title">Edit entity</h3>
   <div class="modal-body">
     <admin-create-entity [(update)]="singleSelection" (finished)="onContentUpdated()"></admin-create-entity>

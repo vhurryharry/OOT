@@ -1,37 +1,55 @@
 <form clrForm [formGroup]="entityForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
-  <clr-input-container>
-    <label>Slug</label>
-    <input clrInput type="text" formControlName="slug" required />
-    <clr-control-error>The Slug is required</clr-control-error>
-  </clr-input-container>
-  <clr-input-container>
-    <label>Category</label>
-    <input clrInput type="text" formControlName="category" />
-  </clr-input-container>
-  <clr-input-container>
-    <label>Title</label>
-    <input clrInput type="text" formControlName="title" required />
-    <clr-control-error>The Title is required</clr-control-error>
-  </clr-input-container>
-  <clr-input-container>
-    <label>Type</label>
-    <input clrInput type="text" formControlName="type" required />
-    <clr-control-error>The Type is required</clr-control-error>
-  </clr-input-container>
-  <clr-input-container>
-    <label>Content</label>
-    <input clrInput type="text" formControlName="content" />
-  </clr-input-container>
-  <clr-input-container>
-    <label>Meta Title</label>
-    <input clrInput type="text" formControlName="metaTitle" />
-  </clr-input-container>
-  <clr-input-container>
-    <label>Meta Description</label>
-    <input clrInput type="text" formControlName="metaDescription" />
-  </clr-input-container>
+  <clr-tabs clrLayout="vertical">
+    <clr-tab>
+      <button clrTabLink>Details</button>
+      <clr-tab-content *clrIfActive>
+        <clr-input-container>
+          <label>Title</label>
+          <input clrInput type="text" formControlName="title" required />
+          <clr-control-error>The title is required</clr-control-error>
+        </clr-input-container>
+        <clr-input-container>
+          <label>Slug</label>
+          <input clrInput type="text" formControlName="slug" required />
+          <clr-control-error>The slug is required</clr-control-error>
+        </clr-input-container>
+        <clr-input-container>
+          <label>Category</label>
+          <input clrInput type="text" formControlName="category" />
+        </clr-input-container>
+        <clr-select-container>
+          <label>Type</label>
+          <select clrSelect formControlName="type" required>
+            <option value="page">Page</option>
+            <option value="block">Block</option>
+            <option value="banner">Banner</option>
+          </select>
+          <clr-control-error>The type is required</clr-control-error>
+        </clr-select-container>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>Content</button>
+      <clr-tab-content *clrIfActive="true">
+        <ckeditor [editor]="editor" formControlName="content"></ckeditor>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>SEO</button>
+      <clr-tab-content *clrIfActive="true">
+        <clr-input-container>
+          <label>Meta Title</label>
+          <input clrInput type="text" formControlName="metaTitle" />
+        </clr-input-container>
+        <clr-input-container>
+          <label>Meta Description</label>
+          <input clrInput type="text" formControlName="metaDescription" />
+        </clr-input-container>
+      </clr-tab-content>
+    </clr-tab>
+  </clr-tabs>
 
-  <button class="btn btn-primary" type="submit" [disabled]="!entityForm.valid" *ngIf="!loading">Submit</button>
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!entityForm.valid" *ngIf="!loading">Submit</button>
 </form>
 
 <clr-spinner *ngIf="loading"></clr-spinner>

@@ -25,21 +25,19 @@
     </clr-dropdown>
   </clr-dg-action-bar>
 
-    <clr-dg-column [clrDgField]="'id'">Id</clr-dg-column>
-    <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
-    <clr-dg-column [clrDgField]="'parent'">Parent</clr-dg-column>
-    <clr-dg-column [clrDgField]="'createdAt'">Created At</clr-dg-column>
-    <clr-dg-column [clrDgField]="'updatedAt'">Updated At</clr-dg-column>
-    <clr-dg-column [clrDgField]="'deletedAt'">Deleted At</clr-dg-column>
-  
-  <clr-dg-row *ngFor="let category of categories" [clrDgItem]="category">
-            <clr-dg-cell>{{category.id}}</clr-dg-cell>
-                <clr-dg-cell>{{category.name}}</clr-dg-cell>
-                <clr-dg-cell>{{category.parent}}</clr-dg-cell>
-                <clr-dg-cell>{{category.createdAt | date:'short'}}</clr-dg-cell>
-                <clr-dg-cell>{{category.updatedAt | date:'short'}}</clr-dg-cell>
-                <clr-dg-cell>{{category.deletedAt | date:'short'}}</clr-dg-cell>
-          </clr-dg-row>
+  <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
+  <clr-dg-column [clrDgField]="'parent'">Parent</clr-dg-column>
+  <clr-dg-column [clrDgField]="'createdAt'">Created at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'updatedAt'">Updated at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deletedAt'">Deleted at</clr-dg-column>
+
+  <clr-dg-row *ngFor="let category of categories" [clrDgItem]="category" [ngClass]="{'deleted-row': category.deletedAt != null}">
+    <clr-dg-cell>{{category.name}}</clr-dg-cell>
+    <clr-dg-cell>{{category.parent}}</clr-dg-cell>
+    <clr-dg-cell>{{category.createdAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{category.updatedAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{category.deletedAt | date:'short'}}</clr-dg-cell>
+  </clr-dg-row>
 
   <clr-dg-footer>
     {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}

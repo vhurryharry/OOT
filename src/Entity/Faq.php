@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use Carbon\Carbon;
 use JsonSerializable;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 class Faq implements JsonSerializable
@@ -44,6 +45,12 @@ class Faq implements JsonSerializable
      * @var ?Carbon
      */
     protected $deletedAt;
+
+    public function __construct()
+    {
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = $this->createdAt;
+    }
 
     public function getId(): int
     {
@@ -132,7 +139,7 @@ class Faq implements JsonSerializable
         }
 
         if (isset($row['course'])) {
-            $instance->setCourse($row['course']);
+            $instance->setCourse(Uuid::fromString($row['course']));
         }
 
         if (isset($row['created_at'])) {
@@ -166,8 +173,8 @@ class Faq implements JsonSerializable
             $instance->setContent($row['content']);
         }
 
-        if (isset($row['course'])) {
-            $instance->setCourse($row['course']);
+        if (isset($row['course']) && !empty($row['course'])) {
+            $instance->setCourse(Uuid::fromString($row['course']));
         }
 
         if (isset($row['createdAt'])) {

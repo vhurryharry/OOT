@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use Carbon\Carbon;
 use JsonSerializable;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 class Notification implements JsonSerializable
@@ -74,6 +75,12 @@ class Notification implements JsonSerializable
      * @var ?string
      */
     protected $fromNumber;
+
+    public function __construct()
+    {
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = $this->createdAt;
+    }
 
     public function getId(): int
     {
@@ -214,7 +221,7 @@ class Notification implements JsonSerializable
         }
 
         if (isset($row['course'])) {
-            $instance->setCourse($row['course']);
+            $instance->setCourse(Uuid::fromString($row['course']));
         }
 
         if (isset($row['created_at'])) {
@@ -272,8 +279,8 @@ class Notification implements JsonSerializable
             $instance->setId($row['id']);
         }
 
-        if (isset($row['course'])) {
-            $instance->setCourse($row['course']);
+        if (isset($row['course']) && !empty($row['course'])) {
+            $instance->setCourse(Uuid::fromString($row['course']));
         }
 
         if (isset($row['createdAt'])) {

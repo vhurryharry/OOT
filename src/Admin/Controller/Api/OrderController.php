@@ -29,15 +29,26 @@ class OrderController extends AbstractController
      */
     public function search(Request $request)
     {
+        $orderQuery = <<<SQL
+select
+    cr.*,
+    row_to_json(c) as customer_json,
+    row_to_json(co) as course_json,
+    row_to_json(cp) as payment_json
+from course_reservation as cr
+join customer as c on c.id = cr.customer_id
+join course as co on co.id = cr.course_id
+left join course_payment as cp on cp.id = cr.payment
+SQL;
         $state = State::fromDatagrid($request->request->all());
-        $auditLogs = $this->db->findAll(
-            'select * from course_reservation ' . $state->toQuery(),
+        $orders = $this->db->findAll(
+            $orderQuery . $state->toQuery(),
             $state->toQueryParams()
         );
 
         $items = [];
-        foreach ($auditLogs as $auditLog) {
-            $items[] = (CourseReservation::fromDatabase($auditLog))->jsonSerialize();
+        foreach ($orders as $order) {
+            $items[] = (CourseReservation::fromDatabase($order))->jsonSerialize();
         }
 
         return new JsonResponse([

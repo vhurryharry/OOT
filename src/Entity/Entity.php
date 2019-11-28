@@ -71,6 +71,13 @@ class Entity implements JsonSerializable
      */
     protected $metadata;
 
+    public function __construct()
+    {
+        $this->id = Uuid::uuid4();
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = $this->createdAt;
+    }
+
     public function getId(): UuidInterface
     {
         return $this->id;
@@ -271,7 +278,7 @@ class Entity implements JsonSerializable
         }
 
         if (isset($row['category'])) {
-            $instance->setCategory($row['category']);
+            $instance->setCategory((int) $row['category']);
         }
 
         if (isset($row['title'])) {

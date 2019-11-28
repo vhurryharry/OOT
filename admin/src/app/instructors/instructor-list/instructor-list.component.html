@@ -37,7 +37,7 @@
   <clr-dg-column [clrDgField]="'occupation'">Occupation</clr-dg-column>
   <clr-dg-column [clrDgField]="'birthDate'">Birth Date</clr-dg-column>
 
-  <clr-dg-row *ngFor="let instructor of instructors" [clrDgItem]="instructor">
+  <clr-dg-row *ngFor="let instructor of instructors" [clrDgItem]="instructor" [ngClass]="{'deleted-row': instructor.deletedAt != null}">
     <clr-dg-cell>{{instructor.firstName}}</clr-dg-cell>
     <clr-dg-cell>{{instructor.lastName}}</clr-dg-cell>
     <clr-dg-cell>{{instructor.login}}</clr-dg-cell>

@@ -14,5 +14,18 @@ $clr-p4-font-size: 0.75rem;
 $clr-p5-font-size: 0.75rem;
 $clr-p6-font-size: 0.75rem;
 
+.deleted-row {
+  background-color: #f0f0f0;
+  color: #bfbfbf;
+}
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
 // Clarity
 @import '../node_modules/@clr/ui/src/utils/components.clarity';

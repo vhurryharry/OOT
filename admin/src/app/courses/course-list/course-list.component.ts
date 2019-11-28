@@ -1,24 +1,28 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
 import { RepositoryService } from '../../repository.service';
+import { FileService } from '../../file.service';
 
 @Component({
   selector: 'admin-course-list',
-  templateUrl: './course-list.component.html',
-  styleUrls: ['./course-list.component.scss']
+  templateUrl: './course-list.component.html'
 })
 export class CourseListComponent implements OnInit {
   @ViewChild(ClrDatagrid, {static: false}) datagrid: ClrDatagrid;
 
   courses = [];
   selected = [];
+  singleSelection = null;
   lastState = {};
   total: number;
   loading = true;
   showCreateCourse = false;
   showEditCourse = false;
+  showOptions = false;
+  showInstructors = false;
+  showReviews = false;
 
-  constructor(private repository: RepositoryService) { }
+  constructor(private repository: RepositoryService, private fileService: FileService) { }
 
   ngOnInit() {
   }
@@ -41,7 +45,30 @@ export class CourseListComponent implements OnInit {
   }
 
   onEdit() {
-    console.log(this.getSelectedIds());
+    this.singleSelection = this.selected[0];
+    this.showEditCourse = true;
+  }
+
+  onOptions() {
+    this.singleSelection = this.selected[0];
+    this.showOptions = true;
+  }
+
+  onInstructors() {
+    this.singleSelection = this.selected[0];
+    this.showInstructors = true;
+  }
+
+  onReviews() {
+    this.singleSelection = this.selected[0];
+    this.showReviews = true;
+  }
+
+  onContentUpdated() {
+    this.showCreateCourse = false;
+    this.showEditCourse = false;
+    this.refresh(this.lastState);
+    this.selected = [];
   }
 
   onDelete() {
@@ -65,11 +92,23 @@ export class CourseListComponent implements OnInit {
   }
 
   onExportAll() {
-    console.log(this.selected);
+    this.loading = true;
+    this.repository
+      .export('course', this.getSelectedIds())
+      .subscribe((result: any) => {
+        this.fileService.saveAsCsv(result.csv, 'all_courses.csv');
+        this.loading = false;
+      });
   }
 
   onExportSelected() {
-    console.log(this.selected);
+    this.loading = true;
+    this.repository
+      .export('course', this.getSelectedIds())
+      .subscribe((result: any) => {
+        this.fileService.saveAsCsv(result.csv, 'selected_courses.csv');
+        this.loading = false;
+      });
   }
 
   getSelectedIds() {

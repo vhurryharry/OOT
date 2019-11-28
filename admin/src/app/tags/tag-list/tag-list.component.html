@@ -29,7 +29,7 @@
   <clr-dg-column [clrDgField]="'createdAt'">Created at</clr-dg-column>
   <clr-dg-column [clrDgField]="'deletedAt'">Deleted at</clr-dg-column>
 
-  <clr-dg-row *ngFor="let tag of tags" [clrDgItem]="tag">
+  <clr-dg-row *ngFor="let tag of tags" [clrDgItem]="tag" [ngClass]="{'deleted-row': tag.deletedAt != null}">
     <clr-dg-cell>{{tag.name}}</clr-dg-cell>
     <clr-dg-cell>{{tag.createdAt | date:'short'}}</clr-dg-cell>
     <clr-dg-cell>{{tag.deletedAt | date:'short'}}</clr-dg-cell>

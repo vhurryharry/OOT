@@ -29,6 +29,11 @@ class Tag implements JsonSerializable
      */
     protected $deletedAt;
 
+    public function __construct()
+    {
+        $this->createdAt = Carbon::now();
+    }
+
     public function getId(): int
     {
         return $this->id;

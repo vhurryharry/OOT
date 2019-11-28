@@ -1,6 +1,8 @@
 import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { RepositoryService } from '../../repository.service';
+import slugify from 'slugify';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
   selector: 'admin-create-entity',
@@ -24,8 +26,15 @@ export class CreateEntityComponent implements OnChanges {
     metaTitle: [''],
     metaDescription: ['']
   });
+  public editor = ClassicEditor;
 
-  constructor(private fb: FormBuilder, private repository: RepositoryService) { }
+  constructor(private fb: FormBuilder, private repository: RepositoryService) {
+    this.entityForm.get('title').valueChanges.subscribe(val => {
+      if (!val) { return; }
+
+      this.entityForm.patchValue({ slug: slugify(val, { lower: true }) });
+    });
+  }
 
   ngOnChanges() {
     if (this.update) {

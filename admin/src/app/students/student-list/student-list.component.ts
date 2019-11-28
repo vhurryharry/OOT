@@ -35,7 +35,7 @@ export class StudentListComponent implements OnInit {
     studentState.filters = [
       {
         property: 'type',
-        value: 'instructor',
+        value: 'student',
       },
     ];
 

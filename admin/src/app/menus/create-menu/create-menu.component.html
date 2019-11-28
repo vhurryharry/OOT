@@ -8,16 +8,15 @@
     <label>Link</label>
     <input clrInput type="text" formControlName="link" />
   </clr-input-container>
-  <clr-input-container>
-    <label>Display Order</label>
-    <input clrInput type="text" formControlName="displayOrder" />
-  </clr-input-container>
-  <clr-input-container>
+  <clr-select-container>
     <label>Parent</label>
-    <input clrInput type="text" formControlName="parent" />
-  </clr-input-container>
+    <select clrSelect formControlName="parent">
+      <option *ngFor="let menu of menus" value="{{ menu.id }}">{{ menu.title }}</option>
+    </select>
+    <clr-control-helper>Specify if this menu is a child of another</clr-control-helper>
+  </clr-select-container>
 
-  <button class="btn btn-primary" type="submit" [disabled]="!menuForm.valid" *ngIf="!loading">Submit</button>
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!menuForm.valid" *ngIf="!loading">Submit</button>
 </form>
 
 <clr-spinner *ngIf="loading"></clr-spinner>

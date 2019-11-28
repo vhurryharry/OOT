@@ -1,0 +1,32 @@
+<clr-spinner *ngIf="loading"></clr-spinner>
+
+<clr-datagrid>
+  <clr-dg-column [clrDgField]="'title'">Title</clr-dg-column>
+  <clr-dg-column [clrDgField]="'price'">Price</clr-dg-column>
+  <clr-dg-column [clrDgField]="'dates'">Dates</clr-dg-column>
+  <clr-dg-column [clrDgField]="'combo'">Combo</clr-dg-column>
+  <clr-dg-column [clrDgField]="'createdAt'">Created at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'updatedAt'">Last update</clr-dg-column>
+  <clr-dg-column>Options</clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let option of options">
+    <clr-dg-cell>{{option.title}}</clr-dg-cell>
+    <clr-dg-cell>{{option.price}}</clr-dg-cell>
+    <clr-dg-cell>{{option.dates.join(', ')}}</clr-dg-cell>
+    <clr-dg-cell>{{option.combo ? 'Yes' : 'No'}}</clr-dg-cell>
+    <clr-dg-cell>{{option.createdAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{option.updatedAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>
+      <button type="button" class="btn btn-sm btn-secondary" (click)="onRemove(option.id)">
+        <clr-icon shape="trash"></clr-icon> Remove
+      </button>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>{{options.length}} options</clr-dg-footer>
+</clr-datagrid>
+
+<form clrForm [formGroup]="optionForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!optionForm.valid" *ngIf="!loading">Add</button>
+</form>

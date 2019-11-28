@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Security\Customer;
 use Carbon\Carbon;
 use JsonSerializable;
 use Ramsey\Uuid\Uuid;
@@ -42,19 +43,24 @@ class CourseReservation implements JsonSerializable
     protected $courseId;
 
     /**
+     * @var ?Course
+     */
+    protected $course;
+
+    /**
      * @var ?UuidInterface
      */
     protected $customerId;
 
     /**
+     * @var ?Customer
+     */
+    protected $customer;
+
+    /**
      * @var string
      */
     protected $status;
-
-    /**
-     * @var ?UuidInterface
-     */
-    protected $payment;
 
     /**
      * @var string
@@ -70,6 +76,11 @@ class CourseReservation implements JsonSerializable
      * @var ?string
      */
     protected $optionLocation;
+
+    /**
+     * @var ?CoursePayment
+     */
+    protected $payment;
 
     public function getId(): int
     {
@@ -131,6 +142,16 @@ class CourseReservation implements JsonSerializable
         $this->courseId = $courseId;
     }
 
+    public function getCourse(): ?Course
+    {
+        return $this->course;
+    }
+
+    public function setCourse(Course $course): void
+    {
+        $this->course = $course;
+    }
+
     public function getCustomerId(): ?UuidInterface
     {
         return $this->customerId;
@@ -139,6 +160,16 @@ class CourseReservation implements JsonSerializable
     public function setCustomerId(UuidInterface $customerId): void
     {
         $this->customerId = $customerId;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(Customer $customer): void
+    {
+        $this->customer = $customer;
     }
 
     public function getStatus(): string
@@ -151,12 +182,12 @@ class CourseReservation implements JsonSerializable
         $this->status = $status;
     }
 
-    public function getPayment(): ?UuidInterface
+    public function getPayment(): ?CoursePayment
     {
         return $this->payment;
     }
 
-    public function setPayment(UuidInterface $payment): void
+    public function setPayment(CoursePayment $payment): void
     {
         $this->payment = $payment;
     }
@@ -227,10 +258,6 @@ class CourseReservation implements JsonSerializable
             $instance->setStatus($row['status']);
         }
 
-        if (isset($row['payment'])) {
-            $instance->setPayment($row['payment']);
-        }
-
         if (isset($row['option_title'])) {
             $instance->setOptionTitle($row['option_title']);
         }
@@ -241,6 +268,18 @@ class CourseReservation implements JsonSerializable
 
         if (isset($row['option_location'])) {
             $instance->setOptionLocation($row['option_location']);
+        }
+
+        if (isset($row['course_json'])) {
+            $instance->setCourse(Course::fromDatabase(json_decode($row['course_json'], true)));
+        }
+
+        if (isset($row['customer_json'])) {
+            $instance->setCustomer(Customer::fromDatabase(json_decode($row['customer_json'], true)));
+        }
+
+        if (isset($row['payment_json'])) {
+            $instance->setPayment(CoursePayment::fromDatabase(json_decode($row['payment_json'], true)));
         }
 
         return $instance;
@@ -280,10 +319,6 @@ class CourseReservation implements JsonSerializable
 
         if (isset($row['status'])) {
             $instance->setStatus($row['status']);
-        }
-
-        if (isset($row['payment'])) {
-            $instance->setPayment($row['payment']);
         }
 
         if (isset($row['optionTitle'])) {
@@ -330,10 +365,12 @@ class CourseReservation implements JsonSerializable
             'courseId' => $this->courseId,
             'customerId' => $this->customerId,
             'status' => $this->status,
-            'payment' => $this->payment,
             'optionTitle' => $this->optionTitle,
             'optionPrice' => $this->optionPrice,
             'optionLocation' => $this->optionLocation,
+            'course' => $this->course ? $this->course->jsonSerialize() : null,
+            'customer' => $this->customer ? $this->customer->jsonSerialize() : null,
+            'payment' => $this->payment ? $this->payment->jsonSerialize() : null,
         ];
     }
 }

@@ -25,25 +25,23 @@
     </clr-dropdown>
   </clr-dg-action-bar>
 
-    <clr-dg-column [clrDgField]="'id'">Id</clr-dg-column>
-    <clr-dg-column [clrDgField]="'title'">Title</clr-dg-column>
-    <clr-dg-column [clrDgField]="'content'">Content</clr-dg-column>
-    <clr-dg-column [clrDgField]="'type'">Type</clr-dg-column>
-    <clr-dg-column [clrDgField]="'source'">Source</clr-dg-column>
-    <clr-dg-column [clrDgField]="'createdAt'">Created At</clr-dg-column>
-    <clr-dg-column [clrDgField]="'updatedAt'">Updated At</clr-dg-column>
-    <clr-dg-column [clrDgField]="'deletedAt'">Deleted At</clr-dg-column>
-  
-  <clr-dg-row *ngFor="let document of documents" [clrDgItem]="document">
-            <clr-dg-cell>{{document.id}}</clr-dg-cell>
-                <clr-dg-cell>{{document.title}}</clr-dg-cell>
-                <clr-dg-cell>{{document.content}}</clr-dg-cell>
-                <clr-dg-cell>{{document.type}}</clr-dg-cell>
-                <clr-dg-cell>{{document.source}}</clr-dg-cell>
-                <clr-dg-cell>{{document.createdAt | date:'short'}}</clr-dg-cell>
-                <clr-dg-cell>{{document.updatedAt | date:'short'}}</clr-dg-cell>
-                <clr-dg-cell>{{document.deletedAt | date:'short'}}</clr-dg-cell>
-          </clr-dg-row>
+  <clr-dg-column [clrDgField]="'title'">Title</clr-dg-column>
+  <clr-dg-column [clrDgField]="'content'">Content</clr-dg-column>
+  <clr-dg-column [clrDgField]="'type'">Type</clr-dg-column>
+  <clr-dg-column [clrDgField]="'source'">Source</clr-dg-column>
+  <clr-dg-column [clrDgField]="'createdAt'">Created At</clr-dg-column>
+  <clr-dg-column [clrDgField]="'updatedAt'">Updated At</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deletedAt'">Deleted At</clr-dg-column>
+
+  <clr-dg-row *ngFor="let document of documents" [clrDgItem]="document" [ngClass]="{'deleted-row': document.deletedAt != null}">
+    <clr-dg-cell>{{document.title}}</clr-dg-cell>
+    <clr-dg-cell>{{document.content}}</clr-dg-cell>
+    <clr-dg-cell>{{document.type}}</clr-dg-cell>
+    <clr-dg-cell>{{document.source}}</clr-dg-cell>
+    <clr-dg-cell>{{document.createdAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{document.updatedAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{document.deletedAt | date:'short'}}</clr-dg-cell>
+  </clr-dg-row>
 
   <clr-dg-footer>
     {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}

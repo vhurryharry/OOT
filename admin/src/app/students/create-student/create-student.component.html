@@ -1,59 +1,73 @@
 <form clrForm [formGroup]="studentForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
-  <clr-input-container>
-    <label>Status</label>
-    <input clrInput type="text" formControlName="status" required />
-    <clr-control-error>The Status is required</clr-control-error>
-  </clr-input-container>
-  <clr-input-container>
-    <label>Confirmation Token</label>
-    <input clrInput type="text" formControlName="confirmationToken" />
-  </clr-input-container>
-  <clr-input-container>
-    <label>Accepts Marketing</label>
-    <input clrInput type="text" formControlName="acceptsMarketing" />
-  </clr-input-container>
-  <clr-input-container>
-    <label>Expires At</label>
-    <input clrInput type="text" formControlName="expiresAt" />
-  </clr-input-container>
-  <clr-input-container>
-    <label>Login</label>
-    <input clrInput type="text" formControlName="login" />
-  </clr-input-container>
-  <clr-input-container>
-    <label>Password Expires At</label>
-    <input clrInput type="text" formControlName="passwordExpiresAt" />
-  </clr-input-container>
-  <clr-input-container>
-    <label>First Name</label>
-    <input clrInput type="text" formControlName="firstName" />
-  </clr-input-container>
-  <clr-input-container>
-    <label>Last Name</label>
-    <input clrInput type="text" formControlName="lastName" />
-  </clr-input-container>
-  <clr-input-container>
-    <label>Tagline</label>
-    <input clrInput type="text" formControlName="tagline" />
-  </clr-input-container>
-  <clr-input-container>
-    <label>Occupation</label>
-    <input clrInput type="text" formControlName="occupation" />
-  </clr-input-container>
-  <clr-input-container>
-    <label>Birth Date</label>
-    <input clrInput type="text" formControlName="birthDate" />
-  </clr-input-container>
-  <clr-input-container>
-    <label>Password</label>
-    <input clrInput type="text" formControlName="password" />
-  </clr-input-container>
-  <clr-input-container>
-    <label>MFA</label>
-    <input clrInput type="text" formControlName="mfa" />
-  </clr-input-container>
+  <clr-tabs clrLayout="vertical">
+    <clr-tab>
+      <button clrTabLink>Profile</button>
+      <clr-tab-content *clrIfActive>
+        <clr-input-container>
+          <label>First Name</label>
+          <input clrInput type="text" formControlName="firstName" />
+        </clr-input-container>
+        <clr-input-container>
+          <label>Last Name</label>
+          <input clrInput type="text" formControlName="lastName" />
+        </clr-input-container>
+        <clr-input-container>
+          <label>Tagline</label>
+          <input clrInput type="text" formControlName="tagline" />
+        </clr-input-container>
+        <clr-input-container>
+          <label>Occupation</label>
+          <input clrInput type="text" formControlName="occupation" />
+        </clr-input-container>
+        <clr-date-container>
+          <label>Birth Date</label>
+          <input type="date" clrDate formControlName="birthDate">
+        </clr-date-container>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>Options</button>
+      <clr-tab-content *clrIfActive>
+        <clr-toggle-wrapper>
+          <label>Accepts marketing?</label>
+          <input type="checkbox" clrToggle formControlName="acceptsMarketing" />
+        </clr-toggle-wrapper>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>Access</button>
+      <clr-tab-content *clrIfActive>
+        <clr-select-container>
+          <label>Status</label>
+          <select clrSelect formControlName="status" required>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="pending_confirmation">Pending confirmation</option>
+            <option value="pending_password_reset">Pending password reset</option>
+            <option value="suspended">Suspended</option>
+            <option value="locked">Locked</option>
+            <option value="password_expired">Password expired</option>
+          </select>
+          <clr-control-error>The status is required</clr-control-error>
+        </clr-select-container>
+        <clr-input-container>
+          <label>Login</label>
+          <input clrInput type="text" required formControlName="login" />
+          <clr-control-error>The login is required</clr-control-error>
+        </clr-input-container>
+        <clr-date-container>
+          <label>Expires at</label>
+          <input type="date" clrDate formControlName="expiresAt">
+        </clr-date-container>
+        <clr-date-container>
+          <label>Password expires at</label>
+          <input type="date" clrDate formControlName="passwordExpiresAt">
+        </clr-date-container>
+      </clr-tab-content>
+    </clr-tab>
+  </clr-tabs>
 
-  <button class="btn btn-primary" type="submit" [disabled]="!studentForm.valid" *ngIf="!loading">Submit</button>
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!studentForm.valid" *ngIf="!loading">Submit</button>
 </form>
 
 <clr-spinner *ngIf="loading"></clr-spinner>

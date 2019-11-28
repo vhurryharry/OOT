@@ -7,11 +7,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ClarityModule } from '@clr/angular';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 // Courses
 import { CourseListComponent } from './courses/course-list/course-list.component';
 import { CreateCourseComponent } from './courses/create-course/create-course.component';
+import { ManageInstructorsComponent } from './courses/manage-instructors/manage-instructors.component';
+import { ManageOptionsComponent } from './courses/manage-options/manage-options.component';
 
 // Entities
 import { EntityListComponent } from './entities/entity-list/entity-list.component';
@@ -69,6 +73,8 @@ import { OrderListComponent } from './orders/order-list/order-list.component';
     DashboardComponent,
     CourseListComponent,
     CreateCourseComponent,
+    ManageInstructorsComponent,
+    ManageOptionsComponent,
     EntityListComponent,
     CreateEntityComponent,
     NotificationListComponent,
@@ -102,6 +108,7 @@ import { OrderListComponent } from './orders/order-list/order-list.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    CKEditorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

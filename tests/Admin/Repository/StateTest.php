@@ -12,7 +12,7 @@ class StateTest extends TestCase
     {
         $state = new State();
         $state->addFilter('foo', 'bar', STATE::FILTER_EQUALS);
-        $this->assertEquals('where foo = :foo limit 25 offset 0', $state->toQuery());
+        $this->assertEquals('where foo = :foo  limit 25 offset 0', $state->toQuery());
         $this->assertEquals(['foo' => '%bar%'], $state->toQueryParams());
     }
 
@@ -20,13 +20,13 @@ class StateTest extends TestCase
     {
         $state = new State();
         $state->addFilter('foo', 'bar', STATE::FILTER_LIKE);
-        $this->assertEquals('where foo ~~* :foo limit 25 offset 0', $state->toQuery());
+        $this->assertEquals('where foo ~~* :foo  limit 25 offset 0', $state->toQuery());
         $this->assertEquals(['foo' => '%bar%'], $state->toQueryParams());
     }
 
     public function testIsCreatingStateLikeQueryWithoutZeroOffset(): void
     {
         $state = new State(10, -10);
-        $this->assertEquals('limit 10 offset 0', $state->toQuery());
+        $this->assertEquals(' limit 10 offset 0', $state->toQuery());
     }
 }

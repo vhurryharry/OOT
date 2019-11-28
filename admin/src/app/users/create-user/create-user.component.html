@@ -38,7 +38,7 @@
     <button type="button" class="btn btn-sm btn-secondary" (click)="addPermission()">Add permission</button>
   </div>
 
-  <button class="btn btn-primary" type="submit" [disabled]="!userForm.valid" *ngIf="!loading">Submit</button>
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!userForm.valid" *ngIf="!loading">Submit</button>
 </form>
 
 <clr-spinner *ngIf="loading"></clr-spinner>

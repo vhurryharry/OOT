@@ -393,7 +393,11 @@ class Customer implements UserInterface, JsonSerializable
 
     public static function fromJson(array $row): Customer
     {
-        $instance = new Customer($row['login'], Uuid::fromString($row['id']));
+        $instance = new Customer($row['login']);
+
+        if (isset($row['id'])) {
+            $instance->setId(Uuid::fromString($row['id']));
+        }
 
         if (isset($row['metadata'])) {
             $instance->setMetadata($row['metadata']);
@@ -412,7 +416,7 @@ class Customer implements UserInterface, JsonSerializable
         }
 
         if (isset($row['acceptsMarketing'])) {
-            $instance->setAcceptsMarketing($row['acceptsMarketing']);
+            $instance->setAcceptsMarketing((bool) $row['acceptsMarketing']);
         }
 
         if (isset($row['createdAt'])) {

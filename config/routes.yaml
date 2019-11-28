@@ -63,6 +63,11 @@ admin_api_order:
   type: annotation
   prefix: /admin/api/order
 
+admin_api_rel:
+  resource: 'App\Admin\Controller\Api\RelationshipController'
+  type: annotation
+  prefix: /admin/api
+
 admin:
   resource: 'App\Admin\Controller\DefaultController'
   type: annotation

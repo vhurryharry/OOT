@@ -20,18 +20,18 @@ export class CreateStudentComponent implements OnChanges {
   studentForm = this.fb.group({
     id: [''],
     status: ['', Validators.required],
-    confirmationToken: ['', ],
-    acceptsMarketing: ['', ],
-    expiresAt: ['', ],
-    login: ['', ],
-    passwordExpiresAt: ['', ],
-    firstName: ['', ],
-    lastName: ['', ],
-    tagline: ['', ],
-    occupation: ['', ],
-    birthDate: ['', ],
-    password: ['', ],
-    mfa: ['', ],
+    confirmationToken: [''],
+    acceptsMarketing: [''],
+    expiresAt: [''],
+    login: ['', Validators.required],
+    passwordExpiresAt: [''],
+    firstName: [''],
+    lastName: [''],
+    tagline: [''],
+    occupation: [''],
+    birthDate: [''],
+    password: [''],
+    mfa: [''],
   });
 
   constructor(private fb: FormBuilder, private repository: RepositoryService) { }
@@ -40,7 +40,7 @@ export class CreateStudentComponent implements OnChanges {
     if (this.update) {
       this.loading = true;
       this.repository
-        .find('student', this.update.id)
+        .find('customer', this.update.id)
         .subscribe((result: any) => {
           this.loading = false;
           this.studentForm.patchValue(result);
@@ -56,14 +56,14 @@ export class CreateStudentComponent implements OnChanges {
     if (!this.update) {
       delete payload.id;
       this.repository
-        .create('student', payload)
+        .create('customer', payload)
         .subscribe((result: any) => {
           this.loading = false;
           this.finished.emit(payload);
         });
     } else {
       this.repository
-        .update('student', payload)
+        .update('customer', payload)
         .subscribe((result: any) => {
           this.loading = false;
           this.finished.emit(payload);

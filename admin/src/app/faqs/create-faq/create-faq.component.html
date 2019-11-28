@@ -2,19 +2,21 @@
   <clr-input-container>
     <label>Title</label>
     <input clrInput type="text" formControlName="title" required />
-    <clr-control-error>The Title is required</clr-control-error>
+    <clr-control-error>The title is required</clr-control-error>
   </clr-input-container>
-  <clr-input-container>
-    <label>Content</label>
-    <input clrInput type="text" formControlName="content" required />
-    <clr-control-error>The Content is required</clr-control-error>
-  </clr-input-container>
-  <clr-input-container>
+  <clr-select-container>
     <label>Course</label>
-    <input clrInput type="text" formControlName="course" />
-  </clr-input-container>
+    <select clrSelect formControlName="course">
+      <option *ngFor="let course of courses" value="{{ course.id }}">{{ course.title }}</option>
+    </select>
+    <clr-control-helper>Specify if this FAQ belongs to a specific course</clr-control-helper>
+  </clr-select-container>
+  <clr-textarea-container>
+    <label>Content</label>
+    <textarea clrTextarea formControlName="content"></textarea>
+  </clr-textarea-container>
 
-  <button class="btn btn-primary" type="submit" [disabled]="!faqForm.valid" *ngIf="!loading">Submit</button>
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!faqForm.valid" *ngIf="!loading">Submit</button>
 </form>
 
 <clr-spinner *ngIf="loading"></clr-spinner>

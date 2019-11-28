@@ -5,8 +5,6 @@
   <clr-dg-placeholder>No orders found.</clr-dg-placeholder>
 
   <clr-dg-action-bar>
-    <button type="button" class="btn btn-secondary" (click)="onCreate()"><clr-icon shape="file"></clr-icon> Create order</button>
-
     <div class="btn-group">
       <button type="button" class="btn btn-secondary" (click)="onEdit()" *ngIf="selected.length == 1"><clr-icon shape="pencil"></clr-icon> Edit</button>
       <button type="button" class="btn btn-secondary" (click)="onDelete()"><clr-icon shape="trash"></clr-icon> Delete</button>
@@ -37,12 +35,12 @@
   <clr-dg-column [clrDgField]="'createdAt'">Created at</clr-dg-column>
   <clr-dg-column [clrDgField]="'updatedAt'">Updated at</clr-dg-column>
 
-  <clr-dg-row *ngFor="let order of orders" [clrDgItem]="order">
+  <clr-dg-row *ngFor="let order of orders" [clrDgItem]="order" [ngClass]="{'deleted-row': order.deletedAt != null}">
     <clr-dg-cell>{{order.number}}</clr-dg-cell>
-    <clr-dg-cell>{{order.courseId}}</clr-dg-cell>
-    <clr-dg-cell>{{order.customerId}}</clr-dg-cell>
+    <clr-dg-cell>{{order.course.title}}</clr-dg-cell>
+    <clr-dg-cell>{{order.customer.firstName}} {{order.customer.lastName}}</clr-dg-cell>
     <clr-dg-cell>{{order.status}}</clr-dg-cell>
-    <clr-dg-cell>{{order.payment}}</clr-dg-cell>
+    <clr-dg-cell>{{order.payment ?order.payment.transactionId : 'None'}}</clr-dg-cell>
     <clr-dg-cell>{{order.optionTitle}}</clr-dg-cell>
     <clr-dg-cell>{{order.optionPrice}}</clr-dg-cell>
     <clr-dg-cell>{{order.optionLocation}}</clr-dg-cell>

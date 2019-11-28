@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { RepositoryService } from '../../repository.service';
 
@@ -6,7 +6,7 @@ import { RepositoryService } from '../../repository.service';
   selector: 'admin-create-faq',
   templateUrl: './create-faq.component.html'
 })
-export class CreateFaqComponent implements OnChanges {
+export class CreateFaqComponent implements OnChanges, OnInit {
   @Output()
   finished = new EventEmitter();
 
@@ -14,6 +14,7 @@ export class CreateFaqComponent implements OnChanges {
   update: any;
 
   loading = false;
+  courses = [];
   faqForm = this.fb.group({
     id: [''],
     title: ['', Validators.required],
@@ -22,6 +23,16 @@ export class CreateFaqComponent implements OnChanges {
   });
 
   constructor(private fb: FormBuilder, private repository: RepositoryService) { }
+
+  ngOnInit() {
+    this.loading = true;
+    this.repository
+      .fetch('course', {})
+      .subscribe((result: any) => {
+        this.courses = result.items;
+        this.loading = false;
+      });
+  }
 
   ngOnChanges() {
     if (this.update) {

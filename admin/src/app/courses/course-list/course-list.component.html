@@ -5,33 +5,47 @@
   <clr-dg-placeholder>No courses found.</clr-dg-placeholder>
 
   <clr-dg-action-bar>
-    <button type="button" class="btn btn-sm btn-secondary" (click)="onCreate()"><clr-icon shape="pencil"></clr-icon> Create course</button>
+    <button type="button" class="btn btn-secondary" (click)="onCreate()"><clr-icon shape="pencil"></clr-icon> Create course</button>
+
+    <div class="btn-group" *ngIf="selected.length == 1">
+      <button type="button" class="btn btn-secondary" (click)="onOptions()"><clr-icon shape="shopping-cart"></clr-icon> Manage Options</button>
+      <button type="button" class="btn btn-secondary" (click)="onInstructors()"><clr-icon shape="users"></clr-icon> Manage Instructors</button>
+      <button type="button" class="btn btn-secondary" (click)="onReviews()"><clr-icon shape="line-chart"></clr-icon> Manage Reviews</button>
+    </div>
 
     <div class="btn-group">
-      <button type="button" class="btn btn-sm btn-secondary" (click)="onEdit()" *ngIf="selected.length == 1"><clr-icon shape="pencil"></clr-icon> Edit</button>
-      <button type="button" class="btn btn-sm btn-secondary" (click)="onDelete()"><clr-icon shape="close"></clr-icon> Delete</button>
-      <button type="button" class="btn btn-sm btn-secondary" (click)="onRestore()"><clr-icon shape="close"></clr-icon> Restore</button>
-
-      <clr-dropdown>
-        <button type="button" class="btn btn-sm btn-secondary" clrDropdownTrigger>
-          Export
-          <clr-icon shape="caret down"></clr-icon>
-        </button>
-        <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
-          <button type="button" (click)="onExportAll()" clrDropdownItem>Export all</button>
-          <button type="button" (click)="onExportSelected()" [disabled]="selected.length === 0" clrDropdownItem>Export selected</button>
-        </clr-dropdown-menu>
-      </clr-dropdown>
+      <button type="button" class="btn btn-secondary" (click)="onEdit()" *ngIf="selected.length == 1"><clr-icon shape="pencil"></clr-icon> Edit</button>
+      <button type="button" class="btn btn-secondary" (click)="onDelete()"><clr-icon shape="trash"></clr-icon> Delete</button>
+      <button type="button" class="btn btn-secondary" (click)="onRestore()"><clr-icon shape="undo"></clr-icon> Restore</button>
     </div>
+
+    <clr-dropdown>
+      <button type="button" class="btn btn-secondary" clrDropdownTrigger>
+        Export
+        <clr-icon shape="caret down"></clr-icon>
+      </button>
+      <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
+        <button type="button" (click)="onExportAll()" clrDropdownItem>Export all</button>
+        <button type="button" (click)="onExportSelected()" [disabled]="selected.length === 0" clrDropdownItem>Export selected</button>
+      </clr-dropdown-menu>
+    </clr-dropdown>
   </clr-dg-action-bar>
 
   <clr-dg-column [clrDgField]="'title'">Title</clr-dg-column>
+  <clr-dg-column [clrDgField]="'slug'">Slug</clr-dg-column>
+  <clr-dg-column [clrDgField]="'city'">City</clr-dg-column>
+  <clr-dg-column [clrDgField]="'spots'">Spots</clr-dg-column>
+  <clr-dg-column [clrDgField]="'startDate'">Start date</clr-dg-column>
   <clr-dg-column [clrDgField]="'createdAt'">Created at</clr-dg-column>
   <clr-dg-column [clrDgField]="'updatedAt'">Last update</clr-dg-column>
   <clr-dg-column [clrDgField]="'deletedAt'">Deleted?</clr-dg-column>
 
-  <clr-dg-row *ngFor="let course of courses" [clrDgItem]="course">
+  <clr-dg-row *ngFor="let course of courses" [clrDgItem]="course" [ngClass]="{'deleted-row': course.deletedAt != null}">
     <clr-dg-cell>{{course.title}}</clr-dg-cell>
+    <clr-dg-cell>{{course.slug}}</clr-dg-cell>
+    <clr-dg-cell>{{course.city}}</clr-dg-cell>
+    <clr-dg-cell>{{course.spots}}</clr-dg-cell>
+    <clr-dg-cell>{{course.startDate | date:'short'}}</clr-dg-cell>
     <clr-dg-cell>{{course.createdAt | date:'short'}}</clr-dg-cell>
     <clr-dg-cell>{{course.updatedAt | date:'short'}}</clr-dg-cell>
     <clr-dg-cell>{{course.deletedAt | date:'short'}}</clr-dg-cell>
@@ -44,10 +58,30 @@
   </clr-dg-footer>
 </clr-datagrid>
 
-
 <clr-modal [(clrModalOpen)]="showCreateCourse" [clrModalSize]="'xl'">
   <h3 class="modal-title">Create course</h3>
   <div class="modal-body">
-    <admin-create-course></admin-create-course>
+    <admin-create-course (finished)='onContentUpdated()'></admin-create-course>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="showEditCourse" [clrModalSize]="'xl'">
+  <h3 class="modal-title">Edit course</h3>
+  <div class="modal-body">
+    <admin-create-course [(update)]="singleSelection" (finished)="onContentUpdated()"></admin-create-course>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="showInstructors" [clrModalSize]="'xl'">
+  <h3 class="modal-title">Manage course instructors</h3>
+  <div class="modal-body">
+    <admin-manage-instructors [(update)]="singleSelection"></admin-manage-instructors>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="showOptions" [clrModalSize]="'xl'">
+  <h3 class="modal-title">Manage course options</h3>
+  <div class="modal-body">
+    <admin-manage-options [(update)]="singleSelection"></admin-manage-options>
   </div>
 </clr-modal>

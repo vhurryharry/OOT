@@ -33,7 +33,7 @@
   <clr-dg-column [clrDgField]="'updatedAt'">Updated At</clr-dg-column>
   <clr-dg-column [clrDgField]="'deletedAt'">Deleted At</clr-dg-column>
 
-  <clr-dg-row *ngFor="let notification of notifications" [clrDgItem]="notification">
+  <clr-dg-row *ngFor="let notification of notifications" [clrDgItem]="notification" [ngClass]="{'deleted-row': notification.deletedAt != null}">
     <clr-dg-cell>{{notification.course}}</clr-dg-cell>
     <clr-dg-cell>{{notification.title}}</clr-dg-cell>
     <clr-dg-cell>{{notification.type}}</clr-dg-cell>
@@ -50,14 +50,14 @@
   </clr-dg-footer>
 </clr-datagrid>
 
-<clr-modal [(clrModalOpen)]="showCreateNotification" [clrModalSize]="'md'">
+<clr-modal [(clrModalOpen)]="showCreateNotification" [clrModalSize]="'lg'">
   <h3 class="modal-title">Create notification</h3>
   <div class="modal-body">
     <admin-create-notification (finished)='onContentUpdated()'></admin-create-notification>
   </div>
 </clr-modal>
 
-<clr-modal [(clrModalOpen)]="showEditNotification" [clrModalSize]="'md'">
+<clr-modal [(clrModalOpen)]="showEditNotification" [clrModalSize]="'lg'">
   <h3 class="modal-title">Edit notification</h3>
   <div class="modal-body">
     <admin-create-notification [(update)]="singleSelection" (finished)="onContentUpdated()"></admin-create-notification>

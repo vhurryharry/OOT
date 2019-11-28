@@ -32,7 +32,7 @@ class MenuController extends AbstractController
     {
         $state = State::fromDatagrid($request->request->all());
         $menus = $this->db->findAll(
-            'select * from menu ' . $state->toQuery(),
+            'select * from menu ' . $state->toQuery('display_order asc'),
             $state->toQueryParams()
         );
 
@@ -115,6 +115,29 @@ class MenuController extends AbstractController
         $this->db->execute(
             sprintf('update menu set deleted_at = null where %s', implode('or ', $params)),
             $ids
+        );
+
+        return new JsonResponse();
+    }
+
+    /**
+     * @Route("/move", methods={"POST"})
+     */
+    public function move(Request $request)
+    {
+        $id = $request->request->get('id');
+
+        if ($request->request->get('type') == 'up') {
+            $order = '- 1';
+        } else {
+            $order = '+ 1';
+        }
+
+        $this->db->execute(
+            sprintf('update menu set display_order = display_order %s where id = ?', $order),
+            [
+                $id,
+            ]
         );
 
         return new JsonResponse();

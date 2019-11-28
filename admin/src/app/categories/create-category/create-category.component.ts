@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { RepositoryService } from '../../repository.service';
 
@@ -6,7 +6,7 @@ import { RepositoryService } from '../../repository.service';
   selector: 'admin-create-category',
   templateUrl: './create-category.component.html'
 })
-export class CreateCategoryComponent implements OnChanges {
+export class CreateCategoryComponent implements OnChanges, OnInit {
   @Output()
   finished = new EventEmitter();
 
@@ -14,6 +14,7 @@ export class CreateCategoryComponent implements OnChanges {
   update: any;
 
   loading = false;
+  categories = [];
   categoryForm = this.fb.group({
     id: [''],
     name: ['', Validators.required],
@@ -21,6 +22,16 @@ export class CreateCategoryComponent implements OnChanges {
   });
 
   constructor(private fb: FormBuilder, private repository: RepositoryService) { }
+
+  ngOnInit() {
+    this.loading = true;
+    this.repository
+      .fetch('category', {})
+      .subscribe((result: any) => {
+        this.categories = result.items;
+        this.loading = false;
+      });
+  }
 
   ngOnChanges() {
     if (this.update) {

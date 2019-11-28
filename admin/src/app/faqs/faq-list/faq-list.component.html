@@ -2,10 +2,10 @@
   (clrDgRefresh)="refresh($event)"
   [clrDgLoading]="loading"
   [(clrDgSelected)]="selected">
-  <clr-dg-placeholder>No faqs found.</clr-dg-placeholder>
+  <clr-dg-placeholder>No FAQs found.</clr-dg-placeholder>
 
   <clr-dg-action-bar>
-    <button type="button" class="btn btn-secondary" (click)="onCreate()"><clr-icon shape="file"></clr-icon> Create faq</button>
+    <button type="button" class="btn btn-secondary" (click)="onCreate()"><clr-icon shape="file"></clr-icon> Create FAQ</button>
 
     <div class="btn-group">
       <button type="button" class="btn btn-secondary" (click)="onEdit()" *ngIf="selected.length == 1"><clr-icon shape="pencil"></clr-icon> Edit</button>
@@ -31,7 +31,7 @@
   <clr-dg-column [clrDgField]="'updatedAt'">Updated At</clr-dg-column>
   <clr-dg-column [clrDgField]="'deletedAt'">Deleted At</clr-dg-column>
 
-  <clr-dg-row *ngFor="let faq of faqs" [clrDgItem]="faq">
+  <clr-dg-row *ngFor="let faq of faqs" [clrDgItem]="faq" [ngClass]="{'deleted-row': faq.deletedAt != null}">
     <clr-dg-cell>{{faq.title}}</clr-dg-cell>
     <clr-dg-cell>{{faq.course}}</clr-dg-cell>
     <clr-dg-cell>{{faq.createdAt | date:'short'}}</clr-dg-cell>
@@ -47,14 +47,14 @@
 </clr-datagrid>
 
 <clr-modal [(clrModalOpen)]="showCreateFaq" [clrModalSize]="'md'">
-  <h3 class="modal-title">Create faq</h3>
+  <h3 class="modal-title">Create FAQ</h3>
   <div class="modal-body">
     <admin-create-faq (finished)='onContentUpdated()'></admin-create-faq>
   </div>
 </clr-modal>
 
 <clr-modal [(clrModalOpen)]="showEditFaq" [clrModalSize]="'md'">
-  <h3 class="modal-title">Edit faq</h3>
+  <h3 class="modal-title">Edit FAQ</h3>
   <div class="modal-body">
     <admin-create-faq [(update)]="singleSelection" (finished)="onContentUpdated()"></admin-create-faq>
   </div>

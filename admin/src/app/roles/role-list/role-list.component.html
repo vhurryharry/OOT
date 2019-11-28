@@ -32,7 +32,7 @@
   <clr-dg-column [clrDgField]="'updatedAt'">Updated at</clr-dg-column>
   <clr-dg-column [clrDgField]="'deletedAt'">Deleted at</clr-dg-column>
 
-  <clr-dg-row *ngFor="let role of roles" [clrDgItem]="role">
+  <clr-dg-row *ngFor="let role of roles" [clrDgItem]="role" [ngClass]="{'deleted-row': role.deletedAt != null}">
     <clr-dg-cell>{{role.name}}</clr-dg-cell>
     <clr-dg-cell>{{role.parent}}</clr-dg-cell>
     <clr-dg-cell>{{role.permissions.join(', ')}}</clr-dg-cell>

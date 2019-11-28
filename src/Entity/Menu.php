@@ -49,6 +49,12 @@ class Menu implements JsonSerializable
      */
     protected $deletedAt;
 
+    public function __construct()
+    {
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = $this->createdAt;
+    }
+
     public function getId(): int
     {
         return $this->id;

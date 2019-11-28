@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { RepositoryService } from '../../repository.service';
 
@@ -6,7 +6,7 @@ import { RepositoryService } from '../../repository.service';
   selector: 'admin-create-menu',
   templateUrl: './create-menu.component.html'
 })
-export class CreateMenuComponent implements OnChanges {
+export class CreateMenuComponent implements OnChanges, OnInit {
   @Output()
   finished = new EventEmitter();
 
@@ -14,15 +14,26 @@ export class CreateMenuComponent implements OnChanges {
   update: any;
 
   loading = false;
+  menus = [];
   menuForm = this.fb.group({
     id: [''],
     title: ['', Validators.required],
     link: [''],
-    displayOrder: [''],
+    displayOrder: [0],
     parent: [''],
   });
 
   constructor(private fb: FormBuilder, private repository: RepositoryService) { }
+
+  ngOnInit() {
+    this.loading = true;
+    this.repository
+      .fetch('menu', {})
+      .subscribe((result: any) => {
+        this.menus = result.items;
+        this.loading = false;
+      });
+  }
 
   ngOnChanges() {
     if (this.update) {

@@ -46,6 +46,26 @@ export class MenuListComponent implements OnInit {
     this.showEditMenu = true;
   }
 
+  onMoveUp(selected) {
+    this.loading = true;
+    this.repository
+      .move('menu', selected, 'up')
+      .subscribe((result: any) => {
+        this.refresh(this.lastState);
+        this.selected = [];
+      });
+  }
+
+  onMoveDown(selected) {
+    this.loading = true;
+    this.repository
+      .move('menu', selected, 'down')
+      .subscribe((result: any) => {
+        this.refresh(this.lastState);
+        this.selected = [];
+      });
+  }
+
   onContentUpdated() {
     this.showCreateMenu = false;
     this.showEditMenu = false;

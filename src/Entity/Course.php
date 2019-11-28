@@ -111,6 +111,13 @@ class Course implements JsonSerializable
      */
     protected $content;
 
+    public function __construct()
+    {
+        $this->id = Uuid::uuid4();
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = $this->createdAt;
+    }
+
     public function getId(): UuidInterface
     {
         return $this->id;

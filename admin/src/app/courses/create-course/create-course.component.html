@@ -1,10 +1,89 @@
-<form clrForm [formGroup]="courseForm" clrLayout="vertical" (ngSubmit)="onSubmit()">
-  <clr-input-container>
-    <label>Title</label>
-    <input clrInput type="text" formControlName="title" required />
-    <clr-control-helper>Course title</clr-control-helper>
-    <clr-control-error>The course title is required</clr-control-error>
-  </clr-input-container>
+<form clrForm [formGroup]="courseForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+  <clr-tabs clrLayout="vertical">
+    <clr-tab>
+      <button clrTabLink>Details</button>
+      <clr-tab-content *clrIfActive>
+        <clr-input-container>
+          <label>Title</label>
+          <input clrInput type="text" formControlName="title" required />
+          <clr-control-error>The title is required</clr-control-error>
+        </clr-input-container>
+        <clr-input-container>
+          <label>Slug</label>
+          <input clrInput type="text" formControlName="slug" required />
+          <clr-control-error>The slug is required</clr-control-error>
+          <clr-control-helper>Page slug for this course</clr-control-helper>
+        </clr-input-container>
+        <clr-input-container>
+          <label>Tagline</label>
+          <input clrInput type="text" formControlName="tagline" />
+          <clr-control-helper>Headline text displayed at the top of course page</clr-control-helper>
+        </clr-input-container>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>Content</button>
+      <clr-tab-content *clrIfActive="true">
+        <ckeditor [editor]="editor" formControlName="content"></ckeditor>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>Program</button>
+      <clr-tab-content *clrIfActive="true">
+        <ckeditor [editor]="editor" formControlName="program"></ckeditor>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>SEO</button>
+      <clr-tab-content *clrIfActive="true">
+        <clr-input-container>
+          <label>Meta Title</label>
+          <input clrInput type="text" formControlName="metaTitle" />
+        </clr-input-container>
+        <clr-input-container>
+          <label>Meta Description</label>
+          <input clrInput type="text" formControlName="metaDescription" />
+        </clr-input-container>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>Location</button>
+      <clr-tab-content *clrIfActive="true">
+        <clr-input-container>
+          <label>Location</label>
+          <input clrInput type="text" formControlName="location" placeholder="lat,lng" />
+          <clr-control-helper>Geo coordinates of the course location, in <code>lat,lng</code> format</clr-control-helper>
+        </clr-input-container>
+        <clr-input-container>
+          <label>City</label>
+          <input clrInput type="text" formControlName="city" />
+          <clr-control-helper>City where the course is taking place</clr-control-helper>
+        </clr-input-container>
+        <clr-input-container>
+          <label>Address</label>
+          <input clrInput type="text" formControlName="address" />
+          <clr-control-helper>Full address where the course is taking place</clr-control-helper>
+        </clr-input-container>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>Schedule</button>
+      <clr-tab-content *clrIfActive="true">
+        <clr-date-container>
+          <label>Start date</label>
+          <input type="date" clrDate required formControlName="startDate">
+          <clr-control-helper>First day of the course</clr-control-helper>
+        </clr-date-container>
+        <clr-input-container>
+          <label>Spots</label>
+          <input clrInput type="number" formControlName="spots" min="0" />
+          <clr-control-helper>Number of available spots on the course</clr-control-helper>
+        </clr-input-container>
+      </clr-tab-content>
+    </clr-tab>
+  </clr-tabs>
 
-  <button class="btn btn-primary" type="submit" [disabled]="!courseForm.valid">Submit</button>
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!courseForm.valid" *ngIf="!loading">Submit</button>
 </form>
+
+<clr-spinner *ngIf="loading"></clr-spinner>
