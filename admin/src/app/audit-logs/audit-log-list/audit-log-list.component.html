@@ -23,7 +23,7 @@
   <clr-dg-column [clrDgField]="'action'">Action</clr-dg-column>
   <clr-dg-column [clrDgField]="'old'">Old</clr-dg-column>
   <clr-dg-column [clrDgField]="'new'">New</clr-dg-column>
-  <clr-dg-column [clrDgField]="'createdAt'">Created at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'created_at'">Created at</clr-dg-column>
 
   <clr-dg-row *ngFor="let audit-log of audit-logs" [clrDgItem]="audit-log">
     <clr-dg-cell>{{audit-log.tableName}}</clr-dg-cell>

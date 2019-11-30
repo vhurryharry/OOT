@@ -29,9 +29,9 @@
   <clr-dg-column [clrDgField]="'title'">Title</clr-dg-column>
   <clr-dg-column [clrDgField]="'type'">Type</clr-dg-column>
   <clr-dg-column [clrDgField]="'event'">Event</clr-dg-column>
-  <clr-dg-column [clrDgField]="'createdAt'">Created At</clr-dg-column>
-  <clr-dg-column [clrDgField]="'updatedAt'">Updated At</clr-dg-column>
-  <clr-dg-column [clrDgField]="'deletedAt'">Deleted At</clr-dg-column>
+  <clr-dg-column [clrDgField]="'created_at'">Created At</clr-dg-column>
+  <clr-dg-column [clrDgField]="'updated_at'">Updated At</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deleted_at'">Deleted At</clr-dg-column>
 
   <clr-dg-row *ngFor="let notification of notifications" [clrDgItem]="notification" [ngClass]="{'deleted-row': notification.deletedAt != null}">
     <clr-dg-cell>{{notification.course}}</clr-dg-cell>

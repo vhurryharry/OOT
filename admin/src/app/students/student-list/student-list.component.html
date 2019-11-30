@@ -30,10 +30,10 @@
   <clr-dg-column [clrDgField]="'login'">Login</clr-dg-column>
   <clr-dg-column [clrDgField]="'status'">Status</clr-dg-column>
   <clr-dg-column [clrDgField]="'acceptsMarketing'">Accepts marketing?</clr-dg-column>
-  <clr-dg-column [clrDgField]="'createdAt'">Created at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'created_at'">Created at</clr-dg-column>
   <clr-dg-column [clrDgField]="'registeredAt'">Registered at</clr-dg-column>
-  <clr-dg-column [clrDgField]="'updatedAt'">Updated at</clr-dg-column>
-  <clr-dg-column [clrDgField]="'deletedAt'">Deleted at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'updated_at'">Updated at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deleted_at'">Deleted at</clr-dg-column>
   <clr-dg-column [clrDgField]="'birthDate'">Birth Date</clr-dg-column>
 
   <clr-dg-row *ngFor="let student of students" [clrDgItem]="student" [ngClass]="{'deleted-row': student.deletedAt != null}">

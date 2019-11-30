@@ -51,6 +51,33 @@ class TransactionalEmail implements EventSubscriberInterface
     {
         $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = 'customer.registered'");
 
+        if (!$notification) {
+            return;
+        }
+
+        $customer = $event->getCustomer();
+
+        $textTemplate = $this->twig->createTemplate($notification['content']);
+        $htmlTemplate = $this->twig->createTemplate($notification['content_rich']);
+
+        $email = (new Email())
+            ->from(new Address($notification['from_email'], $notification['from_name']))
+            ->to($customer->getEmail())
+            ->subject($notification['title'])
+            ->text($textTemplate->render(['customer' => $customer]))
+            ->html($htmlTemplate->render(['customer' => $customer]));
+
+        $this->mailer->send($email);
+    }
+
+    public function onCustomerAutoRegistered(CustomerAutoRegistered $event): void
+    {
+        $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = 'customer.auto_registered'");
+
+        if (!$notification) {
+            return;
+        }
+
         $customer = $event->getCustomer();
 
         $textTemplate = $this->twig->createTemplate($notification['content']);
@@ -68,14 +95,23 @@ class TransactionalEmail implements EventSubscriberInterface
 
     public function onOrderPlaced(OrderPlaced $event): void
     {
-        $customer = $event->getOrder()->getCustomer();
+        $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = 'order.placed'");
+
+        if (!$notification) {
+            return;
+        }
+
+        $order = $event->getOrder();
+
+        $textTemplate = $this->twig->createTemplate($notification['content']);
+        $htmlTemplate = $this->twig->createTemplate($notification['content_rich']);
 
         $email = (new Email())
-            ->from('hello@example.com')
-            ->to($customer->getEmail())
-            ->subject('order placed')
-            ->text('Lorem ipsum dolor sit amet.')
-            ->html('<p>Lorem ipsum dolor sit amet.</p>');
+            ->from(new Address($notification['from_email'], $notification['from_name']))
+            ->to($order->getCustomer()->getEmail())
+            ->subject($notification['title'])
+            ->text($textTemplate->render(['customer' => $order->getCustomer()]))
+            ->html($htmlTemplate->render(['customer' => $order->getCustomer()]));
 
         $this->mailer->send($email);
     }

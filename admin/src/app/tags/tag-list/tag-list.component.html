@@ -26,8 +26,8 @@
   </clr-dg-action-bar>
 
   <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
-  <clr-dg-column [clrDgField]="'createdAt'">Created at</clr-dg-column>
-  <clr-dg-column [clrDgField]="'deletedAt'">Deleted at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'created_at'">Created at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deleted_at'">Deleted at</clr-dg-column>
 
   <clr-dg-row *ngFor="let tag of tags" [clrDgItem]="tag" [ngClass]="{'deleted-row': tag.deletedAt != null}">
     <clr-dg-cell>{{tag.name}}</clr-dg-cell>

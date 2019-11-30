@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use Carbon\Carbon;
 use JsonSerializable;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 class CoursePayment implements JsonSerializable
@@ -90,7 +91,7 @@ class CoursePayment implements JsonSerializable
         $instance = new CoursePayment();
 
         if (isset($row['id'])) {
-            $instance->setId($row['id']);
+            $instance->setId(Uuid::fromString($row['id']));
         }
 
         if (isset($row['transaction_id'])) {
@@ -102,7 +103,7 @@ class CoursePayment implements JsonSerializable
         }
 
         if (isset($row['customer'])) {
-            $instance->setCustomer($row['customer']);
+            $instance->setCustomer(Uuid::fromString($row['customer']));
         }
 
         if (isset($row['created_at'])) {
@@ -117,7 +118,7 @@ class CoursePayment implements JsonSerializable
         $instance = new CoursePayment();
 
         if (isset($row['id'])) {
-            $instance->setId($row['id']);
+            $instance->setId(Uuid::fromString($row['id']));
         }
 
         if (isset($row['transactionId'])) {
@@ -129,7 +130,7 @@ class CoursePayment implements JsonSerializable
         }
 
         if (isset($row['customer'])) {
-            $instance->setCustomer($row['customer']);
+            $instance->setCustomer(Uuid::fromString($row['customer']));
         }
 
         if (isset($row['createdAt'])) {

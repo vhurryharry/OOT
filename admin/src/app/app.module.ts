@@ -66,6 +66,8 @@ import { CreateInstructorComponent } from './instructors/create-instructor/creat
 
 // Orders
 import { OrderListComponent } from './orders/order-list/order-list.component';
+import { OrderPaymentsComponent } from './orders/order-payments/order-payments.component';
+import { EditOrderComponent } from './orders/edit-order/edit-order.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +101,8 @@ import { OrderListComponent } from './orders/order-list/order-list.component';
     InstructorListComponent,
     CreateInstructorComponent,
     OrderListComponent,
+    OrderPaymentsComponent,
+    EditOrderComponent,
   ],
   imports: [
     BrowserModule,

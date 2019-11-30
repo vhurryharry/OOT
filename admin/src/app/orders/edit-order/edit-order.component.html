@@ -1,0 +1,22 @@
+<form clrForm [formGroup]="orderForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+  <clr-select-container>
+    <label>Status</label>
+    <select clrSelect formControlName="status" required>
+      <option value="pending_payment">Pending payment</option>
+      <option value="pending_confirmation">Pending confirmation</option>
+      <option value="confirmed">Confirmed</option>
+      <option value="canceled">Canceled</option>
+    </select>
+    <clr-control-error>The status is required</clr-control-error>
+    <clr-control-helper>Specify the current status of this order</clr-control-helper>
+  </clr-select-container>
+  <clr-input-container>
+    <label>Payment ID</label>
+    <input clrInput type="text" formControlName="payment" />
+    <clr-control-helper>Specify the payment transaction ID of this order, if any</clr-control-helper>
+  </clr-input-container>
+
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!orderForm.valid" *ngIf="!loading">Submit</button>
+</form>
+
+<clr-spinner *ngIf="loading"></clr-spinner>

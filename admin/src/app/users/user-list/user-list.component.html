@@ -31,10 +31,10 @@
   <clr-dg-column [clrDgField]="'lastName'">Last name</clr-dg-column>
   <clr-dg-column [clrDgField]="'permissions'">Permissions</clr-dg-column>
   <clr-dg-column [clrDgField]="'status'">Status</clr-dg-column>
-  <clr-dg-column [clrDgField]="'createdAt'">Created at</clr-dg-column>
-  <clr-dg-column [clrDgField]="'updatedAt'">Last update</clr-dg-column>
+  <clr-dg-column [clrDgField]="'created_at'">Created at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'updated_at'">Last update</clr-dg-column>
   <clr-dg-column [clrDgField]="'expiresAt'">Expires at</clr-dg-column>
-  <clr-dg-column [clrDgField]="'deletedAt'">Deleted?</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deleted_at'">Deleted?</clr-dg-column>
 
   <clr-dg-row *ngFor="let user of users" [clrDgItem]="user" [ngClass]="{'deleted-row': user.deletedAt != null}">
     <clr-dg-cell>{{user.name}}</clr-dg-cell>

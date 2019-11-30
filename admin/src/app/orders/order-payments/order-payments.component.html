@@ -1,0 +1,74 @@
+<div *ngIf="!loading && payment">
+  <clr-stack-view>
+    <clr-stack-block>
+      <clr-stack-label>Payment amount</clr-stack-label>
+      <clr-stack-content>{{ payment.amount / 100 }} {{ payment.currency }} on {{ payment.created * 1000 | date:'medium' }}</clr-stack-content>
+    </clr-stack-block>
+    <clr-stack-block>
+      <clr-stack-label>Refund amount</clr-stack-label>
+      <clr-stack-content>{{ payment.amount_refunded / 100 }}</clr-stack-content>
+    </clr-stack-block>
+    <clr-stack-block>
+      <clr-stack-label>Receipt</clr-stack-label>
+      <clr-stack-content><a class="btn btn-outline" href="{{ payment.receipt_url }}">View receipt on Stripe</a></clr-stack-content>
+    </clr-stack-block>
+    <clr-stack-block>
+      <clr-stack-label>Billing</clr-stack-label>
+      <clr-stack-content></clr-stack-content>
+      <clr-stack-block>
+        <clr-stack-label>Email</clr-stack-label>
+        <clr-stack-content>{{ payment.billing_details.email }}</clr-stack-content>
+      </clr-stack-block>
+      <clr-stack-block>
+        <clr-stack-label>Name</clr-stack-label>
+        <clr-stack-content>{{ payment.billing_details.name }}</clr-stack-content>
+      </clr-stack-block>
+      <clr-stack-block>
+        <clr-stack-label>Phone</clr-stack-label>
+        <clr-stack-content>{{ payment.billing_details.phone }}</clr-stack-content>
+      </clr-stack-block>
+    </clr-stack-block>
+    <clr-stack-block>
+      <clr-stack-label>Payment Method</clr-stack-label>
+      <clr-stack-content></clr-stack-content>
+      <clr-stack-block>
+        <clr-stack-label>Brand</clr-stack-label>
+        <clr-stack-content>{{ payment.payment_method_details.card.brand }}</clr-stack-content>
+      </clr-stack-block>
+      <clr-stack-block>
+        <clr-stack-label>Country</clr-stack-label>
+        <clr-stack-content>{{ payment.payment_method_details.card.country }}</clr-stack-content>
+      </clr-stack-block>
+      <clr-stack-block>
+        <clr-stack-label>Expiration month</clr-stack-label>
+        <clr-stack-content>{{ payment.payment_method_details.card.exp_month }}</clr-stack-content>
+      </clr-stack-block>
+      <clr-stack-block>
+        <clr-stack-label>Expiration year</clr-stack-label>
+        <clr-stack-content>{{ payment.payment_method_details.card.exp_year }}</clr-stack-content>
+      </clr-stack-block>
+      <clr-stack-block>
+        <clr-stack-label>Last 4 digits</clr-stack-label>
+        <clr-stack-content>{{ payment.payment_method_details.card.last4 }}</clr-stack-content>
+      </clr-stack-block>
+    </clr-stack-block>
+    <clr-stack-block *ngIf="payment.refunds.total_count > 0">
+      <clr-stack-label>Refunds</clr-stack-label>
+      <clr-stack-content></clr-stack-content>
+      <clr-stack-block *ngFor="let refund of payment.refunds.data">
+        <clr-stack-label>{{ refund.id }}</clr-stack-label>
+        <clr-stack-content>{{ refund.amount / 100 }} {{ refund.currency }} on {{ refund.created * 1000 | date:'medium' }}</clr-stack-content>
+      </clr-stack-block>
+    </clr-stack-block>
+  </clr-stack-view>
+
+  <button type="button" class="btn btn-secondary" (click)="onRefund()"><clr-icon shape="switch"></clr-icon> Refund</button>
+
+  <clr-alert [clrAlertType]="'warning'" *ngIf="!loading && refund">
+    <clr-alert-item>
+      <span class="alert-text">Refund ID: {{ refund.id }}, Status: {{ refund.status }}</span>
+    </clr-alert-item>
+  </clr-alert>
+</div>
+
+<clr-spinner *ngIf="loading"></clr-spinner>

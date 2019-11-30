@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Security\Customer;
 use RandomLib\Factory;
 
 class Order extends Cart
@@ -21,19 +22,19 @@ class Order extends Cart
     protected $status = self::PENDING_CONFIRMATION;
 
     /**
-     * @var string
+     * @var Customer
      */
-    protected $customerId;
+    protected $customer;
 
     /**
      * @var Payment
      */
     protected $payment;
 
-    public function __construct(string $customerId)
+    public function __construct(Customer $customer)
     {
         $this->number = $this->generateNumber();
-        $this->customerId = $customerId;
+        $this->customer = $customer;
         parent::__construct();
     }
 
@@ -49,7 +50,12 @@ class Order extends Cart
 
     public function getCustomerId(): string
     {
-        return $this->customerId;
+        return $this->customer->getId()->toString();
+    }
+
+    public function getCustomer(): Customer
+    {
+        return $this->customer;
     }
 
     public function getPayment(): Payment

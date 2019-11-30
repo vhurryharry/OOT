@@ -46,4 +46,12 @@ export class RepositoryService {
   detach(type, payload) {
     return this.http.post('/admin/api/detach/' + type, payload);
   }
+
+  getPayment(paymentId) {
+    return this.http.post('/admin/api/order/' + paymentId + '/payment', {});
+  }
+
+  refund(paymentId) {
+    return this.http.post('/admin/api/order/' + paymentId + '/refund', {});
+  }
 }

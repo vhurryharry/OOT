@@ -24,6 +24,11 @@ class State
      */
     protected $filters = [];
 
+    /**
+     * @var array
+     */
+    protected $sorters = [];
+
     public function __construct(int $limit = 25, int $offset = 0)
     {
         $this->limit = $limit;
@@ -44,6 +49,12 @@ class State
 
         foreach ($filters as $filter) {
             $state->addFilter($filter['property'], $filter['value']);
+        }
+
+        $sortColumn = $datagridState['state']['sort']['by'] ?? false;
+        $sortOrder = $datagridState['state']['sort']['reverse'] ?? false;
+        if ($sortColumn && $sortOrder) {
+            $state->addSorter($sortColumn, $sortOrder);
         }
 
         return $state;
@@ -67,6 +78,11 @@ class State
         ];
     }
 
+    public function addSorter(string $key, bool $reverse): void
+    {
+        $this->sorters[$key] = $reverse ? 'desc' : 'asc';
+    }
+
     public function toQuery(string $order = null): string
     {
         $query = '';
@@ -82,6 +98,17 @@ class State
 
         if ($order) {
             $query .= ' order by ' . $order;
+        } else {
+            if (!empty($this->sorters)) {
+                $query .= ' order by ';
+                $sorters = [];
+
+                foreach ($this->sorters as $column => $order) {
+                    $sorters[] = $column . ' ' . $order;
+                }
+
+                $query .= implode(', ', $sorters);
+            }
         }
 
         $query .= sprintf(' limit %d offset %d', $this->limit, $this->offset);

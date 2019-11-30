@@ -115,7 +115,7 @@ class OrderController extends AbstractController
             $this->eventDispatcher->dispatch(new CustomerAutoRegistered($customer));
         }
 
-        $order = new Order($customer->getId()->toString());
+        $order = new Order($customer);
         $order->setItems($cart->getItems());
 
         // Payment

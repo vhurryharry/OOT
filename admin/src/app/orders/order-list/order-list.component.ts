@@ -20,7 +20,7 @@ export class OrderListComponent implements OnInit {
   lastState = {};
   total: number;
   loading = true;
-  showCreateOrder = false;
+  showViewPayment = false;
   showEditOrder = false;
 
   constructor(private repository: RepositoryService, private fileService: FileService) { }
@@ -41,8 +41,9 @@ export class OrderListComponent implements OnInit {
       });
   }
 
-  onCreate() {
-    this.showCreateOrder = true;
+  onViewPayment() {
+    this.singleSelection = this.selected[0];
+    this.showViewPayment = true;
   }
 
   onEdit() {
@@ -51,30 +52,10 @@ export class OrderListComponent implements OnInit {
   }
 
   onContentUpdated() {
-    this.showCreateOrder = false;
+    this.showViewPayment = false;
     this.showEditOrder = false;
     this.refresh(this.lastState);
     this.selected = [];
-  }
-
-  onDelete() {
-    this.loading = true;
-    this.repository
-      .delete('order', this.getSelectedIds())
-      .subscribe((result: any) => {
-        this.refresh(this.lastState);
-        this.selected = [];
-      });
-  }
-
-  onRestore() {
-    this.loading = true;
-    this.repository
-      .restore('order', this.getSelectedIds())
-      .subscribe((result: any) => {
-        this.refresh(this.lastState);
-        this.selected = [];
-      });
   }
 
   onExportAll() {
