@@ -18,6 +18,11 @@ admin_api_course_option:
   type: annotation
   prefix: /admin/api/course/options
 
+admin_api_course_review:
+  resource: 'App\Admin\Controller\Api\CourseReviewController'
+  type: annotation
+  prefix: /admin/api/course/reviews
+
 admin_api_document:
   resource: 'App\Admin\Controller\Api\DocumentController'
   type: annotation

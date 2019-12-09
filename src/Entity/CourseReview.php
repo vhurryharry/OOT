@@ -150,7 +150,7 @@ class CourseReview implements JsonSerializable
     {
         $instance = new CourseReview();
 
-        if (isset($row['id'])) {
+        if (isset($row['id'])) {			
             $instance->setId($row['id']);
         }
 
@@ -167,7 +167,7 @@ class CourseReview implements JsonSerializable
         }
 
         if (isset($row['author'])) {
-            $instance->setAuthor($row['author']);
+            $instance->setAuthor(Uuid::fromString($row['author']));
         }
 
         if (isset($row['course'])) {

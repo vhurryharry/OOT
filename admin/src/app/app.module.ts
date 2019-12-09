@@ -16,6 +16,7 @@ import { CourseListComponent } from './courses/course-list/course-list.component
 import { CreateCourseComponent } from './courses/create-course/create-course.component';
 import { ManageInstructorsComponent } from './courses/manage-instructors/manage-instructors.component';
 import { ManageOptionsComponent } from './courses/manage-options/manage-options.component';
+import { ManageReviewsComponent } from './courses/manage-reviews/manage-reviews.component';
 
 // Entities
 import { EntityListComponent } from './entities/entity-list/entity-list.component';
@@ -77,6 +78,7 @@ import { EditOrderComponent } from './orders/edit-order/edit-order.component';
     CreateCourseComponent,
     ManageInstructorsComponent,
     ManageOptionsComponent,
+    ManageReviewsComponent,
     EntityListComponent,
     CreateEntityComponent,
     NotificationListComponent,
@@ -102,7 +104,7 @@ import { EditOrderComponent } from './orders/edit-order/edit-order.component';
     CreateInstructorComponent,
     OrderListComponent,
     OrderPaymentsComponent,
-    EditOrderComponent,
+    EditOrderComponent
   ],
   imports: [
     BrowserModule,
@@ -112,9 +114,9 @@ import { EditOrderComponent } from './orders/edit-order/edit-order.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    CKEditorModule,
+    CKEditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

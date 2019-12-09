@@ -1,0 +1,25 @@
+<clr-spinner *ngIf="loading"></clr-spinner>
+
+<clr-datagrid>
+  <clr-dg-column [clrDgField]="'author'">Author</clr-dg-column>
+  <clr-dg-column [clrDgField]="'title'">Title</clr-dg-column>
+  <clr-dg-column [clrDgField]="'content'">Content</clr-dg-column>
+  <clr-dg-column [clrDgField]="'rating'">Rating</clr-dg-column>
+  <clr-dg-column [clrDgField]="'created_at'">Created At</clr-dg-column>
+  <clr-dg-column>Options</clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let review of reviews">
+    <clr-dg-cell>{{review.author_name}}</clr-dg-cell>
+    <clr-dg-cell>{{review.title}}</clr-dg-cell>
+    <clr-dg-cell>{{review.content}}</clr-dg-cell>
+    <clr-dg-cell>{{review.rating}}</clr-dg-cell>
+    <clr-dg-cell>{{review.createdAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>
+      <button type="button" class="btn btn-sm btn-secondary" (click)="onRemove(review.id)">
+        <clr-icon shape="trash"></clr-icon> Remove
+      </button>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>{{reviews.length}} reviews</clr-dg-footer>
+</clr-datagrid>

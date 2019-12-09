@@ -83,7 +83,7 @@ class State
         $this->sorters[$key] = $reverse ? 'desc' : 'asc';
     }
 
-    public function toQuery(string $order = null): string
+    public function toQuery(bool $softDeleteable = false, bool $includeLimit = true, string $order = null): string
     {
         $query = '';
         $conditionals = [];
@@ -93,8 +93,12 @@ class State
         }
 
         if (!empty($conditionals)) {
-            $query .= sprintf('where %s ', implode(' AND ', $conditionals));
-        }
+			$query .= sprintf('where %s ', implode(' AND ', $conditionals));
+			if($softDeleteable)
+				$query .= " and deleted_at is null";
+        } else {
+			$query .= "where deleted_at is null";
+		}
 
         if ($order) {
             $query .= ' order by ' . $order;
@@ -111,7 +115,8 @@ class State
             }
         }
 
-        $query .= sprintf(' limit %d offset %d', $this->limit, $this->offset);
+		if($includeLimit)
+			$query .= sprintf(' limit %d offset %d', $this->limit, $this->offset);
 
         return $query;
     }
