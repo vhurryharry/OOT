@@ -13,7 +13,6 @@ pipelines:
               - docker-php-ext-enable xsl
               - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
               - composer install
-              - composer test
             services:
               - postgres
 
