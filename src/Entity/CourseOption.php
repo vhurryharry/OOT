@@ -39,7 +39,7 @@ class CourseOption implements JsonSerializable
     /**
      * @var bool
      */
-    protected $combo;
+    protected $combo = false;
 
     /**
      * @var ?UuidInterface
@@ -60,6 +60,12 @@ class CourseOption implements JsonSerializable
      * @var ?Carbon
      */
     protected $deletedAt;
+
+    public function __construct()
+    {
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = $this->createdAt;
+    }
 
     public function getId(): int
     {
@@ -108,7 +114,7 @@ class CourseOption implements JsonSerializable
 
     public function setCombo(bool $combo): void
     {
-        $this->combo = $combo;
+		$this->combo = $combo;
     }
 
     public function getCourse(): ?UuidInterface
@@ -256,7 +262,7 @@ class CourseOption implements JsonSerializable
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
             'updated_at' => $this->updatedAt->format('Y-m-d H:i:s'),
             'deleted_at' => $this->deletedAt ? $this->deletedAt->format('Y-m-d H:i:s') : null,
-        ];
+		];
     }
 
     public function jsonSerialize(): array

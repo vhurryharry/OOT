@@ -399,7 +399,7 @@ create table course_option (
   title           text not null,
   price           int not null,
   dates           jsonb,
-  combo           boolean not null,
+  combo           boolean default false,
   course          uuid references course(id),
   created_at      timestamptz not null default now(),
   updated_at      timestamptz not null default now(),
