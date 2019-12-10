@@ -22,10 +22,10 @@
       <button type="button" class="btn btn-secondary" (click)="onEdit()" *ngIf="selected.length == 1">
         <clr-icon shape="pencil"></clr-icon> Edit
       </button>
-      <button type="button" class="btn btn-secondary" (click)="onDelete()">
+      <button type="button" class="btn btn-secondary" (click)="onDelete()" *ngIf="selected.length > 0">
         <clr-icon shape="trash"></clr-icon> Delete
       </button>
-      <button type="button" class="btn btn-secondary" (click)="onRestore()">
+      <button type="button" class="btn btn-secondary" (click)="onRestore()" *ngIf="selected.length > 0">
         <clr-icon shape="undo"></clr-icon> Restore
       </button>
     </div>
