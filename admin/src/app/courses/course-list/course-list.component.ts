@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
+
 import { RepositoryService } from '../../repository.service';
 import { FileService } from '../../file.service';
 
@@ -25,7 +28,8 @@ export class CourseListComponent implements OnInit {
 
   constructor(
     private repository: RepositoryService,
-    private fileService: FileService
+    private fileService: FileService,
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -44,6 +48,7 @@ export class CourseListComponent implements OnInit {
 
   onCreate() {
     this.showCreateCourse = true;
+    //this.router.navigate(['/courses/edit/0']);
   }
 
   onEdit() {
