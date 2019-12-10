@@ -48,7 +48,7 @@ export class CourseListComponent implements OnInit {
 
   onCreate() {
     this.showCreateCourse = true;
-    //this.router.navigate(['/courses/edit/0']);
+    // this.router.navigate(['/courses/edit/0']);
   }
 
   onEdit() {
