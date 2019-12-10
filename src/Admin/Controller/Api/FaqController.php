@@ -51,6 +51,7 @@ class FaqController extends AbstractController
         return new JsonResponse([
             'items' => $items,
             'total' => $this->db->count('faq'),
+            'alive' => $this->db->count('faq', false),
         ]);
     }
 

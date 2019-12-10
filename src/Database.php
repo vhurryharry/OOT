@@ -89,11 +89,13 @@ class Database
         return $results;
     }
 
-    public function count(string $table): int
+    public function count(string $table, bool $includeDeleted = true): int
     {
-		$softDeleteable = (bool) $this->fetchValue("select exists (select 1 from information_schema.columns where table_name='".$table."' and column_name='deleted_at')");
-		if($softDeleteable)
-			return (int) $this->fetchValue('select count(*) from public.'.$table.' where deleted_at is null');
+		if(!$includeDeleted) {
+			$softDeleteable = (bool) $this->fetchValue("select exists (select 1 from information_schema.columns where table_name='".$table."' and column_name='deleted_at')");
+			if($softDeleteable)
+				return (int) $this->fetchValue('select count(*) from public.'.$table.' where deleted_at is null');
+		}
 			
 		return (int) $this->fetchValue('select count(*) from public.'.$table);
     }

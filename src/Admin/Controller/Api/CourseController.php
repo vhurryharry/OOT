@@ -51,7 +51,8 @@ class CourseController extends AbstractController
 
         return new JsonResponse([
             'items' => $items,
-            'total' => $this->db->count('course'),
+			'total' => $this->db->count('course'),
+            'alive' => $this->db->count('course', false),
         ]);
     }
 

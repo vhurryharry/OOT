@@ -1,16 +1,21 @@
-<clr-datagrid
-  (clrDgRefresh)="refresh($event)"
-  [clrDgLoading]="loading"
-  [(clrDgSelected)]="selected">
+<clr-datagrid (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading" [(clrDgSelected)]="selected">
   <clr-dg-placeholder>No categories found.</clr-dg-placeholder>
 
   <clr-dg-action-bar>
-    <button type="button" class="btn btn-secondary" (click)="onCreate()"><clr-icon shape="file"></clr-icon> Create category</button>
+    <button type="button" class="btn btn-secondary" (click)="onCreate()">
+      <clr-icon shape="file"></clr-icon> Create category
+    </button>
 
     <div class="btn-group">
-      <button type="button" class="btn btn-secondary" (click)="onEdit()" *ngIf="selected.length == 1"><clr-icon shape="pencil"></clr-icon> Edit</button>
-      <button type="button" class="btn btn-secondary" (click)="onDelete()"><clr-icon shape="trash"></clr-icon> Delete</button>
-      <button type="button" class="btn btn-secondary" (click)="onRestore()"><clr-icon shape="undo"></clr-icon> Restore</button>
+      <button type="button" class="btn btn-secondary" (click)="onEdit()" *ngIf="selected.length == 1">
+        <clr-icon shape="pencil"></clr-icon> Edit
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onDelete()">
+        <clr-icon shape="trash"></clr-icon> Delete
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onRestore()">
+        <clr-icon shape="undo"></clr-icon> Restore
+      </button>
     </div>
 
     <clr-dropdown>
@@ -20,7 +25,8 @@
       </button>
       <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
         <button type="button" (click)="onExportAll()" clrDropdownItem>Export all</button>
-        <button type="button" (click)="onExportSelected()" [disabled]="selected.length === 0" clrDropdownItem>Export selected</button>
+        <button type="button" (click)="onExportSelected()" [disabled]="selected.length === 0" clrDropdownItem>Export
+          selected</button>
       </clr-dropdown-menu>
     </clr-dropdown>
   </clr-dg-action-bar>
@@ -31,7 +37,8 @@
   <clr-dg-column [clrDgField]="'updated_at'">Updated at</clr-dg-column>
   <clr-dg-column [clrDgField]="'deleted_at'">Deleted at</clr-dg-column>
 
-  <clr-dg-row *ngFor="let category of categories" [clrDgItem]="category" [ngClass]="{'deleted-row': category.deletedAt != null}">
+  <clr-dg-row *ngFor="let category of categories" [clrDgItem]="category"
+    [ngClass]="{'deleted-row': category.deletedAt != null}">
     <clr-dg-cell>{{category.name}}</clr-dg-cell>
     <clr-dg-cell>{{category.parent}}</clr-dg-cell>
     <clr-dg-cell>{{category.createdAt | date:'short'}}</clr-dg-cell>
@@ -41,7 +48,7 @@
 
   <clr-dg-footer>
     {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-    of {{total}} categories
+    of {{total}} categories ({{deleted}} deleted)
     <clr-dg-pagination #pagination [clrDgTotalItems]="total"></clr-dg-pagination>
   </clr-dg-footer>
 </clr-datagrid>

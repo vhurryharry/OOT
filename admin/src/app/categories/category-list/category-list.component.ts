@@ -8,33 +8,35 @@ import { FileService } from '../../file.service';
   templateUrl: './category-list.component.html'
 })
 export class CategoryListComponent implements OnInit {
-  @ViewChild(ClrDatagrid, {static: false}) datagrid: ClrDatagrid;
+  @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
 
   categories = [];
   selected = [];
   singleSelection = null;
   lastState = {};
   total: number;
+  deleted: number;
   loading = true;
   showCreateCategory = false;
   showEditCategory = false;
 
-  constructor(private repository: RepositoryService, private fileService: FileService) { }
+  constructor(
+    private repository: RepositoryService,
+    private fileService: FileService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   refresh(state: ClrDatagridStateInterface) {
     this.loading = true;
     this.lastState = state;
 
-    this.repository
-      .fetch('category', state)
-      .subscribe((result: any) => {
-        this.categories = result.items;
-        this.total = result.total;
-        this.loading = false;
-      });
+    this.repository.fetch('category', state).subscribe((result: any) => {
+      this.categories = result.items;
+      this.total = result.total;
+      this.deleted = result.total - result.alive;
+      this.loading = false;
+    });
   }
 
   onCreate() {

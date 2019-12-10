@@ -8,33 +8,35 @@ import { FileService } from '../../file.service';
   templateUrl: './document-list.component.html'
 })
 export class DocumentListComponent implements OnInit {
-  @ViewChild(ClrDatagrid, {static: false}) datagrid: ClrDatagrid;
+  @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
 
   documents = [];
   selected = [];
   singleSelection = null;
   lastState = {};
   total: number;
+  deleted: number;
   loading = true;
   showCreateDocument = false;
   showEditDocument = false;
 
-  constructor(private repository: RepositoryService, private fileService: FileService) { }
+  constructor(
+    private repository: RepositoryService,
+    private fileService: FileService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   refresh(state: ClrDatagridStateInterface) {
     this.loading = true;
     this.lastState = state;
 
-    this.repository
-      .fetch('document', state)
-      .subscribe((result: any) => {
-        this.documents = result.items;
-        this.total = result.total;
-        this.loading = false;
-      });
+    this.repository.fetch('document', state).subscribe((result: any) => {
+      this.documents = result.items;
+      this.total = result.total;
+      this.deleted = result.total - result.alive;
+      this.loading = false;
+    });
   }
 
   onCreate() {

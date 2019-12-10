@@ -8,13 +8,14 @@ import { FileService } from '../../file.service';
   templateUrl: './course-list.component.html'
 })
 export class CourseListComponent implements OnInit {
-  @ViewChild(ClrDatagrid, {static: false}) datagrid: ClrDatagrid;
+  @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
 
   courses = [];
   selected = [];
   singleSelection = null;
   lastState = {};
   total: number;
+  deleted: number;
   loading = true;
   showCreateCourse = false;
   showEditCourse = false;
@@ -22,22 +23,23 @@ export class CourseListComponent implements OnInit {
   showInstructors = false;
   showReviews = false;
 
-  constructor(private repository: RepositoryService, private fileService: FileService) { }
+  constructor(
+    private repository: RepositoryService,
+    private fileService: FileService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   refresh(state: ClrDatagridStateInterface) {
     this.loading = true;
     this.lastState = state;
 
-    this.repository
-      .fetch('course', state)
-      .subscribe((result: any) => {
-        this.courses = result.items;
-        this.total = result.total;
-        this.loading = false;
-      });
+    this.repository.fetch('course', state).subscribe((result: any) => {
+      this.courses = result.items;
+      this.total = result.total;
+      this.deleted = result.total - result.alive;
+      this.loading = false;
+    });
   }
 
   onCreate() {

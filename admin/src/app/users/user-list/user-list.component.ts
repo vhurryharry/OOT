@@ -8,33 +8,35 @@ import { FileService } from '../../file.service';
   templateUrl: './user-list.component.html'
 })
 export class UserListComponent implements OnInit {
-  @ViewChild(ClrDatagrid, {static: false}) datagrid: ClrDatagrid;
+  @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
 
   users = [];
   selected = [];
   singleSelection = null;
   lastState = {};
   total: number;
+  deleted: number;
   loading = true;
   showCreateUser = false;
   showEditUser = false;
 
-  constructor(private repository: RepositoryService, private fileService: FileService) { }
+  constructor(
+    private repository: RepositoryService,
+    private fileService: FileService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   refresh(state: ClrDatagridStateInterface) {
     this.loading = true;
     this.lastState = state;
 
-    this.repository
-      .fetch('user', state)
-      .subscribe((result: any) => {
-        this.users = result.items;
-        this.total = result.total;
-        this.loading = false;
-      });
+    this.repository.fetch('user', state).subscribe((result: any) => {
+      this.users = result.items;
+      this.total = result.total;
+      this.deleted = result.total - result.alive;
+      this.loading = false;
+    });
   }
 
   onCreate() {

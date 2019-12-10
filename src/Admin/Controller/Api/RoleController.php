@@ -51,6 +51,7 @@ class RoleController extends AbstractController
         return new JsonResponse([
             'items' => $items,
             'total' => $this->db->count('role'),
+            'alive' => $this->db->count('role', false),
         ]);
     }
 

@@ -51,6 +51,7 @@ class DocumentController extends AbstractController
         return new JsonResponse([
             'items' => $items,
             'total' => $this->db->count('document'),
+            'alive' => $this->db->count('document', false),
         ]);
     }
 

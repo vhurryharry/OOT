@@ -8,33 +8,35 @@ import { FileService } from '../../file.service';
   templateUrl: './role-list.component.html'
 })
 export class RoleListComponent implements OnInit {
-  @ViewChild(ClrDatagrid, {static: false}) datagrid: ClrDatagrid;
+  @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
 
   roles = [];
   selected = [];
   singleSelection = null;
   lastState = {};
   total: number;
+  deleted: number;
   loading = true;
   showCreateRole = false;
   showEditRole = false;
 
-  constructor(private repository: RepositoryService, private fileService: FileService) { }
+  constructor(
+    private repository: RepositoryService,
+    private fileService: FileService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   refresh(state: ClrDatagridStateInterface) {
     this.loading = true;
     this.lastState = state;
 
-    this.repository
-      .fetch('role', state)
-      .subscribe((result: any) => {
-        this.roles = result.items;
-        this.total = result.total;
-        this.loading = false;
-      });
+    this.repository.fetch('role', state).subscribe((result: any) => {
+      this.roles = result.items;
+      this.total = result.total;
+      this.deleted = result.total - result.alive;
+      this.loading = false;
+    });
   }
 
   onCreate() {

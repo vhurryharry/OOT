@@ -51,6 +51,7 @@ class TagController extends AbstractController
         return new JsonResponse([
             'items' => $items,
             'total' => $this->db->count('tag'),
+            'alive' => $this->db->count('tag', false),
         ]);
     }
 

@@ -51,6 +51,7 @@ class EntityController extends AbstractController
         return new JsonResponse([
             'items' => $items,
             'total' => $this->db->count('entity'),
+            'alive' => $this->db->count('entity', false),
         ]);
     }
 

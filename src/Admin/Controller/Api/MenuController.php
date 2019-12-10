@@ -44,6 +44,7 @@ class MenuController extends AbstractController
         return new JsonResponse([
             'items' => $items,
             'total' => $this->db->count('menu'),
+            'alive' => $this->db->count('menu', false),
         ]);
     }
 

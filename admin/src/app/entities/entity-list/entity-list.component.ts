@@ -8,33 +8,35 @@ import { FileService } from '../../file.service';
   templateUrl: './entity-list.component.html'
 })
 export class EntityListComponent implements OnInit {
-  @ViewChild(ClrDatagrid, {static: false}) datagrid: ClrDatagrid;
+  @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
 
   entities = [];
   selected = [];
   singleSelection = null;
   lastState = {};
   total: number;
+  deleted: number;
   loading = true;
   showCreateEntity = false;
   showEditEntity = false;
 
-  constructor(private repository: RepositoryService, private fileService: FileService) { }
+  constructor(
+    private repository: RepositoryService,
+    private fileService: FileService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   refresh(state: ClrDatagridStateInterface) {
     this.loading = true;
     this.lastState = state;
 
-    this.repository
-      .fetch('entity', state)
-      .subscribe((result: any) => {
-        this.entities = result.items;
-        this.total = result.total;
-        this.loading = false;
-      });
+    this.repository.fetch('entity', state).subscribe((result: any) => {
+      this.entities = result.items;
+      this.total = result.total;
+      this.deleted = result.total - result.alive;
+      this.loading = false;
+    });
   }
 
   onCreate() {

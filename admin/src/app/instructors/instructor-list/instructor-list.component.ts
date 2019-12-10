@@ -11,7 +11,7 @@ export class InstructorListComponent implements OnInit {
   @Input()
   type: string;
 
-  @ViewChild(ClrDatagrid, {static: false})
+  @ViewChild(ClrDatagrid, { static: false })
   datagrid: ClrDatagrid;
 
   instructors = [];
@@ -19,14 +19,17 @@ export class InstructorListComponent implements OnInit {
   singleSelection = null;
   lastState = {};
   total: number;
+  deleted: number;
   loading = true;
   showCreateInstructor = false;
   showEditInstructor = false;
 
-  constructor(private repository: RepositoryService, private fileService: FileService) { }
+  constructor(
+    private repository: RepositoryService,
+    private fileService: FileService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   refresh(state: ClrDatagridStateInterface) {
     this.loading = true;
@@ -35,8 +38,8 @@ export class InstructorListComponent implements OnInit {
     instructorState.filters = [
       {
         property: 'type',
-        value: 'instructor',
-      },
+        value: 'instructor'
+      }
     ];
 
     this.repository
@@ -44,6 +47,7 @@ export class InstructorListComponent implements OnInit {
       .subscribe((result: any) => {
         this.instructors = result.items;
         this.total = result.total;
+        this.deleted = result.total - result.alive;
         this.loading = false;
       });
   }

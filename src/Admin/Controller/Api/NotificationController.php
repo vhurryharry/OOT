@@ -44,6 +44,7 @@ class NotificationController extends AbstractController
         return new JsonResponse([
             'items' => $items,
             'total' => $this->db->count('notification'),
+            'alive' => $this->db->count('notification', false),
         ]);
     }
 

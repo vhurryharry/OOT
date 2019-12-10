@@ -50,7 +50,8 @@ class CategoryController extends AbstractController
 
         return new JsonResponse([
             'items' => $items,
-            'total' => $this->db->count('category'),
+			'total' => $this->db->count('category'),
+			'alive' => $this->db->count('category', false)
         ]);
     }
 

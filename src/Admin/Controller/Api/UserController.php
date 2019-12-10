@@ -51,6 +51,7 @@ class UserController extends AbstractController
         return new JsonResponse([
             'items' => $items,
             'total' => $this->db->count('user'),
+            'alive' => $this->db->count('user', false),
         ]);
     }
 

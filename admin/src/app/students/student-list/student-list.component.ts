@@ -11,7 +11,7 @@ export class StudentListComponent implements OnInit {
   @Input()
   type: string;
 
-  @ViewChild(ClrDatagrid, {static: false})
+  @ViewChild(ClrDatagrid, { static: false })
   datagrid: ClrDatagrid;
 
   students = [];
@@ -19,14 +19,17 @@ export class StudentListComponent implements OnInit {
   singleSelection = null;
   lastState = {};
   total: number;
+  deleted: number;
   loading = true;
   showCreateStudent = false;
   showEditStudent = false;
 
-  constructor(private repository: RepositoryService, private fileService: FileService) { }
+  constructor(
+    private repository: RepositoryService,
+    private fileService: FileService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   refresh(state: ClrDatagridStateInterface) {
     this.loading = true;
@@ -35,17 +38,16 @@ export class StudentListComponent implements OnInit {
     studentState.filters = [
       {
         property: 'type',
-        value: 'student',
-      },
+        value: 'student'
+      }
     ];
 
-    this.repository
-      .fetch('customer', studentState)
-      .subscribe((result: any) => {
-        this.students = result.items;
-        this.total = result.total;
-        this.loading = false;
-      });
+    this.repository.fetch('customer', studentState).subscribe((result: any) => {
+      this.students = result.items;
+      this.total = result.total;
+      this.deleted = result.total - result.alive;
+      this.loading = false;
+    });
   }
 
   onCreate() {

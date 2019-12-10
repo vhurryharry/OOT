@@ -39,7 +39,7 @@ class CustomerController extends AbstractController
     {
 		$state = State::fromDatagrid($request->request->all());
         $customers = $this->db->findAll(
-            'select * from customer '.$state->toQuery(true),
+            'select * from customer '.$state->toQuery(),
             $state->toQueryParams()
         );
 
@@ -50,7 +50,9 @@ class CustomerController extends AbstractController
 
         return new JsonResponse([
             'items' => $items,
-			'total' => (int) $this->db->execute('select * from customer '.$state->toQuery(true, false),
+			'total' => (int) $this->db->execute('select * from customer '.$state->toQuery(false, false),
+				$state->toQueryParams()),
+			'alive' => (int) $this->db->execute('select * from customer '.$state->toQuery(true, false),
 				$state->toQueryParams())
         ]);
     }
@@ -60,7 +62,7 @@ class CustomerController extends AbstractController
      */
     public function find(Request $request)
     {
-        $customer = $this->db->find('select * from customer where deleted_at is null and id = ?', [$request->get('id')]);
+        $customer = $this->db->find('select * from customer where id = ?', [$request->get('id')]);
         if (!$customer) {
             throw new NotFoundHttpException();
         }

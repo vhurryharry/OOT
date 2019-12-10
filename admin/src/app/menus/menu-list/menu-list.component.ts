@@ -8,33 +8,35 @@ import { FileService } from '../../file.service';
   templateUrl: './menu-list.component.html'
 })
 export class MenuListComponent implements OnInit {
-  @ViewChild(ClrDatagrid, {static: false}) datagrid: ClrDatagrid;
+  @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
 
   menus = [];
   selected = [];
   singleSelection = null;
   lastState = {};
   total: number;
+  deleted: number;
   loading = true;
   showCreateMenu = false;
   showEditMenu = false;
 
-  constructor(private repository: RepositoryService, private fileService: FileService) { }
+  constructor(
+    private repository: RepositoryService,
+    private fileService: FileService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   refresh(state: ClrDatagridStateInterface) {
     this.loading = true;
     this.lastState = state;
 
-    this.repository
-      .fetch('menu', state)
-      .subscribe((result: any) => {
-        this.menus = result.items;
-        this.total = result.total;
-        this.loading = false;
-      });
+    this.repository.fetch('menu', state).subscribe((result: any) => {
+      this.menus = result.items;
+      this.total = result.total;
+      this.deleted = result.total - result.alive;
+      this.loading = false;
+    });
   }
 
   onCreate() {
@@ -48,22 +50,18 @@ export class MenuListComponent implements OnInit {
 
   onMoveUp(selected) {
     this.loading = true;
-    this.repository
-      .move('menu', selected, 'up')
-      .subscribe((result: any) => {
-        this.refresh(this.lastState);
-        this.selected = [];
-      });
+    this.repository.move('menu', selected, 'up').subscribe((result: any) => {
+      this.refresh(this.lastState);
+      this.selected = [];
+    });
   }
 
   onMoveDown(selected) {
     this.loading = true;
-    this.repository
-      .move('menu', selected, 'down')
-      .subscribe((result: any) => {
-        this.refresh(this.lastState);
-        this.selected = [];
-      });
+    this.repository.move('menu', selected, 'down').subscribe((result: any) => {
+      this.refresh(this.lastState);
+      this.selected = [];
+    });
   }
 
   onContentUpdated() {

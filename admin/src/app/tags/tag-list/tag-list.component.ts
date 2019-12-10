@@ -8,33 +8,35 @@ import { FileService } from '../../file.service';
   templateUrl: './tag-list.component.html'
 })
 export class TagListComponent implements OnInit {
-  @ViewChild(ClrDatagrid, {static: false}) datagrid: ClrDatagrid;
+  @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
 
   tags = [];
   selected = [];
   singleSelection = null;
   lastState = {};
   total: number;
+  deleted: number;
   loading = true;
   showCreateTag = false;
   showEditTag = false;
 
-  constructor(private repository: RepositoryService, private fileService: FileService) { }
+  constructor(
+    private repository: RepositoryService,
+    private fileService: FileService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   refresh(state: ClrDatagridStateInterface) {
     this.loading = true;
     this.lastState = state;
 
-    this.repository
-      .fetch('tag', state)
-      .subscribe((result: any) => {
-        this.tags = result.items;
-        this.total = result.total;
-        this.loading = false;
-      });
+    this.repository.fetch('tag', state).subscribe((result: any) => {
+      this.tags = result.items;
+      this.total = result.total;
+      this.deleted = result.total - result.alive;
+      this.loading = false;
+    });
   }
 
   onCreate() {
