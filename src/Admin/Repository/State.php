@@ -97,7 +97,8 @@ class State
 			if($softDeleteable)
 				$query .= " and deleted_at is null";
         } else {
-			$query .= "where deleted_at is null";
+			if($softDeleteable)
+				$query .= "where deleted_at is null";
 		}
 
         if ($order) {

@@ -93,9 +93,9 @@ class Database
     {
 		$softDeleteable = (bool) $this->fetchValue("select exists (select 1 from information_schema.columns where table_name='".$table."' and column_name='deleted_at')");
 		if($softDeleteable)
-			return (int) $this->fetchValue('select count(*) from '.$table.' where deleted_at is null');
+			return (int) $this->fetchValue('select count(*) from public.'.$table.' where deleted_at is null');
 			
-		return (int) $this->fetchValue('select count(*) from '.$table);
+		return (int) $this->fetchValue('select count(*) from public.'.$table);
     }
 
     public function execute(string $query, array $params = []): int
