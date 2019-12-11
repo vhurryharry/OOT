@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 
-import { CourseListComponent } from './courses/course-list/course-list.component';
-import { CreateCourseComponent } from './courses/create-course/create-course.component';
 import { EntityListComponent } from './entities/entity-list/entity-list.component';
 import { NotificationListComponent } from './notifications/notification-list/notification-list.component';
 import { CategoryListComponent } from './categories/category-list/category-list.component';
@@ -23,12 +22,15 @@ import { InstructorListComponent } from './instructors/instructor-list/instructo
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
+  {
+    path: 'login',
+    loadChildren: './login/login.module#LoginModule'
+  },
 
   // Content
   {
     path: 'courses',
-    loadChildren: () =>
-      import('./courses/courses.module').then(module => module.CoursesModule)
+    loadChildren: './courses/courses.module#CoursesModule'
   },
   { path: 'pages', component: EntityListComponent },
   { path: 'notifications', component: NotificationListComponent },

@@ -5,6 +5,5 @@ twig:
   exception_controller: null
   paths:
     - '%kernel.project_dir%/public/assets'
-    - '%kernel.project_dir%/public/admin'
   globals:
     stripe_key: '%env(STRIPE_PKEY)%'

@@ -1,87 +1,82 @@
 admin_api_audit_log:
   resource: 'App\Admin\Controller\Api\AuditLogController'
   type: annotation
-  prefix: /admin/api/audit-log
+  prefix: /api/admin/audit-log
 
 admin_api_category:
   resource: 'App\Admin\Controller\Api\CategoryController'
   type: annotation
-  prefix: /admin/api/category
+  prefix: /api/admin/category
 
 admin_api_course:
   resource: 'App\Admin\Controller\Api\CourseController'
   type: annotation
-  prefix: /admin/api/course
+  prefix: /api/admin/course
 
 admin_api_course_option:
   resource: 'App\Admin\Controller\Api\CourseOptionController'
   type: annotation
-  prefix: /admin/api/course/options
+  prefix: /api/admin/course/options
 
 admin_api_course_review:
   resource: 'App\Admin\Controller\Api\CourseReviewController'
   type: annotation
-  prefix: /admin/api/course/reviews
+  prefix: /api/admin/course/reviews
 
 admin_api_document:
   resource: 'App\Admin\Controller\Api\DocumentController'
   type: annotation
-  prefix: /admin/api/document
+  prefix: /api/admin/document
 
 admin_api_entity:
   resource: 'App\Admin\Controller\Api\EntityController'
   type: annotation
-  prefix: /admin/api/entity
+  prefix: /api/admin/entity
 
 admin_api_faq:
   resource: 'App\Admin\Controller\Api\FaqController'
   type: annotation
-  prefix: /admin/api/faq
+  prefix: /api/admin/faq
 
 admin_api_menu:
   resource: 'App\Admin\Controller\Api\MenuController'
   type: annotation
-  prefix: /admin/api/menu
+  prefix: /api/admin/menu
 
 admin_api_notification:
   resource: 'App\Admin\Controller\Api\NotificationController'
   type: annotation
-  prefix: /admin/api/notification
+  prefix: /api/admin/notification
 
 admin_api_role:
   resource: 'App\Admin\Controller\Api\RoleController'
   type: annotation
-  prefix: /admin/api/role
+  prefix: /api/admin/role
 
 admin_api_tag:
   resource: 'App\Admin\Controller\Api\TagController'
   type: annotation
-  prefix: /admin/api/tag
+  prefix: /api/admin/tag
 
 admin_api_user:
   resource: 'App\Admin\Controller\Api\UserController'
   type: annotation
-  prefix: /admin/api/user
+  prefix: /api/admin/user
 
 admin_api_customer:
   resource: 'App\Admin\Controller\Api\CustomerController'
   type: annotation
-  prefix: /admin/api/customer
+  prefix: /api/admin/customer
 
 admin_api_order:
   resource: 'App\Admin\Controller\Api\OrderController'
   type: annotation
-  prefix: /admin/api/order
+  prefix: /api/admin/order
 
 admin_api_rel:
   resource: 'App\Admin\Controller\Api\RelationshipController'
   type: annotation
-  prefix: /admin/api
-
-admin:
-  resource: 'App\Admin\Controller\DefaultController'
-  type: annotation
-  prefix: /admin
+  prefix: /api/admin
 
 course:
   resource: 'App\Controller\CourseController'

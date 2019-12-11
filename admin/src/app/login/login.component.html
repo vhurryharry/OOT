@@ -1,0 +1,21 @@
+<div class="login-wrapper">
+  <form class="login" action="/admin/login" method="post">
+    <section class="title">
+      <h3 class="welcome">Welcome to</h3>
+      OOT Control Panel
+      <h5 class="hint">Use your Company ID to sign in or create one now</h5>
+    </section>
+    <clr-input-container>
+      <label class="clr-sr-only">Username</label>
+      <input type="text" name="_username" clrInput placeholder="Username" [(ngModel)]="form.username"
+        value="{{ last_username }}" />
+    </clr-input-container>
+    <clr-password-container>
+      <label class="clr-sr-only">Password</label>
+      <input type="password" name="_password" clrPassword placeholder="Password" [(ngModel)]="form.password" />
+    </clr-password-container>
+
+    <button type="submit" class="btn btn-primary">LOGIN</button>
+</div>
+</form>
+</div>
