@@ -30,29 +30,13 @@ services:
 
   App\Listener\TrackerListener:
     tags:
-      - {
-          name: kernel.event_listener,
-          event: kernel.response,
-          method: onResponse,
-        }
+      - { name: kernel.event_listener, event: kernel.response, method: onResponse, }
 
   App\Listener\ParseJsonRequest:
     tags:
-      - {
-          name: kernel.event_listener,
-          event: kernel.request,
-          method: parseRequest,
-        }
+      - { name: kernel.event_listener, event: kernel.request, method: parseRequest, }
 
   App\Listener\RequestIdentifier:
     tags:
-      - {
-          name: kernel.event_listener,
-          event: kernel.request,
-          method: identifyRequest,
-        }
-      - {
-          name: kernel.event_listener,
-          event: kernel.response,
-          method: identifyResponse,
-        }
+      - { name: kernel.event_listener, event: kernel.request, method: identifyRequest, }
+      - { name: kernel.event_listener, event: kernel.response, method: identifyResponse, }
