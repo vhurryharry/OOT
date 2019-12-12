@@ -1,6 +1,19 @@
-import { Component, Input, OnChanges, OnInit, EventEmitter, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { RepositoryService } from '../../repository.service';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  EventEmitter,
+  Output
+} from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators
+} from '@angular/forms';
+import { RepositoryService } from '../../services/repository.service';
 
 @Component({
   selector: 'admin-create-faq',
@@ -19,30 +32,26 @@ export class CreateFaqComponent implements OnChanges, OnInit {
     id: [''],
     title: ['', Validators.required],
     content: ['', Validators.required],
-    course: [''],
+    course: ['']
   });
 
-  constructor(private fb: FormBuilder, private repository: RepositoryService) { }
+  constructor(private fb: FormBuilder, private repository: RepositoryService) {}
 
   ngOnInit() {
     this.loading = true;
-    this.repository
-      .fetch('course', {})
-      .subscribe((result: any) => {
-        this.courses = result.items;
-        this.loading = false;
-      });
+    this.repository.fetch('course', {}).subscribe((result: any) => {
+      this.courses = result.items;
+      this.loading = false;
+    });
   }
 
   ngOnChanges() {
     if (this.update) {
       this.loading = true;
-      this.repository
-        .find('faq', this.update.id)
-        .subscribe((result: any) => {
-          this.loading = false;
-          this.faqForm.patchValue(result);
-        });
+      this.repository.find('faq', this.update.id).subscribe((result: any) => {
+        this.loading = false;
+        this.faqForm.patchValue(result);
+      });
     }
   }
 

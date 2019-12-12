@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
-import { RepositoryService } from '../../repository.service';
-import { FileService } from '../../file.service';
+import { RepositoryService } from '../../services/repository.service';
+import { FileService } from '../../services/file.service';
 
 @Component({
   selector: 'admin-faq-list',

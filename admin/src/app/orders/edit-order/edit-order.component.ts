@@ -1,6 +1,18 @@
-import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { RepositoryService } from '../../repository.service';
+import {
+  Component,
+  Input,
+  OnChanges,
+  EventEmitter,
+  Output
+} from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators
+} from '@angular/forms';
+import { RepositoryService } from '../../services/repository.service';
 
 @Component({
   selector: 'admin-edit-order',
@@ -17,20 +29,18 @@ export class EditOrderComponent implements OnChanges {
   orderForm = this.fb.group({
     id: [''],
     status: ['', Validators.required],
-    payment: [''],
+    payment: ['']
   });
 
-  constructor(private fb: FormBuilder, private repository: RepositoryService) { }
+  constructor(private fb: FormBuilder, private repository: RepositoryService) {}
 
   ngOnChanges() {
     if (this.order) {
       this.loading = true;
-      this.repository
-        .find('order', this.order.id)
-        .subscribe((result: any) => {
-          this.loading = false;
-          this.orderForm.patchValue(result);
-        });
+      this.repository.find('order', this.order.id).subscribe((result: any) => {
+        this.loading = false;
+        this.orderForm.patchValue(result);
+      });
     }
   }
 

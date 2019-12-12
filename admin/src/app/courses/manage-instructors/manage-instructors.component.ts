@@ -1,6 +1,19 @@
-import { Component, Input, OnChanges, OnInit, EventEmitter, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { RepositoryService } from '../../repository.service';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  EventEmitter,
+  Output
+} from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators
+} from '@angular/forms';
+import { RepositoryService } from '../../services/repository.service';
 import slugify from 'slugify';
 
 @Component({
@@ -15,10 +28,10 @@ export class ManageInstructorsComponent implements OnChanges, OnInit {
   instructors = [];
   availableInstructors = [];
   instructorForm = this.fb.group({
-    instructor: ['', Validators.required],
+    instructor: ['', Validators.required]
   });
 
-  constructor(private fb: FormBuilder, private repository: RepositoryService) { }
+  constructor(private fb: FormBuilder, private repository: RepositoryService) {}
 
   ngOnInit() {
     this.loading = true;
@@ -27,9 +40,9 @@ export class ManageInstructorsComponent implements OnChanges, OnInit {
         filters: [
           {
             property: 'type',
-            value: 'instructor',
-          },
-        ],
+            value: 'instructor'
+          }
+        ]
       })
       .subscribe((result: any) => {
         this.availableInstructors = result.items;
@@ -57,7 +70,7 @@ export class ManageInstructorsComponent implements OnChanges, OnInit {
     this.repository
       .attach('course_instructor', {
         course_id: this.update.id,
-        customer_id: this.instructorForm.value.instructor,
+        customer_id: this.instructorForm.value.instructor
       })
       .subscribe((result: any) => {
         this.loading = false;
@@ -69,7 +82,7 @@ export class ManageInstructorsComponent implements OnChanges, OnInit {
     this.loading = true;
 
     this.repository
-      .detach('course_instructor', {id})
+      .detach('course_instructor', { id })
       .subscribe((result: any) => {
         this.loading = false;
         this.ngOnChanges();

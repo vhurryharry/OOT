@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
-import { RepositoryService } from '../../repository.service';
-import { FileService } from '../../file.service';
+import { RepositoryService } from '../../services/repository.service';
+import { FileService } from '../../services/file.service';
 
 @Component({
   selector: 'admin-order-list',
@@ -11,7 +11,7 @@ export class OrderListComponent implements OnInit {
   @Input()
   type: string;
 
-  @ViewChild(ClrDatagrid, {static: false})
+  @ViewChild(ClrDatagrid, { static: false })
   datagrid: ClrDatagrid;
 
   orders = [];
@@ -23,22 +23,22 @@ export class OrderListComponent implements OnInit {
   showViewPayment = false;
   showEditOrder = false;
 
-  constructor(private repository: RepositoryService, private fileService: FileService) { }
+  constructor(
+    private repository: RepositoryService,
+    private fileService: FileService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   refresh(state: ClrDatagridStateInterface) {
     this.loading = true;
     this.lastState = state;
 
-    this.repository
-      .fetch('order', state)
-      .subscribe((result: any) => {
-        this.orders = result.items;
-        this.total = result.total;
-        this.loading = false;
-      });
+    this.repository.fetch('order', state).subscribe((result: any) => {
+      this.orders = result.items;
+      this.total = result.total;
+      this.loading = false;
+    });
   }
 
   onViewPayment() {

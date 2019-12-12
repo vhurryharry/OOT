@@ -46,5 +46,13 @@ services:
 
   App\Listener\RequestIdentifier:
     tags:
-      - { name: kernel.event_listener, event: kernel.request, method: identifyRequest }
-      - { name: kernel.event_listener, event: kernel.response, method: identifyResponse }
+      - {
+          name: kernel.event_listener,
+          event: kernel.request,
+          method: identifyRequest,
+        }
+      - {
+          name: kernel.event_listener,
+          event: kernel.response,
+          method: identifyResponse,
+        }

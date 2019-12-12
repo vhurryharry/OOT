@@ -1,6 +1,18 @@
-import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { RepositoryService } from '../../repository.service';
+import {
+  Component,
+  Input,
+  OnChanges,
+  EventEmitter,
+  Output
+} from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators
+} from '@angular/forms';
+import { RepositoryService } from '../../services/repository.service';
 
 @Component({
   selector: 'admin-create-instructor',
@@ -31,10 +43,10 @@ export class CreateInstructorComponent implements OnChanges {
     occupation: [''],
     birthDate: [''],
     password: [''],
-    mfa: [''],
+    mfa: ['']
   });
 
-  constructor(private fb: FormBuilder, private repository: RepositoryService) { }
+  constructor(private fb: FormBuilder, private repository: RepositoryService) {}
 
   ngOnChanges() {
     if (this.update) {
@@ -55,19 +67,15 @@ export class CreateInstructorComponent implements OnChanges {
 
     if (!this.update) {
       delete payload.id;
-      this.repository
-        .create('customer', payload)
-        .subscribe((result: any) => {
-          this.loading = false;
-          this.finished.emit(payload);
-        });
+      this.repository.create('customer', payload).subscribe((result: any) => {
+        this.loading = false;
+        this.finished.emit(payload);
+      });
     } else {
-      this.repository
-        .update('customer', payload)
-        .subscribe((result: any) => {
-          this.loading = false;
-          this.finished.emit(payload);
-        });
+      this.repository.update('customer', payload).subscribe((result: any) => {
+        this.loading = false;
+        this.finished.emit(payload);
+      });
     }
   }
 }

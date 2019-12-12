@@ -1,34 +1,34 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
-import { RepositoryService } from '../../repository.service';
-import { FileService } from '../../file.service';
+import { RepositoryService } from '../../services/repository.service';
+import { FileService } from '../../services/file.service';
 
 @Component({
   selector: 'admin-audit-log-list',
   templateUrl: './audit-log-list.component.html'
 })
 export class AuditLogListComponent implements OnInit {
-  @ViewChild(ClrDatagrid, {static: false}) datagrid: ClrDatagrid;
+  @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
 
   auditLogs = [];
   selected = [];
   total: number;
   loading = true;
 
-  constructor(private repository: RepositoryService, private fileService: FileService) { }
+  constructor(
+    private repository: RepositoryService,
+    private fileService: FileService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   refresh(state: ClrDatagridStateInterface) {
     this.loading = true;
-    this.repository
-      .fetch('audit-log', state)
-      .subscribe((result: any) => {
-        this.auditLogs = result.items;
-        this.total = result.total;
-        this.loading = false;
-      });
+    this.repository.fetch('audit-log', state).subscribe((result: any) => {
+      this.auditLogs = result.items;
+      this.total = result.total;
+      this.loading = false;
+    });
   }
 
   onExportAll() {

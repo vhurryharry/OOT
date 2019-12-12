@@ -1,6 +1,19 @@
-import { Component, Input, OnChanges, OnInit, EventEmitter, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { RepositoryService } from '../../repository.service';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  EventEmitter,
+  Output
+} from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators
+} from '@angular/forms';
+import { RepositoryService } from '../../services/repository.service';
 
 @Component({
   selector: 'admin-create-notification',
@@ -17,27 +30,25 @@ export class CreateNotificationComponent implements OnChanges, OnInit {
   courses = [];
   notificationForm = this.fb.group({
     id: [''],
-    course: ['', ],
+    course: [''],
     title: ['', Validators.required],
-    content: ['', ],
-    contentRich: ['', ],
+    content: [''],
+    contentRich: [''],
     type: ['', Validators.required],
     event: ['', Validators.required],
-    fromEmail: ['', ],
-    fromName: ['', ],
-    fromNumber: ['', ],
+    fromEmail: [''],
+    fromName: [''],
+    fromNumber: ['']
   });
 
-  constructor(private fb: FormBuilder, private repository: RepositoryService) { }
+  constructor(private fb: FormBuilder, private repository: RepositoryService) {}
 
   ngOnInit() {
     this.loading = true;
-    this.repository
-      .fetch('course', {})
-      .subscribe((result: any) => {
-        this.courses = result.items;
-        this.loading = false;
-      });
+    this.repository.fetch('course', {}).subscribe((result: any) => {
+      this.courses = result.items;
+      this.loading = false;
+    });
   }
 
   ngOnChanges() {

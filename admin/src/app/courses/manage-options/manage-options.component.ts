@@ -12,7 +12,7 @@ import {
   FormControl,
   Validators
 } from '@angular/forms';
-import { RepositoryService } from '../../repository.service';
+import { RepositoryService } from '../../services/repository.service';
 import slugify from 'slugify';
 
 @Component({

@@ -1,6 +1,18 @@
-import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { RepositoryService } from '../../repository.service';
+import {
+  Component,
+  Input,
+  OnChanges,
+  EventEmitter,
+  Output
+} from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators
+} from '@angular/forms';
+import { RepositoryService } from '../../services/repository.service';
 
 @Component({
   selector: 'admin-create-document',
@@ -17,12 +29,12 @@ export class CreateDocumentComponent implements OnChanges {
   documentForm = this.fb.group({
     id: [''],
     title: ['', Validators.required],
-    content: ['', ],
+    content: [''],
     type: ['', Validators.required],
-    source: ['', Validators.required],
+    source: ['', Validators.required]
   });
 
-  constructor(private fb: FormBuilder, private repository: RepositoryService) { }
+  constructor(private fb: FormBuilder, private repository: RepositoryService) {}
 
   ngOnChanges() {
     if (this.update) {

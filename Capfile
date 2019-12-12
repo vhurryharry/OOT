@@ -3,4 +3,4 @@ require 'capistrano/deploy'
 require 'capistrano/symfony'
 require 'capistrano/scm/git'
 install_plugin Capistrano::SCM::Git
-Dir.glob('config/deploy/tasks/*.rake').each { |r| import r }
+Dir.glob('deploy/tasks/*.rake').each { |r| import r }

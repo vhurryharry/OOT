@@ -20,7 +20,7 @@ namespace :app do
     desc 'Setup backend ACL'
     task :acl do
       on roles(:app) do
-        within release_path do
+        within "#{release_path}/backend" do
           execute :setfacl, '-R -m u:www-data:rwX -m u:deploy:rwX var/cache'
           execute :setfacl, '-dR -m u:www-data:rwx -m u:deploy:rwx var/cache'
         end
@@ -32,13 +32,10 @@ namespace :app do
     desc 'Setup frontend assets folder'
     task :setup do
       on roles(:app) do
-        within release_path do
+        within "#{release_path}/backend" do
           execute :mkdir, '-p public/assets'
           execute :setfacl, '-R -m u:www-data:rwX -m u:deploy:rwX public/assets'
           execute :setfacl, '-dR -m u:www-data:rwx -m u:deploy:rwx public/assets'
-          execute :mkdir, '-p public/admin'
-          execute :setfacl, '-R -m u:www-data:rwX -m u:deploy:rwX public/admin'
-          execute :setfacl, '-dR -m u:www-data:rwx -m u:deploy:rwx public/admin'
         end
       end
     end
@@ -57,6 +54,12 @@ namespace :app do
         end
       end
     end
+
+	desc 'Run admin panel'
+	task :run do
+		on roles(:app) do
+		within "#{release_path}/admin" do
+			execute :npm, 'start'
   end
 end
 
@@ -64,3 +67,4 @@ end
 before 'symfony:cache:warmup', 'app:frontend:setup'
 after 'app:frontend:setup', 'app:frontend:build'
 after 'deploy:published', 'app:backend:restart'
+after 'app:backend:restart', 'app:frontend:run'

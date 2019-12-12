@@ -1,6 +1,19 @@
-import { Component, Input, OnChanges, OnInit, EventEmitter, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { RepositoryService } from '../../repository.service';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  EventEmitter,
+  Output
+} from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators
+} from '@angular/forms';
+import { RepositoryService } from '../../services/repository.service';
 
 @Component({
   selector: 'admin-create-menu',
@@ -20,30 +33,26 @@ export class CreateMenuComponent implements OnChanges, OnInit {
     title: ['', Validators.required],
     link: [''],
     displayOrder: [0],
-    parent: [''],
+    parent: ['']
   });
 
-  constructor(private fb: FormBuilder, private repository: RepositoryService) { }
+  constructor(private fb: FormBuilder, private repository: RepositoryService) {}
 
   ngOnInit() {
     this.loading = true;
-    this.repository
-      .fetch('menu', {})
-      .subscribe((result: any) => {
-        this.menus = result.items;
-        this.loading = false;
-      });
+    this.repository.fetch('menu', {}).subscribe((result: any) => {
+      this.menus = result.items;
+      this.loading = false;
+    });
   }
 
   ngOnChanges() {
     if (this.update) {
       this.loading = true;
-      this.repository
-        .find('menu', this.update.id)
-        .subscribe((result: any) => {
-          this.loading = false;
-          this.menuForm.patchValue(result);
-        });
+      this.repository.find('menu', this.update.id).subscribe((result: any) => {
+        this.loading = false;
+        this.menuForm.patchValue(result);
+      });
     }
   }
 

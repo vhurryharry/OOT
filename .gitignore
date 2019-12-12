@@ -17,10 +17,12 @@ log/
 build/
 dist/
 node_modules/
-public/build/
-public/bundles/
-public/assets/
-public/admin
+admin/node_modules/
+frontend/node_modules/
+backend/public/build/
+backend/public/bundles/
+backend/public/assets/
+backend/public/admin
 var/
 vendor/
 .env

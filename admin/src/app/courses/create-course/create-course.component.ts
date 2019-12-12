@@ -1,6 +1,18 @@
-import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { RepositoryService } from '../../repository.service';
+import {
+  Component,
+  Input,
+  OnChanges,
+  EventEmitter,
+  Output
+} from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators
+} from '@angular/forms';
+import { RepositoryService } from '../../services/repository.service';
 import slugify from 'slugify';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -31,13 +43,15 @@ export class CreateCourseComponent implements OnChanges {
     address: [''],
     city: [''],
     startDate: ['', Validators.required],
-    spots: ['', Validators.required],
+    spots: ['', Validators.required]
   });
   public editor = ClassicEditor;
 
   constructor(private fb: FormBuilder, private repository: RepositoryService) {
     this.courseForm.get('title').valueChanges.subscribe(val => {
-      if (!val) { return; }
+      if (!val) {
+        return;
+      }
 
       this.courseForm.patchValue({ slug: slugify(val, { lower: true }) });
     });

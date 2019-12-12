@@ -1,6 +1,18 @@
-import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { RepositoryService } from '../../repository.service';
+import {
+  Component,
+  Input,
+  OnChanges,
+  EventEmitter,
+  Output
+} from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators
+} from '@angular/forms';
+import { RepositoryService } from '../../services/repository.service';
 
 @Component({
   selector: 'admin-order-payments',
@@ -14,7 +26,7 @@ export class OrderPaymentsComponent implements OnChanges {
   @Input()
   order: any;
 
-  constructor(private repository: RepositoryService) { }
+  constructor(private repository: RepositoryService) {}
 
   ngOnChanges() {
     if (this.order) {
