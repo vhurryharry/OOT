@@ -2,20 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\Controller\Api;
+namespace App\Admin\Controller;
 
 use App\Admin\Repository\State;
+use App\Admin\Security\User;
 use App\CsvExporter;
 use App\Database;
-use App\Entity\Course;
-use App\Security\Customer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CourseController extends AbstractController
+class UserController extends AbstractController
 {
     /**
      * @var Database
@@ -39,20 +38,20 @@ class CourseController extends AbstractController
     public function search(Request $request)
     {
         $state = State::fromDatagrid($request->request->all());
-        $courses = $this->db->findAll(
-            'select * from course ' . $state->toQuery(),
+        $users = $this->db->findAll(
+            'select * from "user" ' . $state->toQuery(),
             $state->toQueryParams()
         );
 
         $items = [];
-        foreach ($courses as $course) {
-            $items[] = (Course::fromDatabase($course))->jsonSerialize();
+        foreach ($users as $user) {
+            $items[] = (User::fromDatabase($user))->jsonSerialize();
         }
 
         return new JsonResponse([
             'items' => $items,
-			'total' => $this->db->count('course'),
-            'alive' => $this->db->count('course', false),
+            'total' => $this->db->count('user'),
+            'alive' => $this->db->count('user', false),
         ]);
     }
 
@@ -61,29 +60,12 @@ class CourseController extends AbstractController
      */
     public function find(Request $request)
     {
-        $course = $this->db->find('select * from course where id = ?', [$request->get('id')]);
-        if (!$course) {
+        $user = $this->db->find('select * from "user" where id = ?', [$request->get('id')]);
+        if (!$user) {
             throw new NotFoundHttpException();
         }
 
-        return new JsonResponse(Course::fromDatabase($course));
-    }
-
-    /**
-     * @Route("/instructor/find", methods={"POST"})
-     */
-    public function findInstructors(Request $request)
-    {
-        $instructors = $this->db->findAll('select ci.id as relation, c.* from course_instructor as ci join customer as c on ci.customer_id = c.id where ci.course_id = ?', [$request->get('id')]);
-
-        $result = [];
-        foreach ($instructors as $instructor) {
-            $item = (Customer::fromDatabase($instructor))->jsonSerialize();
-            $relation = ['relation' => $instructor['relation']];
-            $result[] = array_merge($item, $relation);
-        }
-
-        return new JsonResponse($result);
+        return new JsonResponse(User::fromDatabase($user));
     }
 
     /**
@@ -91,7 +73,7 @@ class CourseController extends AbstractController
      */
     public function create(Request $request)
     {
-        $this->db->insert('course', Course::fromJson($request->request->all())->toDatabase());
+        $this->db->insert('user', User::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -101,7 +83,7 @@ class CourseController extends AbstractController
      */
     public function update(Request $request)
     {
-        $this->db->update('course', Course::fromJson($request->request->all())->toDatabase());
+        $this->db->update('user', User::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -119,7 +101,7 @@ class CourseController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update course set deleted_at = now() where %s', implode('or ', $params)),
+            sprintf('update "user" set deleted_at = now() where %s', implode('or ', $params)),
             $ids
         );
 
@@ -139,7 +121,7 @@ class CourseController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update course set deleted_at = null where %s', implode('or ', $params)),
+            sprintf('update "user" set deleted_at = null where %s', implode('or ', $params)),
             $ids
         );
 
@@ -159,14 +141,14 @@ class CourseController extends AbstractController
         }
 
         if (empty($params)) {
-            $courses = $this->db->findAll('select * from course');
+            $users = $this->db->findAll('select * from "user"');
         } else {
-            $courses = $this->db->findAll(
-                sprintf('select * from course where %s', implode('or ', $params)),
+            $users = $this->db->findAll(
+                sprintf('select * from "user" where %s', implode('or ', $params)),
                 $ids
             );
         }
 
-        return new JsonResponse(['csv' => $this->csv->export($courses)]);
+        return new JsonResponse(['csv' => $this->csv->export($users)]);
     }
 }

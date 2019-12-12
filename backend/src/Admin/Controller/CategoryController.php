@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\Controller\Api;
+namespace App\Admin\Controller;
 
 use App\Admin\Repository\State;
 use App\CsvExporter;
 use App\Database;
-use App\Security\Customer;
+use App\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CustomerController extends AbstractController
+class CategoryController extends AbstractController
 {
     /**
      * @var Database
@@ -37,23 +37,21 @@ class CustomerController extends AbstractController
      */
     public function search(Request $request)
     {
-		$state = State::fromDatagrid($request->request->all());
-        $customers = $this->db->findAll(
-            'select * from customer '.$state->toQuery(),
+        $state = State::fromDatagrid($request->request->all());
+        $categories = $this->db->findAll(
+            'select * from category ' . $state->toQuery(),
             $state->toQueryParams()
         );
 
-		$items = [];
-        foreach ($customers as $customer) {
-            $items[] = (Customer::fromDatabase($customer))->jsonSerialize();
+        $items = [];
+        foreach ($categories as $category) {
+            $items[] = (Category::fromDatabase($category))->jsonSerialize();
         }
 
         return new JsonResponse([
             'items' => $items,
-			'total' => (int) $this->db->execute('select * from customer '.$state->toQuery(false, false),
-				$state->toQueryParams()),
-			'alive' => (int) $this->db->execute('select * from customer '.$state->toQuery(true, false),
-				$state->toQueryParams())
+			'total' => $this->db->count('category'),
+			'alive' => $this->db->count('category', false)
         ]);
     }
 
@@ -62,12 +60,12 @@ class CustomerController extends AbstractController
      */
     public function find(Request $request)
     {
-        $customer = $this->db->find('select * from customer where id = ?', [$request->get('id')]);
-        if (!$customer) {
+        $category = $this->db->find('select * from category where id = ?', [$request->get('id')]);
+        if (!$category) {
             throw new NotFoundHttpException();
         }
 
-        return new JsonResponse(Customer::fromDatabase($customer));
+        return new JsonResponse(Category::fromDatabase($category));
     }
 
     /**
@@ -75,7 +73,7 @@ class CustomerController extends AbstractController
      */
     public function create(Request $request)
     {
-        $this->db->insert('customer', Customer::fromJson($request->request->all())->toDatabase());
+        $this->db->insert('category', Category::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -85,7 +83,7 @@ class CustomerController extends AbstractController
      */
     public function update(Request $request)
     {
-        $this->db->update('customer', Customer::fromJson($request->request->all())->toDatabase());
+        $this->db->update('category', Category::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -103,7 +101,7 @@ class CustomerController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update customer set deleted_at = now() where %s', implode('or ', $params)),
+            sprintf('update category set deleted_at = now() where %s', implode('or ', $params)),
             $ids
         );
 
@@ -123,7 +121,7 @@ class CustomerController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update customer set deleted_at = null where %s', implode('or ', $params)),
+            sprintf('update category set deleted_at = null where %s', implode('or ', $params)),
             $ids
         );
 
@@ -143,14 +141,14 @@ class CustomerController extends AbstractController
         }
 
         if (empty($params)) {
-            $customers = $this->db->findAll('select * from customer');
+            $categories = $this->db->findAll('select * from category');
         } else {
-            $customers = $this->db->findAll(
-                sprintf('select * from customer where %s', implode('or ', $params)),
+            $categories = $this->db->findAll(
+                sprintf('select * from category where %s', implode('or ', $params)),
                 $ids
             );
         }
 
-        return new JsonResponse(['csv' => $this->csv->export($customers)]);
+        return new JsonResponse(['csv' => $this->csv->export($categories)]);
     }
 }

@@ -2,34 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\Controller\Api;
+namespace App\Admin\Controller;
 
 use App\Admin\Repository\State;
-use App\CsvExporter;
 use App\Database;
-use App\Entity\Faq;
+use App\Entity\Menu;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FaqController extends AbstractController
+class MenuController extends AbstractController
 {
     /**
      * @var Database
      */
     protected $db;
 
-    /**
-     * @var CsvExporter
-     */
-    protected $csv;
-
-    public function __construct(Database $db, CsvExporter $csv)
+    public function __construct(Database $db)
     {
         $this->db = $db;
-        $this->csv = $csv;
     }
 
     /**
@@ -38,20 +31,20 @@ class FaqController extends AbstractController
     public function search(Request $request)
     {
         $state = State::fromDatagrid($request->request->all());
-        $faqs = $this->db->findAll(
-            'select * from faq ' . $state->toQuery(),
+        $menus = $this->db->findAll(
+            'select * from menu ' . $state->toQuery('display_order asc'),
             $state->toQueryParams()
         );
 
         $items = [];
-        foreach ($faqs as $faq) {
-            $items[] = (Faq::fromDatabase($faq))->jsonSerialize();
+        foreach ($menus as $menu) {
+            $items[] = (Menu::fromDatabase($menu))->jsonSerialize();
         }
 
         return new JsonResponse([
             'items' => $items,
-            'total' => $this->db->count('faq'),
-            'alive' => $this->db->count('faq', false),
+            'total' => $this->db->count('menu'),
+            'alive' => $this->db->count('menu', false),
         ]);
     }
 
@@ -60,12 +53,12 @@ class FaqController extends AbstractController
      */
     public function find(Request $request)
     {
-        $faq = $this->db->find('select * from faq where id = ?', [$request->get('id')]);
-        if (!$faq) {
+        $menu = $this->db->find('select * from menu where id = ?', [$request->get('id')]);
+        if (!$menu) {
             throw new NotFoundHttpException();
         }
 
-        return new JsonResponse(Faq::fromDatabase($faq));
+        return new JsonResponse(Menu::fromDatabase($menu));
     }
 
     /**
@@ -73,7 +66,7 @@ class FaqController extends AbstractController
      */
     public function create(Request $request)
     {
-        $this->db->insert('faq', Faq::fromJson($request->request->all())->toDatabase());
+        $this->db->insert('menu', Menu::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -83,7 +76,7 @@ class FaqController extends AbstractController
      */
     public function update(Request $request)
     {
-        $this->db->update('faq', Faq::fromJson($request->request->all())->toDatabase());
+        $this->db->update('menu', Menu::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -101,7 +94,7 @@ class FaqController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update faq set deleted_at = now() where %s', implode('or ', $params)),
+            sprintf('update menu set deleted_at = now() where %s', implode('or ', $params)),
             $ids
         );
 
@@ -121,7 +114,7 @@ class FaqController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update faq set deleted_at = null where %s', implode('or ', $params)),
+            sprintf('update menu set deleted_at = null where %s', implode('or ', $params)),
             $ids
         );
 
@@ -129,26 +122,25 @@ class FaqController extends AbstractController
     }
 
     /**
-     * @Route("/export", methods={"POST"})
+     * @Route("/move", methods={"POST"})
      */
-    public function export(Request $request)
+    public function move(Request $request)
     {
-        $ids = $request->request->get('ids');
+        $id = $request->request->get('id');
 
-        $params = [];
-        foreach ($ids as $id) {
-            $params[] = 'id = ?';
-        }
-
-        if (empty($params)) {
-            $faqs = $this->db->findAll('select * from faq');
+        if ($request->request->get('type') == 'up') {
+            $order = '- 1';
         } else {
-            $faqs = $this->db->findAll(
-                sprintf('select * from faq where %s', implode('or ', $params)),
-                $ids
-            );
+            $order = '+ 1';
         }
 
-        return new JsonResponse(['csv' => $this->csv->export($faqs)]);
+        $this->db->execute(
+            sprintf('update menu set display_order = display_order %s where id = ?', $order),
+            [
+                $id,
+            ]
+        );
+
+        return new JsonResponse();
     }
 }

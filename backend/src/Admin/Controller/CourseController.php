@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\Controller\Api;
+namespace App\Admin\Controller;
 
 use App\Admin\Repository\State;
 use App\CsvExporter;
 use App\Database;
-use App\Entity\Tag;
+use App\Entity\Course;
+use App\Security\Customer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TagController extends AbstractController
+class CourseController extends AbstractController
 {
     /**
      * @var Database
@@ -38,20 +39,20 @@ class TagController extends AbstractController
     public function search(Request $request)
     {
         $state = State::fromDatagrid($request->request->all());
-        $tags = $this->db->findAll(
-            'select * from tag ' . $state->toQuery(),
+        $courses = $this->db->findAll(
+            'select * from course ' . $state->toQuery(),
             $state->toQueryParams()
         );
 
         $items = [];
-        foreach ($tags as $tag) {
-            $items[] = (Tag::fromDatabase($tag))->jsonSerialize();
+        foreach ($courses as $course) {
+            $items[] = (Course::fromDatabase($course))->jsonSerialize();
         }
 
         return new JsonResponse([
             'items' => $items,
-            'total' => $this->db->count('tag'),
-            'alive' => $this->db->count('tag', false),
+			'total' => $this->db->count('course'),
+            'alive' => $this->db->count('course', false),
         ]);
     }
 
@@ -60,12 +61,29 @@ class TagController extends AbstractController
      */
     public function find(Request $request)
     {
-        $tag = $this->db->find('select * from tag where id = ?', [$request->get('id')]);
-        if (!$tag) {
+        $course = $this->db->find('select * from course where id = ?', [$request->get('id')]);
+        if (!$course) {
             throw new NotFoundHttpException();
         }
 
-        return new JsonResponse(Tag::fromDatabase($tag));
+        return new JsonResponse(Course::fromDatabase($course));
+    }
+
+    /**
+     * @Route("/instructor/find", methods={"POST"})
+     */
+    public function findInstructors(Request $request)
+    {
+        $instructors = $this->db->findAll('select ci.id as relation, c.* from course_instructor as ci join customer as c on ci.customer_id = c.id where ci.course_id = ?', [$request->get('id')]);
+
+        $result = [];
+        foreach ($instructors as $instructor) {
+            $item = (Customer::fromDatabase($instructor))->jsonSerialize();
+            $relation = ['relation' => $instructor['relation']];
+            $result[] = array_merge($item, $relation);
+        }
+
+        return new JsonResponse($result);
     }
 
     /**
@@ -73,7 +91,7 @@ class TagController extends AbstractController
      */
     public function create(Request $request)
     {
-        $this->db->insert('tag', Tag::fromJson($request->request->all())->toDatabase());
+        $this->db->insert('course', Course::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -83,7 +101,7 @@ class TagController extends AbstractController
      */
     public function update(Request $request)
     {
-        $this->db->update('tag', Tag::fromJson($request->request->all())->toDatabase());
+        $this->db->update('course', Course::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -101,7 +119,7 @@ class TagController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update tag set deleted_at = now() where %s', implode('or ', $params)),
+            sprintf('update course set deleted_at = now() where %s', implode('or ', $params)),
             $ids
         );
 
@@ -121,7 +139,7 @@ class TagController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update tag set deleted_at = null where %s', implode('or ', $params)),
+            sprintf('update course set deleted_at = null where %s', implode('or ', $params)),
             $ids
         );
 
@@ -141,14 +159,14 @@ class TagController extends AbstractController
         }
 
         if (empty($params)) {
-            $tags = $this->db->findAll('select * from tag');
+            $courses = $this->db->findAll('select * from course');
         } else {
-            $tags = $this->db->findAll(
-                sprintf('select * from tag where %s', implode('or ', $params)),
+            $courses = $this->db->findAll(
+                sprintf('select * from course where %s', implode('or ', $params)),
                 $ids
             );
         }
 
-        return new JsonResponse(['csv' => $this->csv->export($tags)]);
+        return new JsonResponse(['csv' => $this->csv->export($courses)]);
     }
 }

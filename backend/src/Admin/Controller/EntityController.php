@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\Controller\Api;
+namespace App\Admin\Controller;
 
 use App\Admin\Repository\State;
 use App\CsvExporter;

@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\Controller\Api;
+namespace App\Admin\Controller;
 
 use App\Admin\Repository\State;
 use App\CsvExporter;
 use App\Database;
-use App\Entity\Document;
+use App\Security\Customer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DocumentController extends AbstractController
+class CustomerController extends AbstractController
 {
     /**
      * @var Database
@@ -37,21 +37,23 @@ class DocumentController extends AbstractController
      */
     public function search(Request $request)
     {
-        $state = State::fromDatagrid($request->request->all());
-        $documents = $this->db->findAll(
-            'select * from document ' . $state->toQuery(),
+		$state = State::fromDatagrid($request->request->all());
+        $customers = $this->db->findAll(
+            'select * from customer '.$state->toQuery(),
             $state->toQueryParams()
         );
 
-        $items = [];
-        foreach ($documents as $document) {
-            $items[] = (Document::fromDatabase($document))->jsonSerialize();
+		$items = [];
+        foreach ($customers as $customer) {
+            $items[] = (Customer::fromDatabase($customer))->jsonSerialize();
         }
 
         return new JsonResponse([
             'items' => $items,
-            'total' => $this->db->count('document'),
-            'alive' => $this->db->count('document', false),
+			'total' => (int) $this->db->execute('select * from customer '.$state->toQuery(false, false),
+				$state->toQueryParams()),
+			'alive' => (int) $this->db->execute('select * from customer '.$state->toQuery(true, false),
+				$state->toQueryParams())
         ]);
     }
 
@@ -60,12 +62,12 @@ class DocumentController extends AbstractController
      */
     public function find(Request $request)
     {
-        $document = $this->db->find('select * from document where id = ?', [$request->get('id')]);
-        if (!$document) {
+        $customer = $this->db->find('select * from customer where id = ?', [$request->get('id')]);
+        if (!$customer) {
             throw new NotFoundHttpException();
         }
 
-        return new JsonResponse(Document::fromDatabase($document));
+        return new JsonResponse(Customer::fromDatabase($customer));
     }
 
     /**
@@ -73,7 +75,7 @@ class DocumentController extends AbstractController
      */
     public function create(Request $request)
     {
-        $this->db->insert('document', Document::fromJson($request->request->all())->toDatabase());
+        $this->db->insert('customer', Customer::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -83,7 +85,7 @@ class DocumentController extends AbstractController
      */
     public function update(Request $request)
     {
-        $this->db->update('document', Document::fromJson($request->request->all())->toDatabase());
+        $this->db->update('customer', Customer::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -101,7 +103,7 @@ class DocumentController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update document set deleted_at = now() where %s', implode('or ', $params)),
+            sprintf('update customer set deleted_at = now() where %s', implode('or ', $params)),
             $ids
         );
 
@@ -121,7 +123,7 @@ class DocumentController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update document set deleted_at = null where %s', implode('or ', $params)),
+            sprintf('update customer set deleted_at = null where %s', implode('or ', $params)),
             $ids
         );
 
@@ -141,14 +143,14 @@ class DocumentController extends AbstractController
         }
 
         if (empty($params)) {
-            $documents = $this->db->findAll('select * from document');
+            $customers = $this->db->findAll('select * from customer');
         } else {
-            $documents = $this->db->findAll(
-                sprintf('select * from document where %s', implode('or ', $params)),
+            $customers = $this->db->findAll(
+                sprintf('select * from customer where %s', implode('or ', $params)),
                 $ids
             );
         }
 
-        return new JsonResponse(['csv' => $this->csv->export($documents)]);
+        return new JsonResponse(['csv' => $this->csv->export($customers)]);
     }
 }

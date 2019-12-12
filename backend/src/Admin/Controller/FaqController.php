@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\Controller\Api;
+namespace App\Admin\Controller;
 
 use App\Admin\Repository\State;
 use App\CsvExporter;
 use App\Database;
-use App\Entity\Category;
+use App\Entity\Faq;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CategoryController extends AbstractController
+class FaqController extends AbstractController
 {
     /**
      * @var Database
@@ -38,20 +38,20 @@ class CategoryController extends AbstractController
     public function search(Request $request)
     {
         $state = State::fromDatagrid($request->request->all());
-        $categories = $this->db->findAll(
-            'select * from category ' . $state->toQuery(),
+        $faqs = $this->db->findAll(
+            'select * from faq ' . $state->toQuery(),
             $state->toQueryParams()
         );
 
         $items = [];
-        foreach ($categories as $category) {
-            $items[] = (Category::fromDatabase($category))->jsonSerialize();
+        foreach ($faqs as $faq) {
+            $items[] = (Faq::fromDatabase($faq))->jsonSerialize();
         }
 
         return new JsonResponse([
             'items' => $items,
-			'total' => $this->db->count('category'),
-			'alive' => $this->db->count('category', false)
+            'total' => $this->db->count('faq'),
+            'alive' => $this->db->count('faq', false),
         ]);
     }
 
@@ -60,12 +60,12 @@ class CategoryController extends AbstractController
      */
     public function find(Request $request)
     {
-        $category = $this->db->find('select * from category where id = ?', [$request->get('id')]);
-        if (!$category) {
+        $faq = $this->db->find('select * from faq where id = ?', [$request->get('id')]);
+        if (!$faq) {
             throw new NotFoundHttpException();
         }
 
-        return new JsonResponse(Category::fromDatabase($category));
+        return new JsonResponse(Faq::fromDatabase($faq));
     }
 
     /**
@@ -73,7 +73,7 @@ class CategoryController extends AbstractController
      */
     public function create(Request $request)
     {
-        $this->db->insert('category', Category::fromJson($request->request->all())->toDatabase());
+        $this->db->insert('faq', Faq::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -83,7 +83,7 @@ class CategoryController extends AbstractController
      */
     public function update(Request $request)
     {
-        $this->db->update('category', Category::fromJson($request->request->all())->toDatabase());
+        $this->db->update('faq', Faq::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -101,7 +101,7 @@ class CategoryController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update category set deleted_at = now() where %s', implode('or ', $params)),
+            sprintf('update faq set deleted_at = now() where %s', implode('or ', $params)),
             $ids
         );
 
@@ -121,7 +121,7 @@ class CategoryController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update category set deleted_at = null where %s', implode('or ', $params)),
+            sprintf('update faq set deleted_at = null where %s', implode('or ', $params)),
             $ids
         );
 
@@ -141,14 +141,14 @@ class CategoryController extends AbstractController
         }
 
         if (empty($params)) {
-            $categories = $this->db->findAll('select * from category');
+            $faqs = $this->db->findAll('select * from faq');
         } else {
-            $categories = $this->db->findAll(
-                sprintf('select * from category where %s', implode('or ', $params)),
+            $faqs = $this->db->findAll(
+                sprintf('select * from faq where %s', implode('or ', $params)),
                 $ids
             );
         }
 
-        return new JsonResponse(['csv' => $this->csv->export($categories)]);
+        return new JsonResponse(['csv' => $this->csv->export($faqs)]);
     }
 }

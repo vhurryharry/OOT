@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\Controller\Api;
+namespace App\Admin\Controller;
 
 use App\Admin\Repository\State;
-use App\Admin\Security\User;
 use App\CsvExporter;
 use App\Database;
+use App\Entity\Tag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class UserController extends AbstractController
+class TagController extends AbstractController
 {
     /**
      * @var Database
@@ -38,20 +38,20 @@ class UserController extends AbstractController
     public function search(Request $request)
     {
         $state = State::fromDatagrid($request->request->all());
-        $users = $this->db->findAll(
-            'select * from "user" ' . $state->toQuery(),
+        $tags = $this->db->findAll(
+            'select * from tag ' . $state->toQuery(),
             $state->toQueryParams()
         );
 
         $items = [];
-        foreach ($users as $user) {
-            $items[] = (User::fromDatabase($user))->jsonSerialize();
+        foreach ($tags as $tag) {
+            $items[] = (Tag::fromDatabase($tag))->jsonSerialize();
         }
 
         return new JsonResponse([
             'items' => $items,
-            'total' => $this->db->count('user'),
-            'alive' => $this->db->count('user', false),
+            'total' => $this->db->count('tag'),
+            'alive' => $this->db->count('tag', false),
         ]);
     }
 
@@ -60,12 +60,12 @@ class UserController extends AbstractController
      */
     public function find(Request $request)
     {
-        $user = $this->db->find('select * from "user" where id = ?', [$request->get('id')]);
-        if (!$user) {
+        $tag = $this->db->find('select * from tag where id = ?', [$request->get('id')]);
+        if (!$tag) {
             throw new NotFoundHttpException();
         }
 
-        return new JsonResponse(User::fromDatabase($user));
+        return new JsonResponse(Tag::fromDatabase($tag));
     }
 
     /**
@@ -73,7 +73,7 @@ class UserController extends AbstractController
      */
     public function create(Request $request)
     {
-        $this->db->insert('user', User::fromJson($request->request->all())->toDatabase());
+        $this->db->insert('tag', Tag::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -83,7 +83,7 @@ class UserController extends AbstractController
      */
     public function update(Request $request)
     {
-        $this->db->update('user', User::fromJson($request->request->all())->toDatabase());
+        $this->db->update('tag', Tag::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -101,7 +101,7 @@ class UserController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update "user" set deleted_at = now() where %s', implode('or ', $params)),
+            sprintf('update tag set deleted_at = now() where %s', implode('or ', $params)),
             $ids
         );
 
@@ -121,7 +121,7 @@ class UserController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update "user" set deleted_at = null where %s', implode('or ', $params)),
+            sprintf('update tag set deleted_at = null where %s', implode('or ', $params)),
             $ids
         );
 
@@ -141,14 +141,14 @@ class UserController extends AbstractController
         }
 
         if (empty($params)) {
-            $users = $this->db->findAll('select * from "user"');
+            $tags = $this->db->findAll('select * from tag');
         } else {
-            $users = $this->db->findAll(
-                sprintf('select * from "user" where %s', implode('or ', $params)),
+            $tags = $this->db->findAll(
+                sprintf('select * from tag where %s', implode('or ', $params)),
                 $ids
             );
         }
 
-        return new JsonResponse(['csv' => $this->csv->export($users)]);
+        return new JsonResponse(['csv' => $this->csv->export($tags)]);
     }
 }

@@ -2,27 +2,34 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\Controller\Api;
+namespace App\Admin\Controller;
 
 use App\Admin\Repository\State;
+use App\CsvExporter;
 use App\Database;
-use App\Entity\Menu;
+use App\Entity\Role;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class MenuController extends AbstractController
+class RoleController extends AbstractController
 {
     /**
      * @var Database
      */
     protected $db;
 
-    public function __construct(Database $db)
+    /**
+     * @var CsvExporter
+     */
+    protected $csv;
+
+    public function __construct(Database $db, CsvExporter $csv)
     {
         $this->db = $db;
+        $this->csv = $csv;
     }
 
     /**
@@ -31,20 +38,20 @@ class MenuController extends AbstractController
     public function search(Request $request)
     {
         $state = State::fromDatagrid($request->request->all());
-        $menus = $this->db->findAll(
-            'select * from menu ' . $state->toQuery('display_order asc'),
+        $roles = $this->db->findAll(
+            'select * from role ' . $state->toQuery(),
             $state->toQueryParams()
         );
 
         $items = [];
-        foreach ($menus as $menu) {
-            $items[] = (Menu::fromDatabase($menu))->jsonSerialize();
+        foreach ($roles as $role) {
+            $items[] = (Role::fromDatabase($role))->jsonSerialize();
         }
 
         return new JsonResponse([
             'items' => $items,
-            'total' => $this->db->count('menu'),
-            'alive' => $this->db->count('menu', false),
+            'total' => $this->db->count('role'),
+            'alive' => $this->db->count('role', false),
         ]);
     }
 
@@ -53,12 +60,12 @@ class MenuController extends AbstractController
      */
     public function find(Request $request)
     {
-        $menu = $this->db->find('select * from menu where id = ?', [$request->get('id')]);
-        if (!$menu) {
+        $role = $this->db->find('select * from role where id = ?', [$request->get('id')]);
+        if (!$role) {
             throw new NotFoundHttpException();
         }
 
-        return new JsonResponse(Menu::fromDatabase($menu));
+        return new JsonResponse(Role::fromDatabase($role));
     }
 
     /**
@@ -66,7 +73,7 @@ class MenuController extends AbstractController
      */
     public function create(Request $request)
     {
-        $this->db->insert('menu', Menu::fromJson($request->request->all())->toDatabase());
+        $this->db->insert('role', Role::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -76,7 +83,7 @@ class MenuController extends AbstractController
      */
     public function update(Request $request)
     {
-        $this->db->update('menu', Menu::fromJson($request->request->all())->toDatabase());
+        $this->db->update('role', Role::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -94,7 +101,7 @@ class MenuController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update menu set deleted_at = now() where %s', implode('or ', $params)),
+            sprintf('update role set deleted_at = now() where %s', implode('or ', $params)),
             $ids
         );
 
@@ -114,7 +121,7 @@ class MenuController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update menu set deleted_at = null where %s', implode('or ', $params)),
+            sprintf('update role set deleted_at = null where %s', implode('or ', $params)),
             $ids
         );
 
@@ -122,25 +129,26 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @Route("/move", methods={"POST"})
+     * @Route("/export", methods={"POST"})
      */
-    public function move(Request $request)
+    public function export(Request $request)
     {
-        $id = $request->request->get('id');
+        $ids = $request->request->get('ids');
 
-        if ($request->request->get('type') == 'up') {
-            $order = '- 1';
-        } else {
-            $order = '+ 1';
+        $params = [];
+        foreach ($ids as $id) {
+            $params[] = 'id = ?';
         }
 
-        $this->db->execute(
-            sprintf('update menu set display_order = display_order %s where id = ?', $order),
-            [
-                $id,
-            ]
-        );
+        if (empty($params)) {
+            $roles = $this->db->findAll('select * from role');
+        } else {
+            $roles = $this->db->findAll(
+                sprintf('select * from role where %s', implode('or ', $params)),
+                $ids
+            );
+        }
 
-        return new JsonResponse();
+        return new JsonResponse(['csv' => $this->csv->export($roles)]);
     }
 }

@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\Controller\Api;
+namespace App\Admin\Controller;
 
 use App\Admin\Repository\State;
 use App\CsvExporter;
 use App\Database;
-use App\Entity\Role;
+use App\Entity\Document;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class RoleController extends AbstractController
+class DocumentController extends AbstractController
 {
     /**
      * @var Database
@@ -38,20 +38,20 @@ class RoleController extends AbstractController
     public function search(Request $request)
     {
         $state = State::fromDatagrid($request->request->all());
-        $roles = $this->db->findAll(
-            'select * from role ' . $state->toQuery(),
+        $documents = $this->db->findAll(
+            'select * from document ' . $state->toQuery(),
             $state->toQueryParams()
         );
 
         $items = [];
-        foreach ($roles as $role) {
-            $items[] = (Role::fromDatabase($role))->jsonSerialize();
+        foreach ($documents as $document) {
+            $items[] = (Document::fromDatabase($document))->jsonSerialize();
         }
 
         return new JsonResponse([
             'items' => $items,
-            'total' => $this->db->count('role'),
-            'alive' => $this->db->count('role', false),
+            'total' => $this->db->count('document'),
+            'alive' => $this->db->count('document', false),
         ]);
     }
 
@@ -60,12 +60,12 @@ class RoleController extends AbstractController
      */
     public function find(Request $request)
     {
-        $role = $this->db->find('select * from role where id = ?', [$request->get('id')]);
-        if (!$role) {
+        $document = $this->db->find('select * from document where id = ?', [$request->get('id')]);
+        if (!$document) {
             throw new NotFoundHttpException();
         }
 
-        return new JsonResponse(Role::fromDatabase($role));
+        return new JsonResponse(Document::fromDatabase($document));
     }
 
     /**
@@ -73,7 +73,7 @@ class RoleController extends AbstractController
      */
     public function create(Request $request)
     {
-        $this->db->insert('role', Role::fromJson($request->request->all())->toDatabase());
+        $this->db->insert('document', Document::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -83,7 +83,7 @@ class RoleController extends AbstractController
      */
     public function update(Request $request)
     {
-        $this->db->update('role', Role::fromJson($request->request->all())->toDatabase());
+        $this->db->update('document', Document::fromJson($request->request->all())->toDatabase());
 
         return new JsonResponse();
     }
@@ -101,7 +101,7 @@ class RoleController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update role set deleted_at = now() where %s', implode('or ', $params)),
+            sprintf('update document set deleted_at = now() where %s', implode('or ', $params)),
             $ids
         );
 
@@ -121,7 +121,7 @@ class RoleController extends AbstractController
         }
 
         $this->db->execute(
-            sprintf('update role set deleted_at = null where %s', implode('or ', $params)),
+            sprintf('update document set deleted_at = null where %s', implode('or ', $params)),
             $ids
         );
 
@@ -141,14 +141,14 @@ class RoleController extends AbstractController
         }
 
         if (empty($params)) {
-            $roles = $this->db->findAll('select * from role');
+            $documents = $this->db->findAll('select * from document');
         } else {
-            $roles = $this->db->findAll(
-                sprintf('select * from role where %s', implode('or ', $params)),
+            $documents = $this->db->findAll(
+                sprintf('select * from document where %s', implode('or ', $params)),
                 $ids
             );
         }
 
-        return new JsonResponse(['csv' => $this->csv->export($roles)]);
+        return new JsonResponse(['csv' => $this->csv->export($documents)]);
     }
 }
