@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
-import { Observable, pipe } from 'rxjs';
+import { Observable, pipe, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export interface IUserInfo {
@@ -19,7 +19,7 @@ export interface IUserInfo {
 
 @Injectable()
 export class LoginService {
-  private authURL: string = `${environment.baseURL}/api/admin/auth/login`;
+  private authURL: string = environment.baseURL + `/api/admin/auth/login`;
   currentUser: IUserInfo;
   authError: string;
   redirectUrl: string;
@@ -28,8 +28,9 @@ export class LoginService {
 
   isLoggedIn(): boolean {
     if (localStorage.getItem('oot_token')) {
-      if (!this.currentUser)
+      if (!this.currentUser) {
         this.currentUser = JSON.parse(localStorage.getItem('oot_token'));
+      }
 
       return true;
     }
@@ -51,8 +52,8 @@ export class LoginService {
   authenticate(email, password): Observable<IUserInfo> {
     return this.http
       .post<any>(`${this.authURL}`, {
-        email: email,
-        password: password
+        email,
+        password
       })
       .pipe<any>(
         map(response => {
@@ -67,7 +68,7 @@ export class LoginService {
             this.authError = response.error;
             this.currentUser = null;
 
-            return Observable.throw(response.error);
+            return throwError(response.error);
           }
         })
       );
