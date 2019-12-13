@@ -59,7 +59,8 @@ namespace :app do
 	task :run do
 		on roles(:app) do
 		within "#{release_path}/admin" do
-			execute :npm, 'start'
+			execute :pm2, 'stop oot-admin'
+			execute :pm2, 'start "ng serve" --name oot-admin'
   end
 end
 
