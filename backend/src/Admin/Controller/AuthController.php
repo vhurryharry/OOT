@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class LoginController extends AbstractController
+class AuthController extends AbstractController
 {
     /**
      * @var UserRepository
@@ -39,7 +39,8 @@ class LoginController extends AbstractController
 		$email = $request->get('email');
 		$password = $request->get('password');
 
-		$user = $this->userRepository->findByEmail($email);
+		$user = User::fromDatabase($this->userRepository->findByEmail($email));
+
 		if(!$user) {
 			return new JsonResponse([
 				'success' => false,
@@ -62,7 +63,7 @@ class LoginController extends AbstractController
 			'user' => [
 				'id' => $user->getId(),
   				'name' => $user->getName(),
-				'email' => $user->getEmil(),
+				'email' => $user->getEmail(),
 				'firstName' => $user->getFirstName(),
 				'lastName' => $user->getLastName(),
 				'permissions' => $user->getPermissions(),

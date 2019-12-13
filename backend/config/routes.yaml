@@ -73,10 +73,10 @@ admin_api_order:
   type: annotation
   prefix: /api/admin/order
 
-admin_api_login:
-  resource: 'App\Admin\Controller\LoginController'
+admin_api_auth:
+  resource: 'App\Admin\Controller\AuthController'
   type: annotation
-  prefix: /api/admin/login
+  prefix: /api/admin/auth
 
 admin_api_rel:
   resource: 'App\Admin\Controller\RelationshipController'

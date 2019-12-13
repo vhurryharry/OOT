@@ -19,7 +19,7 @@ export interface IUserInfo {
 
 @Injectable()
 export class LoginService {
-  private authURL: string = `${environment.baseURL}/api/admin/login`;
+  private authURL: string = `${environment.baseURL}/api/admin/auth/login`;
   currentUser: IUserInfo;
   authError: string;
   redirectUrl: string;

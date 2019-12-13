@@ -2,7 +2,6 @@ security:
   encoders:
     App\Security\Customer:
       algorithm: auto
-
     App\Admin\Security\User:
       algorithm: auto
       cost: 14
@@ -11,23 +10,20 @@ security:
     app_user_provider:
       id: App\Security\CustomerProvider
 
-    admin_user_provider:
-      id: App\Admin\Security\UserProvider
-
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
 
-    admin:
-      pattern: ^/admin
-      anonymous: true
-      provider: admin_user_provider
-      guard:
-        provider: admin_user_provider
-        entry_point: App\Admin\Security\AdminAuthenticator
-        authenticators:
-          - App\Admin\Security\AdminAuthenticator
+    # admin:
+    #   pattern: ^/admin
+    #   anonymous: true
+    #   provider: admin_user_provider
+    #   guard:
+    #     provider: admin_user_provider
+    #     entry_point: App\Admin\Security\AdminAuthenticator
+    #     authenticators:
+    #       - App\Admin\Security\AdminAuthenticator
 
     main:
       pattern: ^/
@@ -40,7 +36,7 @@ security:
           - App\Security\LoginFormAuthenticator
 
   access_control:
-    - { path: '^/admin/login', roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: '^/admin', roles: ROLE_ADMIN }
+    # - { path: '^/admin/login', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    # - { path: '^/admin', roles: ROLE_ADMIN }
     - { path: '^/account', roles: ROLE_USER }
     - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
