@@ -6,8 +6,23 @@ Web application for e-learning.
 
 To start working on the project:
 
-    $ composer install
     $ npm install
+    
+    $ cd backend
+    $ composer install
+    
+    $ cd admin
+    $ npm install
+    
+To run the backend:
+    
+    $ cd backend
+    $ composer run serve
+    
+To run the admin panel:
+    
+    $ cd admin
+    $ npm start
 
 ## Running tests
 
