@@ -32,7 +32,7 @@ class LoginController extends AbstractController
     }
 
     /**
-     * @Route("/", methods={"POST"})
+     * @Route("/login", methods={"POST"})
      */
     public function login(Request $request)
     {

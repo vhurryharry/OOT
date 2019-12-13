@@ -7,21 +7,21 @@ import { CreateCourseComponent } from './create-course/create-course.component';
 import { ManageOptionsComponent } from './manage-options/manage-options.component';
 import { ManageReviewsComponent } from './manage-reviews/manage-reviews.component';
 
-const coursesRoutes: Routes = [
+const routes: Routes = [
   {
     path: '',
     component: CoursesComponent,
     children: [
       {
-        path: 'edit/:courseId',
+        path: 'edit/:id',
         component: CreateCourseComponent
       },
       {
-        path: 'edit/:courseId/options',
+        path: 'edit/:id/options',
         component: ManageOptionsComponent
       },
       {
-        path: 'edit/:courseId/reviews',
+        path: 'edit/:id/reviews',
         component: ManageReviewsComponent
       },
       {
@@ -33,7 +33,7 @@ const coursesRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(coursesRoutes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class CoursesRoutingModule {}

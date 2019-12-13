@@ -23,13 +23,7 @@ export class AuthGuard implements CanActivate, CanLoad {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    var isLoggedIn = this.checkLoggedIn(state.url);
-
-    if (!isLoggedIn) {
-      return false;
-    }
-
-    return false;
+    return this.checkLoggedIn(state.url);
   }
 
   canLoad(route: Route): boolean {

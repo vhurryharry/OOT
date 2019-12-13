@@ -1,56 +1,134 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { AuthGuard } from './services/auth-guard.service';
 
-import { EntityListComponent } from './entities/entity-list/entity-list.component';
-import { NotificationListComponent } from './notifications/notification-list/notification-list.component';
-import { CategoryListComponent } from './categories/category-list/category-list.component';
-import { TagListComponent } from './tags/tag-list/tag-list.component';
-import { MenuListComponent } from './menus/menu-list/menu-list.component';
-import { FaqListComponent } from './faqs/faq-list/faq-list.component';
-
-import { DocumentListComponent } from './documents/document-list/document-list.component';
-
-import { UserListComponent } from './users/user-list/user-list.component';
-import { RoleListComponent } from './roles/role-list/role-list.component';
-import { OrderListComponent } from './orders/order-list/order-list.component';
-
-import { AuditLogListComponent } from './audit-logs/audit-log-list/audit-log-list.component';
-import { StudentListComponent } from './students/student-list/student-list.component';
-import { InstructorListComponent } from './instructors/instructor-list/instructor-list.component';
+import { CondensedComponent } from './layout/condensed/condensed.component';
+import { BlankComponent } from './layout/blank/blank.component';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent },
+  {
+    path: '',
+    component: CondensedComponent,
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
   {
     path: 'login',
+    component: BlankComponent,
     loadChildren: './login/login.module#LoginModule'
   },
 
   // Content
   {
     path: 'courses',
-    loadChildren: './courses/courses.module#CoursesModule'
+    component: CondensedComponent,
+    loadChildren: './courses/courses.module#CoursesModule',
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
   },
-  { path: 'pages', component: EntityListComponent },
-  { path: 'notifications', component: NotificationListComponent },
-  { path: 'categories', component: CategoryListComponent },
-  { path: 'tags', component: TagListComponent },
-  { path: 'menus', component: MenuListComponent },
-  { path: 'faqs', component: FaqListComponent },
+  {
+    path: 'pages',
+    component: CondensedComponent,
+    loadChildren: './entities/entities.module#EntitiesModule',
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
+    path: 'notifications',
+    component: CondensedComponent,
+    loadChildren: './notifications/notifications.module#NotificationsModule',
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
+    path: 'categories',
+    component: CondensedComponent,
+    loadChildren: './categories/categories.module#CategoriesModule',
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
+    path: 'tags',
+    component: CondensedComponent,
+    loadChildren: './tags/tags.module#TagsModule',
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
+    path: 'menus',
+    component: CondensedComponent,
+    loadChildren: './menus/menus.module#MenusModule',
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
+    path: 'faqs',
+    component: CondensedComponent,
+    loadChildren: './faqs/faqs.module#FaqsModule',
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
 
   // Business
-  { path: 'students', component: StudentListComponent },
-  { path: 'instructors', component: InstructorListComponent },
-  { path: 'orders', component: OrderListComponent },
+  {
+    path: 'students',
+    component: CondensedComponent,
+    loadChildren: './students/students.module#StudentsModule',
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
+    path: 'instructors',
+    component: CondensedComponent,
+    loadChildren: './instructors/instructors.module#InstructorsModule',
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
+    path: 'orders',
+    component: CondensedComponent,
+    loadChildren: './orders/orders.module#OrdersModule',
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
 
   // System
-  { path: 'users', component: UserListComponent },
-  { path: 'roles', component: RoleListComponent },
-  { path: 'config', component: UserListComponent },
-  { path: 'audit-logs', component: AuditLogListComponent },
+  {
+    path: 'users',
+    component: CondensedComponent,
+    loadChildren: './users/users.module#UsersModule',
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
+    path: 'roles',
+    component: CondensedComponent,
+    loadChildren: './roles/roles.module#RolesModule',
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
+    path: 'config',
+    component: CondensedComponent,
+    loadChildren: './users/users.module#UsersModule',
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
+    path: 'audit-logs',
+    component: CondensedComponent,
+    loadChildren: './audit-logs/audit-logs.module#AuditLogsModule',
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
 
-  { path: '**', component: DashboardComponent }
+  {
+    path: '**',
+    component: CondensedComponent,
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  }
 ];
 
 @NgModule({
