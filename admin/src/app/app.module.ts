@@ -16,6 +16,7 @@ import { CondensedComponent } from './layout/condensed/condensed.component';
 import { BlankComponent } from './layout/blank/blank.component';
 import { HeaderComponent } from './layout/shared/header/header.component';
 
+import { NavigationService } from './services/navigation.service';
 import { LoginService } from './services/login.service';
 import { AuthGuard } from './services/auth-guard.service';
 
@@ -37,7 +38,7 @@ import { AuthGuard } from './services/auth-guard.service';
     ReactiveFormsModule,
     CKEditorModule
   ],
-  providers: [AuthGuard, LoginService],
+  providers: [AuthGuard, LoginService, NavigationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
