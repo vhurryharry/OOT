@@ -58,9 +58,12 @@ namespace :app do
 	desc 'Run admin panel'
 	task :run do
 		on roles(:app) do
-		within "#{release_path}/admin" do
-			execute :pm2, 'stop oot-admin'
-			execute :pm2, 'start "ng serve" --name oot-admin'
+			within "#{release_path}/admin" do
+				execute :pm2, 'stop oot-admin'
+				execute :pm2, 'start "ng serve" --name oot-admin'
+			end
+		end
+	end
   end
 end
 
