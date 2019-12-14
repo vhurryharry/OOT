@@ -16,9 +16,7 @@ namespace :app do
 		desc 'Restart php-fpm'
 		task :restart do
 			on roles(:all) do
-				within "#{release_path}/backend" do
-					execute :sudo, "service #{fetch(:php_fpm_service)} restart"
-				end
+				execute :sudo, "service #{fetch(:php_fpm_service)} restart"
 			end
 		end
 
