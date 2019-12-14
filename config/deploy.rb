@@ -13,7 +13,9 @@ namespace :app do
     desc 'Restart php-fpm'
       task :restart do
         on roles(:all) do
-          execute :sudo, "service #{fetch(:php_fpm_service)} restart"
+			within "#{release_path}/backend" do
+			  execute :sudo, "service #{fetch(:php_fpm_service)} restart"
+			end
         end
       end
 
@@ -48,10 +50,10 @@ namespace :app do
           execute :npm, 'run build --prod'
         end
 
-        within "#{release_path}/admin" do
-          execute :npm, 'ci --silent --no-progress --no-color'
-          execute :npm, 'run build --prod'
-        end
+        # within "#{release_path}/admin" do
+        #   execute :npm, 'ci --silent --no-progress --no-color'
+        #   execute :npm, 'run build --prod'
+        # end
       end
     end
 
