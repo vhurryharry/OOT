@@ -11,7 +11,7 @@ set :php_fpm_service, 'php7.3-fpm'
 set :bin_path, "backend/bin"
 set :symfony_console_path, "backend/bin/console"
 
-set :composer_working_dir, -> { "#{fetch(:release_path)/backend}" }
+set :composer_working_dir, -> { "#{fetch(:release_path)}/backend" }
 
 namespace :app do
 	namespace :backend do
