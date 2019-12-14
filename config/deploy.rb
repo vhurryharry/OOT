@@ -8,8 +8,8 @@ set :permission_method, :acl
 set :file_permissions_users, ["www-data", "deploy"]
 set :php_fpm_service, 'php7.3-fpm'
 
-set :bin_path, "#{release_path}/backend/bin"
-set :symfony_console_path, "#{release_path}/backend/bin/console"
+set :bin_path, "/backend/bin"
+set :symfony_console_path, "backend/bin/console"
 
 namespace :app do
 	namespace :backend do
