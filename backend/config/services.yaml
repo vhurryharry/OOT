@@ -1,11 +1,11 @@
 parameters:
-  env(DB_HOST): "localhost"
-  env(DB_PORT): "5432"
-  env(DB_NAME): "oo"
-  env(DB_USERNAME): "root"
-  env(DB_PASSWORD): "123456"
-  env(STRIPE_PKEY): "pk_test"
-  env(STRIPE_SKEY): "sk_test"
+  env(DB_HOST): localhost
+  env(DB_PORT): 5432
+  env(DB_NAME): oo
+  env(DB_USERNAME): root
+  env(DB_PASSWORD): 123456
+  env(STRIPE_PKEY): pk_test
+  env(STRIPE_SKEY): sk_test
 
 services:
   _defaults:
@@ -23,7 +23,7 @@ services:
   App\Database:
     arguments:
       - host: '%env(DB_HOST)%'
-        port: '%env(int:DB_PORT)%'
+        port: '%env(DB_PORT)%'
         dbname: '%env(DB_NAME)%'
         username: '%env(DB_USERNAME)%'
         password: '%env(DB_PASSWORD)%'
