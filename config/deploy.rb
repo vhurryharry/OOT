@@ -9,7 +9,6 @@ set :file_permissions_users, ["www-data", "deploy"]
 set :php_fpm_service, 'php7.3-fpm'
 
 set :bin_path, "backend/bin"
-set :symfony_console_path, "backend/bin/console"
 set :config_path, "backend/config"
 set :var_path, "backend/var"
 set :web_path, "backend/public"
