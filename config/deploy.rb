@@ -57,10 +57,10 @@ namespace :app do
 					execute :npm, 'run build --prod'
 				end
 
-				within "#{release_path}/admin" do
-					execute :npm, 'ci --silent --no-progress --no-color'
-					execute :npm, 'run build --prod'
-				end
+				# within "#{release_path}/admin" do
+				# 	execute :npm, 'ci --silent --no-progress --no-color'
+				# 	execute :npm, 'run build --prod'
+				# end
 			end
 		end
 
