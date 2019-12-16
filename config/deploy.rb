@@ -57,19 +57,9 @@ namespace :app do
 					execute :npm, 'run build --prod'
 				end
 
-				# within "#{release_path}/admin" do
-				# 	execute :npm, 'ci --silent --no-progress --no-color'
-				# 	execute :npm, 'run build --prod'
-				# end
-			end
-		end
-
-		desc 'Run admin panel'
-		task :run do
-			on roles(:app) do
 				within "#{release_path}/admin" do
-					execute :pm2, 'stop oot-admin'
-					execute :pm2, 'start "ng serve" --name oot-admin'
+					execute :npm, 'ci --silent --no-progress --no-color'
+					execute :npm, 'run build --prod'
 				end
 			end
 		end
@@ -80,4 +70,3 @@ end
 before 'symfony:cache:warmup', 'app:frontend:setup'
 after 'app:frontend:setup', 'app:frontend:build'
 after 'deploy:published', 'app:backend:restart'
-after 'app:backend:restart', 'app:frontend:run'
