@@ -31,7 +31,9 @@ namespace :app do
 			on roles(:app) do
 				within "#{release_path}/backend" do
 					execute :setfacl, '-R -m u:www-data:rwX -m u:deploy:rwX var/cache'
-					execute :setfacl, '-R -m u:www-data:rwx -m u:deploy:rwx var/log'
+					execute :setfacl, '-dR -m u:www-data:rwx -m u:deploy:rwx var/cache'
+					execute :setfacl, '-R -m u:www-data:rwX -m u:deploy:rwX var/log'
+					execute :setfacl, '-dR -m u:www-data:rwx -m u:deploy:rwx var/log'
 				end
 			end
 		end
