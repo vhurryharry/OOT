@@ -53,6 +53,7 @@ pipelines:
         deployment: Staging
         caches:
           - bundler
+        services:
           - capistrano
         script:
           - gem install bundler
