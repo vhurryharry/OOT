@@ -33,3 +33,4 @@ yarn-error.log
 .phpunit
 .phpunit.result.cache
 phpunit.xml
+proxy.conf.json
