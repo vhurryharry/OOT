@@ -6,7 +6,6 @@ set :linked_files, []
 set :file_permissions_paths, -> { [fetch(:var_path), fetch(:cache_path)] }
 set :permission_method, :acl
 set :file_permissions_users, ["www-data", "deploy"]
-set :php_fpm_service, 'php7.3-fpm'
 
 set :bin_path, "backend/bin"
 set :config_path, "backend/config"
@@ -17,11 +16,11 @@ set :composer_working_dir, -> { "#{fetch(:release_path)}/backend" }
 
 namespace :app do
 	namespace :backend do
-		desc 'Restart php-fpm'
+		desc 'Restart nginx'
 		task :restart do
 			on roles(:all) do
-				within "#{release_path}/backend" do
-					execute :sudo, "service #{fetch(:php_fpm_service)} restart"
+				within "#{release_path}" do
+					execute :sudo, "service nginx restart"
 				end
 			end
 		end
