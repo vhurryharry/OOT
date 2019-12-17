@@ -31,7 +31,7 @@ namespace :app do
 			on roles(:app) do
 				within "#{release_path}/backend" do
 					execute :setfacl, '-R -m u:www-data:rwX -m u:deploy:rwX var/cache'
-					execute :setfacl, '-dR -m u:www-data:rwx -m u:deploy:rwx var/cache'
+					execute :setfacl, '-R -m u:www-data:rwx -m u:deploy:rwx var/log'
 				end
 			end
 		end
@@ -66,7 +66,7 @@ namespace :app do
 	end
 end
 
-#before 'symfony:cache:warmup', 'app:backend:acl'
-before 'symfony:cache:warmup', 'app:frontend:setup'
+before 'symfony:cache:warmup', 'app:backend:acl'
+after 'app:backend:acl', 'app:frontend:setup'
 after 'app:frontend:setup', 'app:frontend:build'
 after 'deploy:published', 'app:backend:restart'
