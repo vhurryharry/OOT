@@ -53,12 +53,10 @@ pipelines:
         deployment: Staging
         caches:
           - bundler
-        services:
-          - capistrano
         script:
           - gem install bundler
           - bundle install
-          - cap staging deploy
+          - bundle exec cap staging deploy
 
     - step:
         name: Deploy to production
