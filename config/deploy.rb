@@ -58,9 +58,19 @@ namespace :app do
 					execute :npm, 'run build --prod'
 				end
 
+				# within "#{release_path}/admin" do
+				# 	execute :npm, 'ci --silent --no-progress --no-color'
+				# 	execute :npm, 'run build --prod'
+				# end
+			end
+		end
+
+		desc 'Run frontend'
+		task :run do
+			on roles(:app) do
 				within "#{release_path}/admin" do
-					execute :npm, 'ci --silent --no-progress --no-color'
-					execute :npm, 'run build --prod'
+					execute :sudo, "pm2 delete oot-admin"
+					execute :sudo, "pm2 start 'npm start' --name oot-admin"
 				end
 			end
 		end
@@ -71,3 +81,4 @@ end
 before 'symfony:cache:warmup', 'app:frontend:setup'
 after 'app:frontend:setup', 'app:frontend:build'
 after 'deploy:published', 'app:backend:restart'
+after 'app:backend:restart', 'app:frontend:run'
