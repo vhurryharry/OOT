@@ -69,7 +69,7 @@ namespace :app do
 		task :run do
 			on roles(:app) do
 				within "#{release_path}/admin" do
-					execute :sudo, "pm2 delete oot-admin"
+					execute :sudo, "pm2 kill"
 					execute :sudo, "pm2 start 'npm start' --name oot-admin"
 				end
 			end
