@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    {# {% set assets = include('assets.html')|split('<link rel=') %} #}
+    {% set assets = include('assets.html')|split('<link rel=') %}
     <base href="/assets/" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %} | Olive Oil Sommelier Certification Programs</title>
     <meta name="description" content="Interactive, fast-paced programs designed to inspire and empower a generation of olive oil experts and educators." />
-    {# <link rel={{ assets[1]|raw }} #}
+    <link rel={{ assets[1]|raw }}
   </head>
   <body>
     {% include 'navbar.html.twig' %}
@@ -75,6 +75,6 @@
     </footer>
 
     {% block javascript %}{% endblock %}
-    {# {{ assets[0]|raw }} #}
+    {{ assets[0]|raw }}
   </body>
 </html>
