@@ -7,6 +7,8 @@ set :file_permissions_paths, -> { [fetch(:var_path), fetch(:cache_path)] }
 set :permission_method, :acl
 set :file_permissions_users, ["www-data", "deploy"]
 
+set :php_fpm_service, 'php7.3-fpm'
+
 set :bin_path, "backend/bin"
 set :config_path, "backend/config"
 set :var_path, "backend/var"
@@ -20,6 +22,7 @@ namespace :app do
 		task :restart do
 			on roles(:all) do
 				within "#{release_path}" do
+					execute :sudo, "service #{fetch(:php_fpm_service)} restart"
 					execute :sudo, "service nginx restart"
 				end
 			end
@@ -69,6 +72,7 @@ namespace :app do
 		task :run do
 			on roles(:app) do
 				within "#{release_path}/admin" do
+					execute :npm, 'install'
 					execute :sudo, "pm2 kill"
 					execute :sudo, "pm2 start 'npm start' --name oot-admin"
 				end
