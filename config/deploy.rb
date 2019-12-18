@@ -72,7 +72,7 @@ namespace :app do
 		task :run do
 			on roles(:app) do
 				within "#{release_path}/admin" do
-					execute :npm, 'install'
+					execute :npm, 'install --silent --no-progress --no-color'
 					execute :sudo, "pm2 kill"
 					execute :sudo, "pm2 start 'npm start' --name oot-admin"
 				end
