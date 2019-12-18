@@ -3,5 +3,7 @@ twig:
   debug: '%kernel.debug%'
   strict_variables: '%kernel.debug%'
   exception_controller: null
+  paths:
+    - '%kernel.project_dir%/public/assets'
   globals:
     stripe_key: '%env(STRIPE_PKEY)%'
