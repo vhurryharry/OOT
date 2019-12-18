@@ -67,7 +67,7 @@ namespace :app do
 	end
 end
 
-before 'symfony:cache:warmup', 'app:backend:acl'
-after 'app:backend:acl', 'app:frontend:setup'
+#before 'symfony:cache:warmup', 'app:backend:acl'
+before 'symfony:cache:warmup', 'app:frontend:setup'
 after 'app:frontend:setup', 'app:frontend:build'
 after 'deploy:published', 'app:backend:restart'
