@@ -12,7 +12,7 @@ export class ManageReviewsComponent implements OnInit {
   loading = false;
   reviews = [];
   courseId: string = null;
-  pageTitle: string = 'Manage Course Reviews';
+  pageTitle = 'Manage Course Reviews';
 
   constructor(
     private fb: FormBuilder,
@@ -21,12 +21,12 @@ export class ManageReviewsComponent implements OnInit {
     private location: Location
   ) {
     this.route.params.subscribe(params => {
-      this.courseId = params['id'];
+      this.courseId = params.id;
     });
   }
 
   ngOnInit() {
-    if (this.courseId && this.courseId != '0') {
+    if (this.courseId && this.courseId !== '0') {
       this.loading = true;
       this.repository
         .find('course/reviews', this.courseId)

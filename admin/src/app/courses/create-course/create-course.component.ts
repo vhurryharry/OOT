@@ -12,9 +12,9 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
   styleUrls: ['./create-course.component.scss']
 })
 export class CreateCourseComponent implements OnInit {
-  loading: boolean = false;
+  loading = false;
   courseId: string = null;
-  pageTitle: string = '';
+  pageTitle = '';
 
   courseForm = this.fb.group({
     id: [''],
@@ -42,10 +42,13 @@ export class CreateCourseComponent implements OnInit {
     private router: Router
   ) {
     this.route.params.subscribe(params => {
-      this.courseId = params['id'];
+      this.courseId = params.id;
 
-      if (this.courseId && this.courseId != '0') this.pageTitle = 'Edit Course';
-      else this.pageTitle = 'Create New Course';
+      if (this.courseId && this.courseId !== '0') {
+        this.pageTitle = 'Edit Course';
+      } else {
+        this.pageTitle = 'Create New Course';
+      }
     });
 
     this.courseForm.get('title').valueChanges.subscribe(val => {
@@ -58,7 +61,7 @@ export class CreateCourseComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.courseId && this.courseId != '0') {
+    if (this.courseId && this.courseId !== '0') {
       this.repository.find('course', this.courseId).subscribe((result: any) => {
         this.loading = false;
         this.courseForm.patchValue(result);

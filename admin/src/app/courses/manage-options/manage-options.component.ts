@@ -12,7 +12,7 @@ export class ManageOptionsComponent implements OnInit {
   loading = false;
   courseId: string = null;
   options = [];
-  pageTitle: string = 'Manage Course Options';
+  pageTitle = 'Manage Course Options';
 
   optionForm = this.fb.group({
     id: [''],
@@ -29,12 +29,12 @@ export class ManageOptionsComponent implements OnInit {
     private location: Location
   ) {
     this.route.params.subscribe(params => {
-      this.courseId = params['id'];
+      this.courseId = params.id;
     });
   }
 
   ngOnInit() {
-    if (this.courseId && this.courseId != '0') {
+    if (this.courseId && this.courseId !== '0') {
       this.loading = true;
       this.repository
         .find('course/options', this.courseId)

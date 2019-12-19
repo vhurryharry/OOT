@@ -16,7 +16,7 @@ export class ManageInstructorsComponent implements OnInit {
     instructor: ['', Validators.required]
   });
   courseId: string = null;
-  pageTitle: string = 'Manage Course Instructors';
+  pageTitle = 'Manage Course Instructors';
 
   constructor(
     private fb: FormBuilder,
@@ -25,7 +25,7 @@ export class ManageInstructorsComponent implements OnInit {
     private location: Location
   ) {
     this.route.params.subscribe(params => {
-      this.courseId = params['id'];
+      this.courseId = params.id;
     });
   }
 
@@ -49,7 +49,7 @@ export class ManageInstructorsComponent implements OnInit {
   }
 
   loadInstructors() {
-    if (this.courseId && this.courseId != '0') {
+    if (this.courseId && this.courseId !== '0') {
       this.loading = true;
       this.repository
         .find('course/instructor', this.courseId)
