@@ -1,5 +1,11 @@
 <clr-spinner *ngIf="loading"></clr-spinner>
 
+<h4>{{pageTitle}}</h4>
+
+<button type="button" class="btn btn-link" (click)="goBack()">
+  <clr-icon shape="undo"></clr-icon> Back
+</button>
+
 <clr-datagrid>
   <clr-dg-column [clrDgField]="'author'">Author</clr-dg-column>
   <clr-dg-column [clrDgField]="'title'">Title</clr-dg-column>

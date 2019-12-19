@@ -1,30 +1,19 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  EventEmitter,
-  Output
-} from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  FormControl,
-  Validators
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 import { RepositoryService } from '../../services/repository.service';
-import slugify from 'slugify';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'admin-manage-options',
   templateUrl: './manage-options.component.html'
 })
-export class ManageOptionsComponent implements OnChanges {
-  @Input()
-  update: any;
-
+export class ManageOptionsComponent implements OnInit {
   loading = false;
+  courseId: string = null;
   options = [];
+  pageTitle: string = 'Manage Course Options';
+
   optionForm = this.fb.group({
     id: [''],
     title: ['', Validators.required],
@@ -33,41 +22,47 @@ export class ManageOptionsComponent implements OnChanges {
     dates: this.fb.array([this.fb.control('')])
   });
 
-  constructor(private fb: FormBuilder, private repository: RepositoryService) {}
+  constructor(
+    private fb: FormBuilder,
+    private repository: RepositoryService,
+    private route: ActivatedRoute,
+    private location: Location
+  ) {
+    this.route.params.subscribe(params => {
+      this.courseId = params['id'];
+    });
+  }
 
-  ngOnChanges() {
-    if (!this.update || !this.update.id) {
-      return;
+  ngOnInit() {
+    if (this.courseId && this.courseId != '0') {
+      this.loading = true;
+      this.repository
+        .find('course/options', this.courseId)
+        .subscribe((result: any) => {
+          this.loading = false;
+          this.options = result;
+        });
     }
-
-    this.loading = true;
-    this.repository
-      .find('course/options', this.update.id)
-      .subscribe((result: any) => {
-        this.loading = false;
-        this.options = result;
-        this.optionForm.patchValue(result);
-      });
   }
 
   onSubmit() {
     this.loading = true;
     const payload = this.optionForm.value;
-    payload.course = this.update.id;
+    payload.course = this.courseId;
 
     delete payload.id;
     this.repository
       .create('course/options', payload)
       .subscribe((result: any) => {
         this.loading = false;
-        this.ngOnChanges();
+        this.ngOnInit();
       });
   }
 
   onRemove(id) {
     this.loading = true;
     this.repository.delete('course/options', [id]).subscribe((result: any) => {
-      this.ngOnChanges();
+      this.ngOnInit();
     });
   }
 
@@ -77,5 +72,9 @@ export class ManageOptionsComponent implements OnChanges {
 
   addDate() {
     this.dates.push(this.fb.control(''));
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

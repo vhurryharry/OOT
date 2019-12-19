@@ -20,11 +20,6 @@ export class CourseListComponent implements OnInit {
   total: number;
   deleted: number;
   loading = true;
-  showCreateCourse = false;
-  showEditCourse = false;
-  showOptions = false;
-  showInstructors = false;
-  showReviews = false;
 
   constructor(
     private repository: RepositoryService,
@@ -47,33 +42,40 @@ export class CourseListComponent implements OnInit {
   }
 
   onCreate() {
-    // this.showCreateCourse = true;
     this.router.navigate(['/courses/edit/0']);
   }
 
-  onEdit() {
-    this.singleSelection = this.selected[0];
-    this.showEditCourse = true;
+  onEdit(courseId: string = null) {
+    if (courseId === null) {
+      this.singleSelection = this.selected[0];
+      this.router.navigate(['/courses/edit/' + this.singleSelection.id]);
+    } else {
+      this.router.navigate(['/courses/edit/' + courseId]);
+    }
   }
 
   onOptions() {
     this.singleSelection = this.selected[0];
-    this.showOptions = true;
+    this.router.navigate([
+      '/courses/edit/' + this.singleSelection.id + '/options'
+    ]);
   }
 
   onInstructors() {
     this.singleSelection = this.selected[0];
-    this.showInstructors = true;
+    this.router.navigate([
+      '/courses/edit/' + this.singleSelection.id + '/instructors'
+    ]);
   }
 
   onReviews() {
     this.singleSelection = this.selected[0];
-    this.showReviews = true;
+    this.router.navigate([
+      '/courses/edit/' + this.singleSelection.id + '/reviews'
+    ]);
   }
 
   onContentUpdated() {
-    this.showCreateCourse = false;
-    this.showEditCourse = false;
     this.refresh(this.lastState);
     this.selected = [];
   }

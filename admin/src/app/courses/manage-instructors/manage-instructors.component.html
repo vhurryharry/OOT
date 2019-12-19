@@ -1,5 +1,11 @@
 <clr-spinner *ngIf="loading"></clr-spinner>
 
+<h4>{{pageTitle}}</h4>
+
+<button type="button" class="btn btn-link" (click)="goBack()">
+  <clr-icon shape="undo"></clr-icon> Back
+</button>
+
 <clr-datagrid>
   <clr-dg-column>Name</clr-dg-column>
   <clr-dg-column [clrDgField]="'login'">Login</clr-dg-column>
@@ -7,14 +13,14 @@
   <clr-dg-column>Options</clr-dg-column>
 
   <clr-dg-row *clrDgItems="let instructor of instructors">
-      <clr-dg-cell>{{instructor.firstName}} {{instructor.lastName}}</clr-dg-cell>
-      <clr-dg-cell>{{instructor.login}}</clr-dg-cell>
-      <clr-dg-cell>{{instructor.status}}</clr-dg-cell>
-      <clr-dg-cell>
-        <button type="button" class="btn btn-sm btn-secondary" (click)="onRemove(instructor.relation)">
-          <clr-icon shape="trash"></clr-icon> Remove
-        </button>
-      </clr-dg-cell>
+    <clr-dg-cell>{{instructor.firstName}} {{instructor.lastName}}</clr-dg-cell>
+    <clr-dg-cell>{{instructor.login}}</clr-dg-cell>
+    <clr-dg-cell>{{instructor.status}}</clr-dg-cell>
+    <clr-dg-cell>
+      <button type="button" class="btn btn-sm btn-secondary" (click)="onRemove(instructor.relation)">
+        <clr-icon shape="trash"></clr-icon> Remove
+      </button>
+    </clr-dg-cell>
   </clr-dg-row>
 
   <clr-dg-footer>{{instructors.length}} instructors</clr-dg-footer>
@@ -24,10 +30,12 @@
   <clr-select-container>
     <label>Instructor</label>
     <select clrSelect formControlName="instructor">
-      <option *ngFor="let instructor of availableInstructors" value="{{ instructor.id }}" [disabled]="!isAvailable(instructor)">{{ instructor.firstName }} {{ instructor.lastName }}</option>
+      <option *ngFor="let instructor of availableInstructors" value="{{ instructor.id }}"
+        [disabled]="!isAvailable(instructor)">{{ instructor.firstName }} {{ instructor.lastName }}</option>
     </select>
     <clr-control-helper>Specify which instructor you want to add to this course</clr-control-helper>
   </clr-select-container>
 
-  <button class="btn btn-primary pull-right" type="submit" [disabled]="!instructorForm.valid" *ngIf="!loading">Add</button>
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!instructorForm.valid"
+    *ngIf="!loading">Add</button>
 </form>

@@ -1,33 +1,21 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  EventEmitter,
-  Output
-} from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  FormControl,
-  Validators
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { RepositoryService } from '../../services/repository.service';
 import slugify from 'slugify';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
   selector: 'admin-create-course',
-  templateUrl: './create-course.component.html'
+  templateUrl: './create-course.component.html',
+  styleUrls: ['./create-course.component.scss']
 })
-export class CreateCourseComponent implements OnChanges {
-  @Output()
-  finished = new EventEmitter();
+export class CreateCourseComponent implements OnInit {
+  loading: boolean = false;
+  courseId: string = null;
+  pageTitle: string = '';
 
-  @Input()
-  update: any;
-
-  loading = false;
   courseForm = this.fb.group({
     id: [''],
     title: ['', Validators.required],
@@ -47,7 +35,19 @@ export class CreateCourseComponent implements OnChanges {
   });
   public editor = ClassicEditor;
 
-  constructor(private fb: FormBuilder, private repository: RepositoryService) {
+  constructor(
+    private fb: FormBuilder,
+    private repository: RepositoryService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.route.params.subscribe(params => {
+      this.courseId = params['id'];
+
+      if (this.courseId && this.courseId != '0') this.pageTitle = 'Edit Course';
+      else this.pageTitle = 'Create New Course';
+    });
+
     this.courseForm.get('title').valueChanges.subscribe(val => {
       if (!val) {
         return;
@@ -57,36 +57,59 @@ export class CreateCourseComponent implements OnChanges {
     });
   }
 
-  ngOnChanges() {
-    if (this.update) {
-      this.loading = true;
-      this.repository
-        .find('course', this.update.id)
-        .subscribe((result: any) => {
-          this.loading = false;
-          this.courseForm.patchValue(result);
-        });
+  ngOnInit() {
+    if (this.courseId && this.courseId != '0') {
+      this.repository.find('course', this.courseId).subscribe((result: any) => {
+        this.loading = false;
+        this.courseForm.patchValue(result);
+
+        const startDate = new Date(result.startDate);
+        const startDateString =
+          startDate.getMonth() +
+          1 +
+          '/' +
+          startDate.getDate() +
+          '/' +
+          startDate.getFullYear();
+        this.courseForm.patchValue({ startDate: startDateString });
+      });
     }
+  }
+
+  goBack() {
+    this.router.navigate(['/courses']);
   }
 
   onSubmit() {
     this.loading = true;
 
-    if (!this.update) {
+    if (!this.courseId) {
       delete this.courseForm.value.id;
       this.repository
         .create('course', this.courseForm.value)
         .subscribe((result: any) => {
           this.loading = false;
-          this.finished.emit(this.courseForm.value);
+          this.router.navigate(['/courses']);
         });
     } else {
       this.repository
         .update('course', this.courseForm.value)
         .subscribe((result: any) => {
           this.loading = false;
-          this.finished.emit(this.courseForm.value);
+          this.router.navigate(['/courses']);
         });
     }
+  }
+
+  onOptions() {
+    this.router.navigate(['/courses/edit/' + this.courseId + '/options']);
+  }
+
+  onInstructors() {
+    this.router.navigate(['/courses/edit/' + this.courseId + '/instructors']);
+  }
+
+  onReviews() {
+    this.router.navigate(['/courses/edit/' + this.courseId + '/reviews']);
   }
 }

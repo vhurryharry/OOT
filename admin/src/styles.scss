@@ -27,5 +27,16 @@ $clr-p6-font-size: 0.75rem;
   float: left;
 }
 
+.page-header {
+  margin: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.content-area {
+  padding: 0.5rem 1.2rem 1.2rem !important;
+}
+
 // Clarity
 @import '../node_modules/@clr/ui/src/utils/components.clarity';

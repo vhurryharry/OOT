@@ -6,6 +6,7 @@ import { CourseListComponent } from './course-list/course-list.component';
 import { CreateCourseComponent } from './create-course/create-course.component';
 import { ManageOptionsComponent } from './manage-options/manage-options.component';
 import { ManageReviewsComponent } from './manage-reviews/manage-reviews.component';
+import { ManageInstructorsComponent } from './manage-instructors/manage-instructors.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
       {
         path: 'edit/:id/reviews',
         component: ManageReviewsComponent
+      },
+      {
+        path: 'edit/:id/instructors',
+        component: ManageInstructorsComponent
       },
       {
         path: '',
