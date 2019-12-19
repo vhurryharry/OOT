@@ -6,13 +6,16 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'admin-manage-options',
-  templateUrl: './manage-options.component.html'
+  templateUrl: './manage-options.component.html',
+  styleUrls: ['./manage-options.component.scss']
 })
 export class ManageOptionsComponent implements OnInit {
   loading = false;
+  showForm = false;
   courseId: string = null;
   options = [];
   pageTitle = 'Manage Course Options';
+  isAddForm = false;
 
   optionForm = this.fb.group({
     id: [''],
@@ -45,33 +48,89 @@ export class ManageOptionsComponent implements OnInit {
     }
   }
 
+  onAddOption() {
+    if (this.showForm && this.isAddForm) {
+      this.showForm = false;
+      this.optionForm.reset();
+    } else {
+      this.showForm = true;
+      this.isAddForm = true;
+      this.optionForm.reset();
+      this.setDates(['']);
+    }
+  }
+
+  onEditOption(option) {
+    if (option.deletedAt === null) {
+      if (this.showForm && this.optionForm.get('id').value === option.id) {
+        this.showForm = false;
+        this.optionForm.reset();
+      } else {
+        this.showForm = true;
+        this.isAddForm = false;
+        this.optionForm.patchValue(option);
+        this.setDates(option.dates);
+      }
+    }
+  }
+
   onSubmit() {
     this.loading = true;
     const payload = this.optionForm.value;
     payload.course = this.courseId;
 
-    delete payload.id;
-    this.repository
-      .create('course/options', payload)
-      .subscribe((result: any) => {
-        this.loading = false;
-        this.ngOnInit();
-      });
+    if (this.isAddForm) {
+      delete payload.id;
+      this.repository
+        .create('course/options', payload)
+        .subscribe((result: any) => {
+          this.loading = false;
+          this.ngOnInit();
+        });
+    } else {
+      this.repository
+        .update('course/options', payload)
+        .subscribe((result: any) => {
+          this.loading = false;
+          this.ngOnInit();
+        });
+    }
   }
 
-  onRemove(id) {
+  onAction(option) {
     this.loading = true;
-    this.repository.delete('course/options', [id]).subscribe((result: any) => {
-      this.ngOnInit();
-    });
+    if (option.deletedAt) {
+      this.repository
+        .restore('course/options', [option.id])
+        .subscribe((result: any) => {
+          this.ngOnInit();
+        });
+    } else {
+      this.repository
+        .delete('course/options', [option.id])
+        .subscribe((result: any) => {
+          this.ngOnInit();
+        });
+    }
   }
 
   get dates() {
     return this.optionForm.get('dates') as FormArray;
   }
 
+  setDates(dates) {
+    this.dates.clear();
+    dates.forEach(date => {
+      this.dates.push(this.fb.control(date));
+    });
+  }
+
   addDate() {
     this.dates.push(this.fb.control(''));
+  }
+
+  removeDate(index) {
+    this.dates.removeAt(index);
   }
 
   goBack() {

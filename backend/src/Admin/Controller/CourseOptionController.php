@@ -28,7 +28,7 @@ class CourseOptionController extends AbstractController
      */
     public function find(Request $request)
     {
-        $options = $this->db->findAll('select * from course_option where deleted_at is null and course = ?', [$request->get('id')]);
+        $options = $this->db->findAll('select * from course_option where course = ?', [$request->get('id')]);
 
         $result = [];
         foreach ($options as $option) {
@@ -72,6 +72,26 @@ class CourseOptionController extends AbstractController
 
         $this->db->execute(
 			sprintf('update course_option set deleted_at = now() where %s', implode('or ', $params)),
+            $ids
+        );
+
+        return new JsonResponse();
+    }
+
+    /**
+     * @Route("/restore", methods={"POST"})
+     */
+    public function restore(Request $request)
+    {
+        $ids = $request->request->get('ids');
+
+        $params = [];
+        foreach ($ids as $id) {
+            $params[] = 'id = ?';
+        }
+
+        $this->db->execute(
+            sprintf('update course_option set deleted_at = null where %s', implode('or ', $params)),
             $ids
         );
 

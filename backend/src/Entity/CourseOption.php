@@ -272,7 +272,7 @@ class CourseOption implements JsonSerializable
         $dates = [];
 
         foreach ((array) $this->dates as $date) {
-            $dates[] = $date->format('m/d');
+            $dates[] = $date->format('m/d/Y');
         }
 
         $dates = array_values(array_unique($dates));
@@ -280,9 +280,10 @@ class CourseOption implements JsonSerializable
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'price' => $moneyFormatter->format(
+            'curPrice' => $moneyFormatter->format(
                 new Money($this->price, new Currency('USD')),
-            ),
+			),
+			'price' => $this->price,
             'dates' => $dates,
             'combo' => $this->combo,
             'course' => $this->course,

@@ -2,7 +2,7 @@
 
 <h4>{{pageTitle}}</h4>
 
-<button type="button" class="btn btn-link" (click)="onReviews()">
+<button type="button" class="btn btn-link" (click)="onAddOption()">
   <clr-icon shape="plus"></clr-icon> Add New Option
 </button>
 /
@@ -17,18 +17,22 @@
   <clr-dg-column [clrDgField]="'combo'">Combo</clr-dg-column>
   <clr-dg-column [clrDgField]="'created_at'">Created at</clr-dg-column>
   <clr-dg-column [clrDgField]="'updated_at'">Last update</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deleted_at'">Deleted?</clr-dg-column>
   <clr-dg-column>Options</clr-dg-column>
 
-  <clr-dg-row *clrDgItems="let option of options">
+  <clr-dg-row *clrDgItems="let option of options" (click)="onEditOption(option)" style="cursor: pointer;">
     <clr-dg-cell>{{option.title}}</clr-dg-cell>
-    <clr-dg-cell>{{option.price}}</clr-dg-cell>
+    <clr-dg-cell>{{option.curPrice}}</clr-dg-cell>
     <clr-dg-cell>{{option.dates.join(', ')}}</clr-dg-cell>
     <clr-dg-cell>{{option.combo ? 'Yes' : 'No'}}</clr-dg-cell>
     <clr-dg-cell>{{option.createdAt | date:'short'}}</clr-dg-cell>
     <clr-dg-cell>{{option.updatedAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{option.deletedAt | date:'short'}}</clr-dg-cell>
     <clr-dg-cell>
-      <button type="button" class="btn btn-sm btn-secondary" (click)="onRemove(option.id)">
-        <clr-icon shape="trash"></clr-icon> Remove
+      <button type="button" class="btn btn-sm btn-secondary" (click)="onAction(option)">
+        <clr-icon shape="trash" *ngIf="!option.deletedAt"></clr-icon>
+        <clr-icon shape="backup-restore" *ngIf="option.deletedAt"></clr-icon>
+        {{option.deletedAt ? "Restore" : "Remove"}}
       </button>
     </clr-dg-cell>
   </clr-dg-row>
@@ -36,7 +40,7 @@
   <clr-dg-footer>{{options.length}} options</clr-dg-footer>
 </clr-datagrid>
 
-<form clrForm [formGroup]="optionForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+<form clrForm [formGroup]="optionForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading && showForm">
   <clr-input-container>
     <label>Title</label>
     <input clrInput type="text" formControlName="title" required />
@@ -53,15 +57,19 @@
   </clr-toggle-wrapper>
 
   <div formArrayName="dates">
-    <div *ngFor="let date of dates.controls; let i=index">
+    <div *ngFor="let date of dates.controls; let i=index" class="date-wrapper">
       <clr-date-container>
         <label>Course date</label>
         <input type="date" clrDate [formControlName]="i" />
       </clr-date-container>
+
+      <button type="button" class="btn btn-icon btn-sm btn-secondary" (click)="removeDate(i)" *ngIf="i">
+        <clr-icon shape="trash"></clr-icon>
+      </button>
     </div>
 
     <button type="button" class="btn btn-sm btn-secondary" (click)="addDate()">Add date</button>
   </div>
 
-  <button class="btn btn-primary pull-right" type="submit" [disabled]="!optionForm.valid" *ngIf="!loading">Add</button>
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!optionForm.valid" *ngIf="!loading">Save</button>
 </form>
