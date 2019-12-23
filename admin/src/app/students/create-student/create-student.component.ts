@@ -36,7 +36,9 @@ export class CreateStudentComponent implements OnInit {
   ) {
     this.route.params.subscribe(params => {
       this.studentId = params.id;
-      if (params.id === '0') this.studentId = null;
+      if (params.id === '0') {
+        this.studentId = null;
+      }
 
       if (this.studentId) {
         this.pageTitle = 'Edit Student';

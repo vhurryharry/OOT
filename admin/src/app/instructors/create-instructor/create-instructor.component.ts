@@ -49,7 +49,9 @@ export class CreateInstructorComponent implements OnInit {
   ) {
     this.route.params.subscribe(params => {
       this.instructorId = params.id;
-      if (params.id === '0') this.instructorId = null;
+      if (params.id === '0') {
+        this.instructorId = null;
+      }
 
       if (this.instructorId) {
         this.pageTitle = 'Edit Instructor';

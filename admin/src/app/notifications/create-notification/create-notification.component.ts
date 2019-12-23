@@ -33,7 +33,9 @@ export class CreateNotificationComponent implements OnInit {
   ) {
     this.route.params.subscribe(params => {
       this.notificationId = params.id;
-      if (params.id === '0') this.notificationId = null;
+      if (params.id === '0') {
+        this.notificationId = null;
+      }
 
       if (this.notificationId) {
         this.pageTitle = 'Edit Notification';

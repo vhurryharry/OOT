@@ -33,7 +33,9 @@ export class CreateEntityComponent implements OnInit {
   ) {
     this.route.params.subscribe(params => {
       this.entityId = params.id;
-      if (params.id === '0') this.entityId = null;
+      if (params.id === '0') {
+        this.entityId = null;
+      }
 
       if (this.entityId) {
         this.pageTitle = 'Edit Page';
