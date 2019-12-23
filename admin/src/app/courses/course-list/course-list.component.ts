@@ -46,12 +46,8 @@ export class CourseListComponent implements OnInit {
   }
 
   onEdit(courseId: string = null) {
-    if (courseId === null) {
-      this.singleSelection = this.selected[0];
-      this.router.navigate(['/courses/edit/' + this.singleSelection.id]);
-    } else {
-      this.router.navigate(['/courses/edit/' + courseId]);
-    }
+    this.singleSelection = courseId ? courseId : this.selected[0].id;
+    this.router.navigate(['/courses/edit/' + this.singleSelection]);
   }
 
   onOptions() {

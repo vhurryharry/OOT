@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
 import { RepositoryService } from '../../services/repository.service';
 import { FileService } from '../../services/file.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'admin-entity-list',
@@ -22,7 +23,8 @@ export class EntityListComponent implements OnInit {
 
   constructor(
     private repository: RepositoryService,
-    private fileService: FileService
+    private fileService: FileService,
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -40,12 +42,12 @@ export class EntityListComponent implements OnInit {
   }
 
   onCreate() {
-    this.showCreateEntity = true;
+    this.router.navigate(['/pages/edit/0']);
   }
 
-  onEdit() {
-    this.singleSelection = this.selected[0];
-    this.showEditEntity = true;
+  onEdit(entityId: string = null) {
+    this.singleSelection = entityId ? entityId : this.selected[0].id;
+    this.router.navigate(['/pages/edit/' + this.singleSelection]);
   }
 
   onContentUpdated() {

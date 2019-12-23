@@ -31,8 +31,8 @@
     </clr-dropdown>
   </clr-dg-action-bar>
 
-  <clr-dg-column [clrDgField]="'course'">Course</clr-dg-column>
   <clr-dg-column [clrDgField]="'title'">Title</clr-dg-column>
+  <clr-dg-column [clrDgField]="'course'">Course</clr-dg-column>
   <clr-dg-column [clrDgField]="'type'">Type</clr-dg-column>
   <clr-dg-column [clrDgField]="'event'">Event</clr-dg-column>
   <clr-dg-column [clrDgField]="'created_at'">Created At</clr-dg-column>
@@ -41,8 +41,8 @@
 
   <clr-dg-row *ngFor="let notification of notifications" [clrDgItem]="notification"
     [ngClass]="{'deleted-row': notification.deletedAt != null}">
+    <clr-dg-cell (click)="onEdit(notification.id)" class="item-title">{{notification.title}}</clr-dg-cell>
     <clr-dg-cell>{{notification.course}}</clr-dg-cell>
-    <clr-dg-cell>{{notification.title}}</clr-dg-cell>
     <clr-dg-cell>{{notification.type}}</clr-dg-cell>
     <clr-dg-cell>{{notification.event}}</clr-dg-cell>
     <clr-dg-cell>{{notification.createdAt | date:'short'}}</clr-dg-cell>
@@ -56,17 +56,3 @@
     <clr-dg-pagination #pagination [clrDgTotalItems]="total"></clr-dg-pagination>
   </clr-dg-footer>
 </clr-datagrid>
-
-<clr-modal [(clrModalOpen)]="showCreateNotification" [clrModalSize]="'lg'">
-  <h3 class="modal-title">Create notification</h3>
-  <div class="modal-body">
-    <admin-create-notification (finished)='onContentUpdated()'></admin-create-notification>
-  </div>
-</clr-modal>
-
-<clr-modal [(clrModalOpen)]="showEditNotification" [clrModalSize]="'lg'">
-  <h3 class="modal-title">Edit notification</h3>
-  <div class="modal-body">
-    <admin-create-notification [(update)]="singleSelection" (finished)="onContentUpdated()"></admin-create-notification>
-  </div>
-</clr-modal>

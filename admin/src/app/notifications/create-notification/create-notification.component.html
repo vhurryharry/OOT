@@ -1,72 +1,83 @@
-<form clrForm [formGroup]="notificationForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
-  <clr-tabs clrLayout="vertical">
-    <clr-tab>
-      <button clrTabLink>Details</button>
-      <clr-tab-content *clrIfActive>
-        <clr-input-container>
-          <label>Title</label>
-          <input clrInput type="text" formControlName="title" required />
-          <clr-control-error>The title is required</clr-control-error>
-        </clr-input-container>
-        <clr-select-container>
-          <label>Type</label>
-          <select clrSelect formControlName="type" required>
-            <option value="email">Email</option>
-            <option value="sms" disabled>SMS</option>
-            <option value="push" disabled>Push notification</option>
-          </select>
-          <clr-control-error>The type is required</clr-control-error>
-        </clr-select-container>
-        <clr-textarea-container>
-          <label>Content (Text)</label>
-          <textarea clrTextarea formControlName="content"></textarea>
-        </clr-textarea-container>
-        <clr-textarea-container>
-          <label>Content (HTML)</label>
-          <textarea clrTextarea formControlName="contentRich"></textarea>
-        </clr-textarea-container>
-      </clr-tab-content>
-    </clr-tab>
-    <clr-tab>
-      <button clrTabLink>Trigger</button>
-      <clr-tab-content *clrIfActive="true">
-        <clr-select-container>
-          <label>Course</label>
-          <select clrSelect formControlName="course">
-            <option *ngFor="let course of courses" value="{{ course.id }}">{{ course.title }}</option>
-          </select>
-          <clr-control-helper>Specify if this notification should only trigger for a specific course</clr-control-helper>
-        </clr-select-container>
-        <clr-select-container>
-          <label>Event</label>
-          <select clrSelect formControlName="event" required>
-            <option value="customer.registered">Customer registered</option>
-            <option value="customer.auto_registered">Customer auto-registered</option>
-            <option value="order.placed">Order placed</option>
-          </select>
-          <clr-control-error>The event is required</clr-control-error>
-          <clr-control-helper>Which event triggers this notification</clr-control-helper>
-        </clr-select-container>
-        <clr-input-container>
-          <label>From Email</label>
-          <input clrInput type="email" formControlName="fromEmail" />
-          <clr-control-helper>Email to use as sender</clr-control-helper>
-        </clr-input-container>
-        <clr-input-container>
-          <label>From Name</label>
-          <input clrInput type="text" formControlName="fromName" />
-          <clr-control-helper>Name to use as sender</clr-control-helper>
-        </clr-input-container>
-        <clr-input-container>
-          <label>From Number</label>
-          <input clrInput type="tel" pattern="[0-9]+" formControlName="fromNumber" />
-          <clr-control-helper>Mobile number to use as sender</clr-control-helper>
-        </clr-input-container>
-      </clr-tab-content>
-    </clr-tab>
-  </clr-tabs>
+<div>
+  <h4>{{pageTitle}}</h4>
 
-  <button class="btn btn-primary pull-right" type="submit" [disabled]="!notificationForm.valid" *ngIf="!loading">Submit</button>
-</form>
+  <button type="button" class="btn btn-link" (click)="goBack()">
+    <clr-icon shape="undo"></clr-icon> Back
+  </button>
 
-<clr-spinner *ngIf="loading"></clr-spinner>
+  <form clrForm [formGroup]="notificationForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+    <clr-tabs clrLayout="vertical">
+      <clr-tab>
+        <button clrTabLink>Details</button>
+        <clr-tab-content *clrIfActive="true">
+          <clr-input-container>
+            <label>Title</label>
+            <input clrInput type="text" formControlName="title" required />
+            <clr-control-error>The title is required</clr-control-error>
+          </clr-input-container>
+          <clr-select-container>
+            <label>Type</label>
+            <select clrSelect formControlName="type" required>
+              <option value="email">Email</option>
+              <option value="sms" disabled>SMS</option>
+              <option value="push" disabled>Push notification</option>
+            </select>
+            <clr-control-error>The type is required</clr-control-error>
+          </clr-select-container>
+          <clr-textarea-container>
+            <label>Content (Text)</label>
+            <textarea clrTextarea formControlName="content"></textarea>
+          </clr-textarea-container>
+          <clr-textarea-container>
+            <label>Content (HTML)</label>
+            <textarea clrTextarea formControlName="contentRich"></textarea>
+          </clr-textarea-container>
+        </clr-tab-content>
+      </clr-tab>
+      <clr-tab>
+        <button clrTabLink>Trigger</button>
+        <clr-tab-content *clrIfActive>
+          <clr-select-container>
+            <label>Course</label>
+            <select clrSelect formControlName="course">
+              <option *ngFor="let course of courses" value="{{ course.id }}">{{ course.title }}</option>
+            </select>
+            <clr-control-helper>Specify if this notification should only trigger for a specific course
+            </clr-control-helper>
+          </clr-select-container>
+          <clr-select-container>
+            <label>Event</label>
+            <select clrSelect formControlName="event" required>
+              <option value="customer.registered">Customer registered</option>
+              <option value="customer.auto_registered">Customer auto-registered</option>
+              <option value="order.placed">Order placed</option>
+            </select>
+            <clr-control-error>The event is required</clr-control-error>
+            <clr-control-helper>Which event triggers this notification</clr-control-helper>
+          </clr-select-container>
+          <clr-input-container>
+            <label>From Email</label>
+            <input clrInput type="email" formControlName="fromEmail" />
+            <clr-control-helper>Email to use as sender</clr-control-helper>
+          </clr-input-container>
+          <clr-input-container>
+            <label>From Name</label>
+            <input clrInput type="text" formControlName="fromName" />
+            <clr-control-helper>Name to use as sender</clr-control-helper>
+          </clr-input-container>
+          <clr-input-container>
+            <label>From Number</label>
+            <input clrInput type="tel" pattern="[0-9]+" formControlName="fromNumber" />
+            <clr-control-helper>Mobile number to use as sender</clr-control-helper>
+          </clr-input-container>
+        </clr-tab-content>
+      </clr-tab>
+    </clr-tabs>
+
+    <button class="btn btn-primary pull-right" type="submit" [disabled]="!notificationForm.valid"
+      *ngIf="!loading">Submit</button>
+  </form>
+
+  <clr-spinner *ngIf="loading"></clr-spinner>
+
+</div>

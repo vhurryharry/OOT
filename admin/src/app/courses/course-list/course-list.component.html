@@ -53,7 +53,7 @@
   <clr-dg-column [clrDgField]="'deleted_at'">Deleted?</clr-dg-column>
 
   <clr-dg-row *ngFor="let course of courses" [clrDgItem]="course" [ngClass]="{'deleted-row': course.deletedAt != null}">
-    <clr-dg-cell (click)="onEdit(course.id)" style="cursor: pointer;color: #0077b8;">{{course.title}}</clr-dg-cell>
+    <clr-dg-cell (click)="onEdit(course.id)" class="item-title">{{course.title}}</clr-dg-cell>
     <clr-dg-cell>{{course.slug}}</clr-dg-cell>
     <clr-dg-cell>{{course.city}}</clr-dg-cell>
     <clr-dg-cell>{{course.spots}}</clr-dg-cell>

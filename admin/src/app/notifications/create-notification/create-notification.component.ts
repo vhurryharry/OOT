@@ -1,31 +1,15 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  EventEmitter,
-  Output
-} from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  FormControl,
-  Validators
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { RepositoryService } from '../../services/repository.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'admin-create-notification',
   templateUrl: './create-notification.component.html'
 })
-export class CreateNotificationComponent implements OnChanges, OnInit {
-  @Output()
-  finished = new EventEmitter();
-
-  @Input()
-  update: any;
-
+export class CreateNotificationComponent implements OnInit {
+  pageTitle = '';
+  notificationId: string = null;
   loading = false;
   courses = [];
   notificationForm = this.fb.group({
@@ -41,7 +25,23 @@ export class CreateNotificationComponent implements OnChanges, OnInit {
     fromNumber: ['']
   });
 
-  constructor(private fb: FormBuilder, private repository: RepositoryService) {}
+  constructor(
+    private fb: FormBuilder,
+    private repository: RepositoryService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.route.params.subscribe(params => {
+      this.notificationId = params.id;
+      if (params.id === '0') this.notificationId = null;
+
+      if (this.notificationId) {
+        this.pageTitle = 'Edit Notification';
+      } else {
+        this.pageTitle = 'Create New Notification';
+      }
+    });
+  }
 
   ngOnInit() {
     this.loading = true;
@@ -49,13 +49,11 @@ export class CreateNotificationComponent implements OnChanges, OnInit {
       this.courses = result.items;
       this.loading = false;
     });
-  }
 
-  ngOnChanges() {
-    if (this.update) {
+    if (this.notificationId) {
       this.loading = true;
       this.repository
-        .find('notification', this.update.id)
+        .find('notification', this.notificationId)
         .subscribe((result: any) => {
           this.loading = false;
           this.notificationForm.patchValue(result);
@@ -63,23 +61,27 @@ export class CreateNotificationComponent implements OnChanges, OnInit {
     }
   }
 
+  goBack() {
+    this.router.navigate(['/notifications']);
+  }
+
   onSubmit() {
     this.loading = true;
 
-    if (!this.update) {
+    if (!this.notificationId) {
       delete this.notificationForm.value.id;
       this.repository
         .create('notification', this.notificationForm.value)
         .subscribe((result: any) => {
           this.loading = false;
-          this.finished.emit(this.notificationForm.value);
+          this.router.navigate(['/notifications']);
         });
     } else {
       this.repository
         .update('notification', this.notificationForm.value)
         .subscribe((result: any) => {
           this.loading = false;
-          this.finished.emit(this.notificationForm.value);
+          this.router.navigate(['/notifications']);
         });
     }
   }

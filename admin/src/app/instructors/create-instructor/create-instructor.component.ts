@@ -3,7 +3,8 @@ import {
   Input,
   OnChanges,
   EventEmitter,
-  Output
+  Output,
+  OnInit
 } from '@angular/core';
 import {
   FormArray,
@@ -13,21 +14,15 @@ import {
   Validators
 } from '@angular/forms';
 import { RepositoryService } from '../../services/repository.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'admin-create-instructor',
   templateUrl: './create-instructor.component.html'
 })
-export class CreateInstructorComponent implements OnChanges {
-  @Output()
-  finished = new EventEmitter();
-
-  @Input()
-  update: any;
-
-  @Input()
-  type: string;
-
+export class CreateInstructorComponent implements OnInit {
+  pageTitle = '';
+  instructorId: string = null;
   loading = false;
   instructorForm = this.fb.group({
     id: [''],
@@ -46,13 +41,29 @@ export class CreateInstructorComponent implements OnChanges {
     mfa: ['']
   });
 
-  constructor(private fb: FormBuilder, private repository: RepositoryService) {}
+  constructor(
+    private fb: FormBuilder,
+    private repository: RepositoryService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.route.params.subscribe(params => {
+      this.instructorId = params.id;
+      if (params.id === '0') this.instructorId = null;
 
-  ngOnChanges() {
-    if (this.update) {
+      if (this.instructorId) {
+        this.pageTitle = 'Edit Instructor';
+      } else {
+        this.pageTitle = 'Add New Instructor';
+      }
+    });
+  }
+
+  ngOnInit() {
+    if (this.instructorId) {
       this.loading = true;
       this.repository
-        .find('customer', this.update.id)
+        .find('customer', this.instructorId)
         .subscribe((result: any) => {
           this.loading = false;
           this.instructorForm.patchValue(result);
@@ -60,21 +71,25 @@ export class CreateInstructorComponent implements OnChanges {
     }
   }
 
+  goBack() {
+    this.router.navigate(['/instructors']);
+  }
+
   onSubmit() {
     this.loading = true;
     const payload = this.instructorForm.value;
     payload.type = 'instructor';
 
-    if (!this.update) {
+    if (!this.instructorId) {
       delete payload.id;
       this.repository.create('customer', payload).subscribe((result: any) => {
         this.loading = false;
-        this.finished.emit(payload);
+        this.router.navigate(['/instructors']);
       });
     } else {
       this.repository.update('customer', payload).subscribe((result: any) => {
         this.loading = false;
-        this.finished.emit(payload);
+        this.router.navigate(['/instructors']);
       });
     }
   }

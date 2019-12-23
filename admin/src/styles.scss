@@ -38,5 +38,10 @@ $clr-p6-font-size: 0.75rem;
   padding: 0.5rem 1.2rem 1.2rem !important;
 }
 
+.item-title {
+  cursor: pointer;
+  color: #0077b8;
+}
+
 // Clarity
 @import '../node_modules/@clr/ui/src/utils/components.clarity';

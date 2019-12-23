@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
 import { RepositoryService } from '../../services/repository.service';
 import { FileService } from '../../services/file.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'admin-instructor-list',
@@ -26,7 +27,8 @@ export class InstructorListComponent implements OnInit {
 
   constructor(
     private repository: RepositoryService,
-    private fileService: FileService
+    private fileService: FileService,
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -53,12 +55,12 @@ export class InstructorListComponent implements OnInit {
   }
 
   onCreate() {
-    this.showCreateInstructor = true;
+    this.router.navigate(['/instructors/edit/0']);
   }
 
-  onEdit() {
-    this.singleSelection = this.selected[0];
-    this.showEditInstructor = true;
+  onEdit(id: string = null) {
+    this.singleSelection = id ? id : this.selected[0].id;
+    this.router.navigate(['/instructors/edit/' + this.singleSelection]);
   }
 
   onContentUpdated() {

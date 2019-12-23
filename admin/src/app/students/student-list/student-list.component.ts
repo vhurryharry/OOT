@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
 import { RepositoryService } from '../../services/repository.service';
 import { FileService } from '../../services/file.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'admin-student-list',
@@ -26,7 +27,8 @@ export class StudentListComponent implements OnInit {
 
   constructor(
     private repository: RepositoryService,
-    private fileService: FileService
+    private fileService: FileService,
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -51,12 +53,12 @@ export class StudentListComponent implements OnInit {
   }
 
   onCreate() {
-    this.showCreateStudent = true;
+    this.router.navigate(['/students/edit/0']);
   }
 
-  onEdit() {
-    this.singleSelection = this.selected[0];
-    this.showEditStudent = true;
+  onEdit(id: string = null) {
+    this.singleSelection = id ? id : this.selected[0].id;
+    this.router.navigate(['/students/edit/' + this.singleSelection]);
   }
 
   onContentUpdated() {

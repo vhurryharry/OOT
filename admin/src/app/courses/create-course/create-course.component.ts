@@ -43,8 +43,9 @@ export class CreateCourseComponent implements OnInit {
   ) {
     this.route.params.subscribe(params => {
       this.courseId = params.id;
+      if (params.id === '0') this.courseId = null;
 
-      if (this.courseId && this.courseId !== '0') {
+      if (this.courseId) {
         this.pageTitle = 'Edit Course';
       } else {
         this.pageTitle = 'Create New Course';
@@ -61,7 +62,7 @@ export class CreateCourseComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.courseId && this.courseId !== '0') {
+    if (this.courseId) {
       this.repository.find('course', this.courseId).subscribe((result: any) => {
         this.loading = false;
         this.courseForm.patchValue(result);

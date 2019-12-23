@@ -1,33 +1,15 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  EventEmitter,
-  Output
-} from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  FormControl,
-  Validators
-} from '@angular/forms';
+import { Component, OnChanges, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { RepositoryService } from '../../services/repository.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'admin-create-student',
   templateUrl: './create-student.component.html'
 })
-export class CreateStudentComponent implements OnChanges {
-  @Output()
-  finished = new EventEmitter();
-
-  @Input()
-  update: any;
-
-  @Input()
-  type: string;
-
+export class CreateStudentComponent implements OnInit {
+  pageTitle = '';
+  studentId: string = null;
   loading = false;
   studentForm = this.fb.group({
     id: [''],
@@ -46,13 +28,29 @@ export class CreateStudentComponent implements OnChanges {
     mfa: ['']
   });
 
-  constructor(private fb: FormBuilder, private repository: RepositoryService) {}
+  constructor(
+    private fb: FormBuilder,
+    private repository: RepositoryService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.route.params.subscribe(params => {
+      this.studentId = params.id;
+      if (params.id === '0') this.studentId = null;
 
-  ngOnChanges() {
-    if (this.update) {
+      if (this.studentId) {
+        this.pageTitle = 'Edit Student';
+      } else {
+        this.pageTitle = 'Add New Student';
+      }
+    });
+  }
+
+  ngOnInit() {
+    if (this.studentId) {
       this.loading = true;
       this.repository
-        .find('customer', this.update.id)
+        .find('customer', this.studentId)
         .subscribe((result: any) => {
           this.loading = false;
           this.studentForm.patchValue(result);
@@ -60,21 +58,25 @@ export class CreateStudentComponent implements OnChanges {
     }
   }
 
+  goBack() {
+    this.router.navigate(['/students']);
+  }
+
   onSubmit() {
     this.loading = true;
     const payload = this.studentForm.value;
     payload.type = 'student';
 
-    if (!this.update) {
+    if (!this.studentId) {
       delete payload.id;
       this.repository.create('customer', payload).subscribe((result: any) => {
         this.loading = false;
-        this.finished.emit(payload);
+        this.router.navigate(['/students']);
       });
     } else {
       this.repository.update('customer', payload).subscribe((result: any) => {
         this.loading = false;
-        this.finished.emit(payload);
+        this.router.navigate(['/students']);
       });
     }
   }

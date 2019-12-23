@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
 import { RepositoryService } from '../../services/repository.service';
 import { FileService } from '../../services/file.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'admin-notification-list',
@@ -22,7 +23,8 @@ export class NotificationListComponent implements OnInit {
 
   constructor(
     private repository: RepositoryService,
-    private fileService: FileService
+    private fileService: FileService,
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -40,12 +42,12 @@ export class NotificationListComponent implements OnInit {
   }
 
   onCreate() {
-    this.showCreateNotification = true;
+    this.router.navigate(['/notifications/edit/0']);
   }
 
-  onEdit() {
-    this.singleSelection = this.selected[0];
-    this.showEditNotification = true;
+  onEdit(id: string = null) {
+    this.singleSelection = id ? id : this.selected[0].id;
+    this.router.navigate(['/notifications/edit/' + this.singleSelection]);
   }
 
   onContentUpdated() {

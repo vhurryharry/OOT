@@ -32,7 +32,7 @@ class MenuController extends AbstractController
     {
         $state = State::fromDatagrid($request->request->all());
         $menus = $this->db->findAll(
-            'select * from menu ' . $state->toQuery('display_order asc'),
+            'select * from menu ' . $state->toQuery(false, true, 'display_order asc'),
             $state->toQueryParams()
         );
 
