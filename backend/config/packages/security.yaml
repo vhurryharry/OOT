@@ -2,7 +2,7 @@ security:
   encoders:
     App\Security\Customer:
       algorithm: auto
-    App\Admin\Security\User:
+    App\Security\User:
       algorithm: auto
       cost: 14
 
@@ -21,9 +21,9 @@ security:
     #   provider: admin_user_provider
     #   guard:
     #     provider: admin_user_provider
-    #     entry_point: App\Admin\Security\AdminAuthenticator
+    #     entry_point: App\Security\AdminAuthenticator
     #     authenticators:
-    #       - App\Admin\Security\AdminAuthenticator
+    #       - App\Security\AdminAuthenticator
 
     main:
       pattern: ^/

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'admin-condensed',
+  selector: 'app-condensed',
   templateUrl: './condensed.component.html'
 })
 export class CondensedComponent implements OnInit {
