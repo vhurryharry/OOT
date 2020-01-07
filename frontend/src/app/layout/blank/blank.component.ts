@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'admin-blank',
+  selector: 'app-blank',
   templateUrl: './blank.component.html'
 })
 export class BlankComponent implements OnInit {

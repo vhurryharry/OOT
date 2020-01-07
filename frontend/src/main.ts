@@ -1,6 +1,6 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-//import { CheckoutModule } from './checkout/checkout.module';
+// import { CheckoutModule } from './checkout/checkout.module';
 import { environment } from './environments/environment';
 import { AppModule } from './app/app.module';
 
