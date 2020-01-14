@@ -47,7 +47,7 @@ namespace :app do
 		task :run do
 			on roles(:app) do
 				within "#{release_path}/admin" do
-					execute :npm, 'ci --silent --no-progress --no-color'
+					execute :npm, 'install --silent --no-progress --no-color'
 					execute :sudo, "pm2 start 'npm start' --name oot-admin"
 				end
 			end
@@ -59,7 +59,7 @@ namespace :app do
 		task :run do
 			on roles(:app) do
 				within "#{release_path}/frontend" do
-					execute :npm, 'ci --silent --no-progress --no-color'
+					execute :npm, 'install --silent --no-progress --no-color'
 					execute :sudo, "pm2 start 'npm start' --name oot-frontend"
 				end
 			end
