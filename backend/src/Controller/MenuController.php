@@ -142,5 +142,23 @@ class MenuController extends AbstractController
         );
 
         return new JsonResponse();
+	}
+
+	/**
+     * @Route("/list", methods={"GET"})
+     */
+    public function list(Request $request)
+    {
+        $state = State::fromDatagrid($request->request->all());
+        $menus = $this->db->findAll('select * from menu where deleted_at is null order by display_order');
+
+        $items = [];
+        foreach ($menus as $menu) {
+            $items[] = (Menu::fromDatabase($menu))->jsonSerialize();
+        }
+
+        return new JsonResponse([
+            'items' => $items
+        ]);
     }
 }

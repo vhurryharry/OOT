@@ -35,6 +35,7 @@ export class EditOrderComponent implements OnChanges {
   constructor(private fb: FormBuilder, private repository: RepositoryService) {}
 
   ngOnChanges() {
+    console.log(this.order);
     if (this.order) {
       this.loading = true;
       this.repository.find('order', this.order.id).subscribe((result: any) => {

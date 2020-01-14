@@ -7,7 +7,6 @@ import { map } from 'rxjs/operators';
 
 export interface IUserInfo {
   id: number;
-  name: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -19,7 +18,7 @@ export interface IUserInfo {
 
 @Injectable()
 export class LoginService {
-  private authURL: string = environment.baseURL + `/api/auth/login`;
+  private authURL: string = environment.baseURL + `/api/auth/customer-login`;
   currentUser: IUserInfo;
   authError: string;
   redirectUrl: string;

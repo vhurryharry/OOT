@@ -1,99 +1,87 @@
-admin_api_audit_log:
+api_audit_log:
   resource: 'App\Controller\AuditLogController'
   type: annotation
   prefix: /api/audit-log
 
-admin_api_category:
+api_category:
   resource: 'App\Controller\CategoryController'
   type: annotation
   prefix: /api/category
 
-admin_api_course:
+api_course:
   resource: 'App\Controller\CourseController'
   type: annotation
   prefix: /api/course
 
-admin_api_course_option:
+api_course_option:
   resource: 'App\Controller\CourseOptionController'
   type: annotation
   prefix: /api/course/options
 
-admin_api_course_review:
+api_course_review:
   resource: 'App\Controller\CourseReviewController'
   type: annotation
   prefix: /api/course/reviews
 
-admin_api_document:
+api_document:
   resource: 'App\Controller\DocumentController'
   type: annotation
   prefix: /api/document
 
-admin_api_entity:
+api_entity:
   resource: 'App\Controller\EntityController'
   type: annotation
   prefix: /api/entity
 
-admin_api_faq:
+api_faq:
   resource: 'App\Controller\FaqController'
   type: annotation
   prefix: /api/faq
 
-admin_api_menu:
+api_menu:
   resource: 'App\Controller\MenuController'
   type: annotation
   prefix: /api/menu
 
-admin_api_notification:
+api_notification:
   resource: 'App\Controller\NotificationController'
   type: annotation
   prefix: /api/notification
 
-admin_api_role:
+api_role:
   resource: 'App\Controller\RoleController'
   type: annotation
   prefix: /api/role
 
-admin_api_tag:
+api_tag:
   resource: 'App\Controller\TagController'
   type: annotation
   prefix: /api/tag
 
-admin_api_user:
+api_user:
   resource: 'App\Controller\UserController'
   type: annotation
   prefix: /api/user
 
-admin_api_customer:
+api_customer:
   resource: 'App\Controller\CustomerController'
   type: annotation
   prefix: /api/customer
 
-admin_api_order:
+api_order:
   resource: 'App\Controller\OrderController'
   type: annotation
   prefix: /api/order
 
-admin_api_auth:
+api_auth:
   resource: 'App\Controller\AuthController'
   type: annotation
   prefix: /api/auth
 
-admin_api_rel:
+api_rel:
   resource: 'App\Controller\RelationshipController'
   type: annotation
   prefix: /api/admin
-
-course:
-  resource: 'App\Controller\CourseController'
-  type: annotation
-
-customer:
-  resource: 'App\Controller\CustomerController'
-  type: annotation
-
-order:
-  resource: 'App\Controller\OrderController'
-  type: annotation
 
 default:
   resource: 'App\Controller\DefaultController'

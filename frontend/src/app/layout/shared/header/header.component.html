@@ -3,24 +3,34 @@
 	<div class="container">
 		<div class="navbar-header">
 			<!-- Button for smallest screens -->
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span
-					class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+			</button>
 			<a class="navbar-brand" href="/">
 				<img src="assets/images/logo.svg" alt="Olive Oil Times Education Lab" />
 			</a>
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav pull-right mainNav">
-				<li class="active"><a href="index.html">Home</a></li>
-				<li><a href="about.html">About</a></li>
-				<li><a href="courses.html">Courses</a></li>
-				<li><a href="price.html">Price</a></li>
-				<li><a href="videos.html">Videos</a></li>
-				<li><a href="contact.html">Contact</a></li>
-
+				<li *ngFor="let menu of menus">
+					<a href="{{ menu.link }}">{{ menu.title }}</a>
+				</li>
 			</ul>
 		</div>
 		<!--/.nav-collapse -->
+
+		<div *ngIf="isLoggedIn">
+			<a href="/profile" class="auth-menu">
+				<img src="assets/images/avatar.png" alt="User" width="40" />
+				{{userName}}
+			</a>
+		</div>
+		<div *ngIf="!isLoggedIn">
+			<a href="/auth" class="button auth-menu">
+				<!-- <img src="assets/images/avatar.png" alt="User" width="40" /> -->
+				Login
+			</a>
+		</div>
 	</div>
 </div>
 <!-- /.navbar -->

@@ -29,7 +29,7 @@ export class OrderPaymentsComponent implements OnChanges {
   constructor(private repository: RepositoryService) {}
 
   ngOnChanges() {
-    if (this.order) {
+    if (this.order && this.order.payment) {
       this.loading = true;
       this.repository
         .getPayment(this.order.payment.transactionId)

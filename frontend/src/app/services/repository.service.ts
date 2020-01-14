@@ -43,6 +43,10 @@ export class RepositoryService {
     return this.http.post(this.baseURL + module + '/move', { type, id });
   }
 
+  list(module) {
+    return this.http.get(this.baseURL + module + '/list');
+  }
+
   attach(type, payload) {
     return this.http.post(this.baseURL + 'attach/' + type, payload);
   }
