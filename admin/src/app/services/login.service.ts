@@ -27,9 +27,9 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   isLoggedIn(): boolean {
-    if (localStorage.getItem('oot_token')) {
+    if (localStorage.getItem('oot_admin_token')) {
       if (!this.currentUser) {
-        this.currentUser = JSON.parse(localStorage.getItem('oot_token'));
+        this.currentUser = JSON.parse(localStorage.getItem('oot_admin_token'));
       }
 
       return true;
@@ -58,7 +58,10 @@ export class LoginService {
       .pipe<any>(
         map(response => {
           if (response && response.success) {
-            localStorage.setItem('oot_token', JSON.stringify(response.user));
+            localStorage.setItem(
+              'oot_admin_token',
+              JSON.stringify(response.user)
+            );
 
             this.currentUser = response.user;
             this.authError = null;
@@ -75,7 +78,7 @@ export class LoginService {
   }
 
   logOut(): void {
-    localStorage.removeItem('oot_token');
+    localStorage.removeItem('oot_admin_token');
     this.currentUser = null;
   }
 }
