@@ -24,6 +24,7 @@ namespace :app do
 				within "#{release_path}" do
 					execute :sudo, "service #{fetch(:php_fpm_service)} restart"
 					execute :sudo, "service nginx restart"
+					execute :sudo, "pm2 kill"
 				end
 			end
 		end
@@ -41,40 +42,25 @@ namespace :app do
 		end
 	end
 
-	namespace :frontend do
-		desc 'Setup frontend assets folder'
-		task :setup do
-			on roles(:app) do
-				within "#{release_path}/backend" do
-					execute :mkdir, '-p public/assets'
-					execute :setfacl, '-R -m u:www-data:rwX -m u:deploy:rwX public/assets'
-					execute :setfacl, '-dR -m u:www-data:rwx -m u:deploy:rwx public/assets'
-				end
-			end
-		end
-
-		desc 'Build frontend artifacts'
-		task :build do
-			on roles(:app) do
-				within "#{release_path}/frontend" do
-					execute :npm, 'ci --silent --no-progress --no-color'
-					execute :npm, 'run build --prod'
-				end
-
-				# within "#{release_path}/admin" do
-				# 	execute :npm, 'ci --silent --no-progress --no-color'
-				# 	execute :npm, 'run build --prod'
-				# end
-			end
-		end
-
-		desc 'Run frontend'
+	namespace :admin do
+		desc 'Run Admin'
 		task :run do
 			on roles(:app) do
 				within "#{release_path}/admin" do
-					execute :npm, 'install --silent --no-progress --no-color'
-					execute :sudo, "pm2 kill"
+					execute :npm, 'ci --silent --no-progress --no-color'
 					execute :sudo, "pm2 start 'npm start' --name oot-admin"
+				end
+			end
+		end
+	end
+
+	namespace :frontend do
+		desc 'Run Frontend'
+		task :run do
+			on roles(:app) do
+				within "#{release_path}/frontend" do
+					execute :npm, 'ci --silent --no-progress --no-color'
+					execute :sudo, "pm2 start 'npm start' --name oot-frontend"
 				end
 			end
 		end
@@ -82,7 +68,8 @@ namespace :app do
 end
 
 #before 'symfony:cache:warmup', 'app:backend:acl'
-before 'symfony:cache:warmup', 'app:frontend:setup'
-after 'app:frontend:setup', 'app:frontend:build'
+#before 'symfony:cache:warmup', 'app:frontend:setup'
+#after 'app:frontend:setup', 'app:frontend:build'
 after 'deploy:published', 'app:backend:restart'
-after 'app:backend:restart', 'app:frontend:run'
+after 'app:backend:restart', 'app:admin:run'
+after 'app:admin:run', 'app:frontend:run'

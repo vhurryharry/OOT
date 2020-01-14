@@ -3,7 +3,7 @@
 	"version": "0.0.0",
 	"scripts": {
 		"ng": "ng",
-		"start": "ng serve --base-href /admin/",
+		"start": "ng serve --base-href /admin/ --port 5001",
 		"build": "ng build --extractCss=true --outputHashing=all",
 		"watch": "ng build --watch --extractCss=true --outputHashing=all",
 		"test": "ng test",
