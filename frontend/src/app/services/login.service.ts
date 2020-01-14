@@ -7,18 +7,22 @@ import { map } from 'rxjs/operators';
 
 export interface IUserInfo {
   id: number;
+  metadata: string;
+  type: string;
   email: string;
+  status: string;
   firstName: string;
   lastName: string;
-  permissions: string[];
-  status: string;
-  createdAt: Date;
-  updatedAt: Date;
+  acceptsMarketing: boolean;
+  tagline: string;
+  occupation: string;
+  birthDate: Date;
+  mfa: string;
 }
 
 @Injectable()
 export class LoginService {
-  private authURL: string = environment.baseURL + `/api/auth/customer-login`;
+  private authURL: string = environment.baseURL + `/api/auth`;
   currentUser: IUserInfo;
   authError: string;
   redirectUrl: string;
@@ -44,13 +48,9 @@ export class LoginService {
     return this.currentUser.id;
   }
 
-  getPermissions(): string[] {
-    return this.currentUser.permissions;
-  }
-
   authenticate(email, password): Observable<IUserInfo> {
     return this.http
-      .post<any>(`${this.authURL}`, {
+      .post<any>(`${this.authURL}/customer-login`, {
         email,
         password
       })
@@ -79,5 +79,30 @@ export class LoginService {
   logOut(): void {
     localStorage.removeItem('oot_user_token');
     this.currentUser = null;
+  }
+
+  register(userInfo: any): Observable<IUserInfo> {
+    return this.http
+      .post<any>(`${this.authURL}/customer-register`, userInfo)
+      .pipe<any>(
+        map(response => {
+          if (response && response.success) {
+            localStorage.setItem(
+              'oot_user_token',
+              JSON.stringify(response.user)
+            );
+
+            this.currentUser = response.user;
+            this.authError = null;
+
+            return this.currentUser;
+          } else {
+            this.authError = response.error;
+            this.currentUser = null;
+
+            return throwError(response.error);
+          }
+        })
+      );
   }
 }

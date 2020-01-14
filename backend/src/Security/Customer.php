@@ -217,12 +217,12 @@ class Customer implements UserInterface, JsonSerializable
         return $this->metadata;
     }
 
-    public function setMetadata(array $metadata): void
+    public function setMetadata(?array $metadata): void
     {
         $this->metadata = $metadata;
     }
 
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }

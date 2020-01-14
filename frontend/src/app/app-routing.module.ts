@@ -4,8 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './services/auth-guard.service';
 
 import { CondensedComponent } from './layout/condensed/condensed.component';
-import { BlankComponent } from './layout/blank/blank.component';
-import { AuthComponent } from './auth/auth.component';
 
 const routes: Routes = [
   {
@@ -17,6 +15,11 @@ const routes: Routes = [
     path: 'auth',
     component: CondensedComponent,
     loadChildren: './auth/auth.module#AuthModule'
+  },
+  {
+    path: 'profile',
+    component: CondensedComponent,
+    loadChildren: './profile/profile.module#ProfileModule'
   },
   {
     path: '**',

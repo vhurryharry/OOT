@@ -47,15 +47,14 @@ class CustomerRepository
 
     public function register(array $form): Customer
     {
-        $rawPassword = $form['password'];
-        $customer = new Customer(
-            $form['email'],
-            Uuid::uuid4()
-        );
+		$rawPassword = $form['password'];
+		$customer = Customer::fromJson($form);
+		$customer->setId(Uuid::uuid4());
+		$customer->setLogin($form['email']);
 
         $customer->setPassword($this->encoder->encodePassword($customer, $rawPassword));
         $customer->setConfirmationToken($this->getRandomKey());
-        $customer->setStatus(Customer::PENDING_CONFIRMATION);
+		$customer->setStatus(Customer::PENDING_CONFIRMATION);
 
         $this->db->insert(
             'customer',

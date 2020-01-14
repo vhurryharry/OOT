@@ -1,0 +1,30 @@
+<div class="login-container">
+	<form class="login" (ngSubmit)="cmdLogin()">
+		<div class="field">
+			<div class="control">
+				Email: <input class="input" type="text" placeholder="Email" name="_email" placeholder="Email"
+					[(ngModel)]="email" />
+			</div>
+		</div>
+
+		<div class="field">
+			<div class="control">
+				Password: <input class="input" type="password" name="_password" placeholder="Password"
+					[(ngModel)]="password" />
+			</div>
+		</div>
+
+		<div [hidden]="!errorMessage">
+			{{ errorMessage }}
+		</div>
+
+		<a class="button" (click)="cmdLogin()">
+			Log In
+		</a>
+		<p>
+			<a href="/auth/register">
+				Create a new account
+			</a>
+		</p>
+	</form>
+</div>

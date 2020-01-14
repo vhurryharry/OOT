@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Repository\UserRepository;
 use App\Repository\CustomerRepository;
 use App\Security\User;
+use App\Event\CustomerRegistered;
 use App\Security\Customer;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class AuthController extends AbstractController
 {
@@ -32,11 +34,17 @@ class AuthController extends AbstractController
      */
     protected $encoder;
 
-    public function __construct(UserRepository $userRepository, CustomerRepository $customerRepository, UserPasswordEncoderInterface $encoder)
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
+    public function __construct(UserRepository $userRepository, CustomerRepository $customerRepository, UserPasswordEncoderInterface $encoder, EventDispatcherInterface $eventDispatcher)
     {
         $this->userRepository = $userRepository;
 		$this->encoder = $encoder;
 		$this->customerRepository = $customerRepository;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -116,15 +124,8 @@ class AuthController extends AbstractController
 				'metadata' => $customer->getMetadata(),
 				'type' => $customer->getType(),
 				'status' => $customer->getStatus(),
-				'confirmationToken' => $customer->getConfirmationToken(),
 				'acceptsMarketing' => $customer->acceptsMarketing(),
-				'createdAt' => $customer->getCreatedAt(),
-				'registeredAt' => $customer->getRegisteredAt(),
-				'updatedAt' => $customer->getUpdatedAt(),
-				'deletedAt' => $customer->getDeletedAt(),
-				'expiresAt' => $customer->getExpiresAt(),
 				'email' => $customer->getLogin(),
-				'passwordExpiresAt' => $customer->getPasswordExpiresAt(),
 				'firstName' => $customer->getFirstName(),
 				'lastName' => $customer->getLastName(),
 				'tagline' => $customer->getTagline(),
@@ -133,5 +134,36 @@ class AuthController extends AbstractController
 				'mfa' => $customer->getMfa(),
 			]
 		]);
-    }
+	}
+
+	/**
+     * @Route("/customer-register", methods={"POST"})
+     */
+    public function customerRegister(Request $request)
+    {
+		$data = $request->get("user");
+		$customer = $this->customerRepository->register($data);
+		
+		$this->eventDispatcher->dispatch(new CustomerRegistered($customer));
+		
+		return new JsonResponse([
+			'success' => true,
+			'error' => null,
+			'user' => [
+				'id' => $customer->getId(),
+				'metadata' => $customer->getMetadata(),
+				'type' => $customer->getType(),
+				'status' => $customer->getStatus(),
+				'acceptsMarketing' => $customer->acceptsMarketing(),
+				'email' => $customer->getLogin(),
+				'firstName' => $customer->getFirstName(),
+				'lastName' => $customer->getLastName(),
+				'tagline' => $customer->getTagline(),
+				'occupation' => $customer->getOccupation(),
+				'birthDate' => $customer->getBirthDate(),
+				'mfa' => $customer->getMfa(),
+			]
+		]);
+	}	
+	
 }

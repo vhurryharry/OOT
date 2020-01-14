@@ -1,0 +1,63 @@
+<div class="container profile-container">
+  <img src="assets/images/avatar.png" alt="User" class="user-avatar" />
+
+  <div class="profile-info">
+    <div class="columns">
+      <div class="column">
+        Email:
+      </div>
+      <div class="column">
+        {{ user.email }}
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="column">
+        First Name:
+      </div>
+      <div class="column">
+        {{ user.firstName }}
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="column">
+        Last Name:
+      </div>
+      <div class="column">
+        {{ user.lastName }}
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="column">
+        Tagline:
+      </div>
+      <div class="column">
+        {{ user.tagline }}
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="column">
+        Occupation:
+      </div>
+      <div class="column">
+        {{ user.occupation }}
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="column">
+        Birth Date:
+      </div>
+      <div class="column">
+        {{ user.birthDate | date: 'MM/dd/yyyy' }}
+      </div>
+    </div>
+
+    <a class="button" (click)="cmdLogout()">
+      Log Out
+    </a>
+  </div>
+</div>
