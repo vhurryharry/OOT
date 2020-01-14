@@ -59,16 +59,18 @@ export class RegisterComponent implements OnInit {
       })
       .subscribe(
         user => {
-          if (user) {
+          if (user && !this.loginService.authError) {
             if (this.loginService.redirectUrl) {
               this.router.navigateByUrl(this.loginService.redirectUrl);
             } else {
               this.router.navigate(['/']);
             }
+          } else {
+            this.errorMessage = this.loginService.authError;
           }
         },
         error => {
-          this.errorMessage = error;
+          this.errorMessage = 'Unexpected error occured!';
         }
       );
   }

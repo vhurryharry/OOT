@@ -40,7 +40,7 @@
 			<div class="control">
 				Type:
 				<div class="select">
-					<select [(ngModel)]="type">
+					<select [(ngModel)]="type" name="_type">
 						<option value="student">Student</option>
 						<option value="instructor">Instructor</option>
 					</select>
@@ -68,7 +68,7 @@
 			</div>
 		</div>
 
-		<div [hidden]="!errorMessage">
+		<div [hidden]="!errorMessage" class="error-text">
 			{{ errorMessage }}
 		</div>
 

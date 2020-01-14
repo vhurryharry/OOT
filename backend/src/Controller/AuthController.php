@@ -98,7 +98,7 @@ class AuthController extends AbstractController
 		$email = $request->get('email');
 		$password = $request->get('password');
 
-		$customer = Customer::fromDatabase($this->customerRepository->findByLogin($email));
+		$customer = $this->customerRepository->findByLogin($email);
 
 		if(!$customer) {
 			return new JsonResponse([
@@ -107,6 +107,8 @@ class AuthController extends AbstractController
 				'user' => null
 			]);;
 		}
+
+		$customer = Customer::fromDatabase($customer);
 
         if(!$this->encoder->isPasswordValid($customer, $password)) {
 			return new JsonResponse([
@@ -142,6 +144,17 @@ class AuthController extends AbstractController
     public function customerRegister(Request $request)
     {
 		$data = $request->get("user");
+
+		$customer = $this->customerRepository->findByLogin($data['email']);
+
+		if($customer) {
+			return new JsonResponse([
+				'success' => false,
+				'error' => "User already exists for this email!",
+				'user' => null
+			]);;
+		}
+
 		$customer = $this->customerRepository->register($data);
 		
 		$this->eventDispatcher->dispatch(new CustomerRegistered($customer));

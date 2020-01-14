@@ -86,7 +86,7 @@ export class LoginService {
       .post<any>(`${this.authURL}/customer-register`, userInfo)
       .pipe<any>(
         map(response => {
-          if (response && response.success) {
+          if (response && response.success === true) {
             localStorage.setItem(
               'oot_user_token',
               JSON.stringify(response.user)
