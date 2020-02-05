@@ -5,7 +5,7 @@ import { LoginService, IUserInfo } from '../services/login.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
   user = {} as IUserInfo;

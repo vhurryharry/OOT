@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-sm fixed-top header {{lightHeader ? 'light-header' : ''}}">
+
+  <a class="navbar-brand header-logo" href="#">
+    <picture>
+      <source srcset="/assets/logos/logo-s.png" media="(max-width: 576px)" />
+      <source srcset="/assets/logos/logo.png" />
+      <img src='/assets/logos/logo.png' alt="Olive Oil Times" />
+    </picture>
+  </a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse header-navbar sm-body-medium" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto color-change-navbar">
+
+      <li class="nav-item">
+        <a class="nav-link" href="#">All courses</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#" id="companyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          Company
+          <img src="/assets/images/arrows/down.png" class="dropdown-icon" />
+        </a>
+
+        <div class="dropdown-menu md-body-text" aria-labelledby="companyDropdown">
+          <a class="dropdown-item" href="#">About</a>
+          <a class="dropdown-item" href="#">FAQ</a>
+          <a class="dropdown-item" href="#">Blog</a>
+          <a class="dropdown-item" href="#">Contact</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Sommelier Registry</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Get Updates</a>
+      </li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right user-nav" *ngIf="!loggedIn">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Sign In</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="btn sm-cta navbar-btn " href="#">
+          Sign Up
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

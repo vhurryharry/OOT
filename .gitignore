@@ -34,3 +34,7 @@ yarn-error.log
 .phpunit.result.cache
 phpunit.xml
 proxy.conf.json
+
+package.lock.json
+yarn.lock
+composer.lock
