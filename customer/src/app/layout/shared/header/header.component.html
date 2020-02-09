@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm fixed-top header {{lightHeader ? 'light-header' : ''}}">
+<nav class="navbar navbar-expand-sm fixed-top header custom-toggler {{lightHeader ? 'light-header' : ''}}">
 
   <a class="navbar-brand header-logo" href="#">
     <picture>
@@ -8,8 +8,9 @@
     </picture>
   </a>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+  <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse"
     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-close-icon"></span>
     <span class="navbar-toggler-icon"></span>
   </button>
 
@@ -26,11 +27,13 @@
           <img src="/assets/images/arrows/down.png" class="dropdown-icon" />
         </a>
 
-        <div class="dropdown-menu md-body-text" aria-labelledby="companyDropdown">
-          <a class="dropdown-item" href="#">About</a>
-          <a class="dropdown-item" href="#">FAQ</a>
-          <a class="dropdown-item" href="#">Blog</a>
-          <a class="dropdown-item" href="#">Contact</a>
+        <div class="dropdown-menu" aria-labelledby="companyDropdown">
+          <div class="md-body-text dropdown-menu-content">
+            <a class="dropdown-item" href="#">About</a>
+            <a class="dropdown-item" href="#">FAQ</a>
+            <a class="dropdown-item" href="#">Blog</a>
+            <a class="dropdown-item" href="#">Contact</a>
+          </div>
         </div>
       </li>
       <li class="nav-item">

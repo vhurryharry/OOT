@@ -1,32 +1,45 @@
 @import "src/assets/styles/variables";
 
-@media (min-width: 760px) {
-  .navbar-expand-custom {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
+// Navbar toggler
+.custom-toggler {
+  .navbar-toggler-icon {
+    background-image: url(/assets/images/s-icons/navbar-toggler.png);
   }
 
-  .navbar-expand-custom .navbar-nav {
-    flex-direction: row;
-  }
+  .navbar-close-icon {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    content: "";
+    background: no-repeat center center;
+    background-size: 100% 100%;
 
-  .navbar-expand-custom .navbar-nav .nav-link {
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-  }
-
-  .navbar-expand-custom .navbar-collapse {
-    display: flex !important;
-  }
-
-  .navbar-expand-custom .navbar-toggler {
-    display: none;
+    background-image: url(/assets/images/s-icons/navbar-close.png);
   }
 }
 
+.light-header {
+  .navbar-close-icon {
+    filter: brightness(100);
+  }
+}
+
+.navbar-toggler.collapsed > .navbar-close-icon,
+.navbar-toggler:not(.collapsed) > .navbar-toggler-icon {
+  display: none;
+}
+
+.navbar-toggler {
+  padding: 16px 4px;
+  outline: none;
+  box-shadow: none;
+}
+
+// Normal header styles
 .header {
   color: $gray900;
+  position: absolute;
 
   @media #{$desktop} {
     margin-top: 16px;
@@ -42,7 +55,14 @@
   }
 
   .header-navbar {
-    margin: 25px 0px;
+    @media #{$desktop} {
+      margin: 25px 0px;
+    }
+
+    @media #{$mobile} {
+      background-color: $blue;
+      padding: 25px 0px;
+    }
   }
 
   .nav-link {
@@ -52,6 +72,10 @@
 
   .dropdown-icon {
     margin: 0px 3px;
+
+    @media #{$mobile} {
+      filter: brightness(100);
+    }
   }
 
   .dropdown-menu {
@@ -63,6 +87,7 @@
   }
 }
 
+// Light header styles
 .light-header {
   .color-change-navbar .nav-link {
     color: $white;
@@ -77,6 +102,57 @@
   }
 
   .navbar-toggler-icon {
-    color: black;
+    filter: brightness(100);
+  }
+}
+
+@media #{$mobile} {
+  .light-header.navbar {
+    background-color: $blue;
+  }
+
+  .header .nav-link {
+    text-align: center;
+    color: $white;
+
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  .dropdown-item {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .user-nav {
+    margin-top: 126px;
+
+    .navbar-btn {
+      color: $black;
+      background-color: $white;
+      padding: 22px 36px;
+
+      font-weight: bold;
+      font-size: 17px;
+      line-height: 20px;
+
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+
+  .nav-item {
+    margin: 12px 8px;
+  }
+}
+
+@media #{$mobile} {
+  .navbar {
+    background-color: white;
   }
 }

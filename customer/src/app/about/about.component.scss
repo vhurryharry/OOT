@@ -1,3 +1,5 @@
+@import "src/assets/styles/variables";
+
 #about-background-1 {
   position: absolute;
   left: 0;
@@ -6,5 +8,84 @@
 
   @media screen and (max-width: 576px) {
     display: none;
+  }
+}
+
+.about-container {
+  padding: 0;
+
+  @media #{$desktop} {
+    margin: calc(156px + 3.25vw) 15.6vw 0;
+  }
+
+  @media #{$mobile} {
+    margin: 96px 24px 0;
+  }
+}
+
+.about-heading-title {
+  text-align: center;
+
+  @media #{$desktop} {
+    margin: 0 0 3.25vw;
+    padding: 0 8.5vw;
+  }
+
+  @media #{$mobile} {
+    margin: 0 0 24px;
+    padding: 0;
+  }
+}
+
+.about-info-section {
+  @media #{$desktop} {
+    padding: 3.25vw 5.6vw 3.25vw 4vw;
+  }
+
+  @media #{$mobile} {
+    padding: 0;
+  }
+
+  #about-program-director {
+    border: 1px solid $gray500;
+    border-radius: 16px;
+
+    #about-program-director-avatar {
+      border-radius: 16px 16px 0 0;
+      max-width: 100%;
+    }
+
+    #about-program-director-text {
+      margin: 10% 20%;
+      text-align: center;
+    }
+
+    #about-program-director-subtitle {
+      color: $gray800;
+    }
+  }
+
+  #about-info-logos {
+    margin: 40px;
+
+    img {
+      max-width: 100%;
+      padding: 8px;
+    }
+  }
+}
+
+.about-text-section {
+  @media #{$desktop} {
+    padding: 3.25vw 2.8vw 3.25vw 1.8vw;
+  }
+
+  @media #{$mobile} {
+    margin: 24px 0 0;
+    padding: 0;
+  }
+
+  p {
+    margin-bottom: 35px;
   }
 }
