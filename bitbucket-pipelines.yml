@@ -28,7 +28,7 @@ pipelines:
               - npm run lint:check
 
         - step:
-            name: Frontend tests
+            name: Customer tests
             image: node:latest
             caches:
               - node
