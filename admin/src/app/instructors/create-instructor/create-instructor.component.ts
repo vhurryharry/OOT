@@ -5,40 +5,40 @@ import {
   EventEmitter,
   Output,
   OnInit
-} from '@angular/core';
+} from "@angular/core";
 import {
   FormArray,
   FormBuilder,
   FormGroup,
   FormControl,
   Validators
-} from '@angular/forms';
-import { RepositoryService } from '../../services/repository.service';
-import { ActivatedRoute, Router } from '@angular/router';
+} from "@angular/forms";
+import { RepositoryService } from "../../services/repository.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
-  selector: 'admin-create-instructor',
-  templateUrl: './create-instructor.component.html'
+  selector: "admin-create-instructor",
+  templateUrl: "./create-instructor.component.html"
 })
 export class CreateInstructorComponent implements OnInit {
-  pageTitle = '';
+  pageTitle = "";
   instructorId: string = null;
   loading = false;
   instructorForm = this.fb.group({
-    id: [''],
-    status: ['', Validators.required],
-    confirmationToken: [''],
-    acceptsMarketing: [''],
-    expiresAt: [''],
-    login: [''],
-    passwordExpiresAt: [''],
-    firstName: [''],
-    lastName: [''],
-    tagline: [''],
-    occupation: [''],
-    birthDate: [''],
-    password: [''],
-    mfa: ['']
+    id: [""],
+    status: ["", Validators.required],
+    confirmationToken: [""],
+    acceptsMarketing: [""],
+    expiresAt: [""],
+    login: [""],
+    passwordExpiresAt: [""],
+    firstName: [""],
+    lastName: [""],
+    tagline: [""],
+    occupation: [""],
+    birthDate: [""],
+    password: [""],
+    mfa: [""]
   });
 
   constructor(
@@ -49,14 +49,14 @@ export class CreateInstructorComponent implements OnInit {
   ) {
     this.route.params.subscribe(params => {
       this.instructorId = params.id;
-      if (params.id === '0') {
+      if (params.id === "0") {
         this.instructorId = null;
       }
 
       if (this.instructorId) {
-        this.pageTitle = 'Edit Instructor';
+        this.pageTitle = "Edit Instructor";
       } else {
-        this.pageTitle = 'Add New Instructor';
+        this.pageTitle = "Add New Instructor";
       }
     });
   }
@@ -65,7 +65,7 @@ export class CreateInstructorComponent implements OnInit {
     if (this.instructorId) {
       this.loading = true;
       this.repository
-        .find('customer', this.instructorId)
+        .find("customer", this.instructorId)
         .subscribe((result: any) => {
           this.loading = false;
           this.instructorForm.patchValue(result);
@@ -74,24 +74,24 @@ export class CreateInstructorComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/instructors']);
+    this.router.navigate(["/instructors"]);
   }
 
   onSubmit() {
     this.loading = true;
     const payload = this.instructorForm.value;
-    payload.type = 'instructor';
+    payload.type = "instructor";
 
     if (!this.instructorId) {
       delete payload.id;
-      this.repository.create('customer', payload).subscribe((result: any) => {
+      this.repository.create("customer", payload).subscribe((result: any) => {
         this.loading = false;
-        this.router.navigate(['/instructors']);
+        this.router.navigate(["/instructors"]);
       });
     } else {
-      this.repository.update('customer', payload).subscribe((result: any) => {
+      this.repository.update("customer", payload).subscribe((result: any) => {
         this.loading = false;
-        this.router.navigate(['/instructors']);
+        this.router.navigate(["/instructors"]);
       });
     }
   }

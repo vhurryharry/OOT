@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
-import { RepositoryService } from '../../services/repository.service';
-import { FileService } from '../../services/file.service';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ClrDatagrid, ClrDatagridStateInterface } from "@clr/angular";
+import { RepositoryService } from "../../services/repository.service";
+import { FileService } from "../../services/file.service";
 
 @Component({
-  selector: 'admin-role-list',
-  templateUrl: './role-list.component.html'
+  selector: "admin-role-list",
+  templateUrl: "./role-list.component.html"
 })
 export class RoleListComponent implements OnInit {
   @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
@@ -31,7 +31,7 @@ export class RoleListComponent implements OnInit {
     this.loading = true;
     this.lastState = state;
 
-    this.repository.fetch('role', state).subscribe((result: any) => {
+    this.repository.fetch("role", state).subscribe((result: any) => {
       this.roles = result.items;
       this.total = result.total;
       this.deleted = result.total - result.alive;
@@ -58,7 +58,7 @@ export class RoleListComponent implements OnInit {
   onDelete() {
     this.loading = true;
     this.repository
-      .delete('role', this.getSelectedIds())
+      .delete("role", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -68,7 +68,7 @@ export class RoleListComponent implements OnInit {
   onRestore() {
     this.loading = true;
     this.repository
-      .restore('role', this.getSelectedIds())
+      .restore("role", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -78,9 +78,9 @@ export class RoleListComponent implements OnInit {
   onExportAll() {
     this.loading = true;
     this.repository
-      .export('role', this.getSelectedIds())
+      .export("role", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'all_roles.csv');
+        this.fileService.saveAsCsv(result.csv, "all_roles.csv");
         this.loading = false;
       });
   }
@@ -88,9 +88,9 @@ export class RoleListComponent implements OnInit {
   onExportSelected() {
     this.loading = true;
     this.repository
-      .export('role', this.getSelectedIds())
+      .export("role", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'selected_roles.csv');
+        this.fileService.saveAsCsv(result.csv, "selected_roles.csv");
         this.loading = false;
       });
   }

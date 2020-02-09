@@ -5,19 +5,19 @@ import {
   OnInit,
   EventEmitter,
   Output
-} from '@angular/core';
+} from "@angular/core";
 import {
   FormArray,
   FormBuilder,
   FormGroup,
   FormControl,
   Validators
-} from '@angular/forms';
-import { RepositoryService } from '../../services/repository.service';
+} from "@angular/forms";
+import { RepositoryService } from "../../services/repository.service";
 
 @Component({
-  selector: 'admin-create-category',
-  templateUrl: './create-category.component.html'
+  selector: "admin-create-category",
+  templateUrl: "./create-category.component.html"
 })
 export class CreateCategoryComponent implements OnChanges, OnInit {
   @Output()
@@ -29,16 +29,16 @@ export class CreateCategoryComponent implements OnChanges, OnInit {
   loading = false;
   categories = [];
   categoryForm = this.fb.group({
-    id: [''],
-    name: ['', Validators.required],
-    parent: ['']
+    id: [""],
+    name: ["", Validators.required],
+    parent: [""]
   });
 
   constructor(private fb: FormBuilder, private repository: RepositoryService) {}
 
   ngOnInit() {
     this.loading = true;
-    this.repository.fetch('category', {}).subscribe((result: any) => {
+    this.repository.fetch("category", {}).subscribe((result: any) => {
       this.categories = result.items;
       this.loading = false;
     });
@@ -48,7 +48,7 @@ export class CreateCategoryComponent implements OnChanges, OnInit {
     if (this.update) {
       this.loading = true;
       this.repository
-        .find('category', this.update.id)
+        .find("category", this.update.id)
         .subscribe((result: any) => {
           this.loading = false;
           this.categoryForm.patchValue(result);
@@ -62,14 +62,14 @@ export class CreateCategoryComponent implements OnChanges, OnInit {
     if (!this.update) {
       delete this.categoryForm.value.id;
       this.repository
-        .create('category', this.categoryForm.value)
+        .create("category", this.categoryForm.value)
         .subscribe((result: any) => {
           this.loading = false;
           this.finished.emit(this.categoryForm.value);
         });
     } else {
       this.repository
-        .update('category', this.categoryForm.value)
+        .update("category", this.categoryForm.value)
         .subscribe((result: any) => {
           this.loading = false;
           this.finished.emit(this.categoryForm.value);

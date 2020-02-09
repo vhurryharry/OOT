@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
-import { RepositoryService } from '../../services/repository.service';
-import { FileService } from '../../services/file.service';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ClrDatagrid, ClrDatagridStateInterface } from "@clr/angular";
+import { RepositoryService } from "../../services/repository.service";
+import { FileService } from "../../services/file.service";
 
 @Component({
-  selector: 'admin-document-list',
-  templateUrl: './document-list.component.html'
+  selector: "admin-document-list",
+  templateUrl: "./document-list.component.html"
 })
 export class DocumentListComponent implements OnInit {
   @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
@@ -31,7 +31,7 @@ export class DocumentListComponent implements OnInit {
     this.loading = true;
     this.lastState = state;
 
-    this.repository.fetch('document', state).subscribe((result: any) => {
+    this.repository.fetch("document", state).subscribe((result: any) => {
       this.documents = result.items;
       this.total = result.total;
       this.deleted = result.total - result.alive;
@@ -58,7 +58,7 @@ export class DocumentListComponent implements OnInit {
   onDelete() {
     this.loading = true;
     this.repository
-      .delete('document', this.getSelectedIds())
+      .delete("document", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -68,7 +68,7 @@ export class DocumentListComponent implements OnInit {
   onRestore() {
     this.loading = true;
     this.repository
-      .restore('document', this.getSelectedIds())
+      .restore("document", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -78,9 +78,9 @@ export class DocumentListComponent implements OnInit {
   onExportAll() {
     this.loading = true;
     this.repository
-      .export('document', this.getSelectedIds())
+      .export("document", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'all_documents.csv');
+        this.fileService.saveAsCsv(result.csv, "all_documents.csv");
         this.loading = false;
       });
   }
@@ -88,9 +88,9 @@ export class DocumentListComponent implements OnInit {
   onExportSelected() {
     this.loading = true;
     this.repository
-      .export('document', this.getSelectedIds())
+      .export("document", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'selected_documents.csv');
+        this.fileService.saveAsCsv(result.csv, "selected_documents.csv");
         this.loading = false;
       });
   }

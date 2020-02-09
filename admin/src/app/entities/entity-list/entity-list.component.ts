@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
-import { RepositoryService } from '../../services/repository.service';
-import { FileService } from '../../services/file.service';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ClrDatagrid, ClrDatagridStateInterface } from "@clr/angular";
+import { RepositoryService } from "../../services/repository.service";
+import { FileService } from "../../services/file.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'admin-entity-list',
-  templateUrl: './entity-list.component.html'
+  selector: "admin-entity-list",
+  templateUrl: "./entity-list.component.html"
 })
 export class EntityListComponent implements OnInit {
   @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
@@ -33,7 +33,7 @@ export class EntityListComponent implements OnInit {
     this.loading = true;
     this.lastState = state;
 
-    this.repository.fetch('entity', state).subscribe((result: any) => {
+    this.repository.fetch("entity", state).subscribe((result: any) => {
       this.entities = result.items;
       this.total = result.total;
       this.deleted = result.total - result.alive;
@@ -42,12 +42,12 @@ export class EntityListComponent implements OnInit {
   }
 
   onCreate() {
-    this.router.navigate(['/pages/edit/0']);
+    this.router.navigate(["/pages/edit/0"]);
   }
 
   onEdit(entityId: string = null) {
     this.singleSelection = entityId ? entityId : this.selected[0].id;
-    this.router.navigate(['/pages/edit/' + this.singleSelection]);
+    this.router.navigate(["/pages/edit/" + this.singleSelection]);
   }
 
   onContentUpdated() {
@@ -60,7 +60,7 @@ export class EntityListComponent implements OnInit {
   onDelete() {
     this.loading = true;
     this.repository
-      .delete('entity', this.getSelectedIds())
+      .delete("entity", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -70,7 +70,7 @@ export class EntityListComponent implements OnInit {
   onRestore() {
     this.loading = true;
     this.repository
-      .restore('entity', this.getSelectedIds())
+      .restore("entity", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -80,9 +80,9 @@ export class EntityListComponent implements OnInit {
   onExportAll() {
     this.loading = true;
     this.repository
-      .export('entity', this.getSelectedIds())
+      .export("entity", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'all_entities.csv');
+        this.fileService.saveAsCsv(result.csv, "all_entities.csv");
         this.loading = false;
       });
   }
@@ -90,9 +90,9 @@ export class EntityListComponent implements OnInit {
   onExportSelected() {
     this.loading = true;
     this.repository
-      .export('entity', this.getSelectedIds())
+      .export("entity", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'selected_entities.csv');
+        this.fileService.saveAsCsv(result.csv, "selected_entities.csv");
         this.loading = false;
       });
   }

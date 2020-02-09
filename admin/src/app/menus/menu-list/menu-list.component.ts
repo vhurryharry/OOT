@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
-import { RepositoryService } from '../../services/repository.service';
-import { FileService } from '../../services/file.service';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ClrDatagrid, ClrDatagridStateInterface } from "@clr/angular";
+import { RepositoryService } from "../../services/repository.service";
+import { FileService } from "../../services/file.service";
 
 @Component({
-  selector: 'admin-menu-list',
-  templateUrl: './menu-list.component.html'
+  selector: "admin-menu-list",
+  templateUrl: "./menu-list.component.html"
 })
 export class MenuListComponent implements OnInit {
   @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
@@ -31,7 +31,7 @@ export class MenuListComponent implements OnInit {
     this.loading = true;
     this.lastState = state;
 
-    this.repository.fetch('menu', state).subscribe((result: any) => {
+    this.repository.fetch("menu", state).subscribe((result: any) => {
       this.menus = result.items;
       this.total = result.total;
       this.deleted = result.total - result.alive;
@@ -50,7 +50,7 @@ export class MenuListComponent implements OnInit {
 
   onMoveUp(selected) {
     this.loading = true;
-    this.repository.move('menu', selected, 'up').subscribe((result: any) => {
+    this.repository.move("menu", selected, "up").subscribe((result: any) => {
       this.refresh(this.lastState);
       this.selected = [];
     });
@@ -58,7 +58,7 @@ export class MenuListComponent implements OnInit {
 
   onMoveDown(selected) {
     this.loading = true;
-    this.repository.move('menu', selected, 'down').subscribe((result: any) => {
+    this.repository.move("menu", selected, "down").subscribe((result: any) => {
       this.refresh(this.lastState);
       this.selected = [];
     });
@@ -74,7 +74,7 @@ export class MenuListComponent implements OnInit {
   onDelete() {
     this.loading = true;
     this.repository
-      .delete('menu', this.getSelectedIds())
+      .delete("menu", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -84,7 +84,7 @@ export class MenuListComponent implements OnInit {
   onRestore() {
     this.loading = true;
     this.repository
-      .restore('menu', this.getSelectedIds())
+      .restore("menu", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -94,9 +94,9 @@ export class MenuListComponent implements OnInit {
   onExportAll() {
     this.loading = true;
     this.repository
-      .export('menu', this.getSelectedIds())
+      .export("menu", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'all_menus.csv');
+        this.fileService.saveAsCsv(result.csv, "all_menus.csv");
         this.loading = false;
       });
   }
@@ -104,9 +104,9 @@ export class MenuListComponent implements OnInit {
   onExportSelected() {
     this.loading = true;
     this.repository
-      .export('menu', this.getSelectedIds())
+      .export("menu", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'selected_menus.csv');
+        this.fileService.saveAsCsv(result.csv, "selected_menus.csv");
         this.loading = false;
       });
   }

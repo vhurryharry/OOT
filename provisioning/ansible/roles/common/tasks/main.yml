@@ -22,7 +22,7 @@
   user:
     name: deploy
     groups:
-      - '{{ web_group }}'
+      - "{{ web_group }}"
     state: present
     shell: /bin/bash
     system: no
@@ -43,5 +43,5 @@
     dest: /etc/sudoers.d/deploy
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   tags: sudoers

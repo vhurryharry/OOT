@@ -1,26 +1,26 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
-import { OrdersComponent } from './orders.component';
-import { OrderListComponent } from './order-list/order-list.component';
-import { EditOrderComponent } from './edit-order/edit-order.component';
-import { OrderPaymentsComponent } from './order-payments/order-payments.component';
+import { OrdersComponent } from "./orders.component";
+import { OrderListComponent } from "./order-list/order-list.component";
+import { EditOrderComponent } from "./edit-order/edit-order.component";
+import { OrderPaymentsComponent } from "./order-payments/order-payments.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: OrdersComponent,
     children: [
       {
-        path: 'edit/:id',
+        path: "edit/:id",
         component: EditOrderComponent
       },
       {
-        path: 'pay/:id',
+        path: "pay/:id",
         component: OrderPaymentsComponent
       },
       {
-        path: '',
+        path: "",
         component: OrderListComponent
       }
     ]

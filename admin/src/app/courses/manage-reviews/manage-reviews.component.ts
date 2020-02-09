@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { Location } from '@angular/common';
-import { RepositoryService } from '../../services/repository.service';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder } from "@angular/forms";
+import { Location } from "@angular/common";
+import { RepositoryService } from "../../services/repository.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: 'admin-manage-reviews',
-  templateUrl: './manage-reviews.component.html'
+  selector: "admin-manage-reviews",
+  templateUrl: "./manage-reviews.component.html"
 })
 export class ManageReviewsComponent implements OnInit {
   loading = false;
   reviews = [];
   courseId: string = null;
-  pageTitle = 'Manage Course Reviews';
+  pageTitle = "Manage Course Reviews";
 
   constructor(
     private fb: FormBuilder,
@@ -26,10 +26,10 @@ export class ManageReviewsComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.courseId && this.courseId !== '0') {
+    if (this.courseId && this.courseId !== "0") {
       this.loading = true;
       this.repository
-        .find('course/reviews', this.courseId)
+        .find("course/reviews", this.courseId)
         .subscribe((result: any) => {
           this.loading = false;
           this.reviews = result;
@@ -39,7 +39,7 @@ export class ManageReviewsComponent implements OnInit {
 
   onRemove(id) {
     this.loading = true;
-    this.repository.delete('course/reviews', [id]).subscribe((result: any) => {
+    this.repository.delete("course/reviews", [id]).subscribe((result: any) => {
       this.ngOnInit();
     });
   }

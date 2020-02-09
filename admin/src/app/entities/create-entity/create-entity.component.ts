@@ -1,27 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { RepositoryService } from '../../services/repository.service';
-import slugify from 'slugify';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, Validators } from "@angular/forms";
+import { RepositoryService } from "../../services/repository.service";
+import slugify from "slugify";
+import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
-  selector: 'admin-create-entity',
-  templateUrl: './create-entity.component.html'
+  selector: "admin-create-entity",
+  templateUrl: "./create-entity.component.html"
 })
 export class CreateEntityComponent implements OnInit {
-  pageTitle = '';
+  pageTitle = "";
   entityId: string = null;
   loading = false;
   entityForm = this.fb.group({
-    id: [''],
-    slug: ['', Validators.required],
-    category: [''],
-    title: ['', Validators.required],
-    type: ['', Validators.required],
-    content: [''],
-    metaTitle: [''],
-    metaDescription: ['']
+    id: [""],
+    slug: ["", Validators.required],
+    category: [""],
+    title: ["", Validators.required],
+    type: ["", Validators.required],
+    content: [""],
+    metaTitle: [""],
+    metaDescription: [""]
   });
   public editor = ClassicEditor;
 
@@ -33,18 +33,18 @@ export class CreateEntityComponent implements OnInit {
   ) {
     this.route.params.subscribe(params => {
       this.entityId = params.id;
-      if (params.id === '0') {
+      if (params.id === "0") {
         this.entityId = null;
       }
 
       if (this.entityId) {
-        this.pageTitle = 'Edit Page';
+        this.pageTitle = "Edit Page";
       } else {
-        this.pageTitle = 'Create New Page';
+        this.pageTitle = "Create New Page";
       }
     });
 
-    this.entityForm.get('title').valueChanges.subscribe(val => {
+    this.entityForm.get("title").valueChanges.subscribe(val => {
       if (!val) {
         return;
       }
@@ -56,7 +56,7 @@ export class CreateEntityComponent implements OnInit {
   ngOnInit() {
     if (this.entityId) {
       this.loading = true;
-      this.repository.find('entity', this.entityId).subscribe((result: any) => {
+      this.repository.find("entity", this.entityId).subscribe((result: any) => {
         this.loading = false;
         this.entityForm.patchValue(result);
       });
@@ -64,7 +64,7 @@ export class CreateEntityComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/pages']);
+    this.router.navigate(["/pages"]);
   }
 
   onSubmit() {
@@ -73,17 +73,17 @@ export class CreateEntityComponent implements OnInit {
     if (!this.entityId) {
       delete this.entityForm.value.id;
       this.repository
-        .create('entity', this.entityForm.value)
+        .create("entity", this.entityForm.value)
         .subscribe((result: any) => {
           this.loading = false;
-          this.router.navigate(['/pages']);
+          this.router.navigate(["/pages"]);
         });
     } else {
       this.repository
-        .update('entity', this.entityForm.value)
+        .update("entity", this.entityForm.value)
         .subscribe((result: any) => {
           this.loading = false;
-          this.router.navigate(['/pages']);
+          this.router.navigate(["/pages"]);
         });
     }
   }

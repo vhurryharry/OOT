@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
-import { RepositoryService } from '../../services/repository.service';
-import { FileService } from '../../services/file.service';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ClrDatagrid, ClrDatagridStateInterface } from "@clr/angular";
+import { RepositoryService } from "../../services/repository.service";
+import { FileService } from "../../services/file.service";
 
 @Component({
-  selector: 'admin-category-list',
-  templateUrl: './category-list.component.html'
+  selector: "admin-category-list",
+  templateUrl: "./category-list.component.html"
 })
 export class CategoryListComponent implements OnInit {
   @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
@@ -31,7 +31,7 @@ export class CategoryListComponent implements OnInit {
     this.loading = true;
     this.lastState = state;
 
-    this.repository.fetch('category', state).subscribe((result: any) => {
+    this.repository.fetch("category", state).subscribe((result: any) => {
       this.categories = result.items;
       this.total = result.total;
       this.deleted = result.total - result.alive;
@@ -58,7 +58,7 @@ export class CategoryListComponent implements OnInit {
   onDelete() {
     this.loading = true;
     this.repository
-      .delete('category', this.getSelectedIds())
+      .delete("category", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -68,7 +68,7 @@ export class CategoryListComponent implements OnInit {
   onRestore() {
     this.loading = true;
     this.repository
-      .restore('category', this.getSelectedIds())
+      .restore("category", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -78,9 +78,9 @@ export class CategoryListComponent implements OnInit {
   onExportAll() {
     this.loading = true;
     this.repository
-      .export('category', this.getSelectedIds())
+      .export("category", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'all_categories.csv');
+        this.fileService.saveAsCsv(result.csv, "all_categories.csv");
         this.loading = false;
       });
   }
@@ -88,9 +88,9 @@ export class CategoryListComponent implements OnInit {
   onExportSelected() {
     this.loading = true;
     this.repository
-      .export('category', this.getSelectedIds())
+      .export("category", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'selected_categories.csv');
+        this.fileService.saveAsCsv(result.csv, "selected_categories.csv");
         this.loading = false;
       });
   }

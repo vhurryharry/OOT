@@ -5,19 +5,19 @@ import {
   OnInit,
   EventEmitter,
   Output
-} from '@angular/core';
+} from "@angular/core";
 import {
   FormArray,
   FormBuilder,
   FormGroup,
   FormControl,
   Validators
-} from '@angular/forms';
-import { RepositoryService } from '../../services/repository.service';
+} from "@angular/forms";
+import { RepositoryService } from "../../services/repository.service";
 
 @Component({
-  selector: 'admin-create-menu',
-  templateUrl: './create-menu.component.html'
+  selector: "admin-create-menu",
+  templateUrl: "./create-menu.component.html"
 })
 export class CreateMenuComponent implements OnChanges, OnInit {
   @Output()
@@ -29,18 +29,18 @@ export class CreateMenuComponent implements OnChanges, OnInit {
   loading = false;
   menus = [];
   menuForm = this.fb.group({
-    id: [''],
-    title: ['', Validators.required],
-    link: [''],
+    id: [""],
+    title: ["", Validators.required],
+    link: [""],
     displayOrder: [0],
-    parent: ['']
+    parent: [""]
   });
 
   constructor(private fb: FormBuilder, private repository: RepositoryService) {}
 
   ngOnInit() {
     this.loading = true;
-    this.repository.fetch('menu', {}).subscribe((result: any) => {
+    this.repository.fetch("menu", {}).subscribe((result: any) => {
       this.menus = result.items;
       this.loading = false;
     });
@@ -49,7 +49,7 @@ export class CreateMenuComponent implements OnChanges, OnInit {
   ngOnChanges() {
     if (this.update) {
       this.loading = true;
-      this.repository.find('menu', this.update.id).subscribe((result: any) => {
+      this.repository.find("menu", this.update.id).subscribe((result: any) => {
         this.loading = false;
         this.menuForm.patchValue(result);
       });
@@ -62,14 +62,14 @@ export class CreateMenuComponent implements OnChanges, OnInit {
     if (!this.update) {
       delete this.menuForm.value.id;
       this.repository
-        .create('menu', this.menuForm.value)
+        .create("menu", this.menuForm.value)
         .subscribe((result: any) => {
           this.loading = false;
           this.finished.emit(this.menuForm.value);
         });
     } else {
       this.repository
-        .update('menu', this.menuForm.value)
+        .update("menu", this.menuForm.value)
         .subscribe((result: any) => {
           this.loading = false;
           this.finished.emit(this.menuForm.value);

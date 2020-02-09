@@ -1,21 +1,21 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
-import { FaqsComponent } from './faqs.component';
-import { FaqListComponent } from './faq-list/faq-list.component';
-import { CreateFaqComponent } from './create-faq/create-faq.component';
+import { FaqsComponent } from "./faqs.component";
+import { FaqListComponent } from "./faq-list/faq-list.component";
+import { CreateFaqComponent } from "./create-faq/create-faq.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: FaqsComponent,
     children: [
       {
-        path: 'edit/:id',
+        path: "edit/:id",
         component: CreateFaqComponent
       },
       {
-        path: '',
+        path: "",
         component: FaqListComponent
       }
     ]

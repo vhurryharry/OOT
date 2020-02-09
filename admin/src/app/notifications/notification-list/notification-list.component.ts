@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
-import { RepositoryService } from '../../services/repository.service';
-import { FileService } from '../../services/file.service';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ClrDatagrid, ClrDatagridStateInterface } from "@clr/angular";
+import { RepositoryService } from "../../services/repository.service";
+import { FileService } from "../../services/file.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'admin-notification-list',
-  templateUrl: './notification-list.component.html'
+  selector: "admin-notification-list",
+  templateUrl: "./notification-list.component.html"
 })
 export class NotificationListComponent implements OnInit {
   @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
@@ -33,7 +33,7 @@ export class NotificationListComponent implements OnInit {
     this.loading = true;
     this.lastState = state;
 
-    this.repository.fetch('notification', state).subscribe((result: any) => {
+    this.repository.fetch("notification", state).subscribe((result: any) => {
       this.notifications = result.items;
       this.total = result.total;
       this.deleted = result.total - result.alive;
@@ -42,12 +42,12 @@ export class NotificationListComponent implements OnInit {
   }
 
   onCreate() {
-    this.router.navigate(['/notifications/edit/0']);
+    this.router.navigate(["/notifications/edit/0"]);
   }
 
   onEdit(id: string = null) {
     this.singleSelection = id ? id : this.selected[0].id;
-    this.router.navigate(['/notifications/edit/' + this.singleSelection]);
+    this.router.navigate(["/notifications/edit/" + this.singleSelection]);
   }
 
   onContentUpdated() {
@@ -60,7 +60,7 @@ export class NotificationListComponent implements OnInit {
   onDelete() {
     this.loading = true;
     this.repository
-      .delete('notification', this.getSelectedIds())
+      .delete("notification", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -70,7 +70,7 @@ export class NotificationListComponent implements OnInit {
   onRestore() {
     this.loading = true;
     this.repository
-      .restore('notification', this.getSelectedIds())
+      .restore("notification", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -80,9 +80,9 @@ export class NotificationListComponent implements OnInit {
   onExportAll() {
     this.loading = true;
     this.repository
-      .export('notification', this.getSelectedIds())
+      .export("notification", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'all_notifications.csv');
+        this.fileService.saveAsCsv(result.csv, "all_notifications.csv");
         this.loading = false;
       });
   }
@@ -90,9 +90,9 @@ export class NotificationListComponent implements OnInit {
   onExportSelected() {
     this.loading = true;
     this.repository
-      .export('notification', this.getSelectedIds())
+      .export("notification", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'selected_notifications.csv');
+        this.fileService.saveAsCsv(result.csv, "selected_notifications.csv");
         this.loading = false;
       });
   }

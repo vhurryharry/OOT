@@ -4,19 +4,19 @@ import {
   OnChanges,
   EventEmitter,
   Output
-} from '@angular/core';
+} from "@angular/core";
 import {
   FormArray,
   FormBuilder,
   FormGroup,
   FormControl,
   Validators
-} from '@angular/forms';
-import { RepositoryService } from '../../services/repository.service';
+} from "@angular/forms";
+import { RepositoryService } from "../../services/repository.service";
 
 @Component({
-  selector: 'admin-edit-order',
-  templateUrl: './edit-order.component.html'
+  selector: "admin-edit-order",
+  templateUrl: "./edit-order.component.html"
 })
 export class EditOrderComponent implements OnChanges {
   @Output()
@@ -27,9 +27,9 @@ export class EditOrderComponent implements OnChanges {
 
   loading = false;
   orderForm = this.fb.group({
-    id: [''],
-    status: ['', Validators.required],
-    payment: ['']
+    id: [""],
+    status: ["", Validators.required],
+    payment: [""]
   });
 
   constructor(private fb: FormBuilder, private repository: RepositoryService) {}
@@ -38,7 +38,7 @@ export class EditOrderComponent implements OnChanges {
     console.log(this.order);
     if (this.order) {
       this.loading = true;
-      this.repository.find('order', this.order.id).subscribe((result: any) => {
+      this.repository.find("order", this.order.id).subscribe((result: any) => {
         this.loading = false;
         this.orderForm.patchValue(result);
       });
@@ -48,7 +48,7 @@ export class EditOrderComponent implements OnChanges {
   onSubmit() {
     this.loading = true;
     this.repository
-      .update('order', this.orderForm.value)
+      .update("order", this.orderForm.value)
       .subscribe((result: any) => {
         this.loading = false;
         this.finished.emit(this.orderForm.value);

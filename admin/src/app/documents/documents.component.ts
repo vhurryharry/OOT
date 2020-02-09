@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'admin-documents',
-  templateUrl: './documents.component.html'
+  selector: "admin-documents",
+  templateUrl: "./documents.component.html"
 })
 export class DocumentsComponent {}

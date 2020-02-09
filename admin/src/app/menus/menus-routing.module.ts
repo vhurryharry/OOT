@@ -1,21 +1,21 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
-import { MenusComponent } from './menus.component';
-import { MenuListComponent } from './menu-list/menu-list.component';
-import { CreateMenuComponent } from './create-menu/create-menu.component';
+import { MenusComponent } from "./menus.component";
+import { MenuListComponent } from "./menu-list/menu-list.component";
+import { CreateMenuComponent } from "./create-menu/create-menu.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: MenusComponent,
     children: [
       {
-        path: 'edit/:id',
+        path: "edit/:id",
         component: CreateMenuComponent
       },
       {
-        path: '',
+        path: "",
         component: MenuListComponent
       }
     ]

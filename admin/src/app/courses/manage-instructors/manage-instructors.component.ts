@@ -1,22 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { Location } from '@angular/common';
-import { RepositoryService } from '../../services/repository.service';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, Validators } from "@angular/forms";
+import { Location } from "@angular/common";
+import { RepositoryService } from "../../services/repository.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: 'admin-manage-instructors',
-  templateUrl: './manage-instructors.component.html'
+  selector: "admin-manage-instructors",
+  templateUrl: "./manage-instructors.component.html"
 })
 export class ManageInstructorsComponent implements OnInit {
   loading = false;
   instructors = [];
   availableInstructors = [];
   instructorForm = this.fb.group({
-    instructor: ['', Validators.required]
+    instructor: ["", Validators.required]
   });
   courseId: string = null;
-  pageTitle = 'Manage Course Instructors';
+  pageTitle = "Manage Course Instructors";
 
   constructor(
     private fb: FormBuilder,
@@ -32,11 +32,11 @@ export class ManageInstructorsComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     this.repository
-      .fetch('customer', {
+      .fetch("customer", {
         filters: [
           {
-            property: 'type',
-            value: 'instructor'
+            property: "type",
+            value: "instructor"
           }
         ]
       })
@@ -49,10 +49,10 @@ export class ManageInstructorsComponent implements OnInit {
   }
 
   loadInstructors() {
-    if (this.courseId && this.courseId !== '0') {
+    if (this.courseId && this.courseId !== "0") {
       this.loading = true;
       this.repository
-        .find('course/instructor', this.courseId)
+        .find("course/instructor", this.courseId)
         .subscribe((result: any) => {
           this.loading = false;
           this.instructors = result;
@@ -64,7 +64,7 @@ export class ManageInstructorsComponent implements OnInit {
     this.loading = true;
 
     this.repository
-      .attach('course_instructor', {
+      .attach("course_instructor", {
         course_id: this.courseId,
         customer_id: this.instructorForm.value.instructor
       })
@@ -78,7 +78,7 @@ export class ManageInstructorsComponent implements OnInit {
     this.loading = true;
 
     this.repository
-      .detach('course_instructor', { id })
+      .detach("course_instructor", { id })
       .subscribe((result: any) => {
         this.loading = false;
         this.loadInstructors();

@@ -4,19 +4,19 @@ import {
   OnChanges,
   EventEmitter,
   Output
-} from '@angular/core';
+} from "@angular/core";
 import {
   FormArray,
   FormBuilder,
   FormGroup,
   FormControl,
   Validators
-} from '@angular/forms';
-import { RepositoryService } from '../../services/repository.service';
+} from "@angular/forms";
+import { RepositoryService } from "../../services/repository.service";
 
 @Component({
-  selector: 'admin-order-payments',
-  templateUrl: './order-payments.component.html'
+  selector: "admin-order-payments",
+  templateUrl: "./order-payments.component.html"
 })
 export class OrderPaymentsComponent implements OnChanges {
   loading = false;

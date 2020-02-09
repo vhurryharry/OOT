@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { AuditLogsComponent } from './audit-logs.component';
-import { AuditLogListComponent } from './audit-log-list/audit-log-list.component';
+import { AuditLogsComponent } from "./audit-logs.component";
+import { AuditLogListComponent } from "./audit-log-list/audit-log-list.component";
 
-import { AuditLogsRoutingModule } from './audit-logs-routing.module';
+import { AuditLogsRoutingModule } from "./audit-logs-routing.module";
 
 @NgModule({
   imports: [

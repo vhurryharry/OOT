@@ -1,21 +1,21 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
-import { EntitiesComponent } from './entities.component';
-import { EntityListComponent } from './entity-list/entity-list.component';
-import { CreateEntityComponent } from './create-entity/create-entity.component';
+import { EntitiesComponent } from "./entities.component";
+import { EntityListComponent } from "./entity-list/entity-list.component";
+import { CreateEntityComponent } from "./create-entity/create-entity.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: EntitiesComponent,
     children: [
       {
-        path: 'edit/:id',
+        path: "edit/:id",
         component: CreateEntityComponent
       },
       {
-        path: '',
+        path: "",
         component: EntityListComponent
       }
     ]

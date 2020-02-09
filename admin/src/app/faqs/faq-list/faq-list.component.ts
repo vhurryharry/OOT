@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
-import { RepositoryService } from '../../services/repository.service';
-import { FileService } from '../../services/file.service';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ClrDatagrid, ClrDatagridStateInterface } from "@clr/angular";
+import { RepositoryService } from "../../services/repository.service";
+import { FileService } from "../../services/file.service";
 
 @Component({
-  selector: 'admin-faq-list',
-  templateUrl: './faq-list.component.html'
+  selector: "admin-faq-list",
+  templateUrl: "./faq-list.component.html"
 })
 export class FaqListComponent implements OnInit {
   @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
@@ -31,7 +31,7 @@ export class FaqListComponent implements OnInit {
     this.loading = true;
     this.lastState = state;
 
-    this.repository.fetch('faq', state).subscribe((result: any) => {
+    this.repository.fetch("faq", state).subscribe((result: any) => {
       this.faqs = result.items;
       this.total = result.total;
       this.deleted = result.total - result.alive;
@@ -58,7 +58,7 @@ export class FaqListComponent implements OnInit {
   onDelete() {
     this.loading = true;
     this.repository
-      .delete('faq', this.getSelectedIds())
+      .delete("faq", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -68,7 +68,7 @@ export class FaqListComponent implements OnInit {
   onRestore() {
     this.loading = true;
     this.repository
-      .restore('faq', this.getSelectedIds())
+      .restore("faq", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -78,9 +78,9 @@ export class FaqListComponent implements OnInit {
   onExportAll() {
     this.loading = true;
     this.repository
-      .export('faq', this.getSelectedIds())
+      .export("faq", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'all_faqs.csv');
+        this.fileService.saveAsCsv(result.csv, "all_faqs.csv");
         this.loading = false;
       });
   }
@@ -88,9 +88,9 @@ export class FaqListComponent implements OnInit {
   onExportSelected() {
     this.loading = true;
     this.repository
-      .export('faq', this.getSelectedIds())
+      .export("faq", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'selected_faqs.csv');
+        this.fileService.saveAsCsv(result.csv, "selected_faqs.csv");
         this.loading = false;
       });
   }

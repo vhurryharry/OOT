@@ -1,21 +1,21 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
-import { NotificationsComponent } from './notifications.component';
-import { NotificationListComponent } from './notification-list/notification-list.component';
-import { CreateNotificationComponent } from './create-notification/create-notification.component';
+import { NotificationsComponent } from "./notifications.component";
+import { NotificationListComponent } from "./notification-list/notification-list.component";
+import { CreateNotificationComponent } from "./create-notification/create-notification.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: NotificationsComponent,
     children: [
       {
-        path: 'edit/:id',
+        path: "edit/:id",
         component: CreateNotificationComponent
       },
       {
-        path: '',
+        path: "",
         component: NotificationListComponent
       }
     ]

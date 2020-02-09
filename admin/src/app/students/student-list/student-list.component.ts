@@ -1,12 +1,12 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
-import { RepositoryService } from '../../services/repository.service';
-import { FileService } from '../../services/file.service';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
+import { ClrDatagrid, ClrDatagridStateInterface } from "@clr/angular";
+import { RepositoryService } from "../../services/repository.service";
+import { FileService } from "../../services/file.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'admin-student-list',
-  templateUrl: './student-list.component.html'
+  selector: "admin-student-list",
+  templateUrl: "./student-list.component.html"
 })
 export class StudentListComponent implements OnInit {
   @Input()
@@ -39,12 +39,12 @@ export class StudentListComponent implements OnInit {
     const studentState = state;
     studentState.filters = [
       {
-        property: 'type',
-        value: 'student'
+        property: "type",
+        value: "student"
       }
     ];
 
-    this.repository.fetch('customer', studentState).subscribe((result: any) => {
+    this.repository.fetch("customer", studentState).subscribe((result: any) => {
       this.students = result.items;
       this.total = result.total;
       this.deleted = result.total - result.alive;
@@ -53,12 +53,12 @@ export class StudentListComponent implements OnInit {
   }
 
   onCreate() {
-    this.router.navigate(['/students/edit/0']);
+    this.router.navigate(["/students/edit/0"]);
   }
 
   onEdit(id: string = null) {
     this.singleSelection = id ? id : this.selected[0].id;
-    this.router.navigate(['/students/edit/' + this.singleSelection]);
+    this.router.navigate(["/students/edit/" + this.singleSelection]);
   }
 
   onContentUpdated() {
@@ -71,7 +71,7 @@ export class StudentListComponent implements OnInit {
   onDelete() {
     this.loading = true;
     this.repository
-      .delete('customer', this.getSelectedIds())
+      .delete("customer", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -81,7 +81,7 @@ export class StudentListComponent implements OnInit {
   onRestore() {
     this.loading = true;
     this.repository
-      .restore('customer', this.getSelectedIds())
+      .restore("customer", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -91,9 +91,9 @@ export class StudentListComponent implements OnInit {
   onExportAll() {
     this.loading = true;
     this.repository
-      .export('customer', this.getSelectedIds())
+      .export("customer", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'all_students.csv');
+        this.fileService.saveAsCsv(result.csv, "all_students.csv");
         this.loading = false;
       });
   }
@@ -101,9 +101,9 @@ export class StudentListComponent implements OnInit {
   onExportSelected() {
     this.loading = true;
     this.repository
-      .export('customer', this.getSelectedIds())
+      .export("customer", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'selected_students.csv');
+        this.fileService.saveAsCsv(result.csv, "selected_students.csv");
         this.loading = false;
       });
   }

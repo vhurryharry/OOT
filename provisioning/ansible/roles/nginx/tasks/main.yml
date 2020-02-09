@@ -1,7 +1,7 @@
 ---
 - name: add PPA repository
   apt_repository:
-    repo: 'ppa:nginx/mainline'
+    repo: "ppa:nginx/mainline"
     update_cache: yes
 
 - name: install nginx
@@ -12,30 +12,30 @@
 - name: create nginx mime types
   template:
     src: mime.types.j2
-    dest: '{{ nginx_path }}/mime.types'
+    dest: "{{ nginx_path }}/mime.types"
 
 - name: create nginx.conf
   template:
     src: nginx.conf.j2
-    dest: '{{ nginx_path }}/nginx.conf'
+    dest: "{{ nginx_path }}/nginx.conf"
   notify: reload nginx
 
 - name: disable default server
   file:
-    path: '{{ nginx_path }}/sites-enabled/default'
+    path: "{{ nginx_path }}/sites-enabled/default"
     state: absent
   notify: reload nginx
 
 - name: create virtual host configuration
   template:
     src: vhost.conf.j2
-    dest: '{{ nginx_path }}/sites-available/{{ app_name }}.conf'
+    dest: "{{ nginx_path }}/sites-available/{{ app_name }}.conf"
   notify: reload nginx
 
 - name: enable virtual host
   file:
-    src: '{{ nginx_path }}/sites-available/{{ app_name }}.conf'
-    dest: '{{ nginx_path }}/sites-enabled/{{ app_name }}.conf'
+    src: "{{ nginx_path }}/sites-available/{{ app_name }}.conf"
+    dest: "{{ nginx_path }}/sites-enabled/{{ app_name }}.conf"
     owner: root
     group: root
     state: link
@@ -53,19 +53,19 @@
 
 - name: create base web path
   file:
-    path: '{{ web_path }}'
-    owner: '{{ web_user }}'
-    group: '{{ web_group }}'
-    mode: 'a+rwX'
+    path: "{{ web_path }}"
+    owner: "{{ web_user }}"
+    group: "{{ web_group }}"
+    mode: "a+rwX"
     state: directory
 
 - name: create shared application directories (var)
   file:
-    name: '{{ web_path }}/{{ app_name }}/shared/var/{{ item }}'
-    owner: '{{ web_user }}'
-    group: '{{ web_group }}'
+    name: "{{ web_path }}/{{ app_name }}/shared/var/{{ item }}"
+    owner: "{{ web_user }}"
+    group: "{{ web_group }}"
     state: directory
-    mode: 'a+rwX'
+    mode: "a+rwX"
   with_items:
     - log
 

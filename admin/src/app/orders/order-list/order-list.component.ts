@@ -1,11 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
-import { RepositoryService } from '../../services/repository.service';
-import { FileService } from '../../services/file.service';
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
+import { ClrDatagrid, ClrDatagridStateInterface } from "@clr/angular";
+import { RepositoryService } from "../../services/repository.service";
+import { FileService } from "../../services/file.service";
 
 @Component({
-  selector: 'admin-order-list',
-  templateUrl: './order-list.component.html'
+  selector: "admin-order-list",
+  templateUrl: "./order-list.component.html"
 })
 export class OrderListComponent implements OnInit {
   @Input()
@@ -34,7 +34,7 @@ export class OrderListComponent implements OnInit {
     this.loading = true;
     this.lastState = state;
 
-    this.repository.fetch('order', state).subscribe((result: any) => {
+    this.repository.fetch("order", state).subscribe((result: any) => {
       this.orders = result.items;
       this.total = result.total;
       this.loading = false;
@@ -61,9 +61,9 @@ export class OrderListComponent implements OnInit {
   onExportAll() {
     this.loading = true;
     this.repository
-      .export('order', this.getSelectedIds())
+      .export("order", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'all_orders.csv');
+        this.fileService.saveAsCsv(result.csv, "all_orders.csv");
         this.loading = false;
       });
   }
@@ -71,9 +71,9 @@ export class OrderListComponent implements OnInit {
   onExportSelected() {
     this.loading = true;
     this.repository
-      .export('order', this.getSelectedIds())
+      .export("order", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'selected_orders.csv');
+        this.fileService.saveAsCsv(result.csv, "selected_orders.csv");
         this.loading = false;
       });
   }

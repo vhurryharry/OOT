@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-import { environment } from '../../environments/environment';
-import { Observable, pipe, throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { environment } from "../../environments/environment";
+import { Observable, pipe, throwError } from "rxjs";
+import { map } from "rxjs/operators";
 
 export interface IUserInfo {
   id: number;
@@ -27,9 +27,9 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   isLoggedIn(): boolean {
-    if (localStorage.getItem('oot_admin_token')) {
+    if (localStorage.getItem("oot_admin_token")) {
       if (!this.currentUser) {
-        this.currentUser = JSON.parse(localStorage.getItem('oot_admin_token'));
+        this.currentUser = JSON.parse(localStorage.getItem("oot_admin_token"));
       }
 
       return true;
@@ -59,7 +59,7 @@ export class LoginService {
         map(response => {
           if (response && response.success) {
             localStorage.setItem(
-              'oot_admin_token',
+              "oot_admin_token",
               JSON.stringify(response.user)
             );
 
@@ -78,7 +78,7 @@ export class LoginService {
   }
 
   logOut(): void {
-    localStorage.removeItem('oot_admin_token');
+    localStorage.removeItem("oot_admin_token");
     this.currentUser = null;
   }
 }

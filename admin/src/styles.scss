@@ -1,9 +1,9 @@
 // Typography
-$clr-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-  'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-  'Segoe UI Symbol';
+$clr-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+  "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+  "Segoe UI Symbol";
 
-$clr-monoFont: 'Inconsolata', 'Consolas', 'Monaco', monospace;
+$clr-monoFont: "Inconsolata", "Consolas", "Monaco", monospace;
 $clr-table-fontsize: 0.75rem;
 $clr-thead-font-size: 0.75rem;
 
@@ -44,4 +44,4 @@ $clr-p6-font-size: 0.75rem;
 }
 
 // Clarity
-@import '../node_modules/@clr/ui/src/utils/components.clarity';
+@import "../node_modules/@clr/ui/src/utils/components.clarity";

@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
-import { RepositoryService } from '../../services/repository.service';
-import { FileService } from '../../services/file.service';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ClrDatagrid, ClrDatagridStateInterface } from "@clr/angular";
+import { RepositoryService } from "../../services/repository.service";
+import { FileService } from "../../services/file.service";
 
 @Component({
-  selector: 'admin-user-list',
-  templateUrl: './user-list.component.html'
+  selector: "admin-user-list",
+  templateUrl: "./user-list.component.html"
 })
 export class UserListComponent implements OnInit {
   @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
@@ -31,7 +31,7 @@ export class UserListComponent implements OnInit {
     this.loading = true;
     this.lastState = state;
 
-    this.repository.fetch('user', state).subscribe((result: any) => {
+    this.repository.fetch("user", state).subscribe((result: any) => {
       this.users = result.items;
       this.total = result.total;
       this.deleted = result.total - result.alive;
@@ -58,7 +58,7 @@ export class UserListComponent implements OnInit {
   onDelete() {
     this.loading = true;
     this.repository
-      .delete('user', this.getSelectedIds())
+      .delete("user", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -68,7 +68,7 @@ export class UserListComponent implements OnInit {
   onRestore() {
     this.loading = true;
     this.repository
-      .restore('user', this.getSelectedIds())
+      .restore("user", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -78,9 +78,9 @@ export class UserListComponent implements OnInit {
   onExportAll() {
     this.loading = true;
     this.repository
-      .export('user', this.getSelectedIds())
+      .export("user", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'all_users.csv');
+        this.fileService.saveAsCsv(result.csv, "all_users.csv");
         this.loading = false;
       });
   }
@@ -88,9 +88,9 @@ export class UserListComponent implements OnInit {
   onExportSelected() {
     this.loading = true;
     this.repository
-      .export('user', this.getSelectedIds())
+      .export("user", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'selected_users.csv');
+        this.fileService.saveAsCsv(result.csv, "selected_users.csv");
         this.loading = false;
       });
   }

@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ClarityModule } from '@clr/angular';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ClarityModule } from "@clr/angular";
+import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 
-import { RolesComponent } from './roles.component';
-import { RoleListComponent } from './role-list/role-list.component';
-import { CreateRoleComponent } from './create-role/create-role.component';
+import { RolesComponent } from "./roles.component";
+import { RoleListComponent } from "./role-list/role-list.component";
+import { CreateRoleComponent } from "./create-role/create-role.component";
 
-import { RolesRoutingModule } from './roles-routing.module';
+import { RolesRoutingModule } from "./roles-routing.module";
 
 @NgModule({
   imports: [

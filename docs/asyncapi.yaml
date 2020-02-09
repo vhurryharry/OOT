@@ -1,9 +1,9 @@
-asyncapi: '2.0.0-rc1'
-id: 'https://bitbucket.org/janestreetmedia/school/'
+asyncapi: "2.0.0-rc1"
+id: "https://bitbucket.org/janestreetmedia/school/"
 defaultContentType: application/json
 info:
   title: API - Events
-  version: '1.0.0'
+  version: "1.0.0"
 tags:
   - name: Course
     description: Events related to courses
@@ -17,7 +17,7 @@ channels:
         tags:
           - name: Course
         payload:
-          $ref: '#/components/schemas/courseEvent'
+          $ref: "#/components/schemas/courseEvent"
   course.updated:
     publish:
       message:
@@ -27,7 +27,7 @@ channels:
         tags:
           - name: Course
         payload:
-          $ref: '#/components/schemas/courseEvent'
+          $ref: "#/components/schemas/courseEvent"
   course.removed:
     publish:
       message:
@@ -37,7 +37,7 @@ channels:
         tags:
           - name: Course
         payload:
-          $ref: '#/components/schemas/courseEvent'
+          $ref: "#/components/schemas/courseEvent"
 components:
   schemas:
     courseEvent:
@@ -51,7 +51,7 @@ components:
           description: Timestamp for when the event was emitted
           type: string
           format: date-time
-          example: '2018-11-28T18:25:32+00:00'
+          example: "2018-11-28T18:25:32+00:00"
         payload:
           type: object
           properties:
@@ -75,4 +75,4 @@ components:
               description: Timestamp for when the course item was last updated.
               type: string
               format: date-time
-              example: '2018-11-28T18:25:32+00:00'
+              example: "2018-11-28T18:25:32+00:00"

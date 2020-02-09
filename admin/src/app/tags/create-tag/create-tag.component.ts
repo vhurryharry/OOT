@@ -4,19 +4,19 @@ import {
   OnChanges,
   EventEmitter,
   Output
-} from '@angular/core';
+} from "@angular/core";
 import {
   FormArray,
   FormBuilder,
   FormGroup,
   FormControl,
   Validators
-} from '@angular/forms';
-import { RepositoryService } from '../../services/repository.service';
+} from "@angular/forms";
+import { RepositoryService } from "../../services/repository.service";
 
 @Component({
-  selector: 'admin-create-tag',
-  templateUrl: './create-tag.component.html'
+  selector: "admin-create-tag",
+  templateUrl: "./create-tag.component.html"
 })
 export class CreateTagComponent implements OnChanges {
   @Output()
@@ -27,8 +27,8 @@ export class CreateTagComponent implements OnChanges {
 
   loading = false;
   tagForm = this.fb.group({
-    id: [''],
-    name: ['', Validators.required]
+    id: [""],
+    name: ["", Validators.required]
   });
 
   constructor(private fb: FormBuilder, private repository: RepositoryService) {}
@@ -36,7 +36,7 @@ export class CreateTagComponent implements OnChanges {
   ngOnChanges() {
     if (this.update) {
       this.loading = true;
-      this.repository.find('tag', this.update.id).subscribe((result: any) => {
+      this.repository.find("tag", this.update.id).subscribe((result: any) => {
         this.loading = false;
         this.tagForm.patchValue(result);
       });
@@ -49,14 +49,14 @@ export class CreateTagComponent implements OnChanges {
     if (!this.update) {
       delete this.tagForm.value.id;
       this.repository
-        .create('tag', this.tagForm.value)
+        .create("tag", this.tagForm.value)
         .subscribe((result: any) => {
           this.loading = false;
           this.finished.emit(this.tagForm.value);
         });
     } else {
       this.repository
-        .update('tag', this.tagForm.value)
+        .update("tag", this.tagForm.value)
         .subscribe((result: any) => {
           this.loading = false;
           this.finished.emit(this.tagForm.value);

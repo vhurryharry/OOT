@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'admin-entities',
-  templateUrl: './entities.component.html'
+  selector: "admin-entities",
+  templateUrl: "./entities.component.html"
 })
 export class EntitiesComponent {}

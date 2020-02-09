@@ -1,16 +1,16 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
-import { AuditLogsComponent } from './audit-logs.component';
-import { AuditLogListComponent } from './audit-log-list/audit-log-list.component';
+import { AuditLogsComponent } from "./audit-logs.component";
+import { AuditLogListComponent } from "./audit-log-list/audit-log-list.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: AuditLogsComponent,
     children: [
       {
-        path: '',
+        path: "",
         component: AuditLogListComponent
       }
     ]

@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'admin-orders',
-  templateUrl: './orders.component.html'
+  selector: "admin-orders",
+  templateUrl: "./orders.component.html"
 })
 export class OrdersComponent {}

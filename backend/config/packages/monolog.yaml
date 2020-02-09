@@ -8,14 +8,14 @@ monolog:
         - ^/
     nested:
       type: stream
-      path: '%kernel.logs_dir%/error.log'
+      path: "%kernel.logs_dir%/error.log"
       level: debug
-      channels: ['!event']
+      channels: ["!event"]
     console:
       type: console
       process_psr_3_messages: false
-      channels: ['!event', '!doctrine']
+      channels: ["!event", "!doctrine"]
     stderr:
       type: error_log
       level: debug
-      channels: ['!event']
+      channels: ["!event"]

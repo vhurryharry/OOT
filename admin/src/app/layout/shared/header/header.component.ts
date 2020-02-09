@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { LoginService } from 'src/app/services/login.service';
-import { Router } from '@angular/router';
-import { NavigationService } from 'src/app/services/navigation.service';
+import { Component, OnInit } from "@angular/core";
+import { LoginService } from "src/app/services/login.service";
+import { Router } from "@angular/router";
+import { NavigationService } from "src/app/services/navigation.service";
 
 @Component({
-  selector: 'admin-header',
-  templateUrl: './header.component.html'
+  selector: "admin-header",
+  templateUrl: "./header.component.html"
 })
 export class HeaderComponent implements OnInit {
-  currentModule = 'content';
+  currentModule = "content";
   userEmail: string;
 
   constructor(
@@ -28,6 +28,6 @@ export class HeaderComponent implements OnInit {
 
   logOut() {
     this.loginService.logOut();
-    this.router.navigate(['/login']);
+    this.router.navigate(["/login"]);
   }
 }

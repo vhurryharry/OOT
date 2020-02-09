@@ -4,19 +4,19 @@ import {
   OnChanges,
   EventEmitter,
   Output
-} from '@angular/core';
+} from "@angular/core";
 import {
   FormArray,
   FormBuilder,
   FormGroup,
   FormControl,
   Validators
-} from '@angular/forms';
-import { RepositoryService } from '../../services/repository.service';
+} from "@angular/forms";
+import { RepositoryService } from "../../services/repository.service";
 
 @Component({
-  selector: 'admin-create-user',
-  templateUrl: './create-user.component.html'
+  selector: "admin-create-user",
+  templateUrl: "./create-user.component.html"
 })
 export class CreateUserComponent implements OnChanges {
   @Output()
@@ -27,13 +27,13 @@ export class CreateUserComponent implements OnChanges {
 
   loading = false;
   userForm = this.fb.group({
-    id: [''],
-    name: ['', Validators.required],
-    email: ['', Validators.required],
-    firstName: [''],
-    lastName: [''],
-    password: ['', Validators.required],
-    permissions: this.fb.array([this.fb.control('')])
+    id: [""],
+    name: ["", Validators.required],
+    email: ["", Validators.required],
+    firstName: [""],
+    lastName: [""],
+    password: ["", Validators.required],
+    permissions: this.fb.array([this.fb.control("")])
   });
 
   constructor(private fb: FormBuilder, private repository: RepositoryService) {}
@@ -41,7 +41,7 @@ export class CreateUserComponent implements OnChanges {
   ngOnChanges() {
     if (this.update) {
       this.loading = true;
-      this.repository.find('user', this.update.id).subscribe((result: any) => {
+      this.repository.find("user", this.update.id).subscribe((result: any) => {
         this.loading = false;
         this.userForm.patchValue(result);
       });
@@ -49,11 +49,11 @@ export class CreateUserComponent implements OnChanges {
   }
 
   get permissions() {
-    return this.userForm.get('permissions') as FormArray;
+    return this.userForm.get("permissions") as FormArray;
   }
 
   addPermission() {
-    this.permissions.push(this.fb.control(''));
+    this.permissions.push(this.fb.control(""));
   }
 
   onSubmit() {
@@ -62,14 +62,14 @@ export class CreateUserComponent implements OnChanges {
     if (!this.update) {
       delete this.userForm.value.id;
       this.repository
-        .create('user', this.userForm.value)
+        .create("user", this.userForm.value)
         .subscribe((result: any) => {
           this.loading = false;
           this.finished.emit(this.userForm.value);
         });
     } else {
       this.repository
-        .update('user', this.userForm.value)
+        .update("user", this.userForm.value)
         .subscribe((result: any) => {
           this.loading = false;
           this.finished.emit(this.userForm.value);

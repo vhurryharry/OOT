@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Location } from '@angular/common';
+import { Injectable } from "@angular/core";
+import { Location } from "@angular/common";
 import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
@@ -7,9 +7,9 @@ import {
   CanLoad,
   Router,
   Route
-} from '@angular/router';
+} from "@angular/router";
 
-import { LoginService } from './login.service';
+import { LoginService } from "./login.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanLoad {
@@ -36,8 +36,8 @@ export class AuthGuard implements CanActivate, CanLoad {
     }
 
     this.loginService.redirectUrl = url;
-    this.loginService.authError = '';
-    this.router.navigate(['/login']);
+    this.loginService.authError = "";
+    this.router.navigate(["/login"]);
 
     return false;
   }

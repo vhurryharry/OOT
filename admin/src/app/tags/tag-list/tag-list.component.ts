@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ClrDatagrid, ClrDatagridStateInterface } from '@clr/angular';
-import { RepositoryService } from '../../services/repository.service';
-import { FileService } from '../../services/file.service';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ClrDatagrid, ClrDatagridStateInterface } from "@clr/angular";
+import { RepositoryService } from "../../services/repository.service";
+import { FileService } from "../../services/file.service";
 
 @Component({
-  selector: 'admin-tag-list',
-  templateUrl: './tag-list.component.html'
+  selector: "admin-tag-list",
+  templateUrl: "./tag-list.component.html"
 })
 export class TagListComponent implements OnInit {
   @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;
@@ -31,7 +31,7 @@ export class TagListComponent implements OnInit {
     this.loading = true;
     this.lastState = state;
 
-    this.repository.fetch('tag', state).subscribe((result: any) => {
+    this.repository.fetch("tag", state).subscribe((result: any) => {
       this.tags = result.items;
       this.total = result.total;
       this.deleted = result.total - result.alive;
@@ -58,7 +58,7 @@ export class TagListComponent implements OnInit {
   onDelete() {
     this.loading = true;
     this.repository
-      .delete('tag', this.getSelectedIds())
+      .delete("tag", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -68,7 +68,7 @@ export class TagListComponent implements OnInit {
   onRestore() {
     this.loading = true;
     this.repository
-      .restore('tag', this.getSelectedIds())
+      .restore("tag", this.getSelectedIds())
       .subscribe((result: any) => {
         this.refresh(this.lastState);
         this.selected = [];
@@ -78,9 +78,9 @@ export class TagListComponent implements OnInit {
   onExportAll() {
     this.loading = true;
     this.repository
-      .export('tag', this.getSelectedIds())
+      .export("tag", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'all_tags.csv');
+        this.fileService.saveAsCsv(result.csv, "all_tags.csv");
         this.loading = false;
       });
   }
@@ -88,9 +88,9 @@ export class TagListComponent implements OnInit {
   onExportSelected() {
     this.loading = true;
     this.repository
-      .export('tag', this.getSelectedIds())
+      .export("tag", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, 'selected_tags.csv');
+        this.fileService.saveAsCsv(result.csv, "selected_tags.csv");
         this.loading = false;
       });
   }

@@ -1,7 +1,7 @@
 users:
-  - name: '{{ web_user }}'
+  - name: "{{ web_user }}"
     groups:
-      - '{{ web_group }}'
+      - "{{ web_group }}"
 
 web_user: www-data
 web_group: www-data
