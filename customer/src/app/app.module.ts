@@ -7,13 +7,9 @@ import { CondensedComponent } from "./layout/condensed/condensed.component";
 import { BlankComponent } from "./layout/blank/blank.component";
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        CondensedComponent,
-        BlankComponent
-    ],
-    imports: [BrowserModule, AppRoutingModule],
-    providers: [],
-    bootstrap: [AppComponent]
+  declarations: [AppComponent, CondensedComponent, BlankComponent],
+  imports: [BrowserModule, AppRoutingModule],
+  providers: [],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
