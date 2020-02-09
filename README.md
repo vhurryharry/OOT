@@ -14,6 +14,9 @@ To start working on the project:
     $ cd admin
     $ npm install
     
+    $ cd customer
+    $ npm install
+    
 To run the backend:
     
     $ cd backend
@@ -22,6 +25,11 @@ To run the backend:
 To run the admin panel:
     
     $ cd admin
+    $ npm start
+
+To run the customer panel:
+    
+    $ cd customer
     $ npm start
 
 ## Running tests

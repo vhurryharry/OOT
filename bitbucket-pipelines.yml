@@ -33,7 +33,7 @@ pipelines:
             caches:
               - node
             script:
-              - cd frontend
+              - cd customer
               - npm install
               - npm run lint
 
@@ -77,6 +77,6 @@ definitions:
     postgres:
       image: postgres
       variables:
-        POSTGRES_DB: 'oo_test'
-        POSTGRES_USER: 'root'
-        POSTGRES_PASSWORD: '123456'
+        POSTGRES_DB: "oo_test"
+        POSTGRES_USER: "root"
+        POSTGRES_PASSWORD: "123456"

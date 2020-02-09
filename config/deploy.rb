@@ -54,22 +54,19 @@ namespace :app do
 		end
 	end
 
-	namespace :frontend do
-		desc 'Run Frontend'
+	namespace :customer do
+		desc 'Run Customer'
 		task :run do
 			on roles(:app) do
-				within "#{release_path}/frontend" do
+				within "#{release_path}/customer" do
 					execute :npm, 'install --silent --no-progress --no-color'
-					execute :sudo, "pm2 start 'npm start' --name oot-frontend"
+					execute :sudo, "pm2 start 'npm start' --name oot-customer"
 				end
 			end
 		end
 	end
 end
 
-#before 'symfony:cache:warmup', 'app:backend:acl'
-#before 'symfony:cache:warmup', 'app:frontend:setup'
-#after 'app:frontend:setup', 'app:frontend:build'
 after 'deploy:published', 'app:backend:restart'
 after 'app:backend:restart', 'app:admin:run'
-after 'app:admin:run', 'app:frontend:run'
+after 'app:admin:run', 'app:customer:run'

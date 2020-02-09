@@ -6,8 +6,9 @@ backend/var/
 backend/public/assets/
 backend/public/admin/
 provisioning/.terraform/
-frontend/package-lock.json
-frontend/package.json
+customer/package-lock.json
+customer/package.json
+build/
 admin/package-lock.json
 admin/package.json
 backend/composer.json
