@@ -2,13 +2,13 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 
 @Component({
-    selector: "app-condensed",
-    templateUrl: "./condensed.component.html"
+  selector: "app-condensed",
+  templateUrl: "./condensed.component.html"
 })
 export class CondensedComponent implements OnInit {
-    @ViewChild("root", { static: false }) root;
+  @ViewChild("root", { static: false }) root;
 
-    constructor() { }
+  constructor() {}
 
-    ngOnInit() { }
+  ngOnInit() {}
 }
