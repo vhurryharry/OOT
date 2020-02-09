@@ -9,12 +9,14 @@
 }
 
 .home-container {
+  margin: 0;
+
   @media #{$desktop} {
-    margin-top: 152px;
+    padding-top: 152px;
   }
 
   @media #{$mobile} {
-    margin-top: 96px;
+    padding-top: 96px;
   }
 }
 
@@ -48,17 +50,32 @@
 
   @media #{$desktop} {
     margin-top: 7vw;
+    padding-left: 7vw;
 
     .home-heading-title {
       max-width: 40vw;
     }
 
     .home-heading-subtitle {
-      max-width: 25vw;
+      max-width: 35vw;
     }
 
     .home-heading-button-container {
       padding: 20px 0;
+    }
+
+    @media (max-width: 1524px) {
+      & {
+        margin-top: 4vw;
+        padding-left: 4vw;
+      }
+    }
+
+    @media (max-width: 1350px) {
+      & {
+        margin-top: 2vw;
+        padding-left: 2vw;
+      }
     }
   }
 
@@ -155,10 +172,25 @@
   }
 
   @media #{$mobile} {
-    position: absolute;
-    left: 24px;
-    right: 24px;
-    top: 250vw;
+    margin-top: 150vw;
+
+    @media (max-width: 404px) {
+      & {
+        margin-top: 130vw;
+      }
+    }
+
+    @media (max-width: 387px) {
+      & {
+        margin-top: 120vw;
+      }
+    }
+
+    @media (max-width: 314px) {
+      & {
+        margin-top: 100vw;
+      }
+    }
 
     .home-advertise-content {
       margin-left: 0px;
