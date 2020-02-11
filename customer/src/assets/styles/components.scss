@@ -116,3 +116,11 @@
 
   padding: 14px 18px 10px;
 }
+
+.text-link {
+  color: $blue;
+
+  img {
+    filter: brightness(4);
+  }
+}

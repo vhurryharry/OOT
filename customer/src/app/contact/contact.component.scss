@@ -1,0 +1,180 @@
+@import "src/assets/styles/variables";
+
+#contact-background-1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 152px;
+
+  @media screen and (max-width: 576px) {
+    display: none;
+  }
+}
+
+.contact-container {
+  padding: 0;
+
+  @media #{$desktop} {
+    margin: calc(156px + 3.25vw) 0 10.5vw;
+  }
+
+  @media #{$mobile} {
+    margin: 96px 24px 18.6vw;
+  }
+}
+
+.contact-heading-title {
+  text-align: center;
+
+  @media #{$desktop} {
+    margin: 0 0 12px;
+    padding: 0 8.5vw;
+  }
+
+  @media #{$mobile} {
+    margin: 0 0 24px;
+    padding: 0;
+  }
+}
+
+.contact-heading-subtitle {
+  text-align: center;
+
+  @media #{$desktop} {
+    margin: 12px 0 3.25vw;
+    padding: 0 8.5vw;
+  }
+
+  @media #{$mobile} {
+    margin: 0 0 24px;
+    padding: 0;
+  }
+}
+
+.contact-info-section {
+  margin: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media #{$desktop} {
+    width: calc(500px + 30vw);
+    margin: 6.5vw auto 5.5vw;
+    flex-direction: row;
+  }
+
+  @media #{$mobile} {
+    flex-direction: column;
+  }
+
+  .contact-info-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    h5 {
+      margin: 24px 0;
+    }
+
+    @media #{$desktop} {
+      padding: 0 5vw;
+
+      &:nth-child(2) {
+        border-left: 1px solid $gray500;
+        border-right: 1px solid $gray500;
+      }
+    }
+
+    @media #{$mobile} {
+      margin: 24px 0;
+    }
+  }
+}
+
+.contact-next-course-section {
+  @media #{$desktop} {
+    width: calc(500px + 18.75vw);
+  }
+
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .contact-next-course-begins {
+    @media #{$desktop} {
+      margin-bottom: 40px;
+    }
+
+    @media #{$mobile} {
+      margin: 40px 0 24px;
+    }
+  }
+}
+
+.contact-next-course-time {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  & > div {
+    @media #{$desktop} {
+      margin: 0 0.75vw;
+    }
+
+    @media #{$mobile} {
+      margin: 0 1.33vw;
+    }
+  }
+}
+
+.contact-next-course-time-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .contact-time-element {
+    @media #{$desktop} {
+      padding: 22px 24px 26px;
+    }
+
+    @media #{$mobile} {
+      padding: 17px 3px 9px;
+    }
+
+    border: 1px solid $gray500;
+    border-radius: 16px;
+    box-sizing: border-box;
+
+    text-align: center;
+
+    .sm-body-text {
+      @media #{$desktop} {
+        min-width: 72px;
+      }
+    }
+
+    h4 {
+      @media #{$mobile} {
+        min-width: 56px;
+      }
+    }
+  }
+
+  .sm-body-text.d-xs-block.d-sm-none {
+    text-align: center;
+    margin: 8px 0;
+  }
+}
+
+.contact-time-colon {
+  color: $gray600;
+  font-size: 50px;
+  line-height: 150%;
+  padding-bottom: 10px;
+}
