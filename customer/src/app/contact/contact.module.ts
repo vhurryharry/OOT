@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { SharedModule } from "../layout/shared/shared.module";
-import { ContactRoutingModule } from './contact-routing.module';
-import { ContactComponent } from './contact.component';
+import { ContactRoutingModule } from "./contact-routing.module";
+import { ContactComponent } from "./contact.component";
 
 @NgModule({
     imports: [ContactRoutingModule, SharedModule],
