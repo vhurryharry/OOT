@@ -1,5 +1,157 @@
+@import "src/assets/styles/variables";
+
+.footer,
+.footer-enroll-section,
+.footer-links-section {
+  position: relative;
+}
+
 .footer-background-image-1 {
+  width: 100%;
+  z-index: 2;
+
+  @media #{$desktop} {
+    padding: 0 10vw 0 0;
+  }
+}
+
+.footer-content {
   position: absolute;
-  top: 0;
-  left: º;
+  top: 50%;
+  left: 50%;
+  transform: translate((-50%, -50%));
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .footer-heading {
+    color: $white;
+
+    @media #{$desktop} {
+      margin-bottom: 3.5vw;
+    }
+
+    @media #{$mobile} {
+      margin-bottom: 10vw;
+    }
+  }
+}
+
+.footer-background-image-2 {
+  width: 100%;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: -1;
+
+  @media #{$desktop} {
+    top: -15.6vw;
+  }
+
+  @media #{$mobile} {
+    top: -8.33vw;
+  }
+}
+
+.footer-links-content-wrapper {
+  width: 100%;
+  padding: 0 11vw;
+
+  @media #{$desktop} {
+    margin-top: 16vw;
+  }
+
+  @media #{$mobile} {
+    margin-top: calc(40vw + 250px);
+  }
+}
+
+.footer-links-content {
+  width: 100%;
+
+  .footer-logo-wrapper {
+    margin: 14px 0;
+  }
+
+  .footer-copyright {
+    margin: 28px 0;
+
+    @media #{$mobile} {
+      text-align: center;
+    }
+  }
+
+  .footer-links-title {
+    margin: 0 0 20px;
+  }
+
+  .footer-links-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    @media #{$desktop} {
+      align-items: flex-start;
+    }
+
+    @media #{$mobile} {
+      align-items: center;
+    }
+
+    margin: 20px 0 0;
+
+    a {
+      color: $gray900;
+      margin: 5px 0;
+
+      &:hover {
+        text-decoration: none;
+        color: $blue;
+      }
+    }
+  }
+
+  .footer-links-signup {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    .email-input-wrapper {
+      margin: 10px;
+    }
+  }
+}
+
+@media #{$mobile} {
+  .footer-logo-section {
+    text-align: center;
+  }
+
+  .footer-links-content > div {
+    margin: 28px 0;
+  }
+}
+
+@media #{$desktop} {
+  .footer-company-section {
+    margin: 0.5vw 0 0 4vw;
+  }
+
+  .footer-legal-section {
+    margin: 0.5vw -6vw 0 2vw;
+  }
+
+  .footer-links-signup-wrapper {
+    margin: 0.5vw 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
 }

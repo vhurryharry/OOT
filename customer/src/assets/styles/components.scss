@@ -51,6 +51,11 @@
 
 .sm-cta {
   padding: 14px 20px 16px;
+
+  &.md-buttons {
+    min-width: 128px;
+    text-align: center;
+  }
 }
 
 // Dropdown menu
@@ -101,4 +106,13 @@
       color: $blue;
     }
   }
+}
+
+.sm-input {
+  border: 1px solid $gray500;
+  box-sizing: border-box;
+  border-radius: 4px;
+  height: 48px;
+
+  padding: 14px 18px 10px;
 }
