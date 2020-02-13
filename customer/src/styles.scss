@@ -232,6 +232,76 @@ h6 {
   }
 }
 
+@media #{$tablet} {
+  .hero {
+    font-size: 36px;
+    line-height: 42px;
+    letter-spacing: -0.01em;
+  }
+
+  h1 {
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -0.01em;
+  }
+
+  h2 {
+    font-size: 30px;
+    line-height: 38px;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-size: 28px;
+    line-height: 36px;
+    letter-spacing: -0.01em;
+  }
+
+  h4 {
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: -0.01em;
+  }
+
+  h5 {
+    font-size: 22px;
+    line-height: 28px;
+    letter-spacing: -0.01em;
+  }
+
+  h6 {
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  .lg-subtitle {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .md-subtitle {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .lg-body-text,
+  .lg-body-medium {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .md-body-text,
+  .md-body-medium {
+    font-size: 17px;
+    line-height: 26px;
+  }
+
+  .md-body-list {
+    font-size: 17px;
+    line-height: 26px;
+  }
+}
+
 .background-image {
   display: block;
   width: 100%;

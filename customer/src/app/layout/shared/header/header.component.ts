@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, HostListener } from "@angular/core";
+
+declare var $: any;
 
 @Component({
   selector: "app-header",
@@ -11,7 +13,22 @@ export class HeaderComponent implements OnInit {
 
   private loggedIn = false;
 
+  @HostListener("window:scroll", ["$event"])
+  onWindowScroll(e) {
+    const element = document.querySelector(".navbar");
+
+    if (window.pageYOffset > 5) {
+      element.classList.add("sticky-header");
+    } else {
+      element.classList.remove("sticky-header");
+    }
+  }
+
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    $(".navbar-toggler.collapsed").click(() => {
+      $(".header").addClass("sticky-header");
+    });
+  }
 }

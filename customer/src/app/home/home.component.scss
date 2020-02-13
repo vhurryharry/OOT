@@ -10,13 +10,18 @@
 
 .home-container {
   margin: 0;
+  overflow-x: hidden;
 
   @media #{$desktop} {
-    padding-top: 152px;
+    padding-top: 9.5vw;
+  }
+
+  @media #{$tablet} {
+    padding-top: 13.2vw;
   }
 
   @media #{$mobile} {
-    padding-top: 96px;
+    padding-top: 32vw;
   }
 }
 
@@ -37,15 +42,15 @@
   color: $white;
 
   .home-heading-title {
-    margin: 12px 0;
+    margin: 24px 0;
   }
 
   .home-heading-subtitle {
-    margin: 12px 0;
+    margin: 24px 0;
   }
 
   .home-heading-button-container {
-    margin: 28px 0;
+    margin: 48px 0;
   }
 
   @media #{$desktop} {
@@ -76,6 +81,19 @@
         margin-top: 2vw;
         padding-left: 2vw;
       }
+    }
+  }
+
+  @media #{$tablet} {
+    margin-top: 7vw;
+    padding-left: 7vw;
+
+    .home-heading-title {
+      max-width: 42vw;
+    }
+
+    .home-heading-subtitle {
+      max-width: 42vw;
     }
   }
 
@@ -112,6 +130,15 @@
     margin-left: -5vw;
   }
 
+  @media #{$tablet} {
+    max-width: 38vw;
+    width: 38vw;
+    max-height: 47.14vw;
+    height: 47.14vw;
+
+    margin-left: -5vw;
+  }
+
   @media #{$mobile} {
     max-width: 80vw;
     max-height: 88vw;
@@ -138,6 +165,10 @@
     margin-left: -21vw;
   }
 
+  @media #{$tablet} {
+    margin-left: -21vw;
+  }
+
   @media #{$mobile} {
     margin-left: -26vw;
   }
@@ -153,21 +184,37 @@
 
   @media #{$desktop} {
     .home-advertise-title {
-      margin: 24px;
+      margin: 1.5vw;
     }
 
     .home-advertise-subtitle {
-      margin: 24px auto;
+      margin: 1.5vw auto;
       width: 39vw;
     }
 
     .home-advertise-content {
-      margin: 32px 0 0;
+      margin: 2vw 0 0;
       padding: 0 11.5vw;
     }
 
     .home-advertise-text {
       padding: 0px 10%;
+    }
+  }
+
+  @media #{$tablet} {
+    .home-advertise-title {
+      margin: 1.5vw;
+    }
+
+    .home-advertise-subtitle {
+      margin: 1.5vw auto;
+      width: 65vw;
+    }
+
+    .home-advertise-content {
+      margin: 4vw 0 0;
+      padding: 0 5.8vw;
     }
   }
 
@@ -214,4 +261,96 @@
   .home-advertise-item {
     margin: 40px 0;
   }
+}
+
+.home-gallery-section {
+  background: linear-gradient(180deg, #f8f8f9 0%, rgba(248, 248, 249, 0) 100%);
+  padding: 0;
+
+  .home-gallery-text {
+    @media #{$desktop} {
+      max-width: 48.1vw;
+      margin: 8.5vw auto 0;
+    }
+
+    @media #{$tablet} {
+      max-width: 88vw;
+      margin: 8.5vw auto 0;
+    }
+
+    text-align: center;
+
+    .home-gallery-title {
+      margin: 0 0 12px;
+    }
+
+    .home-gallery-subtitle {
+      margin: 12px 0 0;
+    }
+  }
+}
+
+.multi-item-carousel {
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.multi-item-carousel .carousel-item {
+  img {
+    height: auto;
+    width: 90%;
+    margin: auto 5%;
+    box-shadow: 0px 3.5vw 8vw rgba(15, 20, 45, 0.12);
+    border-radius: 16px;
+
+    background-color: transparent;
+  }
+
+  background-color: transparent;
+}
+
+.multi-item-carousel .carousel-control-prev.left,
+.multi-item-carousel .carousel-control-next.right {
+  width: 54px;
+  height: 54px;
+  top: calc(50% - 27px - 3vw);
+
+  background-color: $white;
+  opacity: 1;
+
+  box-shadow: 0px 16px 48px rgba(15, 20, 45, 0.08);
+  border-radius: 48px;
+}
+
+.multi-item-carousel .carousel-control-prev.left {
+  left: 30%;
+}
+
+.multi-item-carousel .carousel-control-next.right {
+  right: 30%;
+}
+
+.multi-item-carousel .carousel-inner {
+  width: 150%;
+  left: -25%;
+  padding: 4.5vw 0 10.5vw;
+}
+
+.carousel-inner > .item.next,
+.carousel-inner > .item.active.right {
+  -webkit-transform: translate3d(33%, 0, 0);
+  transform: translate3d(33%, 0, 0);
+}
+
+.carousel-inner > .item.prev,
+.carousel-inner > .item.active.left {
+  -webkit-transform: translate3d(-33%, 0, 0);
+  transform: translate3d(-33%, 0, 0);
+}
+
+.item__third {
+  float: left;
+  position: relative;
+  /* captions can now be added */
+  width: 33.33333333%;
 }

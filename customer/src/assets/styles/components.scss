@@ -53,7 +53,6 @@
   padding: 14px 20px 16px;
 
   &.md-buttons {
-    min-width: 128px;
     text-align: center;
   }
 }
@@ -67,7 +66,7 @@
     padding: 24px 0 0;
   }
 
-  @media #{$mobile} {
+  @media #{$smallScreen} {
     padding: 8px 0 0;
   }
 }
@@ -83,7 +82,7 @@
     padding: 16px 24px;
   }
 
-  @media #{$mobile} {
+  @media #{$smallScreen} {
     padding: 8px 0 0;
     background-color: transparent;
     margin: 0;
@@ -97,8 +96,7 @@
       color: $black;
     }
 
-    @media #{$mobile} {
-      color: $white;
+    @media #{$smallScreen} {
       text-align: center;
     }
 
