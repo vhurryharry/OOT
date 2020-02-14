@@ -14,14 +14,7 @@
   width: 100%;
   z-index: 2;
 
-  @media #{$desktop} {
-    padding: 0 10vw 0 0;
-  }
-
-  @media #{$tablet} {
-    width: 120%;
-    margin-left: -5%;
-  }
+  padding: 0 10vw 0 0;
 }
 
 .footer-content {
@@ -37,18 +30,7 @@
 
   .footer-heading {
     color: $white;
-
-    @media #{$desktop} {
-      margin-bottom: 3.5vw;
-    }
-
-    @media #{$tablet} {
-      margin-bottom: 4.2vw;
-    }
-
-    @media #{$mobile} {
-      margin-bottom: 10vw;
-    }
+    margin-bottom: 3.5vw;
   }
 }
 
@@ -60,52 +42,18 @@
 
   z-index: -1;
 
-  background-color: $gray300;
-
-  @media #{$desktop} {
-    top: 20vw;
-    background-color: transparent;
-  }
-
-  @media #{$tablet} {
-    width: 100%;
-    height: 150%;
-    top: 30vw;
-  }
-
-  @media #{$mobile} {
-    width: 100%;
-    height: 120%;
-    top: 45vw;
-  }
+  top: 20vw;
+  background-color: transparent;
 }
 
 .footer-background-image-2 {
   width: 100%;
-
-  @media #{$smallScreen} {
-    display: none;
-  }
 }
 
 .footer-links-content-wrapper {
   width: 90%;
-  padding: 0 11vw;
-
-  @media #{$desktop} {
-    margin-top: 24vw;
-  }
-
-  @media #{$mobile} {
-    margin-top: 80vw;
-    width: 100%;
-    background-color: $gray300;
-  }
-
-  @media #{$tablet} {
-    margin-top: 10vw;
-    padding: 0 3vw;
-  }
+  padding: 0 5vw;
+  margin-top: 24vw;
 }
 
 .footer-links-content {
@@ -117,10 +65,6 @@
 
   .footer-copyright {
     margin: 28px 0;
-
-    @media #{$mobile} {
-      text-align: center;
-    }
   }
 
   .footer-links-title {
@@ -131,14 +75,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-
-    @media #{$desktop} {
-      align-items: flex-start;
-    }
-
-    @media #{$mobile} {
-      align-items: center;
-    }
+    align-items: flex-start;
 
     margin: 20px 0 0;
 
@@ -165,6 +102,75 @@
   }
 }
 
+.footer-company-section {
+  margin: 0.5vw 0 0 4vw;
+}
+
+.footer-legal-section {
+  margin: 0.5vw -6vw 0 2vw;
+}
+
+.footer-links-signup-wrapper {
+  margin: 0.5vw 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.footer-sign-up-btn {
+  min-width: 100px;
+}
+
+@media #{$tablet} {
+  .footer-background-image-1 {
+    width: 120%;
+    margin-left: -5%;
+    padding: 0;
+  }
+
+  .footer-content {
+    transform: translate(-45%, -50%);
+
+    .footer-heading {
+      margin-bottom: 4.2vw;
+    }
+  }
+
+  .footer-links-section {
+    width: 100%;
+    height: 60vw;
+    top: 30vw;
+    background-color: $gray300;
+  }
+
+  .footer-background-image-2 {
+    display: none;
+  }
+
+  .footer-links-content-wrapper {
+    margin-top: 10vw;
+    padding: 0 3vw;
+    width: 100%;
+  }
+
+  .footer-company-section {
+    margin: 0.5vw 0 0 4vw;
+  }
+
+  .footer-legal-section {
+    margin: 0.5vw -6vw 0 2vw;
+  }
+
+  .footer-links-signup-wrapper {
+    margin: 0.5vw 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+}
+
 @media #{$mobile} {
   .footer-logo-section {
     text-align: center;
@@ -173,44 +179,41 @@
   .footer-links-content > div {
     margin: 28px 0;
   }
-}
 
-@media #{$desktop} {
-  .footer-company-section {
-    margin: 0.5vw 0 0 4vw;
+  .footer-background-image-1 {
+    padding: 0;
   }
 
-  .footer-legal-section {
-    margin: 0.5vw -6vw 0 2vw;
+  .footer-content {
+    .footer-heading {
+      margin-bottom: 10vw;
+    }
   }
 
-  .footer-links-signup-wrapper {
-    margin: 0.5vw 0 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-start;
-  }
-}
-
-@media #{$tablet} {
-  .footer-company-section {
-    margin: 0.5vw 0 0 4vw;
+  .footer-links-section {
+    width: 100%;
+    height: 120%;
+    top: 45vw;
+    background-color: $gray300;
   }
 
-  .footer-legal-section {
-    margin: 0.5vw -6vw 0 2vw;
+  .footer-background-image-2 {
+    display: none;
   }
 
-  .footer-links-signup-wrapper {
-    margin: 0.5vw 0 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-start;
+  .footer-links-content-wrapper {
+    margin-top: calc(300px + 20vw);
+    width: 100%;
+    background-color: $gray300;
   }
-}
 
-.footer-sign-up-btn {
-  min-width: 128px;
+  .footer-links-content {
+    .footer-copyright {
+      text-align: center;
+    }
+
+    .footer-links-group {
+      align-items: center;
+    }
+  }
 }

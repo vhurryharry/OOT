@@ -13,6 +13,8 @@ export class HeaderComponent implements OnInit {
 
   private loggedIn = false;
 
+  private menuExpanded = false;
+
   @HostListener("window:scroll", ["$event"])
   onWindowScroll(e) {
     const element = document.querySelector(".navbar");
@@ -20,15 +22,27 @@ export class HeaderComponent implements OnInit {
     if (window.pageYOffset > 5) {
       element.classList.add("sticky-header");
     } else {
-      element.classList.remove("sticky-header");
+      if (!this.menuExpanded) {
+        element.classList.remove("sticky-header");
+      }
     }
   }
 
   constructor() {}
 
   ngOnInit() {
-    $(".navbar-toggler.collapsed").click(() => {
-      $(".header").addClass("sticky-header");
+    $(".navbar-toggler").click(() => {
+      this.menuExpanded = !this.menuExpanded;
+      if (this.menuExpanded) {
+        $(".header").addClass("sticky-header");
+        return;
+      }
+
+      if (window.pageYOffset <= 5) {
+        window.setTimeout(() => {
+          $(".header").removeClass("sticky-header");
+        }, 500);
+      }
     });
   }
 }

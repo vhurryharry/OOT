@@ -37,27 +37,15 @@
 
   transition: all 0.1s ease-out;
 
-  @media #{$desktop} {
-    padding: 24px 16px 8px;
-  }
+  padding: 24px 16px 8px;
 
   .header-logo {
     margin: 26px 40px 26px 32px;
     padding: 0px;
-
-    @media #{$mobile} {
-      margin: 8px 0;
-    }
   }
 
   .header-navbar {
-    @media #{$desktop} {
-      margin: 25px 0px;
-    }
-
-    @media #{$smallScreen} {
-      padding: 25px 0px;
-    }
+    margin: 25px 0px;
   }
 
   .nav-link {
@@ -78,49 +66,91 @@
   }
 }
 
-@media #{$smallScreen} {
-  .navbar {
-    background-color: white;
-  }
-}
-
 // Light header styles
-.light-header {
+.light-header:not(.sticky-header) {
   background-color: transparent;
 
   .header-logo {
     filter: brightness(100);
   }
 
-  @media #{$desktop} {
-    .navbar-toggler-icon {
-      filter: brightness(100);
-    }
-
-    .color-change-navbar .nav-link {
-      color: $white;
-    }
-
-    .dropdown-icon {
-      filter: brightness(100);
-    }
+  .navbar-toggler-icon {
+    filter: brightness(100);
   }
 
-  @media #{$mobile} {
-    .navbar-toggler-icon {
-      filter: brightness(100);
-    }
+  .color-change-navbar .nav-link {
+    color: $white;
+  }
+
+  .dropdown-icon {
+    filter: brightness(100);
   }
 }
 
-@media #{$smallScreen} {
-  .header .nav-link {
-    text-align: center;
+nav.sticky-header {
+  background-color: $white;
 
-    font-style: normal;
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 26px;
+  position: fixed !important;
+  padding-top: 8px;
+  box-shadow: 0px 8px 56px rgba(30, 30, 30, 0.06);
+
+  transition: all 0.1s ease-in;
+
+  .header-logo {
+    filter: none;
+  }
+
+  .color-change-navbar .nav-link {
+    color: $gray900;
+  }
+
+  .dropdown-icon {
+    filter: none;
+  }
+
+  .dropdown-menu {
+    padding-top: 50px;
+
+    transition: all 0.1s ease-in;
+  }
+
+  .navbar-toggler-icon {
+    filter: none;
+  }
+}
+
+@media #{$tablet} {
+  .header {
+    .header-navbar {
+      padding: 25px 0px;
+    }
+
+    .nav-link {
+      text-align: center;
+
+      font-style: normal;
+      font-weight: bold;
+      font-size: 20px;
+      line-height: 26px;
+    }
+  }
+
+  .navbar {
+    background-color: $white;
+  }
+
+  nav.header.light-header {
+    .navbar-toggler-icon {
+      filter: none;
+    }
+
+    .color-change-navbar .nav-link {
+      color: inherit;
+    }
+
+    .dropdown-icon {
+      filter: none;
+    }
   }
 
   .dropdown-item {
@@ -149,38 +179,82 @@
   .nav-item {
     margin: 12px 8px;
   }
+
+  nav.sticky-header {
+    .dropdown-menu {
+      padding-top: inherit;
+    }
+  }
+
+  .navbar-collapse.collapse {
+    opacity: 0;
+
+    &.show {
+      opacity: 1;
+    }
+  }
 }
 
-nav.sticky-header {
-  background-color: $white;
+@media #{$mobile} {
+  .header {
+    .header-logo {
+      margin: 8px 0;
+    }
 
-  .header-logo {
-    filter: none;
+    .header-navbar {
+      padding: 25px 0px;
+    }
+
+    .nav-link {
+      text-align: center;
+
+      font-style: normal;
+      font-weight: bold;
+      font-size: 20px;
+      line-height: 26px;
+    }
   }
 
-  @media #{$desktop} {
-    .color-change-navbar .nav-link {
-      color: $gray900;
-    }
+  .navbar {
+    background-color: white;
+  }
 
-    .dropdown-icon {
-      filter: none;
+  .light-header {
+    .navbar-toggler-icon {
+      filter: brightness(100);
     }
+  }
 
+  .dropdown-item {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .user-nav {
+    margin-top: 126px;
+
+    .navbar-btn {
+      padding: 22px 36px;
+
+      font-weight: bold;
+      font-size: 17px;
+      line-height: 20px;
+
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+
+  .nav-item {
+    margin: 12px 8px;
+  }
+
+  nav.sticky-header {
     .dropdown-menu {
-      padding-top: 50px;
-
-      transition: all 0.1s ease-in;
+      padding-top: inherit;
     }
   }
-
-  .navbar-toggler-icon {
-    filter: none;
-  }
-
-  position: fixed !important;
-  padding-top: 8px;
-  box-shadow: 0px 8px 56px rgba(30, 30, 30, 0.06);
-
-  transition: all 0.1s ease-in;
 }
