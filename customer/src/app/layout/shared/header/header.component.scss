@@ -105,6 +105,12 @@
       filter: brightness(100);
     }
   }
+
+  @media #{$mobile} {
+    .navbar-toggler-icon {
+      filter: brightness(100);
+    }
+  }
 }
 
 @media #{$smallScreen} {
@@ -166,6 +172,10 @@ nav.sticky-header {
 
       transition: all 0.1s ease-in;
     }
+  }
+
+  .navbar-toggler-icon {
+    filter: none;
   }
 
   position: fixed !important;
