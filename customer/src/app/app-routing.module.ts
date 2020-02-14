@@ -19,11 +19,11 @@ const routes: Routes = [
     component: CondensedComponent,
     loadChildren: "./about/about.module#AboutModule"
   },
-  //   {
-  //     path: "course",
-  //     component: CondensedComponent,
-  //     loadChildren: "./course/course.module#CourseModule"
-  //   },
+  {
+    path: "course",
+    component: CondensedComponent,
+    loadChildren: "./course/course.module#CourseModule"
+  },
   {
     path: "**",
     component: CondensedComponent
