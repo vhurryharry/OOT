@@ -1,0 +1,13 @@
+@import "src/assets/styles/variables";
+
+.password-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.signup-row {
+  margin: 2vw 0 0;
+  text-align: center;
+}
