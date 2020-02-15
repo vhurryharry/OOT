@@ -15,16 +15,8 @@
 
 .courses-heading-title {
   text-align: center;
-  margin: 0 0 3.25vw;
+  margin: 0 0 10vw;
   padding: 0 8.5vw;
-}
-
-.courses-text-section {
-  padding: 3.25vw 2.8vw 3.25vw 1.8vw;
-
-  p {
-    margin-bottom: 35px;
-  }
 }
 
 .courses-category-section {
@@ -122,7 +114,7 @@
   background: $gray300;
   border-radius: 16px;
 
-  margin: 5.5vw 2.85vw;
+  margin: 5.5vw 2.85vw 7vw;
   padding: 1.5vw;
 
   display: flex;
@@ -139,6 +131,21 @@
   }
 }
 
+.category-dropdown-toggler {
+  border: 1px solid #e7e7ea;
+  box-sizing: border-box;
+  border-radius: 4px;
+
+  padding: 13px 18px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  min-width: 230px;
+}
+
 @media #{$tablet} {
   #background-1 {
     top: 112px;
@@ -149,12 +156,22 @@
   }
 
   .courses-heading-title {
-    margin: 0 0 3.25vw;
-    padding: 0 21.2vw;
+    margin: 0 0 8vw;
   }
 
-  .courses-text-section {
-    padding: 3.25vw 2.8vw 3.25vw 1.8vw;
+  .courses-category-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 4vw;
+  }
+
+  .course-card {
+    .course-card-row:last-child {
+      margin-top: 2.5vw;
+    }
   }
 }
 
@@ -163,17 +180,31 @@
     display: none;
   }
 
+  .course-sms-section {
+    margin: 5.5vw 3.5vw 7vw;
+  }
+
   .courses-container {
     margin: 96px 24px 0;
   }
 
   .courses-heading-title {
-    margin: 0 0 24px;
+    margin: 24px 0 48px;
     padding: 0;
   }
 
-  .courses-text-section {
-    margin: 24px 0 0;
-    padding: 0;
+  .courses-category-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 24px;
+  }
+
+  .course-card {
+    .course-card-row:last-child {
+      margin-top: 2.5vw;
+    }
   }
 }
