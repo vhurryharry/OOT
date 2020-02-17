@@ -25,7 +25,6 @@ backend/public/assets/
 backend/public/admin
 var/
 vendor/
-.env
 .web-server-pid
 npm-debug.log
 yarn-error.log
