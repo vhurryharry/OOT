@@ -25,6 +25,16 @@ const routes: Routes = [
     loadChildren: "./course/course.module#CourseModule"
   },
   {
+    path: "login",
+    component: CondensedComponent,
+    loadChildren: "./auth/login/login.module#LoginModule"
+  },
+  {
+    path: "signup",
+    component: CondensedComponent,
+    loadChildren: "./auth/signup/signup.module#SignupModule"
+  },
+  {
     path: "**",
     component: CondensedComponent
   }

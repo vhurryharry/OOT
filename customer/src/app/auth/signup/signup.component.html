@@ -1,3 +1,80 @@
-<div>
-  SignUp Component
+<div class="auth-container">
+
+  <img src='/assets/images/images/auth/background.png' alt="Olive Oil Times" class="background-image"
+    id="auth-background" />
+
+  <div class="auth-header">
+    <a class="navbar-brand header-logo" href="/">
+      <picture>
+        <source srcset="/assets/logos/logo-blue-s.png" media="(max-width: 576px)" />
+        <source srcset="/assets/logos/logo-blue.png" />
+        <img src='/assets/logos/logo-blue.png' alt="Olive Oil Times" />
+      </picture>
+    </a>
+  </div>
+
+  <div class="auth-content signup-content">
+    <h3 class="auth-heading">
+      Create an account.
+    </h3>
+
+    <div class="auth-row">
+      <div class="sm-body-text">
+        Full name
+      </div>
+      <input type="email" class="form-control md-input md-body-text" id="fullName" aria-describedby="emailHelp"
+        placeholder="What's your full name?">
+    </div>
+
+    <div class="auth-row">
+      <div class="sm-body-text">
+        Email address
+      </div>
+      <input type="email" class="form-control md-input md-body-text" id="email" aria-describedby="emailHelp"
+        placeholder="you@example.com">
+    </div>
+
+    <div class="auth-row">
+      <div class="sm-body-text">
+        Password
+      </div>
+      <input type="password" class="form-control md-input md-body-text" id="password" aria-describedby="emailHelp"
+        placeholder="Enter 6 characters or more">
+    </div>
+
+    <div class="auth-row">
+      <div class="sm-body-text">
+        Business (optional)
+      </div>
+      <input type="text" class="form-control md-input md-body-text" id="business" aria-describedby="emailHelp"
+        placeholder="Where do you work?">
+    </div>
+
+    <div class="auth-row">
+      <button class="btn md-cta auth-button">
+        Sign Up
+      </button>
+    </div>
+
+    <div class="auth-row auth-divider">
+      <div class="auth-divider-line"></div>
+      <div class="md-body-text auth-divider-text">or</div>
+      <div class="auth-divider-line"></div>
+    </div>
+
+    <div class="auth-row">
+      <button class="btn md-cta auth-button google-button">
+        <img src="/assets/images/images/auth/google.png">
+        Sign Up with Google
+      </button>
+    </div>
+
+    <div class="auth-row">
+      <div class="login-row md-body-text">
+        By signing up, you agree to our <a href="#" class="md-text-link">Terms & Conditions</a> and the <a href="#"
+          class="md-text-link">Privacy Policy</a>. <br />
+        Already have an account? <a href="/login" class="md-text-link">Log in</a>
+      </div>
+    </div>
+  </div>
 </div>

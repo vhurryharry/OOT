@@ -1,0 +1,19 @@
+@import "src/assets/styles/variables";
+
+.signup-content {
+  @media #{$desktop} {
+    padding-top: 10vw;
+  }
+}
+
+.password-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login-row {
+  margin: 2vw 0 0;
+  text-align: center;
+}
