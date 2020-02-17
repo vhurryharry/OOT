@@ -13,7 +13,7 @@
     </a>
   </div>
 
-  <div class="auth-content">
+  <form class="auth-content" (ngSubmit)="login()">
     <h3 class="auth-heading">
       Welcome back.
     </h3>
@@ -22,8 +22,8 @@
       <div class="sm-body-text">
         Email address
       </div>
-      <input type="email" class="form-control md-input md-body-text" id="email" aria-describedby="emailHelp"
-        placeholder="you@example.com">
+      <input type="email" class="form-control md-input md-body-text" name="email" id="email"
+        placeholder="you@example.com" [(ngModel)]="email">
     </div>
 
     <div class="auth-row">
@@ -34,8 +34,12 @@
           Forgot password?
         </a>
       </div>
-      <input type="password" class="form-control md-input md-body-text" id="email" aria-describedby="emailHelp"
-        placeholder="Enter 6 characters or more">
+      <input type="password" class="form-control md-input md-body-text" name="password" id="password"
+        placeholder="Enter 6 characters or more" [(ngModel)]="password">
+    </div>
+
+    <div class="alert alert-danger" role="alert" [hidden]="!errorMessage">
+      {{errorMessage}}
     </div>
 
     <div class="auth-row">
@@ -51,7 +55,7 @@
     </div>
 
     <div class="auth-row">
-      <button class="btn md-cta auth-button google-button">
+      <button class="btn md-cta auth-button google-button" type="submit">
         <img src="/assets/images/images/auth/google.png">
         Log In with Google
       </button>
@@ -62,5 +66,5 @@
         Don't have an account? <a href="/signup" class="text-link">Sign up</a>
       </div>
     </div>
-  </div>
+  </form>
 </div>

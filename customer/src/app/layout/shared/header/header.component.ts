@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, HostListener } from "@angular/core";
+import { LoginService } from "src/app/services/login.service";
 
 declare var $: any;
 
@@ -10,9 +11,8 @@ declare var $: any;
 export class HeaderComponent implements OnInit {
   @Input()
   public lightHeader = false;
-
   private loggedIn = false;
-
+  private userName = "";
   private menuExpanded = false;
 
   @HostListener("window:scroll", ["$event"])
@@ -28,7 +28,13 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  constructor() {}
+  constructor(private loginService: LoginService) {
+    this.loggedIn = this.loginService.isLoggedIn();
+    if (this.loggedIn) {
+      const user = this.loginService.getCurrentUser();
+      this.userName = user.firstName + " " + user.lastName;
+    }
+  }
 
   ngOnInit() {
     $(".navbar-toggler").click(() => {
@@ -44,5 +50,10 @@ export class HeaderComponent implements OnInit {
         }, 500);
       }
     });
+  }
+
+  logout() {
+    this.loginService.logOut();
+    window.location.reload();
   }
 }

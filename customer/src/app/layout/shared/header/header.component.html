@@ -55,5 +55,21 @@
         </a>
       </li>
     </ul>
+
+    <ul class="nav navbar-nav navbar-right user-nav" *ngIf="loggedIn">
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#" id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          <img src="/assets/images/images/auth/avatar.png" class="user-avatar" />
+          &nbsp; {{userName}}
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="userDropdown">
+          <div class="md-body-text dropdown-menu-content">
+            <button class="dropdown-item" (click)="logout()">Log out</button>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
 </nav>

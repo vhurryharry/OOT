@@ -70,7 +70,7 @@ export class LoginService {
             this.authError = response.error;
             this.currentUser = null;
 
-            return throwError(response.error);
+            throw new Error(response.error);
           }
         })
       );

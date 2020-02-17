@@ -182,3 +182,9 @@
     filter: brightness(4);
   }
 }
+
+button:focus,
+button.focus {
+  outline: none;
+  box-shadow: none;
+}
