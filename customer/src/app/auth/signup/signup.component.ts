@@ -8,11 +8,13 @@ import { Router } from "@angular/router";
   styleUrls: ["./signup.component.scss", "../auth.component.scss"]
 })
 export class SignupComponent implements OnInit {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   business: string;
   errorMessage: string;
+  loading = false;
 
   constructor(private loginService: LoginService, private router: Router) {}
 
@@ -21,8 +23,13 @@ export class SignupComponent implements OnInit {
   signup() {
     this.errorMessage = null;
 
-    if (!this.fullName || !this.fullName.length) {
-      this.errorMessage = "Invalid Full name";
+    if (
+      !this.firstName ||
+      !this.firstName.length ||
+      !this.lastName ||
+      !this.lastName.length
+    ) {
+      this.errorMessage = "Invalid Name";
       return;
     }
 
@@ -40,19 +47,15 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    const firstName = this.fullName.split(" ")[0];
-    const lastName =
-      this.fullName.split(" ").length === 1
-        ? ""
-        : this.fullName.substr(this.fullName.indexOf(" ") + 1);
+    this.loading = true;
 
     const data = {
       user: {
         email: this.email,
         login: this.email,
         password: this.password,
-        firstName,
-        lastName,
+        firstName: this.firstName,
+        lastName: this.lastName,
         occupation: this.business,
         type: "student"
       }
@@ -60,6 +63,7 @@ export class SignupComponent implements OnInit {
 
     this.loginService.register(data).subscribe(
       user => {
+        this.loading = false;
         if (user) {
           if (this.loginService.redirectUrl) {
             this.router.navigateByUrl(this.loginService.redirectUrl);
@@ -69,6 +73,7 @@ export class SignupComponent implements OnInit {
         }
       },
       error => {
+        this.loading = false;
         this.errorMessage = error;
       }
     );

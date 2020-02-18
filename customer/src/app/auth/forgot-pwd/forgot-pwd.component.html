@@ -1,0 +1,57 @@
+<div class="auth-container">
+
+  <img src='/assets/images/images/auth/background.png' alt="Olive Oil Times" class="background-image"
+    id="auth-background" />
+
+  <div class="auth-header">
+    <a class="navbar-brand header-logo" href="/">
+      <picture>
+        <source srcset="/assets/logos/logo-blue-s.png" media="(max-width: 576px)" />
+        <source srcset="/assets/logos/logo-blue.png" />
+        <img src='/assets/logos/logo-blue.png' alt="Olive Oil Times" />
+      </picture>
+    </a>
+  </div>
+
+  <form class="auth-content" (ngSubmit)="request()">
+    <h3 class="auth-heading">
+      Forgot Password?
+    </h3>
+
+    <div class="auth-row">
+      <div class="desc-row md-body-text">
+        Enter your account email address and we will send you a link to reset your password.
+      </div>
+    </div>
+
+    <div class="auth-row">
+      <div class="sm-body-text">
+        Email address
+      </div>
+      <input type="email" class="form-control md-input md-body-text" name="email" id="email"
+        placeholder="you@example.com" [(ngModel)]="email">
+    </div>
+
+    <div class="alert alert-danger" role="alert" [hidden]="!errorMessage">
+      {{errorMessage}}
+    </div>
+
+    <div class="alert alert-success" role="alert" [hidden]="!sentLink">
+      Password reset link has been sent to your email!
+    </div>
+
+    <div class="auth-row">
+      <button class="btn md-cta auth-button">
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" [hidden]="!loading"></span>
+        Request Password Reset
+      </button>
+    </div>
+
+    <div class="auth-row">
+      <div class="desc-row md-body-text">
+        Return to <a href="/login" class="md-text-link">Login</a>
+      </div>
+    </div>
+
+  </form>
+</div>

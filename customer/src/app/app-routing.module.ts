@@ -35,6 +35,16 @@ const routes: Routes = [
     loadChildren: "./auth/signup/signup.module#SignupModule"
   },
   {
+    path: "forgot-pwd",
+    component: CondensedComponent,
+    loadChildren: "./auth/forgot-pwd/forgot-pwd.module#ForgotPwdModule"
+  },
+  {
+    path: "reset-pwd",
+    component: CondensedComponent,
+    loadChildren: "./auth/reset-pwd/reset-pwd.module#ResetPwdModule"
+  },
+  {
     path: "**",
     component: CondensedComponent
   }

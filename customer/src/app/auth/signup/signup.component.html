@@ -20,10 +20,18 @@
 
     <div class="auth-row">
       <div class="sm-body-text">
-        Full name
+        First name
       </div>
-      <input type="email" class="form-control md-input md-body-text" id="fullName" name="fullName"
-        placeholder="What's your full name?" [(ngModel)]="fullName">
+      <input type="text" class="form-control md-input md-body-text" id="firstName" name="firstName"
+        placeholder="What's your first name?" [(ngModel)]="firstName">
+    </div>
+
+    <div class="auth-row">
+      <div class="sm-body-text">
+        Last name
+      </div>
+      <input type="text" class="form-control md-input md-body-text" id="lastName" name="lastName"
+        placeholder="What's your last name?" [(ngModel)]="lastName">
     </div>
 
     <div class="auth-row">
@@ -56,6 +64,7 @@
 
     <div class="auth-row">
       <button class="btn md-cta auth-button" type="submit">
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" [hidden]="!loading"></span>
         Sign Up
       </button>
     </div>
@@ -67,7 +76,7 @@
     </div>
 
     <div class="auth-row">
-      <button class="btn md-cta auth-button google-button">
+      <button class="btn md-cta auth-button google-button" type="button">
         <img src="/assets/images/images/auth/google.png">
         Sign Up with Google
       </button>

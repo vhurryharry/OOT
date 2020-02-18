@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use App\Repository\CustomerRepository;
 use App\Security\User;
 use App\Event\CustomerRegistered;
+use App\Event\CustomerResetPasswordRequested;
 use App\Security\Customer;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,6 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Firebase\JWT\JWT;
+use Firebase\JWT\ExpiredException;
+use Firebase\JWT\SignatureInvalidException;
 
 class AuthController extends AbstractController
 {
@@ -150,7 +154,7 @@ class AuthController extends AbstractController
 		if($customer) {
 			return new JsonResponse([
 				'success' => false,
-				'error' => "User already exists for this email!",
+				'error' => "User already exists for that email!",
 				'user' => null
 			]);;
 		}
@@ -177,6 +181,127 @@ class AuthController extends AbstractController
 				'mfa' => $customer->getMfa(),
 			]
 		]);
-	}	
+    }	
+    
+    private $resetPwdSigningKey = "olive_oil_school_reset_password_key";
+
+	/**
+     * @Route("/customer-reset-password-requested", methods={"POST"})
+     */
+    public function customerResetPasswordRequested(Request $request)
+    {
+		$email = $request->get("email");
+
+        $customer = $this->customerRepository->findByLogin($email);
+
+		if($customer) {
+            $customer = Customer::fromDatabase($customer);
+
+            $payload = array(
+                "email" => $email,
+                "type" => "customer",
+                "msgType" => 'customer.resetPasswordRequested',
+                "iat" => time()
+            );
+
+            JWT::$leeway = 600;
+            $jwt = JWT::encode($payload, $this->resetPwdSigningKey);
+            $resetUri = $request->getSchemeAndHttpHost()."/reset-pwd?token=".$jwt;
+            
+            //$decoded = JWT::decode($jwt, $key, array('HS256'));
+
+            $this->eventDispatcher->dispatch(new CustomerResetPasswordRequested($customer, $resetUri));
+        } else {
+            return new JsonResponse([
+                'success' => false,
+                'error' => "User does not exist for that email!"
+            ]);
+        }
+		
+		return new JsonResponse([
+			'success' => true,
+			'error' => null
+		]);
+    }    
+
+	/**
+     * @Route("/customer-reset-password", methods={"POST"})
+     */
+    public function customerResetPassword(Request $request)
+    {
+        $email = $request->get("email");
+        $password = $request->get("password");
+
+        $customer = $this->customerRepository->findByLogin($email);
+
+		if($customer) {
+            $customer = Customer::fromDatabase($customer);
+            $customer = $this->customerRepository->resetPassword($customer, $password);
+        } else {
+            return new JsonResponse([
+                'success' => false,
+                'error' => "User does not exist for that email!"
+            ]);
+        }
+		
+		return new JsonResponse([
+			'success' => true,
+			'error' => null
+		]);
+	}
 	
+	/**
+     * @Route("/customer-reset-password-validate-token", methods={"POST"})
+     */
+    public function customerResetPasswordValidateToken(Request $request)
+    {
+        $token = $request->get("token");
+
+        try {
+            $decoded = JWT::decode($token, $this->resetPwdSigningKey, array('HS256'));
+
+            if($decoded->type == "customer" && $decoded->msgType == "customer.resetPasswordRequested") {
+                $email = $decoded->email;
+
+                $customer = $this->customerRepository->findByLogin($email);
+                if(!$customer) {
+                    return new JsonResponse([
+                        'success' => false,
+                        'error' => "Invalid token provided!"
+                    ]);
+                }
+                $customer = Customer::fromDatabase($customer);
+
+                return new JsonResponse([
+                    'success' => true,
+                    'email' => $customer->getEmail(),
+                    'error' => null
+                ]);
+            }
+        }
+        catch(ExpiredException $ex) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => "This token has been expired!"
+            ]);
+        }
+        catch(SignatureInvalidException $ex) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => "Invalid token provided!"
+            ]);
+        }
+        catch(\Exception $ex) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => "Unexpected error occured while validating the token!"
+            ]);
+        }
+
+		return new JsonResponse([
+            'success' => true,
+            'email' => '',
+			'error' => null
+		]);
+	}
 }

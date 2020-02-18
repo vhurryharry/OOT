@@ -1,0 +1,14 @@
+@import "src/assets/styles/variables";
+
+.password-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.desc-row {
+  margin: 2vw 0 0;
+  max-width: 430px;
+  text-align: center;
+}

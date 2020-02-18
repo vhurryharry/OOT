@@ -8,6 +8,7 @@ use App\Database;
 use App\Event\CustomerAutoRegistered;
 use App\Event\CustomerRegistered;
 use App\Event\OrderPlaced;
+use App\Event\CustomerResetPasswordRequested;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -36,6 +37,7 @@ class TransactionalEmail implements EventSubscriberInterface
         return [
             CustomerAutoRegistered::class => 'onCustomerAutoRegistered',
             CustomerRegistered::class => 'onCustomerRegistered',
+            CustomerResetPasswordRequested::class => 'onCustomerResetPasswordRequested',
             OrderPlaced::class => 'onOrderPlaced',
         ];
     }
@@ -89,6 +91,34 @@ class TransactionalEmail implements EventSubscriberInterface
             ->subject($notification['title'])
             ->text($textTemplate->render(['customer' => $customer]))
             ->html($htmlTemplate->render(['customer' => $customer]));
+
+        $this->mailer->send($email);
+    }
+
+    public function onCustomerResetPasswordRequested(CustomerResetPasswordRequested $event): void
+    {
+        $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = 'customer.resetPasswordRequested'");
+
+        if (!$notification) {
+            return;
+        }
+
+        $customer = $event->getCustomer();
+        $resetUri = $event->getResetUri();
+
+        $textTemplate = $this->twig->createTemplate($notification['content']);
+        $htmlTemplate = $this->twig->createTemplate($notification['content_rich']);
+
+        $email = (new Email())
+            ->from(new Address($notification['from_email'], $notification['from_name']))
+            ->to($customer->getEmail())
+            ->subject($notification['title'])
+            ->text($textTemplate->render(['name' => $customer->getFirstName()]))
+            ->html($htmlTemplate->render([
+                'name' => $customer->getFirstName(),
+                'resetUri' => $resetUri
+                ]
+            ));
 
         $this->mailer->send($email);
     }

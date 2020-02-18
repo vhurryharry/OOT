@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
   password: string;
 
   errorMessage: string;
+  loading = false;
 
   constructor(private loginService: LoginService, private router: Router) {}
 
@@ -29,8 +30,11 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    this.loading = true;
+
     this.loginService.authenticate(this.email, this.password).subscribe(
       user => {
+        this.loading = false;
         if (user) {
           if (this.loginService.redirectUrl) {
             this.router.navigateByUrl(this.loginService.redirectUrl);
@@ -40,6 +44,7 @@ export class LoginComponent implements OnInit {
         }
       },
       error => {
+        this.loading = false;
         this.errorMessage = error;
       }
     );

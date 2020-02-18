@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 
 import { environment } from "../../environments/environment";
 import { Observable, pipe, throwError } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, catchError } from "rxjs/operators";
 
 export interface IUserInfo {
   id: number;
@@ -73,6 +73,9 @@ export class LoginService {
             throw new Error(response.error);
           }
         })
+      )
+      .pipe(
+        catchError(error => throwError(new Error("Unexpected error occured!")))
       );
   }
 
@@ -103,6 +106,66 @@ export class LoginService {
             throw new Error(response.error);
           }
         })
+      )
+      .pipe(
+        catchError(error => throwError(new Error("Unexpected error occured!")))
       );
+  }
+
+  resetPasswordRequest(email: string): Observable<boolean> {
+    return this.http
+      .post<any>(`${this.authURL}/customer-reset-password-requested`, { email })
+      .pipe<any>(
+        map(response => {
+          if (response && response.success === true) {
+            return true;
+          } else {
+            throw new Error(response.error);
+          }
+        })
+      )
+      .pipe(
+        catchError(error => throwError(new Error("Unexpected error occured!")))
+      );
+  }
+
+  resetPassword(email: string, password: string): Observable<boolean> {
+    return this.http
+      .post<any>(`${this.authURL}/customer-reset-password`, { email, password })
+      .pipe<any>(
+        map(response => {
+          if (response && response.success === true) {
+            return true;
+          } else {
+            throw new Error(response.error);
+          }
+        })
+      )
+      .pipe(
+        catchError(error => throwError(new Error("Unexpected error occured!")))
+      );
+  }
+
+  resetPasswordValidateToken(token: string): Observable<string> {
+    return this.http
+      .post<any>(`${this.authURL}/customer-reset-password-validate-token`, {
+        token
+      })
+      .pipe<any>(
+        map(response => {
+          if (response && response.success === true) {
+            return response.email;
+          } else {
+            throw new Error(response.error);
+          }
+        })
+      )
+      .pipe(
+        catchError(error => throwError(new Error("Unexpected error occured!")))
+      );
+  }
+
+  handleError(error: any): void {
+    throw new Error("Unexpected error occured!");
   }
 }

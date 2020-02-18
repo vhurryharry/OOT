@@ -45,6 +45,14 @@ class CustomerRepository
         );
     }
 
+    public function resetPassword(Customer $customer, string $newPassword): Customer {
+        $customer->setPassword($this->encoder->encodePassword($customer, $newPassword));
+
+        $this->db->update('customer', $customer->toDatabase());
+
+        return $customer;
+    }
+
     public function register(array $form): Customer
     {
 		$rawPassword = $form['password'];

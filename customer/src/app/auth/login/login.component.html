@@ -30,7 +30,7 @@
       <div class="sm-body-text password-label">
         Password
 
-        <a href="#" class="md-text-link">
+        <a href="/forgot-pwd" class="md-text-link">
           Forgot password?
         </a>
       </div>
@@ -43,7 +43,8 @@
     </div>
 
     <div class="auth-row">
-      <button class="btn md-cta auth-button">
+      <button class="btn md-cta auth-button" type="submit">
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" [hidden]="!loading"></span>
         Log In
       </button>
     </div>
@@ -55,7 +56,7 @@
     </div>
 
     <div class="auth-row">
-      <button class="btn md-cta auth-button google-button" type="submit">
+      <button class="btn md-cta auth-button google-button" type="button">
         <img src="/assets/images/images/auth/google.png">
         Log In with Google
       </button>
@@ -63,7 +64,7 @@
 
     <div class="auth-row">
       <div class="signup-row md-body-text">
-        Don't have an account? <a href="/signup" class="text-link">Sign up</a>
+        Don't have an account? <a href="/signup" class="md-text-link">Sign up</a>
       </div>
     </div>
   </form>

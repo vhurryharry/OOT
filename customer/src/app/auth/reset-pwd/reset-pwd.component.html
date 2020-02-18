@@ -1,0 +1,70 @@
+<div class="auth-container">
+
+  <img src='/assets/images/images/auth/background.png' alt="Olive Oil Times" class="background-image"
+    id="auth-background" />
+
+  <div class="auth-header">
+    <a class="navbar-brand header-logo" href="/">
+      <picture>
+        <source srcset="/assets/logos/logo-blue-s.png" media="(max-width: 576px)" />
+        <source srcset="/assets/logos/logo-blue.png" />
+        <img src='/assets/logos/logo-blue.png' alt="Olive Oil Times" />
+      </picture>
+    </a>
+  </div>
+
+  <div class="auth-content" [hidden]="tokenValidated">
+    <div class="spinner-grow" role="status" [hidden]="!loading">
+      <span class="sr-only">Loading...</span>
+    </div>
+
+
+    <div class="auth-row desc-row">
+      <div class="alert alert-danger" role="alert" [hidden]="!errorMessage">
+        {{errorMessage}}
+      </div>
+
+      <div class="desc-row md-body-text">
+        Please resend password reset link <a href="/forgot-pwd" class="md-text-link">here</a>
+      </div>
+    </div>
+  </div>
+
+  <form class="auth-content" (ngSubmit)="reset()" [hidden]="!tokenValidated">
+    <h3 class="auth-heading">
+      Reset Password
+    </h3>
+
+    <div class="auth-row">
+      <div class="desc-row md-body-text">
+        Enter your new password
+      </div>
+    </div>
+
+    <div class="auth-row">
+      <div class="sm-body-text">
+        New Password
+      </div>
+      <input type="password" class="form-control md-input md-body-text" name="password" id="password"
+        placeholder="New password" [(ngModel)]="password">
+    </div>
+
+    <div class="alert alert-danger" role="alert" [hidden]="!errorMessage">
+      {{errorMessage}}
+    </div>
+
+    <div class="auth-row">
+      <button class="btn md-cta auth-button">
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" [hidden]="!loading"></span>
+        Reset Password
+      </button>
+    </div>
+
+    <div class="auth-row">
+      <div class="desc-row md-body-text">
+        Return to <a href="/login" class="md-text-link">Login</a>
+      </div>
+    </div>
+
+  </form>
+</div>
