@@ -22,6 +22,11 @@ class Course implements JsonSerializable
     protected $program;
 
     /**
+     * @var int[]
+     */
+    protected $categories;
+
+    /**
      * @var ?array
      */
     protected $metadata;
@@ -136,6 +141,16 @@ class Course implements JsonSerializable
     public function setProgram(string $program): void
     {
         $this->program = $program;
+    }
+
+    public function getCategories(): array
+    {
+        return $this->categories;
+    }
+
+    public function setCategories(array $categories): void
+    {
+        $this->categories = $categories;
     }
 
     public function getMetadata(): ?array

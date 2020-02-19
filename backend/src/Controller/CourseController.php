@@ -178,14 +178,16 @@ class CourseController extends AbstractController
 	}
 
     /**
-     * @Route("/courses", name="courses")
+     * @Route("/", name="courses")
      */
     public function list()
     {
         $courses = $this->courseRepository->findAll();
+        $categories = $this->courseRepository->getCategories();
 
-        return $this->render('course/list.html.twig', [
-            'courses' => $courses,
+        return new JsonResponse([
+            "courses" => $courses,
+            "categories" => $categories
         ]);
     }
 

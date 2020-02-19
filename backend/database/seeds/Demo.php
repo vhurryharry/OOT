@@ -55,6 +55,16 @@ class Demo extends AbstractSeed
             $id = Uuid::uuid4()->toString();
             $combo = [];
             $date = $faker->dateTimeThisMonth();
+            $categories = "{";
+
+            $catCount = rand(1,5);
+            for($i = 0; $i < $catCount; $i ++) {
+                $categories .= rand(1,5);
+                if($i + 1 < $catCount) {
+                    $categories .= ", ";
+                }
+            }
+            $categories .= "}";
 
             $courses[] = [
                 'id' => $id,
@@ -72,6 +82,7 @@ class Demo extends AbstractSeed
                 'address' => $faker->address,
                 'hero' => $faker->bs,
                 'tagline' => $faker->catchPhrase,
+                'categories' => $categories
             ];
 
             // Options
@@ -131,7 +142,7 @@ class Demo extends AbstractSeed
             }
 
             // Reservation
-            foreach ($faker->randomElements($customers, 200) as $customer) {
+            foreach ($faker->randomElements($customers, rand(1, 32)) as $customer) {
                 $courseReservation[] = [
                     'number' => Uuid::uuid4()->toString(),
                     'course_id' => $id,

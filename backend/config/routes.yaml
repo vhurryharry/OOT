@@ -13,6 +13,11 @@ api_course:
   type: annotation
   prefix: /api/course
 
+api_course_category:
+  resource: 'App\Controller\CourseCategoryController'
+  type: annotation
+  prefix: /api/course_category
+
 api_course_option:
   resource: 'App\Controller\CourseOptionController'
   type: annotation

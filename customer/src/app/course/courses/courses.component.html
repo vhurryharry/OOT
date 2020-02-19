@@ -12,20 +12,11 @@
 
     <div class="col-12 d-none d-lg-block courses-category-section">
       <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn course-type-button sm-body-text active">
-          <input type="radio" name="options" id="option1" autocomplete="off" checked> Quality Assessment
-        </label>
-        <label class="btn course-type-button sm-body-text">
-          <input type="radio" name="options" id="option2" autocomplete="off"> Farming and Production
-        </label>
-        <label class="btn course-type-button sm-body-text">
-          <input type="radio" name="options" id="option3" autocomplete="off"> Culinary
-        </label>
-        <label class="btn course-type-button sm-body-text">
-          <input type="radio" name="options" id="option3" autocomplete="off"> Marketing
-        </label>
-        <label class="btn course-type-button sm-body-text">
-          <input type="radio" name="options" id="option3" autocomplete="off"> Health
+        <label class="btn course-type-button sm-body-text {{ category.id === selectedCategory ? 'active' : ''}}"
+          *ngFor="let category of categories">
+          <input type="radio" name="category" [value]="category.id" autocomplete="off"
+            (click)="onSelectCategory(category.id)" [(ngModel)]="selectedCategory">
+          {{ category.category }}
         </label>
       </div>
     </div>
@@ -34,47 +25,52 @@
       <div class="dropdown">
         <button class="btn category-dropdown-toggler" id="categoryDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
-          Culinary
+          {{ categories[selectedCategory].category }}
           <img src="/assets/images/arrows/down.png" class="dropdown-icon" />
         </button>
 
         <div class="dropdown-menu" aria-labelledby="categoryDropdown">
-          <button class="btn dropdown-item" onclick="">Quality Assessment</button>
-          <button class="btn dropdown-item" onclick="">Farming and Production</button>
-          <button class="btn dropdown-item" onclick="">Culinary</button>
-          <button class="btn dropdown-item" onclick="">Marketing</button>
-          <button class="btn dropdown-item" onclick="">Health</button>
+          <button class="btn dropdown-item" *ngFor="let category of categories" (click)="onSelectCategory(category.id)">
+            {{ category.category }}
+          </button>
         </div>
       </div>
     </div>
 
     <div class="col-12 row courses-card-sectin">
 
-      <div class="col-12 col-sm-6 col-lg-4 course-card">
+      <div class="spinner-grow" role="status" [hidden]="dataLoaded">
+        <span class="sr-only">Loading...</span>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-4 course-card" *ngFor="let course of courses" [hidden]="course.hidden">
         <div class="course-card-content">
           <div class="course-card-row">
             <img src="/assets/images/s-icons/calendar.png" class="d-none d-lg-block" />
             <div class="md-body-medium">
-              September 16-21, 2019
+              {{ course.start_date | date : 'MMMM dd, yyyy' }}
             </div>
           </div>
+
           <div class="course-card-row">
             <img src="/assets/images/s-icons/map.png" class="d-none d-lg-block" />
             <div class="md-body-text">
-              San Francisco, California
+              {{ course.city }}
             </div>
           </div>
+
           <div class="course-card-row">
             <img src="/assets/images/s-icons/ticket.png" class="d-none d-lg-block" />
-            <div class="md-body-text course-sold-out">
-              Sold Out
+            <div class="md-body-text {{course.reservations >= course.spots ? 'course-sold-out' : ''}}">
+              {{course.reservations >= course.spots ? 'Sold Out' : 'Registration Open'}}
             </div>
           </div>
-          <div class="course-card-row">
+
+          <div class="course-card-row" *ngIf="course.reservations >= course.spots">
             <div class="course-card-score">
               <img src="/assets/images/s-icons/star.png" />
               <div class="md-body-text">
-                4.96
+                {{ course.rating.toFixed(2) }}
               </div>
             </div>
 
@@ -83,70 +79,12 @@
               <img src="/assets/images/arrows/right.png" />
             </a>
           </div>
-        </div>
-      </div>
 
-      <div class="col-12 col-sm-6 col-lg-4 course-card">
-        <div class="course-card-content">
-          <div class="course-card-row">
-            <img src="/assets/images/s-icons/calendar.png" class="d-none d-lg-block" />
-            <div class="md-body-medium">
-              January 20-24, 2020
-            </div>
-          </div>
-          <div class="course-card-row">
-            <img src="/assets/images/s-icons/map.png" class="d-none d-lg-block" />
-            <div class="md-body-text">
-              London, England
-            </div>
-          </div>
-          <div class="course-card-row">
-            <img src="/assets/images/s-icons/ticket.png" class="d-none d-lg-block" />
-            <div class="md-body-text course-sold-out">
-              Sold Out
-            </div>
-          </div>
-          <div class="course-card-row">
+          <div class="course-card-row" *ngIf="course.spots > course.reservations">
             <div class="course-card-score">
               <img src="/assets/images/s-icons/star.png" />
               <div class="md-body-text">
-                4.92
-              </div>
-            </div>
-
-            <a href="#" class="md-text-link course-card-link">
-              Get Updates
-              <img src="/assets/images/arrows/right.png" />
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12 col-sm-6 col-lg-4 course-card">
-        <div class="course-card-content">
-          <div class="course-card-row">
-            <img src="/assets/images/s-icons/calendar.png" class="d-none d-lg-block" />
-            <div class="md-body-medium">
-              May 11-15, 2020
-            </div>
-          </div>
-          <div class="course-card-row">
-            <img src="/assets/images/s-icons/map.png" class="d-none d-lg-block" />
-            <div class="md-body-text">
-              New York, New York
-            </div>
-          </div>
-          <div class="course-card-row">
-            <img src="/assets/images/s-icons/ticket.png" class="d-none d-lg-block" />
-            <div class="md-body-text">
-              Registration Open
-            </div>
-          </div>
-          <div class="course-card-row">
-            <div class="course-card-score">
-              <img src="/assets/images/s-icons/star.png" />
-              <div class="md-body-text">
-                4.98
+                {{ course.rating.toFixed(2) }}
               </div>
             </div>
 
@@ -155,42 +93,7 @@
               <img src="/assets/images/arrows/right.png" />
             </a>
           </div>
-        </div>
-      </div>
 
-      <div class="col-12 col-sm-6 col-lg-4 course-card">
-        <div class="course-card-content">
-          <div class="course-card-row">
-            <img src="/assets/images/s-icons/calendar.png" class="d-none d-lg-block" />
-            <div class="md-body-medium">
-              September, 2020
-            </div>
-          </div>
-          <div class="course-card-row">
-            <img src="/assets/images/s-icons/map.png" class="d-none d-lg-block" />
-            <div class="md-body-text">
-              San Francisco
-            </div>
-          </div>
-          <div class="course-card-row">
-            <img src="/assets/images/s-icons/ticket.png" class="d-none d-lg-block" />
-            <div class="md-body-text course-sold-out">
-              Sold Out
-            </div>
-          </div>
-          <div class="course-card-row">
-            <div class="course-card-score">
-              <img src="/assets/images/s-icons/star.png" />
-              <div class="md-body-text">
-                4.94
-              </div>
-            </div>
-
-            <a href="#" class="md-text-link course-card-link">
-              Get Updates
-              <img src="/assets/images/arrows/right.png" />
-            </a>
-          </div>
         </div>
       </div>
 

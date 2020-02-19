@@ -69,6 +69,47 @@ RAW,
 </container>
 HTML,
             ],
+            [
+                'title' => 'Reset Password',
+                'type' => 'email',
+                'from_email' => 'no-reply@oliveoilschool.org',
+                'from_name' => 'Olive Oil Education Lab',
+                'from_number' => '12127293600',
+                'event' => 'customer.resetPasswordRequested',
+                'content' => <<<RAW
+Dear {{ name }},
+
+This is the Password Reset email for Olive Oil Education Lab.
+RAW,
+                'content_rich' => <<<HTML
+<spacer size="16"></spacer>
+
+<container>
+  <row>
+    <columns>
+    <h2>Hi {{ name }},</h2>
+    <p>
+        You recently requested to reset your password for your Olive Oil Education Lab account.<br/>
+        Use the link below to reset it.<br/>
+        <b>This password reset link is only valid for the next 10 minutes. </b>
+    </p>
+    </columns>
+  </row>
+</container>
+
+<container class="body-border">
+  <row>
+    <columns>
+      <spacer size="32"></spacer>
+        <a href="{{ resetUri }}">{{ resetUri }}</a>
+      <spacer size="16"></spacer>
+    </columns>
+  </row>
+
+  <spacer size="16"></spacer>
+</container>
+HTML,
+            ]
         ];
 
         $this

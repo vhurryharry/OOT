@@ -21,7 +21,44 @@ class CourseRepository
 
     public function findAll(): array
     {
-        return $this->db->findAll('select c.title, c.slug, c.hero, co.dates, c.city from course as c join course_option as co on c.id = co.course where co.combo is true and c.deleted_at is null');
+        $courses = $this->db->findAll(
+            'select * from course where deleted_at is null'
+        );
+
+        if (!$courses) {
+            throw new NotFoundHttpException();
+        }
+
+        foreach ($courses as &$course) {
+            $reviews = $this->db->findAll('select title, content, rating from course_review where course = ? and deleted_at is null', [$course['id']]);
+            $rating = 0;
+    
+            if(count($reviews) > 0) {
+                foreach ($reviews as $review) {
+                    $rating += $review['rating'];
+                }
+                $rating /= count($reviews);
+            }
+    
+            $course['rating'] = $rating;
+    
+            $categoryIds = substr($course['categories'], 1, -1);
+            $categories = $this->db->findAll("select * from course_category where id IN ($categoryIds)");
+            $course['categories'] = $categories;
+
+            $course['reservations'] = $this->db->find('select count(*) from course_reservation where course_id = ?', [$course['id']])['count'];
+        }
+
+        return $courses;
+    }
+
+    public function getCategories(): array 
+    {
+        $availableCategories = $this->db->findAll(
+            'select * from course_category where deleted_at is null'
+        );
+
+        return $availableCategories;
     }
 
     public function findBySlug(string $slug): array

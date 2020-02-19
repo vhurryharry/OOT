@@ -11,6 +11,10 @@ export class RepositoryService {
 
   constructor(private http: HttpClient) {}
 
+  get(module) {
+    return this.http.get(this.baseURL + module);
+  }
+
   fetch(module, state) {
     return this.http.post(this.baseURL + module + "/search", { state });
   }
