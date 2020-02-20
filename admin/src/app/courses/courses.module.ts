@@ -11,6 +11,7 @@ import { CreateCourseComponent } from "./create-course/create-course.component";
 import { ManageOptionsComponent } from "./manage-options/manage-options.component";
 import { ManageReviewsComponent } from "./manage-reviews/manage-reviews.component";
 import { ManageInstructorsComponent } from "./manage-instructors/manage-instructors.component";
+import { ManageCategoriesComponent } from "./manage-categories/manage-categories.component";
 
 import { CoursesRoutingModule } from "./courses-routing.module";
 
@@ -29,7 +30,8 @@ import { CoursesRoutingModule } from "./courses-routing.module";
     CreateCourseComponent,
     ManageOptionsComponent,
     ManageReviewsComponent,
-    ManageInstructorsComponent
+    ManageInstructorsComponent,
+    ManageCategoriesComponent
   ]
 })
 export class CoursesModule {}

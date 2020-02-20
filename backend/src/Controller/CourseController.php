@@ -94,6 +94,77 @@ class CourseController extends AbstractController
     }
 
     /**
+     * @Route("/categories/find", methods={"POST"})
+     */
+    public function findCategories(Request $request)
+    {
+        $categoryIds = $this->db->find("select categories from course where id = ?", [$request->get('id')])['categories'];
+
+        if(strlen($categoryIds) == 0) {
+            return new JsonResponse([]);
+        }
+
+        $categoryIds = substr($categoryIds, 1, -1);
+        if(strlen($categoryIds) == 0) {
+            $categories = [];
+        } else {
+            $categories = $this->db->findAll("select * from course_category where id IN ($categoryIds)");
+        }
+
+        return new JsonResponse($categories);
+    }
+
+    /**
+     * @Route("/categories/create", methods={"POST"})
+     */
+    public function addCategories(Request $request)
+    {
+        $course = $this->db->find("select * from course where id = ?", [$request->get('course_id')]);
+        $categoryIds = $course['categories'];
+
+        if(strlen($categoryIds) == 0) {
+            return new JsonResponse([]);
+        }
+
+        $categoryIds = substr($categoryIds, 1, -1);
+        if(strlen($categoryIds) == 0) {
+            $course['categories'] = "{".$request->get('category_id')."}";    
+        } else {
+            $course['categories'] = "{".$categoryIds.",".$request->get('category_id')."}";
+        }
+        $this->db->update("course", $course);
+
+        return new JsonResponse();
+    }
+
+    /**
+     * @Route("/categories/delete", methods={"POST"})
+     */
+    public function deleteCategories(Request $request)
+    {
+        $ids = $request->get('ids');
+        $course = $this->db->find("select * from course where id = ?", [$ids['course_id']]);
+        $categoryIds = $course['categories'];
+
+        if(strlen($categoryIds) == 0) {
+            return new JsonResponse([]);
+        }
+
+        $categoryIds = substr($categoryIds, 1, -1);
+        $categoryIds = explode(",", $categoryIds);
+
+        $pos = array_search($ids['category_id'], $categoryIds);
+
+        unset($categoryIds[$pos]);
+        $categoryIds = implode(",", $categoryIds);
+
+        $course['categories'] = "{".$categoryIds."}";
+        $this->db->update("course", $course);
+
+        return new JsonResponse();
+    }
+
+    /**
      * @Route("/create", methods={"POST"})
      */
     public function create(Request $request)

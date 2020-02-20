@@ -36,6 +36,12 @@ class CourseCategory implements JsonSerializable
      */
     protected $deletedAt;
 
+    public function __construct()
+    {
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = $this->createdAt;
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -122,7 +128,7 @@ class CourseCategory implements JsonSerializable
         }
 
         if (isset($row['category'])) {
-            $instance->setTitle($row['category']);
+            $instance->setCategory($row['category']);
         }
 
         if (isset($row['createdAt'])) {

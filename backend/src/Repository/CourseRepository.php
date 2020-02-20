@@ -43,7 +43,12 @@ class CourseRepository
             $course['rating'] = $rating;
     
             $categoryIds = substr($course['categories'], 1, -1);
-            $categories = $this->db->findAll("select * from course_category where id IN ($categoryIds)");
+            if(strlen($categoryIds) == 0) {
+                $categories = [];
+            } else {
+                $categories = $this->db->findAll("select * from course_category where id IN ($categoryIds)");
+            }
+            
             $course['categories'] = $categories;
 
             $course['reservations'] = $this->db->find('select count(*) from course_reservation where course_id = ?', [$course['id']])['count'];

@@ -1,0 +1,37 @@
+<clr-spinner *ngIf="loading"></clr-spinner>
+
+<h4>{{pageTitle}}</h4>
+
+<button type="button" class="btn btn-link" (click)="goBack()">
+  <clr-icon shape="undo"></clr-icon> Back
+</button>
+
+<clr-datagrid>
+  <clr-dg-column>Category</clr-dg-column>
+  <clr-dg-column>Options</clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let category of categories">
+    <clr-dg-cell>{{category.category}}</clr-dg-cell>
+    <clr-dg-cell>
+      <button type="button" class="btn btn-sm btn-secondary" (click)="onRemove(category.id)">
+        <clr-icon shape="trash"></clr-icon> Remove
+      </button>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>{{categories.length}} categories</clr-dg-footer>
+</clr-datagrid>
+
+<form clrForm [formGroup]="categoryForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+  <clr-select-container>
+    <label>Category</label>
+    <select clrSelect formControlName="category">
+      <option *ngFor="let category of availableCategories" value="{{ category.id }}"
+        [disabled]="!isAvailable(category)">{{ category.category }}</option>
+    </select>
+    <clr-control-helper>Specify which category you want to add to this course</clr-control-helper>
+  </clr-select-container>
+
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!categoryForm.valid"
+    *ngIf="!loading">Add</button>
+</form>
