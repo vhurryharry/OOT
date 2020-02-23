@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 
 @Component({
   selector: "app-footer",
@@ -6,7 +6,16 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./footer.component.scss"]
 })
 export class FooterComponent implements OnInit {
+  @Input()
+  public price = -1;
+
   constructor() {}
 
   ngOnInit() {}
+
+  formatPrice(price) {
+    return (
+      "Tuition: $ " + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    );
+  }
 }

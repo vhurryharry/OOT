@@ -22,7 +22,7 @@ class CourseRepository
     public function findAll(): array
     {
         $courses = $this->db->findAll(
-            'select * from course where deleted_at is null'
+            'select id, title, slug, city, start_date, spots, categories from course where deleted_at is null'
         );
 
         if (!$courses) {
@@ -76,6 +76,15 @@ class CourseRepository
         if (!$course) {
             throw new NotFoundHttpException();
         }
+
+        $topicIds = substr($course['topics'], 1, -1);
+        if(strlen($topicIds) == 0) {
+            $topics = [];
+        } else {
+            $topics = $this->db->findAll("select * from course_topic where id IN ($topicIds)");
+        }
+        
+        $course['topics'] = $topics;
 
         $course['options'] = $this->db->findAll('select id, title, price, dates, combo from course_option where course = ? and deleted_at is null', [$course['id']]);
 

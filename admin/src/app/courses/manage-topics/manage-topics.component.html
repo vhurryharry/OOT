@@ -1,0 +1,36 @@
+<clr-spinner *ngIf="loading"></clr-spinner>
+
+<h4>{{pageTitle}}</h4>
+
+<button type="button" class="btn btn-link" (click)="goBack()">
+  <clr-icon shape="undo"></clr-icon> Back
+</button>
+
+<clr-datagrid>
+  <clr-dg-column>Topic</clr-dg-column>
+  <clr-dg-column>Options</clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let topic of topics">
+    <clr-dg-cell>{{topic.topic}}</clr-dg-cell>
+    <clr-dg-cell>
+      <button type="button" class="btn btn-sm btn-secondary" (click)="onRemove(topic.id)">
+        <clr-icon shape="trash"></clr-icon> Remove
+      </button>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>{{topics.length}} topics</clr-dg-footer>
+</clr-datagrid>
+
+<form clrForm [formGroup]="topicForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+  <clr-select-container>
+    <label>Topic</label>
+    <select clrSelect formControlName="topic">
+      <option *ngFor="let topic of availableTopics" value="{{ topic.id }}" [disabled]="!isAvailable(topic)">
+        {{ topic.topic }}</option>
+    </select>
+    <clr-control-helper>Specify which topic you want to add to this course</clr-control-helper>
+  </clr-select-container>
+
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!topicForm.valid" *ngIf="!loading">Add</button>
+</form>

@@ -154,6 +154,32 @@ class Demo extends AbstractSeed
             }
         }
 
+        // Course Categories
+        $categories = [
+            [
+                'category' => 'Quality Assessment'
+            ],
+            [
+                'category' => 'Farming and Production'
+            ],
+            [
+                'category' => 'Culinary'
+            ],
+            [
+                'category' => 'Marketing'
+            ],
+            [
+                'category' => 'Health'
+            ]
+        ];
+
+        foreach (range(1, 20) as $index) {
+            $topics[] = [
+                'topic' => $faker->sentence() . '?',
+                'description' => $faker->paragraphs(1, true)
+            ];
+        }
+
         foreach (range(1, 20) as $index) {
             $faq[] = [
                 'title' => $faker->sentence() . '?',
@@ -189,6 +215,15 @@ class Demo extends AbstractSeed
         $this
             ->table('faq')
             ->insert($faq)
+            ->save();
+
+        $this
+            ->table('course_category')
+            ->insert($categories)
+            ->save();
+        $this
+            ->table('course_topic')
+            ->insert($topics)
             ->save();
     }
 }

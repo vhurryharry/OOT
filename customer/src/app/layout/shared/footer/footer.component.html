@@ -9,10 +9,10 @@
 
     <div class="footer-content">
       <h2 class="footer-heading">
-        Be an olive oil expert.
+        {{ price > 0 ? formatPrice(price) : "Be an olive oil expert."}}
       </h2>
       <a href="/course" class="lg-cta-primary lg-buttons">
-        Enroll now
+        {{ price > 0 ? "Enroll In Program" : "Enroll now" }}
       </a>
     </div>
   </div>

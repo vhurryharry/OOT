@@ -1,61 +1,110 @@
 <div class="screen-container">
 
   <img src='/assets/images/images/normal-background.png' alt="Olive Oil Times" class="background-image"
-    id="about-background-1" />
+    id="background-1" />
 
   <app-header [lightHeader]="false"></app-header>
 
-  <div class="row section about-container">
-    <div class="col-12 order-0 hero about-heading-title">
-      An olive oil program in a class of its own.
+  <div class="row section course-detail-container" *ngIf="dataLoaded">
+    <div class="col-12 course-detail-header">
+      <div class="hero course-detail-city">
+        {{ course.city }}
+      </div>
+      <div class="lg-subtitle course-detail-subtitle">
+        Olive Oil Sommelier Certificate Program
+      </div>
+      <div class="course-rating">
+        <img src="/assets/images/s-icons/star.png" />
+        <div class="md-body-text">
+          {{ course.rating.toFixed(2) }} ({{ course.reviews.length }} reviews)
+        </div>
+      </div>
     </div>
-    <div class="col-12 order-sm-2 col-sm-7 about-text-section lg-body-text">
-      <p>
-        The Olive Oil Times Education Lab Sommelier Certificate Program is organized by the world’s leading source for
-        olive oil news and information.
-      </p>
-      <p>
-        The interactive, fast-paced curriculum is designed to inspire and empower a new
-        generation of olive oil experts and educators.
-      </p>
-      <p>
-        Students are exposed to an astounding variety of olive oils,
-        drawn from the 1,000-sample library maintained by Olive Oil Times, the organizer of the NYIOOC World Olive Oil
-        Competition.
-      </p>
-      <p>
-        Instructors are renowned professionals from diverse regions who offer a variety of perspectives and
-        a deep knowledge on topics ranging from olive oil production, quality assessment, health aspects and culinary
-        applications, to name a few.
-      </p>
-      <p>
-        Courses are offered at the International Culinary Center campus in New York, and
-        select locations abroad.
-      </p>
-      <p>
-        The program is directed by Curtis Cord, the president of Olive Oil Times.
-      </p>
+
+    <div class="col-12 course-detail-schedule-wrapper">
+      <div class="course-detail-schedule row">
+        <div class="course-detail-schedule-item col col-12 col-sm-6 col-lg-auto">
+          <img src="/assets/images/s-icons/calendar.png" />
+          {{course.start_date}}
+        </div>
+
+        <div class="course-detail-schedule-item col col-12 col-sm-6 col-lg-auto">
+          <img src="/assets/images/s-icons/time.png" />
+          9:00 AM - 4:00 PM
+        </div>
+
+        <div class="course-detail-schedule-item col col-12 col-sm-12 col-lg-auto">
+          <img src="/assets/images/s-icons/map.png" />
+          {{course.address}}
+        </div>
+      </div>
     </div>
-    <div class="col-12 order-sm-1 col-sm-5 about-info-section">
-      <div id="about-program-director">
-        <img src="/assets/images/images/about/program-director.png" alt="Olive Oil Times"
-          id="about-program-director-avatar" />
-        <div id="about-program-director-text">
-          <h5>
-            Curtis Cord
-          </h5>
-          <div class="md-body-text" id="about-program-director-subtitle">
-            Program Director
+
+    <div class="col-12 col-lg-8 course-detail-content">
+      <img src="/assets/logos/icc-logo.png" class="course-detail-icc-logo" />
+      <p class="lg-subtitle">
+        {{course.content}}
+      </p>
+      <div class="course-detail-enroll">
+        <a href="#" class="lg-cta lg-buttons">
+          Enroll In Program
+        </a>
+        <div class="lg-subtitle course-detail-price">
+          ${{ course.options[0].price }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4 course-detail-map">
+      <mgl-map [style]="'mapbox://styles/mapbox/light-v10'" [center]="course.location" [zoom]="5">
+        <mgl-marker [lngLat]="course.location">
+          <div class="marker">
+            <img src="/assets/images/s-icons/pin.png" />
+          </div>
+        </mgl-marker>
+      </mgl-map>
+    </div>
+
+    <div class="col-12 course-detail-topics-wrapper">
+      <div class="course-detail-topics">
+        <h2 class="course-detail-topics-heading">
+          Topics include:
+        </h2>
+
+        <div class="course-detail-topic-list row">
+          <div *ngFor="let topic of course.topics; let i = index"
+            class="course-detail-topic-item col-12 col-sm-5 {{ ( i > course.topics.length - 3) && 'course-detail-topic-item-with-no-border'}}">
+            <div class="course-detail-topic-number sm-body-medium d-none d-lg-flex">
+              {{i % 2 ? Math.floor((course.topics.length + i) / 2) + 1 : i / 2 + 1}}
+            </div>
+            <div class="course-detail-topic-title lg-body-text" data-toggle="tooltip" data-placement="top"
+              title="{{topic.description}}">
+              {{topic.topic}}
+            </div>
           </div>
         </div>
       </div>
-      <div id="about-info-logos">
-        <img src="/assets/logos/logo.png" />
-        <img src="/assets/images/images/about/icc-logo.png" />
+    </div>
+
+    <div class="col-12 course-detail-instructors">
+      <h2>
+        Instructors
+      </h2>
+
+      <div class="course-details-instructor-list row">
+        <div *ngFor="let instructor of course.instructors" class="col-12 col-sm-4 course-detail-instructor">
+          <img src="/assets/images/images/courses/instructor.png" class="course-detail-instructor-avatar" />
+          <h5>
+            {{instructor.name}}
+          </h5>
+          <div class="md-body-text">
+            Description
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <app-footer></app-footer>
+  <app-footer [price]="dataLoaded ? course.options[0].price : 0"></app-footer>
 
 </div>

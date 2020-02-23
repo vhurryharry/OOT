@@ -1,0 +1,18 @@
+<form clrForm [formGroup]="topicForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+  <clr-input-container>
+    <label>Topic</label>
+    <input clrInput type="text" formControlName="topic" required />
+    <clr-control-error>The topic is required</clr-control-error>
+  </clr-input-container>
+
+  <clr-input-container>
+    <label>Description</label>
+    <input clrInput type="text" formControlName="description" required />
+    <clr-control-error>The description is required</clr-control-error>
+  </clr-input-container>
+
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!topicForm.valid"
+    *ngIf="!loading">Submit</button>
+</form>
+
+<clr-spinner *ngIf="loading"></clr-spinner>

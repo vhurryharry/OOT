@@ -57,6 +57,13 @@ const routes: Routes = [
     canLoad: [AuthGuard]
   },
   {
+    path: "course-topics",
+    component: CondensedComponent,
+    loadChildren: "./course-topics/course-topics.module#CourseTopicsModule",
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
     path: "tags",
     component: CondensedComponent,
     loadChildren: "./tags/tags.module#TagsModule",

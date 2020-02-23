@@ -164,6 +164,78 @@ class CourseController extends AbstractController
         return new JsonResponse();
     }
 
+
+    /**
+     * @Route("/topics/find", methods={"POST"})
+     */
+    public function findTopics(Request $request)
+    {
+        $topicIds = $this->db->find("select topics from course where id = ?", [$request->get('id')])['topics'];
+
+        if(strlen($topicIds) == 0) {
+            return new JsonResponse([]);
+        }
+
+        $topicIds = substr($topicIds, 1, -1);
+        if(strlen($topicIds) == 0) {
+            $topics = [];
+        } else {
+            $topics = $this->db->findAll("select * from course_topic where id IN ($topicIds)");
+        }
+
+        return new JsonResponse($topics);
+    }
+
+    /**
+     * @Route("/topics/create", methods={"POST"})
+     */
+    public function addTopics(Request $request)
+    {
+        $course = $this->db->find("select * from course where id = ?", [$request->get('course_id')]);
+        $topicIds = $course['topics'];
+
+        if(strlen($topicIds) == 0) {
+            return new JsonResponse([]);
+        }
+
+        $topicIds = substr($topicIds, 1, -1);
+        if(strlen($topicIds) == 0) {
+            $course['topics'] = "{".$request->get('topic_id')."}";    
+        } else {
+            $course['topics'] = "{".$topicIds.",".$request->get('topic_id')."}";
+        }
+        $this->db->update("course", $course);
+
+        return new JsonResponse();
+    }
+
+    /**
+     * @Route("/topics/delete", methods={"POST"})
+     */
+    public function deleteTopics(Request $request)
+    {
+        $ids = $request->get('ids');
+        $course = $this->db->find("select * from course where id = ?", [$ids['course_id']]);
+        $topicIds = $course['topics'];
+
+        if(strlen($topicIds) == 0) {
+            return new JsonResponse([]);
+        }
+
+        $topicIds = substr($topicIds, 1, -1);
+        $topicIds = explode(",", $topicIds);
+
+        $pos = array_search($ids['topic_id'], $topicIds);
+
+        unset($topicIds[$pos]);
+        $topicIds = implode(",", $topicIds);
+
+        $course['topics'] = "{".$topicIds."}";
+        $this->db->update("course", $course);
+
+        return new JsonResponse();
+    }
+
     /**
      * @Route("/create", methods={"POST"})
      */
@@ -263,14 +335,14 @@ class CourseController extends AbstractController
     }
 
     /**
-     * @Route("/courses/{slug}", name="course", requirements={"slug"="[a-zA-Z0-9\-]+"})
+     * @Route("/{slug}", name="course", requirements={"slug"="[a-zA-Z0-9\-]+"})
      */
     public function course(string $slug)
     {
         $course = $this->courseRepository->findBySlug($slug);
 
-        return $this->render('course/detail.html.twig', [
-            'course' => $course,
+        return new JsonResponse([
+            "course" => $course
         ]);
     }
 }

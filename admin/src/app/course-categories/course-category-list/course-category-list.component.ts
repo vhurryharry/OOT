@@ -80,7 +80,7 @@ export class CourseCategoryListComponent implements OnInit {
     this.repository
       .export("course_category", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, "all_categories.csv");
+        this.fileService.saveAsCsv(result.csv, "all_course_categories.csv");
         this.loading = false;
       });
   }
@@ -90,7 +90,10 @@ export class CourseCategoryListComponent implements OnInit {
     this.repository
       .export("course_category", this.getSelectedIds())
       .subscribe((result: any) => {
-        this.fileService.saveAsCsv(result.csv, "selected_categories.csv");
+        this.fileService.saveAsCsv(
+          result.csv,
+          "selected_course_categories.csv"
+        );
         this.loading = false;
       });
   }

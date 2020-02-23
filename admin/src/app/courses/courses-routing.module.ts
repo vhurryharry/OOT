@@ -8,6 +8,7 @@ import { ManageOptionsComponent } from "./manage-options/manage-options.componen
 import { ManageReviewsComponent } from "./manage-reviews/manage-reviews.component";
 import { ManageInstructorsComponent } from "./manage-instructors/manage-instructors.component";
 import { ManageCategoriesComponent } from "./manage-categories/manage-categories.component";
+import { ManageTopicsComponent } from "./manage-topics/manage-topics.component";
 
 const routes: Routes = [
   {
@@ -33,6 +34,10 @@ const routes: Routes = [
       {
         path: "edit/:id/categories",
         component: ManageCategoriesComponent
+      },
+      {
+        path: "edit/:id/topics",
+        component: ManageTopicsComponent
       },
       {
         path: "",

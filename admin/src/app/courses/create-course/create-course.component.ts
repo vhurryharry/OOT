@@ -115,6 +115,10 @@ export class CreateCourseComponent implements OnInit {
     this.router.navigate(["/courses/edit/" + this.courseId + "/categories"]);
   }
 
+  onTopics() {
+    this.router.navigate(["/courses/edit/" + this.courseId + "/topics"]);
+  }
+
   onInstructors() {
     this.router.navigate(["/courses/edit/" + this.courseId + "/instructors"]);
   }

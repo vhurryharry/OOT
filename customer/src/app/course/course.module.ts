@@ -8,8 +8,19 @@ import { CoursesComponent } from "./courses/courses.component";
 import { CourseDetailComponent } from "./detail/course-detail.component";
 import { CourseService } from "./course.service";
 
+import { NgxMapboxGLModule } from "ngx-mapbox-gl";
+import { environment } from "src/environments/environment";
+
 @NgModule({
-  imports: [CommonModule, CourseRoutingModule, SharedModule, FormsModule],
+  imports: [
+    CommonModule,
+    CourseRoutingModule,
+    SharedModule,
+    FormsModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken: environment.mapbox.accessToken
+    })
+  ],
   declarations: [CoursesComponent, CourseDetailComponent],
   providers: [CourseService]
 })

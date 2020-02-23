@@ -12,4 +12,8 @@ export class CourseService {
   get() {
     return this.http.get(this.baseURL);
   }
+
+  findBySlug(slug) {
+    return this.http.get(this.baseURL + "/" + slug);
+  }
 }
