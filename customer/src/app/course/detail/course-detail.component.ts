@@ -25,8 +25,8 @@ export class CourseDetailComponent implements OnInit {
       this.courseService.findBySlug(this.slug).subscribe((result: any) => {
         this.course = result.course;
 
-        let i = 0,
-          total = 0;
+        let i = 0;
+        let total = 0;
         for (; i < this.course.reviews.length; i++) {
           total += this.course.reviews[i].rating;
         }
@@ -47,6 +47,4 @@ export class CourseDetailComponent implements OnInit {
   }
 
   ngOnInit() {}
-
-  ngAfterViewInit() {}
 }
