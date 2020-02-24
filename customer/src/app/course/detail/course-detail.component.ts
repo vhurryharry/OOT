@@ -70,7 +70,7 @@ export class CourseDetailComponent implements OnInit {
         .clone()
         .prependTo($(item));
     });
-  };
+  }
 
   ngOnInit() {}
 }

@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
         .clone()
         .prependTo($(item));
     });
-  };
+  }
 
   ngOnInit() {
     this.initCarousels("home-gallery");
