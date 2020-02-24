@@ -44,8 +44,6 @@
 
   top: 20vw;
   background-color: transparent;
-
-  overflow-x: hidden;
 }
 
 .footer-background-image-2 {
@@ -149,9 +147,10 @@
   }
 
   .footer-links-content-wrapper {
+    margin-left: -5%;
     margin-top: 10vw;
-    padding: 0 3vw;
-    width: 100%;
+    padding: 0;
+    width: 88%;
   }
 
   .footer-company-section {
