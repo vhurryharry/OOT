@@ -48,7 +48,7 @@ export class CourseDetailComponent implements OnInit {
     });
   }
 
-  initCarousels = id => {
+  initCarousels(id) {
     // Image Gallery configuration
     $("#" + id + ".multi-item-carousel .carousel-item").each((index, item) => {
       let next = $(item).next();
