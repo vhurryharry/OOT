@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { HomeService } from "./home.service";
 
 declare var $: any;
 
@@ -8,11 +9,21 @@ declare var $: any;
   styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit {
-  constructor() {}
+  testimonials: any;
 
-  ngOnInit() {
+  constructor(private homeService: HomeService) {
+    homeService.getTestimonials().subscribe((result: any) => {
+      this.testimonials = result.testimonials;
+
+      setTimeout(() => {
+        this.initCarousels("home-testimonials-gallery");
+      }, 500);
+    });
+  }
+
+  initCarousels = id => {
     // Image Gallery configuration
-    $(".multi-item-carousel .carousel-item").each((index, item) => {
+    $("#" + id + ".multi-item-carousel .carousel-item").each((index, item) => {
       let next = $(item).next();
       if (!next.length) {
         next = $(item).siblings(":first");
@@ -22,7 +33,7 @@ export class HomeComponent implements OnInit {
         .clone()
         .appendTo($(item));
     });
-    $(".multi-item-carousel .carousel-item").each((index, item) => {
+    $("#" + id + ".multi-item-carousel .carousel-item").each((index, item) => {
       let prev = $(item).prev();
       if (!prev.length) {
         prev = $(item).siblings(":last");
@@ -32,5 +43,9 @@ export class HomeComponent implements OnInit {
         .clone()
         .prependTo($(item));
     });
+  };
+
+  ngOnInit() {
+    this.initCarousels("home-gallery");
   }
 }

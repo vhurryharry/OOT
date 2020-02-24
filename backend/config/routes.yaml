@@ -23,6 +23,11 @@ api_course_topic:
   type: annotation
   prefix: /api/course_topic
 
+api_course_testimonial:
+  resource: 'App\Controller\CourseTestimonialController'
+  type: annotation
+  prefix: /api/course_testimonial
+
 api_course_option:
   resource: 'App\Controller\CourseOptionController'
   type: annotation

@@ -32,11 +32,6 @@ class CourseTestimonial implements JsonSerializable
     protected $author;
 
     /**
-     * @var ?string
-     */
-    protected $authorText;
-
-    /**
      * @var ?UuidInterface
      */
     protected $course;
@@ -94,16 +89,6 @@ class CourseTestimonial implements JsonSerializable
     public function setAuthor(UuidInterface $author): void
     {
         $this->author = $author;
-    }
-
-    public function getAuthorText(): ?string
-    {
-        return $this->authorText;
-    }
-
-    public function setAuthorText(string $authorText): void
-    {
-        $this->authorText = $authorText;
     }
 
     public function getCourse(): ?UuidInterface
@@ -166,10 +151,6 @@ class CourseTestimonial implements JsonSerializable
             $instance->setAuthor($row['author']);
         }
 
-        if (isset($row['author_text'])) {
-            $instance->setAuthorText($row['author_text']);
-        }
-
         if (isset($row['course'])) {
             $instance->setCourse(Uuid::fromString($row['course']));
         }
@@ -209,10 +190,6 @@ class CourseTestimonial implements JsonSerializable
             $instance->setAuthor($row['author']);
         }
 
-        if (isset($row['authorText'])) {
-            $instance->setAuthorText($row['authorText']);
-        }
-
         if (isset($row['course'])) {
             $instance->setCourse(Uuid::fromString($row['course']));
         }
@@ -239,7 +216,6 @@ class CourseTestimonial implements JsonSerializable
             'title' => $this->title,
             'content' => $this->content,
             'author' => $this->author,
-            'author_text' => $this->authorText,
             'course' => $this->course,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
             'updated_at' => $this->updatedAt->format('Y-m-d H:i:s'),
@@ -254,7 +230,6 @@ class CourseTestimonial implements JsonSerializable
             'title' => $this->title,
             'content' => $this->content,
             'author' => $this->author,
-            'authorText' => $this->authorText,
             'course' => $this->course,
             'createdAt' => $this->createdAt->format('Y-m-d\TH:i:s'),
             'updatedAt' => $this->updatedAt->format('Y-m-d\TH:i:s'),

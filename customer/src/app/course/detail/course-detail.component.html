@@ -103,6 +103,54 @@
         </div>
       </div>
     </div>
+
+    <div class="section col-12 row">
+      <div class="course-testimonial-section row">
+        <h2 class="col-12 col-lg-7 order-0">
+          What others are saying.
+        </h2>
+
+        <div class="col-12 order-lg-2">
+          <div id="course-testimonials-gallery" class="carousel slide multi-item-carousel" data-ride="carousel">
+            <div class="carousel-inner" role="listbox">
+              <div class="carousel-item {{i === 0 ? 'active' : ''}}"
+                *ngFor="let item of course.testimonials; let i = index">
+                <div class="item__third">
+                  <div class="testimonial-item">
+                    <div class="md-body-text">
+                      "{{item.title}}"
+                    </div>
+                    <div class="testimonial-author">
+                      <img src="/assets/images/images/auth/avatar.png" class="testimonial-author-avatar" />
+                      <div class="testimonial-author-detail">
+                        <h6>
+                          {{item.first_name + " " + item.last_name}}
+                        </h6>
+
+                        <div class="sm-body-text">
+                          {{item.occupation}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-5 order-lg-1 course-testimonials-controls">
+          <a href="#course-testimonials-gallery" class="left carousel-control-prev" role="button" data-slide="prev">
+            <img src="/assets/images/arrows/right.png" />
+          </a>
+
+          <a href="#course-testimonials-gallery" class="right carousel-control-next" role="button" data-slide="next">
+            <img src="/assets/images/arrows/left.png" />
+          </a>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <app-footer [price]="dataLoaded ? course.options[0].price : 0"></app-footer>

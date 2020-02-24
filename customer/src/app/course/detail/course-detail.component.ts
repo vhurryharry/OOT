@@ -41,10 +41,36 @@ export class CourseDetailComponent implements OnInit {
 
         setTimeout(() => {
           $('[data-toggle="tooltip"]').tooltip();
+
+          this.initCarousels("course-testimonials-gallery");
         }, 500);
       });
     });
   }
+
+  initCarousels = id => {
+    // Image Gallery configuration
+    $("#" + id + ".multi-item-carousel .carousel-item").each((index, item) => {
+      let next = $(item).next();
+      if (!next.length) {
+        next = $(item).siblings(":first");
+      }
+      next
+        .children(":first-child")
+        .clone()
+        .appendTo($(item));
+    });
+    $("#" + id + ".multi-item-carousel .carousel-item").each((index, item) => {
+      let prev = $(item).prev();
+      if (!prev.length) {
+        prev = $(item).siblings(":last");
+      }
+      prev
+        .children(":nth-last-child(2)")
+        .clone()
+        .prependTo($(item));
+    });
+  };
 
   ngOnInit() {}
 }

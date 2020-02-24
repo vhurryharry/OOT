@@ -90,7 +90,7 @@ class CourseRepository
 
         $course['reviews'] = $this->db->findAll('select title, content, rating from course_review where course = ? and deleted_at is null', [$course['id']]);
 
-        $course['testimonials'] = $this->db->findAll('select title, content, author_text from course_testimonial where course = ? and deleted_at is null', [$course['id']]);
+        $course['testimonials'] = $this->db->findAll('select a.title, a.content, b.first_name, b.last_name, b.occupation from course_testimonial a left join customer b on a.author = b."id" where course = ?', [$course['id']]);
 
         $course['instructors'] = $this->db->findAll("select concat(i.first_name, ' ', i.last_name) as name from course_instructor as ci join customer as i on ci.customer_id = i.id where ci.course_id = ? and i.deleted_at is null", [$course['id']]);
 
