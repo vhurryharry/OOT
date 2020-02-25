@@ -186,6 +186,23 @@ export class LoginService {
       );
   }
 
+  sendConfirmation(email: string): Observable<boolean> {
+    return this.http
+      .post<any>(`${this.authURL}/resend-confirmation`, { email })
+      .pipe(
+        catchError(error => throwError(new Error("Unexpected error occured!")))
+      )
+      .pipe<any>(
+        map(response => {
+          if (response && response.success === true) {
+            return true;
+          } else {
+            throw new Error(response.error);
+          }
+        })
+      );
+  }
+
   handleError(error: any): void {
     throw new Error("Unexpected error occured!");
   }

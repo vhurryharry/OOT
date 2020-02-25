@@ -14,6 +14,9 @@ export class LoginComponent implements OnInit {
   errorMessage: string;
   loading = false;
 
+  needsConfirmation = false;
+  sentConfirmation = false;
+
   constructor(private loginService: LoginService, private router: Router) {}
 
   ngOnInit() {}
@@ -42,6 +45,23 @@ export class LoginComponent implements OnInit {
             this.router.navigate(["/"]);
           }
         }
+      },
+      error => {
+        this.loading = false;
+        this.errorMessage = error;
+
+        if (this.errorMessage.toString().includes("confirm")) {
+          this.needsConfirmation = true;
+        }
+      }
+    );
+  }
+
+  sendConfirmation() {
+    this.loginService.sendConfirmation(this.email).subscribe(
+      result => {
+        this.loading = false;
+        this.sentConfirmation = true;
       },
       error => {
         this.loading = false;

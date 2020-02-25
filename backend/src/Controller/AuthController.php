@@ -184,14 +184,14 @@ class AuthController extends AbstractController
      */
     public function resendConfirmation(Request $request)
     {
-		$data = $request->get("user");
+		$email = $request->get("email");
 
-		$customer = $this->customerRepository->findByLogin($data['email']);
+		$customer = $this->customerRepository->findByLogin($email);
 
-		if($customer) {
+		if(!$customer) {
 			return new JsonResponse([
 				'success' => false,
-				'error' => "User already exists for that email!"
+				'error' => "User doesn't exist for that email!"
 			]);
         }
 
