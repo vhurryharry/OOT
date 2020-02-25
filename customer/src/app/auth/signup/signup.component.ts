@@ -15,6 +15,7 @@ export class SignupComponent implements OnInit {
   business: string;
   errorMessage: string;
   loading = false;
+  confirmationSent = false;
 
   constructor(private loginService: LoginService, private router: Router) {}
 
@@ -64,13 +65,7 @@ export class SignupComponent implements OnInit {
     this.loginService.register(data).subscribe(
       user => {
         this.loading = false;
-        if (user) {
-          if (this.loginService.redirectUrl) {
-            this.router.navigateByUrl(this.loginService.redirectUrl);
-          } else {
-            this.router.navigate(["/"]);
-          }
-        }
+        this.confirmationSent = true;
       },
       error => {
         this.loading = false;

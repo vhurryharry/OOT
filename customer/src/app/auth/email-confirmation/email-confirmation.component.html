@@ -1,0 +1,43 @@
+<div class="auth-container">
+
+  <img src='/assets/images/images/auth/background.png' alt="Olive Oil Times" class="background-image"
+    id="auth-background" />
+
+  <div class="auth-header">
+    <a class="navbar-brand header-logo" href="/">
+      <picture>
+        <source srcset="/assets/logos/logo-blue-s.png" media="(max-width: 576px)" />
+        <source srcset="/assets/logos/logo-blue.png" />
+        <img src='/assets/logos/logo-blue.png' alt="Olive Oil Times" />
+      </picture>
+    </a>
+  </div>
+
+  <div class="auth-content" *ngIf="tokenValidated">
+    <div class="auth-row desc-row">
+      <div class="alert alert-success" role="alert">
+        Your email has been successfully confirmed. <br />
+        You will be redirected to the Home page in {{timeout}} seconds...
+      </div>
+    </div>
+
+    <div class="desc-row md-body-text">
+      <a class="md-cta md-buttons" href="/">
+        Go to Home page
+      </a>
+    </div>
+  </div>
+
+  <div class="auth-content" [hidden]="tokenValidated">
+    <div class="spinner-grow" role="status" [hidden]="!loading">
+      <span class="sr-only">Verifying...</span>
+    </div>
+
+    <div class="auth-row desc-row">
+      <div class="alert alert-danger" role="alert" [hidden]="!errorMessage">
+        Sorry, the token is invalid or has been expired!
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -53,6 +53,14 @@ class CustomerRepository
         return $customer;
     }
 
+    public function confirmUser(Customer $customer): Customer {
+        $customer->setStatus(Customer::ACTIVE);
+
+        $this->db->update('customer', $customer->toDatabase());
+
+        return $customer;
+    }
+
     public function register(array $form): Customer
     {
 		$rawPassword = $form['password'];

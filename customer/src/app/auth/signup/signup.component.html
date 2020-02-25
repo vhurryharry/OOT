@@ -62,6 +62,12 @@
       {{errorMessage}}
     </div>
 
+    <div class="auth-row" [hidden]="!confirmationSent">
+      <div class="alert alert-info" role="alert">
+        Confirmation email has been sent. Please check your inbox to continue registration.
+      </div>
+    </div>
+
     <div class="auth-row">
       <button class="btn md-cta auth-button" type="submit">
         <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" [hidden]="!loading"></span>

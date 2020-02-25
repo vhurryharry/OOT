@@ -9,6 +9,7 @@ use App\Repository\CustomerRepository;
 use App\Security\User;
 use App\Event\CustomerRegistered;
 use App\Event\CustomerResetPasswordRequested;
+use App\Event\CustomerConfirmationPended;
 use App\Security\Customer;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -120,7 +121,15 @@ class AuthController extends AbstractController
 				'error' => "Invalid password!",
 				'user' => null
 			]);
-		}
+        }
+        
+        if($customer->getStatus() == Customer::PENDING_CONFIRMATION) {
+            return new JsonResponse([
+				'success' => false,
+                'error' => "Your account hasn't been confirmed yet!",
+				'user' => null
+			]);
+        }
 		
         return new JsonResponse([
 			'success' => true,
@@ -141,6 +150,8 @@ class AuthController extends AbstractController
 			]
 		]);
 	}
+    
+    private $customerConfirmationSigningKey = "olive_oil_school_customer_confirmation_signing_key";
 
 	/**
      * @Route("/customer-register", methods={"POST"})
@@ -154,34 +165,123 @@ class AuthController extends AbstractController
 		if($customer) {
 			return new JsonResponse([
 				'success' => false,
-				'error' => "User already exists for that email!",
-				'user' => null
-			]);;
+				'error' => "User already exists for that email!"
+			]);
 		}
 
 		$customer = $this->customerRepository->register($data);
-		
-		$this->eventDispatcher->dispatch(new CustomerRegistered($customer));
-		
+
+        $this->sendConfirmation($request, $customer);
+
 		return new JsonResponse([
 			'success' => true,
-			'error' => null,
-			'user' => [
-				'id' => $customer->getId(),
-				'metadata' => $customer->getMetadata(),
-				'type' => $customer->getType(),
-				'status' => $customer->getStatus(),
-				'acceptsMarketing' => $customer->acceptsMarketing(),
-				'email' => $customer->getLogin(),
-				'firstName' => $customer->getFirstName(),
-				'lastName' => $customer->getLastName(),
-				'tagline' => $customer->getTagline(),
-				'occupation' => $customer->getOccupation(),
-				'birthDate' => $customer->getBirthDate(),
-				'mfa' => $customer->getMfa(),
-			]
+			'error' => null
 		]);
-    }	
+    }
+
+    /**
+     * @Route("/resend-confirmation", methods={"POST"})
+     */
+    public function resendConfirmation(Request $request)
+    {
+		$data = $request->get("user");
+
+		$customer = $this->customerRepository->findByLogin($data['email']);
+
+		if($customer) {
+			return new JsonResponse([
+				'success' => false,
+				'error' => "User already exists for that email!"
+			]);
+        }
+
+		$customer = Customer::fromDatabase($customer);
+        $this->sendConfirmation($request, $customer);
+
+		return new JsonResponse([
+			'success' => true,
+			'error' => null
+		]);
+    }
+
+    private function sendConfirmation(Request $request, Customer $customer)
+    {
+        // Send confirmation email
+        $payload = array(
+            "email" => $customer->getLogin(),
+            "type" => "customer",
+            "msgType" => 'customer.confirmationPended',
+            "iat" => time()
+        );
+
+        $jwt = JWT::encode($payload, $this->customerConfirmationSigningKey);
+        $confirmationUri = $request->getSchemeAndHttpHost()."/email-confirmation?token=".$jwt;
+
+        $this->eventDispatcher->dispatch(new CustomerConfirmationPended($customer, $confirmationUri));
+    }
+
+	/**
+     * @Route("/customer-confirmation-validate-token", methods={"POST"})
+     */
+    public function customerConfirmationValidateToken(Request $request)
+    {
+        $token = $request->get("token");
+        $decoded = "";
+
+        try {
+            $decoded = JWT::decode($token, $this->customerConfirmationSigningKey, array('HS256'));
+
+            if($decoded->type == "customer" && $decoded->msgType == "customer.confirmationPended") {
+                $email = $decoded->email;
+
+                $customer = $this->customerRepository->findByLogin($email);
+                if(!$customer) {
+                    return new JsonResponse([
+                        'success' => false,
+                        'error' => "Invalid token provided!"
+                    ]);
+                }
+                $customer = Customer::fromDatabase($customer);
+                $this->customerRepository->confirmUser($customer);
+		
+                $this->eventDispatcher->dispatch(new CustomerRegistered($customer));
+
+                return new JsonResponse([
+                    'success' => true,
+                    'user' => $customer,
+                    'error' => null
+                ]);
+            }
+        }
+        catch(ExpiredException $ex) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => "This token has been expired!",
+                'decoded' => $decoded
+            ]);
+        }
+        catch(SignatureInvalidException $ex) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => "Invalid token provided!",
+                'decoded' => $decoded
+            ]);
+        }
+        catch(\Exception $ex) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => "Unexpected error occured while validating the token!",
+                'decoded' => $decoded
+            ]);
+        }
+
+		return new JsonResponse([
+            'success' => true,
+            'email' => '',
+			'error' => null,
+            'decoded' => $decoded
+		]);
+	}
     
     private $resetPwdSigningKey = "olive_oil_school_reset_password_key";
 
@@ -248,7 +348,7 @@ class AuthController extends AbstractController
 			'success' => true,
 			'error' => null
 		]);
-	}
+    }
 	
 	/**
      * @Route("/customer-reset-password-validate-token", methods={"POST"})

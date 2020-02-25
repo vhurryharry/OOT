@@ -54,6 +54,9 @@ export class LoginService {
         email,
         password
       })
+      .pipe(
+        catchError(error => throwError(new Error("Unexpected error occured!")))
+      )
       .pipe<any>(
         map(response => {
           if (response && response.success) {
@@ -73,9 +76,6 @@ export class LoginService {
             throw new Error(response.error);
           }
         })
-      )
-      .pipe(
-        catchError(error => throwError(new Error("Unexpected error occured!")))
       );
   }
 
@@ -87,15 +87,13 @@ export class LoginService {
   register(userInfo: any): Observable<IUserInfo> {
     return this.http
       .post<any>(`${this.authURL}/customer-register`, userInfo)
+      .pipe(
+        catchError(error => throwError(new Error("Unexpected error occured!")))
+      )
       .pipe<any>(
         map(response => {
           if (response && response.success === true) {
-            localStorage.setItem(
-              "oot_user_token",
-              JSON.stringify(response.user)
-            );
-
-            this.currentUser = response.user;
+            this.currentUser = null;
             this.authError = null;
 
             return this.currentUser;
@@ -106,15 +104,15 @@ export class LoginService {
             throw new Error(response.error);
           }
         })
-      )
-      .pipe(
-        catchError(error => throwError(new Error("Unexpected error occured!")))
       );
   }
 
   resetPasswordRequest(email: string): Observable<boolean> {
     return this.http
       .post<any>(`${this.authURL}/customer-reset-password-requested`, { email })
+      .pipe(
+        catchError(error => throwError(new Error("Unexpected error occured!")))
+      )
       .pipe<any>(
         map(response => {
           if (response && response.success === true) {
@@ -123,15 +121,15 @@ export class LoginService {
             throw new Error(response.error);
           }
         })
-      )
-      .pipe(
-        catchError(error => throwError(new Error("Unexpected error occured!")))
       );
   }
 
   resetPassword(email: string, password: string): Observable<boolean> {
     return this.http
       .post<any>(`${this.authURL}/customer-reset-password`, { email, password })
+      .pipe(
+        catchError(error => throwError(new Error("Unexpected error occured!")))
+      )
       .pipe<any>(
         map(response => {
           if (response && response.success === true) {
@@ -140,9 +138,6 @@ export class LoginService {
             throw new Error(response.error);
           }
         })
-      )
-      .pipe(
-        catchError(error => throwError(new Error("Unexpected error occured!")))
       );
   }
 
@@ -151,6 +146,9 @@ export class LoginService {
       .post<any>(`${this.authURL}/customer-reset-password-validate-token`, {
         token
       })
+      .pipe(
+        catchError(error => throwError(new Error("Unexpected error occured!")))
+      )
       .pipe<any>(
         map(response => {
           if (response && response.success === true) {
@@ -159,9 +157,32 @@ export class LoginService {
             throw new Error(response.error);
           }
         })
-      )
+      );
+  }
+
+  confirmationValidateToken(token: string): Observable<string> {
+    return this.http
+      .post<any>(`${this.authURL}/customer-confirmation-validate-token`, {
+        token
+      })
       .pipe(
         catchError(error => throwError(new Error("Unexpected error occured!")))
+      )
+      .pipe<any>(
+        map(response => {
+          if (response && response.success === true) {
+            localStorage.setItem(
+              "oot_user_token",
+              JSON.stringify(response.user)
+            );
+
+            this.currentUser = response.user;
+
+            return response.user;
+          } else {
+            throw new Error(response.error);
+          }
+        })
       );
   }
 

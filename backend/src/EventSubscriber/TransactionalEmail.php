@@ -9,6 +9,7 @@ use App\Event\CustomerAutoRegistered;
 use App\Event\CustomerRegistered;
 use App\Event\OrderPlaced;
 use App\Event\CustomerResetPasswordRequested;
+use App\Event\CustomerConfirmationPended;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -39,6 +40,7 @@ class TransactionalEmail implements EventSubscriberInterface
             CustomerRegistered::class => 'onCustomerRegistered',
             CustomerResetPasswordRequested::class => 'onCustomerResetPasswordRequested',
             OrderPlaced::class => 'onOrderPlaced',
+            CustomerConfirmationPended::class => 'onCustomerConfirmationPended'
         ];
     }
 
@@ -117,6 +119,34 @@ class TransactionalEmail implements EventSubscriberInterface
             ->html($htmlTemplate->render([
                 'name' => $customer->getFirstName(),
                 'resetUri' => $resetUri
+                ]
+            ));
+
+        $this->mailer->send($email);
+    }
+
+    public function onCustomerConfirmationPended(CustomerConfirmationPended $event): void
+    {
+        $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = 'customer.confirmationPended'");
+
+        if (!$notification) {
+            return;
+        }
+
+        $customer = $event->getCustomer();
+        $confirmationUri = $event->getConfirmationUri();
+
+        $textTemplate = $this->twig->createTemplate($notification['content']);
+        $htmlTemplate = $this->twig->createTemplate($notification['content_rich']);
+
+        $email = (new Email())
+            ->from(new Address($notification['from_email'], $notification['from_name']))
+            ->to($customer->getEmail())
+            ->subject($notification['title'])
+            ->text($textTemplate->render(['name' => $customer->getFirstName()]))
+            ->html($htmlTemplate->render([
+                'name' => $customer->getFirstName(),
+                'confirmationUri' => $confirmationUri
                 ]
             ));
 

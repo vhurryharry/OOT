@@ -35,6 +35,12 @@ const routes: Routes = [
     loadChildren: "./auth/signup/signup.module#SignupModule"
   },
   {
+    path: "email-confirmation",
+    component: CondensedComponent,
+    loadChildren:
+      "./auth/email-confirmation/email-confirmation.module#EmailConfirmationModule"
+  },
+  {
     path: "forgot-pwd",
     component: CondensedComponent,
     loadChildren: "./auth/forgot-pwd/forgot-pwd.module#ForgotPwdModule"
