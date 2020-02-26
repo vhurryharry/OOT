@@ -48,17 +48,13 @@ class CustomerRepository
     public function resetPassword(Customer $customer, string $newPassword): Customer {
         $customer->setPassword($this->encoder->encodePassword($customer, $newPassword));
 
-        $this->db->update('customer', $customer->toDatabase());
-
-        return $customer;
+        $this->updateUser($customer);
     }
 
     public function confirmUser(Customer $customer): Customer {
         $customer->setStatus(Customer::ACTIVE);
 
-        $this->db->update('customer', $customer->toDatabase());
-
-        return $customer;
+        $this->updateUser($customer);
     }
 
     public function register(array $form): Customer
@@ -97,6 +93,12 @@ class CustomerRepository
             'customer',
             $customer->toDatabase(),
         );
+
+        return $customer;
+    }
+
+    public function updateUser(Customer $customer): Customer {
+        $this->db->update('customer', $customer->toDatabase());
 
         return $customer;
     }

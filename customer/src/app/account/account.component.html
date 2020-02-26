@@ -1,0 +1,139 @@
+<div class="screen-container">
+
+  <app-header [lightHeader]="false"></app-header>
+
+  <div class="row section account-container">
+
+    <div class="col-12 account-greetings-section">
+      <div class="account-greetings-text-section">
+        <img src="/assets/images/images/auth/avatar.png" class="account-greetings-avatar" />
+        <h4>{{ greeting }}</h4>
+      </div>
+
+      <a href="/course" class="sm-cta-primary md-buttons">
+        Enroll in a new course
+      </a>
+    </div>
+
+    <div class="col-12 row account-profile-section">
+
+      <div class="col-3 account-profile-left-nav-section">
+
+        <h5 class="account-profile-left-nav-heading">Profile</h5>
+
+        <nav class="nav flex-column account-profile-left-nav md-body-list">
+          <a class="nav-link active" href="#">
+            <img src="/assets/images/s-icons/edit-profile.png" />
+            Edit Profile
+          </a>
+          <a class="nav-link" href="#">
+            <img src="/assets/images/s-icons/password.png" />
+            Password
+          </a>
+          <a class="nav-link" href="#">
+            <img src="/assets/images/s-icons/courses.png" />
+            My Courses
+          </a>
+          <a class="nav-link" href="#">
+            <img src="/assets/images/s-icons/wallet.png" />
+            Payment Methods
+          </a>
+          <a class="nav-link" href="#">
+            <img src="/assets/images/s-icons/social.png" />
+            Social Profiles
+          </a>
+
+          <div class="divider"></div>
+
+          <a class="nav-link" href="#">
+            <img src="/assets/images/s-icons/log-out.png" />
+            Log Out
+          </a>
+        </nav>
+      </div>
+
+      <div class="col-9 account-profile-information-section row">
+
+        <div class="account-profile-edit-profile-section col-6">
+          <h5>
+            Edit Profile
+          </h5>
+
+          <div class="account-profile-row account-profile-edit-avatar-row">
+            <img src="{{ userInfo.avatar }}" class="account-profile-avatar" />
+
+            <div class="account-profile-edit-avatar-buttons">
+              <button class="sm-ghost md-buttons" (click)="onUpdateAvatar()" type="button">
+                Update
+              </button>
+
+              <input type="file" id="account-profile-avatar" hidden (change)="onUpdateAvatarSource($event)" />
+
+              <button class="icon-button">
+                <img src="/assets/images/s-icons/delete.png" />
+              </button>
+            </div>
+          </div>
+
+          <div class="account-profile-row account-profile-divider"></div>
+
+          <div class="account-profile-row">
+            <div class="sm-body-text account-profile-label">
+              First name
+            </div>
+            <input type="text" class="form-control md-input md-body-text" id="firstName" name="firstName"
+              placeholder="What's your first name?" [(ngModel)]="userInfo.firstName">
+          </div>
+
+          <div class="account-profile-row">
+            <div class="sm-body-text account-profile-label">
+              Last name
+            </div>
+            <input type="text" class="form-control md-input md-body-text" id="lastName" name="lastName"
+              placeholder="What's your last name?" [(ngModel)]="userInfo.lastName">
+          </div>
+
+          <div class="account-profile-row">
+            <div class="sm-body-text account-profile-label">
+              Email address
+            </div>
+            <input type="email" class="form-control md-input md-body-text" id="email" name="email"
+              placeholder="you@example.com" [(ngModel)]="userInfo.login" readonly>
+          </div>
+
+          <div class="account-profile-row">
+            <div class="sm-body-text account-profile-label">
+              Website
+            </div>
+            <input type="text" class="form-control md-input md-body-text" id="website" name="website"
+              placeholder="example.com" [(ngModel)]="userInfo.website">
+          </div>
+
+          <div class="account-profile-row">
+            <div class="sm-body-text account-profile-label">
+              Bio (optional)
+            </div>
+            <textarea class="form-control md-input md-body-text" name="bio" id="bio" rows="3"
+              placeholder="Tell about yourself" [(ngModel)]="userInfo.bio"></textarea>
+          </div>
+
+          <div class="account-profile-row">
+            <div class="sm-body-text account-profile-label">
+              Business (options)
+            </div>
+            <input type="text" class="form-control md-input md-body-text" id="business" name="business"
+              placeholder="Where do you work?" [(ngModel)]="userInfo.occupation">
+          </div>
+
+          <div class="account-profile-row">
+            <button class="btn md-cta account-profile-save-button" type="button" (click)="onSaveChanges()">
+              <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" [hidden]="!loading"></span>
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

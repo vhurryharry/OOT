@@ -60,12 +60,13 @@
       <li class="nav-item dropdown">
         <a class="nav-link" href="#" id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
-          <img src="/assets/images/images/auth/avatar.png" class="user-avatar" />
+          <img src="{{userAvatar}}" class="user-avatar" />
           &nbsp; {{userName}}
         </a>
 
         <div class="dropdown-menu" aria-labelledby="userDropdown">
           <div class="md-body-text dropdown-menu-content">
+            <a class="dropdown-item" href="/account">Account</a>
             <button class="dropdown-item" (click)="logout()">Log out</button>
           </div>
         </div>

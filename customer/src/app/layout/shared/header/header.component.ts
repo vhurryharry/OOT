@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
   public lightHeader = false;
   private loggedIn = false;
   private userName = "";
+  private userAvatar = "";
   private menuExpanded = false;
 
   @HostListener("window:scroll", ["$event"])
@@ -33,6 +34,11 @@ export class HeaderComponent implements OnInit {
     if (this.loggedIn) {
       const user = this.loginService.getCurrentUser();
       this.userName = user.firstName + " " + user.lastName;
+      this.userAvatar = user.avatar;
+
+      if (!this.userAvatar || this.userAvatar === "") {
+        this.userAvatar = "/assets/images/images/auth/avatar.png";
+      }
     }
   }
 

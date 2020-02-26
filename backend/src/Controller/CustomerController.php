@@ -19,6 +19,7 @@ use App\Form\RegisterType;
 use App\Repository\CustomerRepository;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class CustomerController extends AbstractController
 {
@@ -221,6 +222,22 @@ class CustomerController extends AbstractController
 
         return $this->render('account.html.twig', [
             'reservations' => $reservations,
+        ]);
+    }
+
+    /**
+     * @Route("/customer", methods={"PUT"})
+     */
+    public function updateUser(Request $request)
+    {
+        $customer = $request->get("user");
+        $customer = Customer::fromDatabase($customer);
+
+        $this->customerRepository->updateUser($customer);
+
+        return new JsonResponse([
+            'success' => true,
+            'error' => null
         ]);
     }
 }

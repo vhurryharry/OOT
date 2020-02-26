@@ -71,6 +71,31 @@ class Customer implements UserInterface, JsonSerializable
     protected $acceptsMarketing = false;
 
     /**
+     * @var ?string
+     */
+    protected $bio;
+
+    /**
+     * @var ?string
+     */
+    protected $website;
+
+    /**
+     * @var ?string
+     */
+    protected $instagram;
+
+    /**
+     * @var ?string
+     */
+    protected $twitter;
+
+    /**
+     * @var ?string
+     */
+    protected $facebook;
+
+    /**
      * @var Carbon
      */
     protected $createdAt;
@@ -129,6 +154,11 @@ class Customer implements UserInterface, JsonSerializable
      * @var ?string
      */
     protected $mfa;
+
+    /**
+     * @var ?bytea
+     */
+    protected $avatar;
 
     public function __construct(string $login = null, UuidInterface $id = null)
     {
@@ -262,6 +292,56 @@ class Customer implements UserInterface, JsonSerializable
         $this->acceptsMarketing = $acceptsMarketing;
     }
 
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(string $bio): void
+    {
+        $this->bio = $bio;
+    }
+
+    public function getWebsite(): ?string
+    {
+        return $this->website;
+    }
+
+    public function setWebsite(string $website): void
+    {
+        $this->website = $website;
+    }
+
+    public function getInstagram(): ?string
+    {
+        return $this->instagram;
+    }
+
+    public function setInstagram(string $instagram): void
+    {
+        $this->instagram = $instagram;
+    }
+
+    public function getTwitter(): ?string
+    {
+        return $this->twitter;
+    }
+
+    public function setTwitter(string $twitter): void
+    {
+        $this->twitter = $twitter;
+    }
+
+    public function getFacebook(): ?string
+    {
+        return $this->facebook;
+    }
+
+    public function setFacebook(string $facebook): void
+    {
+        $this->facebook = $facebook;
+    }
+
     public function getCreatedAt(): Carbon
     {
         return $this->createdAt;
@@ -391,6 +471,16 @@ class Customer implements UserInterface, JsonSerializable
         $this->mfa = $mfa;
     }
 
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar($avatar): void
+    {
+        $this->avatar = $avatar;
+    }
+
     public static function fromJson(array $row): Customer
     {
         $instance = new Customer($row['login']);
@@ -417,6 +507,26 @@ class Customer implements UserInterface, JsonSerializable
 
         if (isset($row['acceptsMarketing'])) {
             $instance->setAcceptsMarketing((bool) $row['acceptsMarketing']);
+        }
+
+        if (isset($row['bio'])) {
+            $instance->setBio($row['bio']);
+        }
+
+        if (isset($row['website'])) {
+            $instance->setWebsite($row['website']);
+        }
+
+        if (isset($row['instagram'])) {
+            $instance->setInstagram($row['instagram']);
+        }
+
+        if (isset($row['facebook'])) {
+            $instance->setFacebook($row['facebook']);
+        }
+
+        if (isset($row['twitter'])) {
+            $instance->setTwitter($row['twitter']);
         }
 
         if (isset($row['createdAt'])) {
@@ -471,6 +581,10 @@ class Customer implements UserInterface, JsonSerializable
             $instance->setMfa($row['mfa']);
         }
 
+        if (isset($row['avatar'])) {
+            $instance->setAvatar($row['avatar']);
+        }
+
         return $instance;
     }
 
@@ -500,6 +614,26 @@ class Customer implements UserInterface, JsonSerializable
 
         if (isset($row['accepts_marketing'])) {
             $instance->setAcceptsMarketing($row['accepts_marketing']);
+        }
+
+        if (isset($row['bio'])) {
+            $instance->setBio($row['bio']);
+        }
+
+        if (isset($row['website'])) {
+            $instance->setWebsite($row['website']);
+        }
+
+        if (isset($row['instagram'])) {
+            $instance->setInstagram($row['instagram']);
+        }
+
+        if (isset($row['facebook'])) {
+            $instance->setFacebook($row['facebook']);
+        }
+
+        if (isset($row['twitter'])) {
+            $instance->setTwitter($row['twitter']);
         }
 
         if (isset($row['created_at'])) {
@@ -550,6 +684,10 @@ class Customer implements UserInterface, JsonSerializable
             $instance->setMfa($row['mfa']);
         }
 
+        if (isset($row['avatar'])) {
+            $instance->setAvatar($row['avatar']);
+        }
+
         return $instance;
     }
 
@@ -562,6 +700,11 @@ class Customer implements UserInterface, JsonSerializable
             'status' => $this->status,
             'confirmation_token' => $this->confirmationToken,
             'accepts_marketing' => $this->acceptsMarketing,
+            'bio' => $this->bio,
+            'website' => $this->website,
+            'instagram' => $this->instagram,
+            'twitter' => $this->twitter,
+            'facebook' => $this->facebook,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
             'registered_at' => $this->registeredAt->format('Y-m-d H:i:s'),
             'updated_at' => $this->updatedAt->format('Y-m-d H:i:s'),
@@ -576,6 +719,7 @@ class Customer implements UserInterface, JsonSerializable
             'birth_date' => $this->birthDate ? $this->birthDate->format('Y-m-d H:i:s') : null,
             'password' => $this->password,
             'mfa' => $this->mfa,
+            'avatar' => $this->avatar,
         ];
     }
 
@@ -588,6 +732,11 @@ class Customer implements UserInterface, JsonSerializable
             'status' => $this->status,
             'confirmationToken' => $this->confirmationToken,
             'acceptsMarketing' => $this->acceptsMarketing,
+            'bio' => $this->bio,
+            'website' => $this->website,
+            'instagram' => $this->instagram,
+            'twitter' => $this->twitter,
+            'facebook' => $this->facebook,
             'createdAt' => $this->createdAt->format('Y-m-d\TH:i:s'),
             'registeredAt' => $this->registeredAt->format('Y-m-d\TH:i:s'),
             'updatedAt' => $this->updatedAt->format('Y-m-d\TH:i:s'),
@@ -602,6 +751,7 @@ class Customer implements UserInterface, JsonSerializable
             'birthDate' => $this->birthDate ? $this->birthDate->format('Y-m-d\TH:i:s') : null,
             'password' => $this->password,
             'mfa' => $this->mfa,
+            'avatar' => $this->avatar,
         ];
     }
 }

@@ -136,17 +136,18 @@ class AuthController extends AbstractController
 			'error' => null,
 			'user' => [
 				'id' => $customer->getId(),
-				'metadata' => $customer->getMetadata(),
 				'type' => $customer->getType(),
-				'status' => $customer->getStatus(),
-				'acceptsMarketing' => $customer->acceptsMarketing(),
-				'email' => $customer->getLogin(),
+				'login' => $customer->getLogin(),
 				'firstName' => $customer->getFirstName(),
 				'lastName' => $customer->getLastName(),
-				'tagline' => $customer->getTagline(),
 				'occupation' => $customer->getOccupation(),
 				'birthDate' => $customer->getBirthDate(),
-				'mfa' => $customer->getMfa(),
+				'bio' => $customer->getBio(),
+				'website' => $customer->getWebsite(),
+				'instagram' => $customer->getInstagram(),
+				'twitter' => $customer->getTwitter(),
+				'facebook' => $customer->getFacebook(),
+				'avatar' => $customer->getAvatar(),
 			]
 		]);
 	}
@@ -248,7 +249,21 @@ class AuthController extends AbstractController
 
                 return new JsonResponse([
                     'success' => true,
-                    'user' => $customer,
+                    'user' => [
+                        'id' => $customer->getId(),
+                        'type' => $customer->getType(),
+                        'login' => $customer->getLogin(),
+                        'firstName' => $customer->getFirstName(),
+                        'lastName' => $customer->getLastName(),
+                        'occupation' => $customer->getOccupation(),
+                        'birthDate' => $customer->getBirthDate(),
+                        'bio' => $customer->getBio(),
+                        'website' => $customer->getWebsite(),
+                        'instagram' => $customer->getInstagram(),
+                        'twitter' => $customer->getTwitter(),
+                        'facebook' => $customer->getFacebook(),
+                        'avatar' => $customer->getAvatar(),
+                    ],
                     'error' => null
                 ]);
             }
@@ -256,30 +271,26 @@ class AuthController extends AbstractController
         catch(ExpiredException $ex) {
             return new JsonResponse([
                 'success' => false,
-                'error' => "This token has been expired!",
-                'decoded' => $decoded
+                'error' => "This token has been expired!"
             ]);
         }
         catch(SignatureInvalidException $ex) {
             return new JsonResponse([
                 'success' => false,
-                'error' => "Invalid token provided!",
-                'decoded' => $decoded
+                'error' => "Invalid token provided!"
             ]);
         }
         catch(\Exception $ex) {
             return new JsonResponse([
                 'success' => false,
-                'error' => "Unexpected error occured while validating the token!",
-                'decoded' => $decoded
+                'error' => "Unexpected error occured while validating the token!"
             ]);
         }
 
 		return new JsonResponse([
             'success' => true,
             'email' => '',
-			'error' => null,
-            'decoded' => $decoded
+			'error' => null
 		]);
 	}
     

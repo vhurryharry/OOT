@@ -28,7 +28,9 @@
   }
 }
 
-.lg-cta-primary {
+.lg-cta-primary,
+.sm-cta-primary,
+.sm-ghost {
   border-radius: 4px;
   background-color: $white;
   color: $black;
@@ -49,6 +51,8 @@
 .lg-cta,
 .lg-cta-primary {
   padding: 22px 24px;
+
+  height: 64px;
 }
 
 .md-cta {
@@ -60,6 +64,8 @@
   font-size: 17px;
   line-height: 20px;
 
+  height: 56px;
+
   @media #{$mobile} {
     padding: 14px 20px 16px;
 
@@ -68,11 +74,40 @@
   }
 }
 
-.sm-cta {
+.sm-cta-primary,
+.sm-cta,
+.sm-ghost {
   padding: 14px 20px 16px;
+  height: 48px;
 
   &.md-buttons {
     text-align: center;
+  }
+}
+
+.sm-ghost {
+  border: 1px solid $gray500;
+  min-width: 7vw;
+}
+
+.icon-button {
+  width: 48px;
+  height: 48px;
+  pad: 12px;
+
+  background-color: $white;
+  border: 1px solid $gray500;
+  border-radius: 4px;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+
+  &:hover {
+    img {
+      filter: brightness(4);
+    }
   }
 }
 

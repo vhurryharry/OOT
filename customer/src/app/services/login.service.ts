@@ -6,18 +6,19 @@ import { Observable, pipe, throwError } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 
 export interface IUserInfo {
-  id: number;
-  metadata: string;
+  id: string;
   type: string;
-  email: string;
-  status: string;
+  login: string;
   firstName: string;
   lastName: string;
-  acceptsMarketing: boolean;
-  tagline: string;
   occupation: string;
   birthDate: Date;
-  mfa: string;
+  bio: string;
+  website: string;
+  instagram: string;
+  twitter: string;
+  facebook: string;
+  avatar: string;
 }
 
 @Injectable()
@@ -44,7 +45,7 @@ export class LoginService {
     return this.currentUser;
   }
 
-  getCurrentUserId(): number {
+  getCurrentUserId(): string {
     return this.currentUser.id;
   }
 
