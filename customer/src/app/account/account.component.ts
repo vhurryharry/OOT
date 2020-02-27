@@ -16,6 +16,17 @@ export class AccountComponent implements OnInit {
   userInfo: IUserInfo;
   avatarSource: File = null;
 
+  oldPassword = "";
+  newPassword = "";
+
+  showPassword = false;
+
+  loading = false;
+  success = [null, null, null, null, null, null];
+  errorMessage = [null, null, null, null, null, null];
+
+  selectedNav = 1;
+
   constructor(
     private loginService: LoginService,
     private router: Router,
@@ -62,7 +73,50 @@ export class AccountComponent implements OnInit {
     reader.readAsDataURL(this.avatarSource);
   }
 
-  onSaveChanges() {
-    this.accountService.saveUserData(this.userInfo).subscribe(result => {});
+  onSaveChanges(navIndex = 0) {
+    this.loading = true;
+    this.errorMessage[navIndex] = null;
+    this.accountService.saveUserData(this.userInfo).subscribe((result: any) => {
+      this.loading = false;
+      if (result.success === false) {
+        this.errorMessage[navIndex] = result.error;
+        this.success[navIndex] = false;
+      } else {
+        this.success[navIndex] = true;
+        this.loginService.updateUser(this.userInfo);
+      }
+    });
+  }
+
+  onSavePasswordChanges() {
+    this.loading = true;
+    this.errorMessage[2] = null;
+    this.accountService
+      .changePassword(this.userInfo.login, this.oldPassword, this.newPassword)
+      .subscribe((result: any) => {
+        this.loading = false;
+        if (result.success === false) {
+          this.errorMessage[2] = result.error;
+          this.success[2] = false;
+        } else {
+          this.success[2] = true;
+
+          this.oldPassword = "";
+          this.newPassword = "";
+        }
+      });
+  }
+
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
+  }
+
+  onClickNav(navIndex) {
+    this.selectedNav = navIndex;
+
+    if (navIndex === 0) {
+      this.loginService.logOut();
+      this.router.navigateByUrl("/");
+    }
   }
 }

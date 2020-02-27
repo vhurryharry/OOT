@@ -174,40 +174,6 @@ class CustomerController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="register")
-     */
-    public function register(Request $request)
-    {
-        $form = $this->createForm(RegisterType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $customer = $this->customerRepository->register($form->getData());
-            $this->addFlash('info', 'You will receive a confirmation email shortly.');
-            $this->eventDispatcher->dispatch(new CustomerRegistered($customer));
-
-            return $this->redirectToRoute('homepage');
-        }
-
-        return $this->render('register.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/login", name="login")
-     */
-    public function login(Request $request, AuthenticationUtils $auth)
-    {
-        $form = $this->createForm(LoginType::class);
-
-        return $this->render('login.html.twig', [
-            'form' => $form->createView(),
-            'error' => $auth->getLastAuthenticationError(),
-        ]);
-    }
-
-    /**
      * @Route("/account", name="account")
      */
     public function account(Request $request)
@@ -235,6 +201,30 @@ class CustomerController extends AbstractController
 
         $this->customerRepository->updateUser($customer);
 
+        return new JsonResponse([
+            'success' => true,
+            'error' => null
+        ]);
+    }
+
+    /**
+     * @Route("/password", methods={"PUT"})
+     */
+    public function updatePassword(Request $request)
+    {
+        $data = $request->get("user");
+        $customer = $this->customerRepository->findByLogin($data['login']);
+        $customer = Customer::fromDatabase($customer);
+
+        if(!$this->customerRepository->checkPassword($customer, $data['oldPassword'])) { 
+            return new JsonResponse([
+                'success' => false,
+                'error' => "Invalid Password!"
+            ]);           
+        }
+
+        $this->customerRepository->updatePassword($customer, $data['newPassword']);
+        
         return new JsonResponse([
             'success' => true,
             'error' => null

@@ -471,12 +471,12 @@ class Customer implements UserInterface, JsonSerializable
         $this->mfa = $mfa;
     }
 
-    public function getAvatar()
+    public function getAvatar(): ?string
     {
         return $this->avatar;
     }
 
-    public function setAvatar($avatar): void
+    public function setAvatar(string $avatar): void
     {
         $this->avatar = $avatar;
     }

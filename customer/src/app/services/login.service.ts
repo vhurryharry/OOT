@@ -85,6 +85,15 @@ export class LoginService {
     this.currentUser = null;
   }
 
+  updateUser(updatedUser): void {
+    this.currentUser = {
+      ...this.currentUser,
+      ...updatedUser
+    };
+
+    localStorage.setItem("oot_user_token", JSON.stringify(this.currentUser));
+  }
+
   register(userInfo: any): Observable<IUserInfo> {
     return this.http
       .post<any>(`${this.authURL}/customer-register`, userInfo)

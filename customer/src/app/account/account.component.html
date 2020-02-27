@@ -22,30 +22,30 @@
         <h5 class="account-profile-left-nav-heading">Profile</h5>
 
         <nav class="nav flex-column account-profile-left-nav md-body-list">
-          <a class="nav-link active" href="#">
+          <a class="nav-link {{selectedNav === 1 ? 'active' : ''}}" role="button" (click)="onClickNav(1)">
             <img src="/assets/images/s-icons/edit-profile.png" />
             Edit Profile
           </a>
-          <a class="nav-link" href="#">
+          <a class="nav-link {{selectedNav === 2 ? 'active' : ''}}" role="button" (click)="onClickNav(2)">
             <img src="/assets/images/s-icons/password.png" />
             Password
           </a>
-          <a class="nav-link" href="#">
+          <a class="nav-link {{selectedNav === 3 ? 'active' : ''}}" role="button" (click)="onClickNav(3)">
             <img src="/assets/images/s-icons/courses.png" />
             My Courses
           </a>
-          <a class="nav-link" href="#">
+          <a class="nav-link {{selectedNav === 4 ? 'active' : ''}}" role="button" (click)="onClickNav(4)">
             <img src="/assets/images/s-icons/wallet.png" />
             Payment Methods
           </a>
-          <a class="nav-link" href="#">
+          <a class="nav-link {{selectedNav === 5 ? 'active' : ''}}" role="button" (click)="onClickNav(5)">
             <img src="/assets/images/s-icons/social.png" />
             Social Profiles
           </a>
 
           <div class="divider"></div>
 
-          <a class="nav-link" href="#">
+          <a class="nav-link" role="button" (click)="onClickNav(0)">
             <img src="/assets/images/s-icons/log-out.png" />
             Log Out
           </a>
@@ -54,7 +54,7 @@
 
       <div class="col-9 account-profile-information-section row">
 
-        <div class="account-profile-edit-profile-section col-6">
+        <div class="account-profile-edit-profile-section col-6" *ngIf="selectedNav === 1">
           <h5>
             Edit Profile
           </h5>
@@ -125,8 +125,97 @@
               placeholder="Where do you work?" [(ngModel)]="userInfo.occupation">
           </div>
 
+          <div class="alert alert-danger" role="alert" [hidden]="!errorMessage[1]">
+            {{errorMessage[1]}}
+          </div>
+
+          <div class="alert alert-success" role="alert" [hidden]="!success[1]">
+            Changes were made successfully!
+          </div>
+
           <div class="account-profile-row">
-            <button class="btn md-cta account-profile-save-button" type="button" (click)="onSaveChanges()">
+            <button class="btn md-cta account-profile-save-button" type="button" (click)="onSaveChanges(1)">
+              <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" [hidden]="!loading"></span>
+              Save Changes
+            </button>
+          </div>
+        </div>
+
+        <div class="account-profile-edit-profile-section col-6" *ngIf="selectedNav === 2">
+          <h5>
+            Password Change
+          </h5>
+
+          <div class="account-profile-row">
+            <div class="sm-body-text account-profile-label">
+              Old Password
+            </div>
+            <input type="password" class="form-control md-input md-body-text" id="oldPassword" name="oldPassword"
+              placeholder="" [(ngModel)]="oldPassword">
+          </div>
+
+          <div *ngIf="!showPassword" class="account-profile-row form-group">
+            <div class="sm-body-text account-profile-label">
+              New Password
+            </div>
+            <input type="password" [(ngModel)]="newPassword" class="form-control md-input md-body-text" placeholder="">
+          </div>
+
+          <div class="alert alert-danger" role="alert" [hidden]="!errorMessage[2]">
+            {{errorMessage[2]}}
+          </div>
+
+          <div class="alert alert-success" role="alert" [hidden]="!success[2]">
+            Password has been changed successfully!
+          </div>
+
+          <div class="account-profile-row">
+            <button class="btn md-cta account-profile-save-button" type="button" (click)="onSavePasswordChanges()">
+              <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" [hidden]="!loading"></span>
+              Save Changes
+            </button>
+          </div>
+        </div>
+
+        <div class="account-profile-edit-profile-section col-6" *ngIf="selectedNav === 5">
+          <h5>
+            Social Profiles
+          </h5>
+
+          <div class="account-profile-row">
+            <div class="sm-body-text account-profile-label">
+              Instagram
+            </div>
+            <input type="text" class="form-control md-input md-body-text" id="instagram" name="instagram"
+              placeholder="Link to your Instagram account" [(ngModel)]="userInfo.instagram">
+          </div>
+
+          <div class="account-profile-row">
+            <div class="sm-body-text account-profile-label">
+              Twitter
+            </div>
+            <input type="text" class="form-control md-input md-body-text" id="twitter" name="twitter"
+              placeholder="Link to your Twitter account" [(ngModel)]="userInfo.twitter">
+          </div>
+
+          <div class="account-profile-row">
+            <div class="sm-body-text account-profile-label">
+              Facebook
+            </div>
+            <input type="text" class="form-control md-input md-body-text" id="facebook" name="facebook"
+              placeholder="Link to your Facebook account" [(ngModel)]="userInfo.facebook">
+          </div>
+
+          <div class="alert alert-danger" role="alert" [hidden]="!errorMessage[5]">
+            {{errorMessage[5]}}
+          </div>
+
+          <div class="alert alert-success" role="alert" [hidden]="!success[5]">
+            Changes were made successfully!
+          </div>
+
+          <div class="account-profile-row">
+            <button class="btn md-cta account-profile-save-button" type="button" (click)="onSaveChanges(5)">
               <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" [hidden]="!loading"></span>
               Save Changes
             </button>

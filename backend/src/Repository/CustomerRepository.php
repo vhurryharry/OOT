@@ -97,6 +97,24 @@ class CustomerRepository
         return $customer;
     }
 
+    public function checkPassword(Customer $customer, string $password): bool 
+    {
+        if(!$this->encoder->isPasswordValid($customer, $password)) {
+			return false;
+        }
+
+        return true;
+    }
+
+    public function updatePassword(Customer $customer, string $newPassword): Customer 
+    {
+        $customer->setPassword($this->encoder->encodePassword($customer, $newPassword));
+
+        $this->updateUser($customer);
+
+        return $customer;
+    }
+
     public function updateUser(Customer $customer): Customer {
         $this->db->update('customer', $customer->toDatabase());
 

@@ -15,6 +15,21 @@ export class AccountService {
   }
 
   saveUserData(userInfo: IUserInfo) {
-    return this.http.put(this.baseURL + "/customer", { user: userInfo });
+    return this.http.put(this.baseURL + "/customer", {
+      user: {
+        ...userInfo,
+        avatar: ""
+      }
+    });
+  }
+
+  changePassword(login: string, oldPassword: string, newPassword: string) {
+    return this.http.put(this.baseURL + "/password", {
+      user: {
+        login,
+        oldPassword,
+        newPassword
+      }
+    });
   }
 }

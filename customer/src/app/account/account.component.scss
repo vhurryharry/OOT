@@ -51,6 +51,8 @@
   align-items: center;
   justify-content: flex-start;
 
+  cursor: pointer;
+
   color: $gray800;
 
   margin: 0.9vw 0;
@@ -59,6 +61,7 @@
     margin: 0 18px 0 0;
   }
 
+  &:hover,
   &.active {
     color: $black;
 
@@ -122,6 +125,15 @@
       margin: 0 8px;
     }
   }
+}
+
+.password-toggle-button {
+  cursor: pointer;
+  pointer-events: all;
+
+  position: absolute;
+  right: 25px;
+  top: 25px;
 }
 
 @media #{$tablet} {
