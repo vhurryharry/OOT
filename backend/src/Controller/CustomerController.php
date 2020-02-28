@@ -216,8 +216,12 @@ class CustomerController extends AbstractController
     public function updateUserAvatar(string $id, Request $request)
     {
         if ($request->files->get('avatar')) {
-            $uploadedFile = $request->files->get('avatar');
             $tempDirectory = "temp/";
+
+            $filesystem = new Filesystem();
+            $filesystem->mkdir($tempDirectory);
+
+            $uploadedFile = $request->files->get('avatar');
             $uploadedFile->move($tempDirectory, $id.".jpg");
 
             $customer = $this->customerRepository->getCustomer($id);
@@ -234,7 +238,6 @@ class CustomerController extends AbstractController
 
             $customer->setAvatar($avatarUrl);
 
-            $filesystem = new Filesystem();
             $filesystem->remove([$tempDirectory.$id.'.jpg']);
 
             $this->customerRepository->updateUser($customer);
