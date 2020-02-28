@@ -32,7 +32,8 @@ namespace :app do
 		desc 'Setup backend ACL'
 		task :acl do
 			on roles(:app) do
-				within "#{release_path}/backend" do
+                within "#{release_path}/backend" do
+                    execute :chmod, '-R 777 public'
 					execute :setfacl, '-R -m u:www-data:rwX -m u:deploy:rwX var/cache'
 					execute :setfacl, '-dR -m u:www-data:rwx -m u:deploy:rwx var/cache'
 					execute :setfacl, '-R -m u:www-data:rwX -m u:deploy:rwX var/log'
