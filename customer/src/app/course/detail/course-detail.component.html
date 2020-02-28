@@ -5,6 +5,10 @@
 
   <app-header [lightHeader]="false"></app-header>
 
+  <div class="row section course-detail-container" *ngIf="!dataLoaded">
+    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+  </div>
+
   <div class="row section course-detail-container" *ngIf="dataLoaded">
     <div class="col-12 course-detail-header">
       <div class="hero course-detail-city">
@@ -93,7 +97,9 @@
 
       <div class="course-details-instructor-list row">
         <div *ngFor="let instructor of course.instructors" class="col-12 col-sm-4 course-detail-instructor">
-          <img src="/assets/images/images/courses/instructor.png" class="course-detail-instructor-avatar" />
+          <img
+            src="{{(instructor.avatar === null || instructor.avatar === '') ? '/assets/images/images/courses/instructor.png' : instructor.avatar}}"
+            class="course-detail-instructor-avatar" />
           <h5>
             {{instructor.name}}
           </h5>

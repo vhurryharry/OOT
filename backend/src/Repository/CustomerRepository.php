@@ -45,6 +45,14 @@ class CustomerRepository
         );
     }
 
+    public function getCustomer(string $id): array
+    {
+        return $this->db->find(
+            'select * from customer where id = ? and deleted_at is null',
+            [$id]
+        );
+    }
+
     public function resetPassword(Customer $customer, string $newPassword): Customer {
         $customer->setPassword($this->encoder->encodePassword($customer, $newPassword));
 

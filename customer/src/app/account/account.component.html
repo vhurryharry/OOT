@@ -6,7 +6,7 @@
 
     <div class="col-12 account-greetings-section">
       <div class="account-greetings-text-section">
-        <img src="/assets/images/images/auth/avatar.png" class="account-greetings-avatar" />
+        <img src="{{ userInfo.avatar }}" class="account-greetings-avatar" />
         <h4>{{ greeting }}</h4>
       </div>
 
@@ -69,7 +69,7 @@
 
               <input type="file" id="account-profile-avatar" hidden (change)="onUpdateAvatarSource($event)" />
 
-              <button class="icon-button">
+              <button class="icon-button" (click)="onRemoveAvatar()">
                 <img src="/assets/images/s-icons/delete.png" />
               </button>
             </div>

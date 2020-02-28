@@ -20,6 +20,9 @@ use App\Repository\CustomerRepository;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Aws\Sdk;
+use App\Utils\Aws\AwsS3Util;
+use Ramsey\Uuid\Uuid;
 
 class CustomerController extends AbstractController
 {
@@ -204,6 +207,49 @@ class CustomerController extends AbstractController
         return new JsonResponse([
             'success' => true,
             'error' => null
+        ]);
+    }
+
+    /**
+     * @Route("/avatar/{id}", methods={"POST"})
+     */
+    public function updateUserAvatar(string $id, Request $request)
+    {
+        if ($request->files->get('avatar')) {
+            $uploadedFile = $request->files->get('avatar');
+            $tempDirectory = "temp/";
+            $uploadedFile->move($tempDirectory, $id.".jpg");
+
+            $customer = $this->customerRepository->getCustomer($id);
+            $customer = Customer::fromDatabase($customer);
+
+            $sharedConfig = [
+                'region' => 'us-east-2',
+                'version' => 'latest'
+            ];
+            $sdk = new Sdk($sharedConfig);
+
+            $s3 = new AwsS3Util($sdk);
+            $avatarUrl = $s3->putObject('ootdev', $tempDirectory.$id.".jpg", "avatars/".Uuid::uuid4().'.jpg');
+
+            $customer->setAvatar($avatarUrl);
+
+            $filesystem = new Filesystem();
+            $filesystem->remove([$tempDirectory.$id.'.jpg']);
+
+            $this->customerRepository->updateUser($customer);
+
+            return new JsonResponse([
+                'success' => true,
+                "avatar" => $avatarUrl,
+                'error' => null
+            ]);
+        }
+
+        return new JsonResponse([
+            'success' => false,
+            "avatar" => "",
+            'error' => "No file to upload"
         ]);
     }
 

@@ -6,11 +6,18 @@ parameters:
   env(DB_PASSWORD): "123456"
   env(STRIPE_PKEY): "pk_test"
   env(STRIPE_SKEY): "sk_test"
+  aws_sdk:
+    version: 'latest'
+    region: 'eu-east-2'
+    credentials:
+      key: '%env(AWS_ACCESS_KEY_ID)%'
+      secret: '%env(AWS_SECRET_ACCESS_KEY)%'
 
 services:
   _defaults:
     autowire: true
     autoconfigure: true
+    public: false
 
   App\:
     resource: '../src/*'
@@ -40,3 +47,7 @@ services:
     tags:
       - { name: kernel.event_listener, event: kernel.request, method: identifyRequest, }
       - { name: kernel.event_listener, event: kernel.response, method: identifyResponse, }
+
+  Aws\Sdk:
+    arguments:
+        - '%aws_sdk%'

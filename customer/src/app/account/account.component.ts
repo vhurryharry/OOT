@@ -24,6 +24,7 @@ export class AccountComponent implements OnInit {
   loading = false;
   success = [null, null, null, null, null, null];
   errorMessage = [null, null, null, null, null, null];
+  savingAvatar = false;
 
   selectedNav = 1;
 
@@ -73,17 +74,42 @@ export class AccountComponent implements OnInit {
     reader.readAsDataURL(this.avatarSource);
   }
 
+  onRemoveAvatar() {
+    this.avatarSource = null;
+    this.userInfo.avatar = "/assets/images/images/auth/avatar.png";
+  }
+
   onSaveChanges(navIndex = 0) {
     this.loading = true;
     this.errorMessage[navIndex] = null;
+
     this.accountService.saveUserData(this.userInfo).subscribe((result: any) => {
-      this.loading = false;
       if (result.success === false) {
+        this.loading = false;
         this.errorMessage[navIndex] = result.error;
         this.success[navIndex] = false;
       } else {
-        this.success[navIndex] = true;
-        this.loginService.updateUser(this.userInfo);
+        if (this.avatarSource !== null) {
+          this.loading = true;
+          this.accountService
+            .saveUserAvatar(this.avatarSource, this.userInfo)
+            .subscribe((avatarResult: any) => {
+              this.loading = false;
+              this.avatarSource = null;
+              if (avatarResult.success === false) {
+                this.errorMessage[navIndex] = avatarResult.error;
+                this.success[navIndex] = false;
+              } else {
+                this.success[navIndex] = true;
+                this.userInfo.avatar = avatarResult.avatar;
+                this.loginService.updateUser(this.userInfo);
+              }
+            });
+        } else {
+          this.loading = false;
+          this.success[navIndex] = true;
+          this.loginService.updateUser(this.userInfo);
+        }
       }
     });
   }

@@ -23,6 +23,13 @@ export class AccountService {
     });
   }
 
+  saveUserAvatar(newAvatar: File, userInfo: IUserInfo) {
+    const formData = new FormData();
+    formData.append("avatar", newAvatar);
+
+    return this.http.post(this.baseURL + "/avatar/" + userInfo.id, formData);
+  }
+
   changePassword(login: string, oldPassword: string, newPassword: string) {
     return this.http.put(this.baseURL + "/password", {
       user: {
