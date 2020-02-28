@@ -25,6 +25,7 @@ namespace :app do
 					execute :sudo, "service #{fetch(:php_fpm_service)} restart"
 					execute :sudo, "service nginx restart"
 					execute :sudo, "pm2 kill"
+                    execute :chmod, '-R 777 public'
 				end
 			end
 		end
@@ -33,7 +34,6 @@ namespace :app do
 		task :acl do
 			on roles(:app) do
                 within "#{release_path}/backend" do
-                    execute :chmod, '-R 777 public'
 					execute :setfacl, '-R -m u:www-data:rwX -m u:deploy:rwX var/cache'
 					execute :setfacl, '-dR -m u:www-data:rwx -m u:deploy:rwx var/cache'
 					execute :setfacl, '-R -m u:www-data:rwX -m u:deploy:rwX var/log'
