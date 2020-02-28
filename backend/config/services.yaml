@@ -8,7 +8,7 @@ parameters:
   env(STRIPE_SKEY): "sk_test"
   aws_sdk:
     version: 'latest'
-    region: 'eu-east-2'
+    region: 'us-east-2'
     credentials:
       key: '%env(AWS_ACCESS_KEY_ID)%'
       secret: '%env(AWS_SECRET_ACCESS_KEY)%'
