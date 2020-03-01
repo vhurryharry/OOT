@@ -229,7 +229,11 @@ class CustomerController extends AbstractController
 
             $sharedConfig = [
                 'region' => 'us-east-2',
-                'version' => 'latest'
+                'version' => 'latest',
+                'credentials' => [
+                    'key' => 'AKIA2BEPBX4AEHLFSNEM',
+                    'secret' => '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'
+                ]
             ];
             $sdk = new Sdk($sharedConfig);
 
