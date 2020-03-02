@@ -177,24 +177,6 @@ class CustomerController extends AbstractController
     }
 
     /**
-     * @Route("/account", name="account")
-     */
-    public function account(Request $request)
-    {
-        $customer = $this->getUser();
-
-        if (!$customer) {
-            throw new NotFoundHttpException();
-        }
-
-        $reservations = $this->customerRepository->findReservations($customer);
-
-        return $this->render('account.html.twig', [
-            'reservations' => $reservations,
-        ]);
-    }
-
-    /**
      * @Route("/customer", methods={"PUT"})
      */
     public function updateUser(Request $request)
@@ -225,6 +207,11 @@ class CustomerController extends AbstractController
             $uploadedFile->move($tempDirectory, $id.".jpg");
 
             $customer = $this->customerRepository->getCustomer($id);
+
+            if (!$customer) {
+                throw new NotFoundHttpException();
+            }
+
             $customer = Customer::fromDatabase($customer);
 
             $sharedConfig = [
@@ -281,6 +268,45 @@ class CustomerController extends AbstractController
         return new JsonResponse([
             'success' => true,
             'error' => null
+        ]);
+    }
+
+
+    /**
+     * @Route("/my-courses/{id}", methods={"GET"})
+     */
+    public function getMyCourses(string $id)
+    {
+        $customer = $this->customerRepository->getCustomer($id);
+        
+        if (!$customer) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => 'User not found!'
+            ]);
+        }
+
+        $customer = Customer::fromDatabase($customer);
+
+        $reservations = $this->customerRepository->findReservations($customer);
+        $courses = [];
+
+        $today = date("Y-m-d");
+
+        foreach($reservations as $reservation) {
+            $courses[] = [
+                'id' => $reservation['course_id'],
+                'city' => $reservation['city'],
+                'start_date' => $reservation['start_date'],
+                'completed' => $reservation['start_date'] < $today ? true : false
+            ];
+
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'error' => null,
+            'courses' => $courses
         ]);
     }
 }

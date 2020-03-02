@@ -135,4 +135,9 @@ class CustomerRepository
 
         return $generator->generateString($size);
     }
+
+    public function getMyCourses(string $id) 
+    {
+        $courseReservations = $this->db->findAll('select  * from course_reservation where customer_id = ?', $id);
+    }
 }

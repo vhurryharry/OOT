@@ -18,6 +18,7 @@ export class AccountComponent implements OnInit {
 
   oldPassword = "";
   newPassword = "";
+  myCourses = [];
 
   showPassword = false;
 
@@ -26,7 +27,8 @@ export class AccountComponent implements OnInit {
   errorMessage = [null, null, null, null, null, null];
   savingAvatar = false;
 
-  selectedNav = 1;
+  selectedNav = -2;
+  selectedNavString = "Edit Profile";
 
   constructor(
     private loginService: LoginService,
@@ -53,7 +55,15 @@ export class AccountComponent implements OnInit {
       this.greeting = "Good Evening, ";
     }
 
-    this.greeting += this.userInfo.firstName;
+    this.greeting += this.userInfo.firstName + "!";
+
+    this.accountService
+      .getMyCourses(this.userInfo.id)
+      .subscribe((result: any) => {
+        if (result.success === true) {
+          this.myCourses = result.courses;
+        }
+      });
   }
 
   ngOnInit() {}
@@ -140,9 +150,39 @@ export class AccountComponent implements OnInit {
   onClickNav(navIndex) {
     this.selectedNav = navIndex;
 
-    if (navIndex === 0) {
+    switch (navIndex) {
+      case 1:
+        this.selectedNavString = "Edit Profile";
+        break;
+
+      case 2:
+        this.selectedNavString = "Password Change";
+        break;
+
+      case 3:
+        this.selectedNavString = "My Courses";
+        break;
+
+      case 4:
+        this.selectedNavString = "Payment Methods";
+        break;
+
+      case 5:
+        this.selectedNavString = "Social Profiles";
+        break;
+    }
+
+    if (navIndex === -1) {
       this.loginService.logOut();
       this.router.navigateByUrl("/");
     }
+  }
+
+  onGetCertificate(id: string) {
+    console.log(id);
+  }
+
+  onLeaveFeedback(id: string) {
+    console.log(id);
   }
 }

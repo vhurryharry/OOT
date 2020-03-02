@@ -39,4 +39,8 @@ export class AccountService {
       }
     });
   }
+
+  getMyCourses(userId: string) {
+    return this.http.get(this.baseURL + "/my-courses/" + userId);
+  }
 }
