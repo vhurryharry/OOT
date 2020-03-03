@@ -151,4 +151,18 @@ class FaqController extends AbstractController
 
         return new JsonResponse(['csv' => $this->csv->export($faqs)]);
     }
+
+    /**
+     * @Route("/", methods={"GET"})
+     */
+    public function getFAQs()
+    {
+        $faqs = $this->db->findAll('select * from faq where deleted_at is null');
+
+        return new JsonResponse([
+            'success' => true,
+            'error' => null,
+            'faqs' => $faqs
+        ]);
+    }
 }
