@@ -6,10 +6,13 @@ namespace App\Repository;
 
 use App\Database;
 use App\Security\Customer;
+use App\Entity\CustomerPaymentMethod;
 use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
 use RandomLib\Factory;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+use Stripe\Stripe;
 
 class CustomerRepository
 {
@@ -139,5 +142,63 @@ class CustomerRepository
     public function getMyCourses(string $id) 
     {
         $courseReservations = $this->db->findAll('select  * from course_reservation where customer_id = ?', $id);
+    }
+
+    public function addPaymentInfo(Customer $customer, string $token): bool {
+        try {
+            // Add Customer
+            Stripe::setApiKey(getenv('STRIPE_SKEY'));
+            $stripe = \Stripe\Customer::create([
+                'source' => $token,
+                'email' => $customer->getLogin(),
+            ]);
+
+            $customerPaymentMethod = CustomerPaymentMethod::fromJson([
+                'customerId' => $customer->getId(),
+                'token' => $stripe->id
+            ]);
+
+            $this->db->insert(
+                'customer_payment_method',
+                $customerPaymentMethod->toDatabase(),
+            );
+
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function getPaymentInfo(Customer $customer): array {
+        try {
+            // Add Customer
+            Stripe::setApiKey(getenv('STRIPE_SKEY'));
+
+            $paymentMethods = $this->db->findAll('select * from customer_payment_method where customer_id = ?', [$customer->getId()]);
+
+            if($paymentMethods == null) {
+                return [];
+            }
+
+            $result = [];
+
+            foreach ($paymentMethods as $method) {
+                $method = CustomerPaymentMethod::fromDatabase($method);
+
+                $stripeCustomer = \Stripe\Customer::retrieve($method->getToken());
+
+                $result[] = [
+                    'userName' => $customer->getName(),
+                    'last4' => $stripeCustomer->sources->data[0]->last4,
+                    'expMonth' => $stripeCustomer->sources->data[0]->exp_month,
+                    'expYear' => $stripeCustomer->sources->data[0]->exp_year,
+                    'brand' => $stripeCustomer->sources->data[0]->brand
+                ];
+            }
+
+            return $result;
+        } catch (Exception $e) {
+            return null;
+        }
     }
 }

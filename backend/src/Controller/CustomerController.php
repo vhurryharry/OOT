@@ -271,7 +271,6 @@ class CustomerController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/my-courses/{id}", methods={"GET"})
      */
@@ -307,6 +306,70 @@ class CustomerController extends AbstractController
             'success' => true,
             'error' => null,
             'courses' => $courses
+        ]);
+    }
+
+    /**
+     * @Route("/payment-method/{id}", methods={"POST"})
+     */
+    public function addPaymentMethod(string $id, Request $request)
+    {
+        $customer = $this->customerRepository->getCustomer($id);
+        
+        if (!$customer) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => 'User not found!'
+            ]);
+        }
+
+        $customer = Customer::fromDatabase($customer);
+
+        $result = $this->customerRepository->addPaymentInfo($customer, $request->get('token'));
+
+        if($result == false) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => "Error occured!"
+            ]);
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'methods' => $this->customerRepository->getPaymentInfo($customer),
+            'error' => null
+        ]);
+    }
+
+    /**
+     * @Route("/payment-method/{id}", methods={"GET"})
+     */
+    public function getPaymentMethod(string $id)
+    {
+        $customer = $this->customerRepository->getCustomer($id);
+        
+        if (!$customer) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => 'User not found!'
+            ]);
+        }
+
+        $customer = Customer::fromDatabase($customer);
+
+        $result = $this->customerRepository->getPaymentInfo($customer);
+
+        if($result == null) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => "Error occured!"
+            ]);
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'methods' => $result,
+            'error' => null
         ]);
     }
 }

@@ -1,0 +1,16 @@
+<form novalidate (ngSubmit)="submit()" [formGroup]="payment">
+  <div *ngIf="askUserInfo">
+    <input type="text" formControlName="userName" placeholder="Your name please" class="sm-input">
+  </div>
+
+  <div id="card-element" class="field"></div>
+
+  <div class="alert alert-danger" role="alert" [hidden]="!error">
+    {{error}}
+  </div>
+
+  <button type="submit" class="sm-cta">
+    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" [hidden]="!loading"></span>
+    SUBMIT
+  </button>
+</form>

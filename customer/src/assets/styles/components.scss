@@ -219,7 +219,9 @@
 }
 
 button:focus,
-button.focus {
+button.focus,
+input:focus,
+input.focus {
   outline: none;
   box-shadow: none;
 }

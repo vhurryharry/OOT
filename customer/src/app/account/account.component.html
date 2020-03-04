@@ -242,13 +242,61 @@
 
         </div>
 
-        <div
-          class="account-profile-sub-section col-12 row account-profile-sub-section-limited {{selectedNav === 4 ? 'nav-selected' : ''}}"
-          id="social-profiles">
-          <h5 class="d-none d-lg-block col-12">
+        <div class="account-profile-sub-section col-12 col-lg-10 row {{selectedNav === 4 ? 'nav-selected' : ''}}"
+          id="payment-information">
+          <h5 class="d-none d-lg-block col-12 account-payment-method-heading">
             {{selectedNavString}}
           </h5>
 
+          <div class="col-12 account-payment-method row" *ngFor="let method of paymentMethods">
+            <div class="col-8 col-sm-auto order-1 order-sm-1 account-payment-method-brand-wrapper">
+              <img src="{{method.brand}}" class="account-payment-method-brand" />
+            </div>
+            <div class="col-2 col-sm-auto order-4 order-sm-2 account-payment-method-first">
+              <img src="/assets/images/s-icons/dots.png" />
+            </div>
+            <div class="md-body-medium account-payment-method-last4 col-2 col-sm-auto order-5 order-sm-3">
+              {{method.last4}}
+            </div>
+            <div class="md-body-text account-payment-method-user-name col-12 col-sm-auto order-3 order-sm-4">
+              {{method.userName}}
+            </div>
+            <div class="md-body-text account-payment-method-exp-date col-4 col-sm-auto order-6 order-sm-5">
+              {{method.expMonth}}/{{method.expYear}}
+            </div>
+            <div class="col-4 col-sm-auto order-2 order-sm-6 account-payment-method-more-button">
+              <img src="/assets/images/s-icons/more.png" />
+            </div>
+          </div>
+
+          <div class="alert alert-success" role="alert" [hidden]="!success[4]">
+            Payment method has been added successfully!
+          </div>
+
+          <div class="col-12 account-add-payment-button">
+            <button type="button" class="md-cta lg-buttons account-payment-method-add-button" data-toggle="modal"
+              data-target="#addPaymentModal">
+              <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" [hidden]="!loading"></span>
+              Add Payment Method
+            </button>
+          </div>
+
+          <div class="modal fade" id="addPaymentModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Add Payment Method</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <app-payment (tokenReady)="onTokenReady($event)"
+                    [userName]="userInfo.firstName + ' ' + userInfo.lastName"></app-payment>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div

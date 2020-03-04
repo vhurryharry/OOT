@@ -10,7 +10,8 @@ export const environment = {
       "pk.eyJ1IjoiY3VydGlzY29yZCIsImEiOiJjazZ1enUycHMwZmZ3M2Ztcjh0dHYyZHEyIn0.M6np6xJJinTDcsuUom7-6w",
     accessToken:
       "pk.eyJ1IjoiY3VydGlzY29yZCIsImEiOiJjam5rcjB4ejcxZDNiM3BxcnR0eGF0YXdjIn0.z4xhB6slwvRrrH0f2fEfPA"
-  }
+  },
+  stripePKey: "pk_test_63NXcQIZTFrpnmXz2R0hKQYo"
 };
 
 /*

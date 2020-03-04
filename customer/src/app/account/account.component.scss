@@ -232,6 +232,64 @@
   }
 }
 
+.account-payment-method-heading {
+  margin-bottom: 20px;
+}
+
+.account-add-payment-button {
+  margin: 2.5vw 0;
+  text-align: center;
+}
+
+.account-payment-method {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 27px 32px;
+  margin: 20px 15px;
+
+  border: 1px solid $gray500;
+  box-sizing: border-box;
+  border-radius: 4px;
+
+  .account-payment-method-brand-wrapper {
+    padding: 0;
+  }
+
+  .account-payment-method-brand {
+    height: 30px;
+    margin: 0;
+    padding: 0 1.5vw 0 0;
+  }
+
+  .account-payment-method-first {
+    padding: 0;
+    margin: 0;
+  }
+
+  .account-payment-method-last4 {
+    color: $blue;
+    padding: 0 2vw 0 0.75vw;
+    margin: 0;
+  }
+
+  .account-payment-method-exp-date {
+    padding: 0;
+  }
+
+  .account-payment-method-user-name {
+    margin: 0;
+    padding: 0 2vw 0 0;
+  }
+
+  .account-payment-method-more-button {
+    float: right;
+    margin-left: auto;
+    padding: 0;
+  }
+}
+
 @media #{$tablet} {
   .account-container {
     margin: calc(112px + 3vw) 0 0;
@@ -304,6 +362,14 @@
 
   .nav-link-arrow-icon {
     display: block;
+  }
+
+  .account-payment-method {
+    margin: 20px 0;
+  }
+
+  .account-add-payment-button {
+    padding: 0;
   }
 }
 
@@ -384,5 +450,43 @@
 
   .nav-link-arrow-icon {
     display: block;
+  }
+
+  .account-payment-method {
+    padding: 32px 24px;
+    margin: 20px 0;
+
+    border-radius: 16px;
+
+    .account-payment-method-brand {
+      height: 30px;
+      margin: 0 1.5vw 0 0;
+      padding: 0;
+    }
+
+    .account-payment-method-first {
+      padding: 0;
+    }
+
+    .account-payment-method-last4 {
+      color: $blue;
+      padding: 0;
+      margin: 0 2vw 0 0.75vw;
+    }
+
+    .account-payment-method-user-name {
+      margin: 25px 2vw 25px 0;
+      padding: 0;
+    }
+
+    .account-payment-method-exp-date {
+      float: right;
+      margin-left: auto;
+      text-align: right;
+    }
+
+    .account-payment-method-more-button {
+      text-align: right;
+    }
   }
 }
