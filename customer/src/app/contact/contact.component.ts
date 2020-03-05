@@ -7,10 +7,10 @@ import { ContactService } from "./contact.service";
   styleUrls: ["./contact.component.scss"]
 })
 export class ContactComponent implements OnInit {
-  days = 0;
-  hours = 0;
-  minutes = 0;
-  seconds = 0;
+  days = "0";
+  hours = "0";
+  minutes = "0";
+  seconds = "0";
 
   nextCourseTime = new Date();
 
@@ -31,13 +31,13 @@ export class ContactComponent implements OnInit {
     }
 
     const days = secs / 3600 / 24;
-    this.days = Math.floor(days);
+    this.days = z(Math.floor(days));
     const hours = (secs % (3600 * 24)) / 3600;
-    this.hours = Math.floor(hours);
+    this.hours = z(Math.floor(hours));
     const minutes = (secs % 3600) / 60;
-    this.minutes = Math.floor(minutes);
+    this.minutes = z(Math.floor(minutes));
     const seconds = secs % 60;
-    this.seconds = Math.floor(seconds);
+    this.seconds = z(Math.floor(seconds));
   }
 
   ngOnInit() {}
