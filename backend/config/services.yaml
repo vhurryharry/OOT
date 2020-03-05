@@ -4,7 +4,7 @@ parameters:
   env(DB_NAME): "oo"
   env(DB_USERNAME): "root"
   env(DB_PASSWORD): "123456"
-  env(STRIPE_SKEY): "sk_test_HIGbrbeZfLwjL7KPMdf0eLfX00srDkFzZM"
+  env(STRIPE_SKEY): "sk_test_J0OPpYvvV9mphBkqOIqjoR4p"
 
 services:
   _defaults:
