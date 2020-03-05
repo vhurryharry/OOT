@@ -144,10 +144,10 @@ class CustomerRepository
         $courseReservations = $this->db->findAll('select  * from course_reservation where customer_id = ?', $id);
     }
 
-    public function addPaymentInfo(Customer $customer, string $token): bool {
+    public function addPaymentInfo(Customer $customer, string $token, string $skey): bool {
         try {
-            // Add Customer
-            Stripe::setApiKey(getenv('STRIPE_SKEY'));
+            Stripe::setApiKey($skey);
+
             $stripe = \Stripe\Customer::create([
                 'source' => $token,
                 'email' => $customer->getLogin(),
@@ -169,10 +169,9 @@ class CustomerRepository
         }
     }
 
-    public function getPaymentInfo(Customer $customer): array {
+    public function getPaymentInfo(Customer $customer, string $skey): array {
         try {
-            // Add Customer
-            Stripe::setApiKey(getenv('STRIPE_SKEY'));
+            Stripe::setApiKey($skey);
 
             $paymentMethods = $this->db->findAll('select * from customer_payment_method where customer_id = ?', [$customer->getId()]);
 

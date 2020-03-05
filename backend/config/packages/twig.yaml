@@ -3,5 +3,3 @@ twig:
   debug: "%kernel.debug%"
   strict_variables: "%kernel.debug%"
   exception_controller: null
-  globals:
-    stripe_key: "%env(STRIPE_PKEY)%"

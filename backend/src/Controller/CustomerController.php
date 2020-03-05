@@ -325,7 +325,8 @@ class CustomerController extends AbstractController
 
         $customer = Customer::fromDatabase($customer);
 
-        $result = $this->customerRepository->addPaymentInfo($customer, $request->get('token'));
+        $skey = $this->getParameter('env(STRIPE_SKEY)');
+        $result = $this->customerRepository->addPaymentInfo($customer, $request->get('token'), $skey);
 
         if($result == false) {
             return new JsonResponse([
@@ -357,7 +358,8 @@ class CustomerController extends AbstractController
 
         $customer = Customer::fromDatabase($customer);
 
-        $result = $this->customerRepository->getPaymentInfo($customer);
+        $skey = $this->getParameter('env(STRIPE_SKEY)');
+        $result = $this->customerRepository->getPaymentInfo($customer, $skey);
 
         if($result == null) {
             return new JsonResponse([
