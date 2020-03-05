@@ -25,14 +25,6 @@ export class CourseDetailComponent implements OnInit {
       this.courseService.findBySlug(this.slug).subscribe((result: any) => {
         this.course = result.course;
 
-        let i = 0;
-        let total = 0;
-        for (; i < this.course.reviews.length; i++) {
-          total += this.course.reviews[i].rating;
-        }
-
-        this.course.rating = total / i;
-
         this.course.location = JSON.parse(
           "[" + this.course.location.slice(1, -1) + "]"
         );

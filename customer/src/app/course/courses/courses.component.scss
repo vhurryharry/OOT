@@ -148,6 +148,11 @@
   min-width: 230px;
 }
 
+.spinner-wrapper {
+  text-align: center;
+  padding: 10vw;
+}
+
 @media #{$tablet} {
   #background-1 {
     top: 112px;

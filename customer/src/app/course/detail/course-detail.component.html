@@ -5,7 +5,7 @@
 
   <app-header [lightHeader]="false"></app-header>
 
-  <div class="row section course-detail-container" *ngIf="!dataLoaded">
+  <div class="row section course-detail-container spinner-wrapper" *ngIf="!dataLoaded">
     <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
   </div>
 
@@ -20,7 +20,7 @@
       <div class="course-rating">
         <img src="/assets/images/s-icons/star.png" />
         <div class="md-body-text">
-          {{ course.rating.toFixed(2) }} ({{ course.reviews.length }} reviews)
+          {{ course.rating.toFixed(2) }} ({{ course.count }} reviews)
         </div>
       </div>
     </div>

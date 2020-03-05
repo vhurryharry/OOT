@@ -39,8 +39,10 @@
 
     <div class="col-12 row courses-card-sectin">
 
-      <div class="spinner-grow" role="status" [hidden]="dataLoaded">
-        <span class="sr-only">Loading...</span>
+      <div class="col-12 spinner-wrapper" [hidden]="dataLoaded">
+        <div class="spinner-grow" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
       </div>
 
       <div class="col-12 col-sm-6 col-lg-4 course-card" *ngFor="let course of courses" [hidden]="course.hidden">

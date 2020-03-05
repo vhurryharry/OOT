@@ -335,7 +335,7 @@ class CourseController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="course", requirements={"slug"="[a-zA-Z0-9\-]+"})
+     * @Route("/find/{slug}", name="course", requirements={"slug"="[a-zA-Z0-9\-]+"})
      */
     public function course(string $slug)
     {
@@ -343,6 +343,18 @@ class CourseController extends AbstractController
 
         return new JsonResponse([
             "course" => $course
+        ]);
+    }
+
+    /**
+     * @Route("/next-course-date", methods={"GET"})
+     */
+    public function getNextCourseDate()
+    {
+        $nextCourse = $this->courseRepository->getNextCourseDate();
+
+        return new JsonResponse([
+            "nextCourse" => $nextCourse
         ]);
     }
 }

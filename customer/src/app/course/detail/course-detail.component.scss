@@ -193,6 +193,12 @@
   border-radius: 16px;
 }
 
+.spinner-wrapper {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
 @media #{$tablet} {
   #background-1 {
     top: 112px;

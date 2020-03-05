@@ -66,6 +66,7 @@ class CustomerRepository
         $customer->setStatus(Customer::ACTIVE);
 
         $this->updateUser($customer);
+        return $customer;
     }
 
     public function register(array $form): Customer
