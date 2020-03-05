@@ -337,7 +337,7 @@ class CustomerController extends AbstractController
 
         return new JsonResponse([
             'success' => true,
-            'methods' => $this->customerRepository->getPaymentInfo($customer),
+            'methods' => $this->customerRepository->getPaymentInfo($customer, $skey),
             'error' => null
         ]);
     }
