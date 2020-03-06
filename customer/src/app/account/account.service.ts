@@ -5,6 +5,7 @@ import { environment } from "../../environments/environment";
 import { IUserInfo } from "../services/login.service";
 
 export interface IPaymentMethod {
+  id: string;
   userName: string;
   last4: string;
   brand: string;
@@ -70,6 +71,12 @@ export class AccountService {
     return this.http.post(this.baseURL + "/payment-method/" + userId, {
       token
     });
+  }
+
+  removePaymentMethod(userId: string, methodId: string) {
+    return this.http.delete(
+      this.baseURL + "/payment-method/" + userId + "/" + methodId
+    );
   }
 
   getPaymentMethod(userId: string) {

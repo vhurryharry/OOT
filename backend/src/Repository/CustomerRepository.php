@@ -174,7 +174,7 @@ class CustomerRepository
         try {
             Stripe::setApiKey($skey);
 
-            $paymentMethods = $this->db->findAll('select * from customer_payment_method where customer_id = ?', [$customer->getId()]);
+            $paymentMethods = $this->db->findAll('select * from customer_payment_method where deleted_at is null and customer_id = ?', [$customer->getId()]);
 
             if($paymentMethods == null) {
                 return [];
@@ -188,6 +188,7 @@ class CustomerRepository
                 $stripeCustomer = \Stripe\Customer::retrieve($method->getToken());
 
                 $result[] = [
+                    'id' => $method->getId(),
                     'userName' => $customer->getName(),
                     'last4' => $stripeCustomer->sources->data[0]->last4,
                     'expMonth' => $stripeCustomer->sources->data[0]->exp_month,
@@ -199,6 +200,31 @@ class CustomerRepository
             return $result;
         } catch (Exception $e) {
             return null;
+        }
+    }
+
+    public function removePaymentInfo(Customer $customer, string $methodId, string $skey): bool {
+        try {
+            Stripe::setApiKey($skey);
+
+            $method = $this->db->find('select * from customer_payment_method where id = ?', [$methodId]);
+
+            if($method == null) {
+                return false;
+            }
+
+            $method = CustomerPaymentMethod::fromDatabase($method);
+
+            $stripeCustomer = \Stripe\Customer::retrieve($method->getToken());
+            $stripeCustomer->delete();
+
+            $method->setDeletedAt(Carbon::now());
+
+            $this->db->update('customer_payment_method', $method->toDatabase());
+
+            return true;
+        } catch (Exception $e) {
+            return false;
         }
     }
 }

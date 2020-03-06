@@ -374,4 +374,36 @@ class CustomerController extends AbstractController
             'error' => null
         ]);
     }
+
+    /**
+     * @Route("/payment-method/{userId}/{methodId}", methods={"DELETE"})
+     */
+    public function removePaymentMethod(string $userId, string $methodId)
+    {
+        $customer = $this->customerRepository->getCustomer($userId);
+        
+        if (!$customer) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => 'User not found!'
+            ]);
+        }
+
+        $customer = Customer::fromDatabase($customer);
+
+        $skey = $this->getParameter('env(STRIPE_SKEY)');
+        $result = $this->customerRepository->removePaymentInfo($customer, $methodId, $skey);
+
+        if($result == null) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => "Error occured!"
+            ]);
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'error' => null
+        ]);
+    }
 }

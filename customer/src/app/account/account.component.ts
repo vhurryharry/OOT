@@ -25,6 +25,7 @@ export class AccountComponent implements OnInit {
   loading = false;
   success = [null, null, null, null, null, null];
   errorMessage = [null, null, null, null, null, null];
+  paymentLoaded = false;
   savingAvatar = false;
 
   selectedNav = -2;
@@ -71,6 +72,7 @@ export class AccountComponent implements OnInit {
       .getPaymentMethod(this.userInfo.id)
       .subscribe((result: any) => {
         if (result.success) {
+          this.paymentLoaded = true;
           this.paymentMethods = result.methods.map(method => {
             return {
               ...method,
@@ -78,6 +80,10 @@ export class AccountComponent implements OnInit {
               brand: this.accountService.getPaymentIcon(method.brand)
             };
           });
+        } else {
+          this.paymentLoaded = true;
+          this.errorMessage[4] =
+            "Error occured while getting your payment methods!";
         }
       });
   }
@@ -202,6 +208,23 @@ export class AccountComponent implements OnInit {
     console.log(id);
   }
 
+  removePayment(index) {
+    this.loading = true;
+
+    this.accountService
+      .removePaymentMethod(this.userInfo.id, this.paymentMethods[index].id)
+      .subscribe((result: any) => {
+        if (result.success) {
+          this.loading = false;
+          this.success[4] = true;
+          this.paymentMethods.splice(index, 1);
+        } else {
+          this.success[4] = false;
+          this.errorMessage[4] = result.error;
+        }
+      });
+  }
+
   onTokenReady(token) {
     $("#addPaymentModal").modal("hide");
 
@@ -221,6 +244,7 @@ export class AccountComponent implements OnInit {
           });
           this.success[4] = true;
         } else {
+          this.success[4] = false;
           this.errorMessage[4] = result.error;
         }
       });

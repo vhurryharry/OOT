@@ -248,7 +248,11 @@
             {{selectedNavString}}
           </h5>
 
-          <div class="col-12 account-payment-method row" *ngFor="let method of paymentMethods">
+          <div class="col-12 spinner-wrapper">
+            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" [hidden]="paymentLoaded"></span>
+          </div>
+
+          <div class="col-12 account-payment-method row" *ngFor="let method of paymentMethods; let i = index">
             <div class="col-8 col-sm-auto order-1 order-sm-1 account-payment-method-brand-wrapper">
               <img src="{{method.brand}}" class="account-payment-method-brand" />
             </div>
@@ -264,13 +268,22 @@
             <div class="md-body-text account-payment-method-exp-date col-4 col-sm-auto order-6 order-sm-5">
               {{method.expMonth}}/{{method.expYear}}
             </div>
-            <div class="col-4 col-sm-auto order-2 order-sm-6 account-payment-method-more-button">
+            <button class="col-4 col-sm-auto order-2 order-sm-6 account-payment-method-more-button" type="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              id="account-payment-method-more-menu_{{i}}">
               <img src="/assets/images/s-icons/more.png" />
+            </button>
+
+            <div class="dropdown-menu account-payment-method-more-menu"
+              [attr.aria-labelledby]="'account-payment-method-more-menu_' + i">
+              <div class="md-body-text dropdown-menu-content">
+                <button class="dropdown-item" (click)="removePayment(i)">Remove</button>
+              </div>
             </div>
           </div>
 
           <div class="alert alert-success" role="alert" [hidden]="!success[4]">
-            Payment method has been added successfully!
+            Changes have taken place successfully!
           </div>
 
           <div class="col-12 account-add-payment-button">
