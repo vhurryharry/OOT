@@ -13,13 +13,17 @@ export interface IPaymentMethod {
 }
 
 export const paymentIcons = {
-  Visa: 1,
-  MasterCard: 2,
-  Maestro: 3,
-  Cirrus: 4,
-  PayPal: 5,
-  "Western Union": 6,
-  "American Express": 22
+  visa: 1,
+  mastercard: 2,
+  maestro: 3,
+  cirrus: 4,
+  paypal: 5,
+  discover: 14,
+  diners: 10,
+  jcb: 16,
+  amex: 22,
+  "american express": 22,
+  unknown: 0
 };
 
 @Injectable()
@@ -72,7 +76,19 @@ export class AccountService {
     return this.http.get(this.baseURL + "/payment-method/" + userId);
   }
 
-  getPaymentIcon(brand: string) {
-    return "/assets/images/payment/dark/" + paymentIcons[brand] + ".png";
+  getPaymentIcon(brand: string, isDark = true) {
+    if (isDark) {
+      return (
+        "/assets/images/payment/dark/" +
+        paymentIcons[brand.toLowerCase()] +
+        ".png"
+      );
+    }
+
+    return (
+      "/assets/images/payment/light/" +
+      paymentIcons[brand.toLowerCase()] +
+      ".png"
+    );
   }
 }

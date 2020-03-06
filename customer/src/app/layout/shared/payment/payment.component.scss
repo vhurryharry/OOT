@@ -1,1 +1,89 @@
 @import "src/assets/styles/variables";
+
+.payment-container {
+  margin: 15px;
+  padding: 0;
+}
+
+.payment-form {
+  margin: 0 0 16px;
+  padding: 0;
+  border: 1px solid $gray500;
+  box-sizing: border-box;
+  border-radius: 16px;
+
+  &-header {
+    padding: 30px 32px 22px;
+    border-bottom: 1px solid $gray500;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    &-brand {
+      margin-bottom: 8px;
+
+      &-icon {
+        height: 25px;
+      }
+    }
+  }
+
+  &-body {
+    padding: 16px 32px;
+
+    &-field {
+      margin: 16px 0;
+
+      &-input {
+        border: 1px solid $gray500;
+        box-sizing: border-box;
+        border-radius: 4px;
+
+        padding: 17px 20px;
+        margin: 8px 0;
+      }
+    }
+  }
+}
+
+.payment-disclaimer {
+  margin: 16px 0;
+  padding: 0;
+
+  &-icon {
+    filter: brightness(4);
+    height: 20px;
+    margin: 0 12px 0 0;
+  }
+
+  &-text-link {
+    color: $blue;
+  }
+}
+
+.submit-button {
+  margin: 15px 0;
+}
+
+@media #{$mobile} {
+  .payment-form {
+    border: none;
+
+    &-header {
+      padding: 16px 32px;
+
+      border: none;
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+
+      &-brand {
+        margin: 20px 0 0;
+      }
+    }
+  }
+}

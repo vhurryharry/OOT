@@ -212,7 +212,13 @@ export class AccountComponent implements OnInit {
       .subscribe((result: any) => {
         this.loading = false;
         if (result.success) {
-          this.paymentMethods = result.methods;
+          this.paymentMethods = result.methods.map(method => {
+            return {
+              ...method,
+              expYear: method.expYear % 100,
+              brand: this.accountService.getPaymentIcon(method.brand)
+            };
+          });
           this.success[4] = true;
         } else {
           this.errorMessage[4] = result.error;

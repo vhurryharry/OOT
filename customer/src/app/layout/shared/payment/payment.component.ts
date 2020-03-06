@@ -1,12 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
-import {
-  StripeService,
-  Elements,
-  Element as StripeElement,
-  ElementsOptions
-} from "ngx-stripe";
+import { loadStripe } from "@stripe/stripe-js";
+import { environment } from "src/environments/environment";
+import { AccountService } from "src/app/account/account.service";
 
 @Component({
   selector: "app-payment",
@@ -16,74 +12,100 @@ import {
 export class PaymentComponent implements OnInit {
   @Input()
   public askUserInfo = false;
+  @Input()
+  public name = "";
+  @Input()
+  public addressLine1 = "";
+  @Input()
+  public addressLine2 = "";
+  @Input()
+  public addressCity = "";
+  @Input()
+  public addressState = "";
+  @Input()
+  public addressZip = "";
+  @Input()
+  public addressCountry = "";
 
   @Input()
-  public userName = "";
+  public buttonLabel = "Place Order";
 
   @Output()
   tokenReady = new EventEmitter();
 
-  elements: Elements;
-  card: StripeElement;
-  error: string = null;
+  private stripe: any;
 
-  // optional parameters
-  elementsOptions: ElementsOptions = {
-    locale: "auto"
-  };
-
-  payment: FormGroup;
+  private cardNumberElement: any;
+  private cardExpiryElement: any;
+  private cardCvcElement: any;
 
   loading = false;
+  error: string = null;
+  brandIcon = "";
 
-  constructor(private fb: FormBuilder, private stripeService: StripeService) {}
+  constructor(private accountService: AccountService) {
+    this.brandIcon = this.accountService.getPaymentIcon("unknown");
+  }
 
-  ngOnInit() {
-    this.payment = this.fb.group({
-      userName: [this.userName, [Validators.required]]
-    });
+  async ngOnInit() {
+    this.stripe = await loadStripe(environment.stripePKey);
 
-    this.stripeService.elements(this.elementsOptions).subscribe(elements => {
-      this.elements = elements;
-      // Only mount the element the first time
-      if (!this.card) {
-        this.card = this.elements.create("card", {
-          style: {
-            base: {
-              iconColor: "#666EE8",
-              color: "#31325F",
-              lineHeight: "60px",
-              fontWeight: 300,
-              fontSize: "18px",
-              "::placeholder": {
-                color: "#CFD7E0"
-              }
-            }
-          }
-        });
-        this.card.mount("#card-element");
+    const elements = this.stripe.elements();
+
+    const style = {
+      base: {
+        lineHeight: "27px",
+        fontWeight: "normal",
+        fontSize: "18px"
       }
+    };
+
+    this.cardNumberElement = elements.create("cardNumber", { style });
+    this.cardNumberElement.mount("#card-number-element");
+
+    this.cardExpiryElement = elements.create("cardExpiry", { style });
+    this.cardExpiryElement.mount("#card-expiry-element");
+
+    this.cardCvcElement = elements.create("cardCvc", { style });
+    this.cardCvcElement.mount("#card-cvc-element");
+
+    this.cardNumberElement.on("change", event => {
+      // Switch brand logo
+      if (event.brand) {
+        this.setBrandIcon(event.brand);
+      }
+
+      this.setOutcome(event);
     });
   }
 
+  setOutcome(result) {
+    if (result.token) {
+      this.tokenReady.emit(result.token);
+    } else if (result.error) {
+      this.error = result.error.message;
+    }
+  }
+
+  setBrandIcon(brand) {
+    this.brandIcon = this.accountService.getPaymentIcon(brand);
+  }
+
   submit() {
-    const name = this.payment.get("userName").value;
-
-    this.error = null;
     this.loading = true;
+    const data = {
+      name: this.name,
+      address_line1: this.addressLine1,
+      address_line2: this.addressLine2,
+      address_city: this.addressCity,
+      address_state: this.addressState,
+      address_zip: this.addressZip,
+      address_country: this.addressCountry
+    };
 
-    this.stripeService.createToken(this.card, { name }).subscribe(result => {
+    this.stripe.createToken(this.cardNumberElement, data).then(result => {
       this.loading = false;
-
-      if (result.token) {
-        // Use the token to create a charge or a customer
-        // https://stripe.com/docs/charges
-
-        this.tokenReady.emit(result.token);
-      } else if (result.error) {
-        // Error creating the token
-        this.error = result.error.message;
-      }
+      this.setOutcome(result);
     });
   }
 }

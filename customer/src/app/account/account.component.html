@@ -290,9 +290,9 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body">
-                  <app-payment (tokenReady)="onTokenReady($event)"
-                    [userName]="userInfo.firstName + ' ' + userInfo.lastName"></app-payment>
+                <div class="modal-body row">
+                  <app-payment (tokenReady)="onTokenReady($event)" class="col-12 row" buttonLabel="Add Card"
+                    [name]="userInfo.firstName + ' ' + userInfo.lastName"></app-payment>
                 </div>
               </div>
             </div>

@@ -238,7 +238,7 @@
 
 .account-add-payment-button {
   margin: 2.5vw 0;
-  text-align: center;
+  text-align: left;
 }
 
 .account-payment-method {
@@ -288,6 +288,10 @@
     margin-left: auto;
     padding: 0;
   }
+}
+
+.modal-header {
+  align-items: center;
 }
 
 @media #{$tablet} {
@@ -370,6 +374,7 @@
 
   .account-add-payment-button {
     padding: 0;
+    text-align: center;
   }
 }
 
@@ -488,5 +493,9 @@
     .account-payment-method-more-button {
       text-align: right;
     }
+  }
+
+  .account-add-payment-button {
+    text-align: center;
   }
 }

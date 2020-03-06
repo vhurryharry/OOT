@@ -1,16 +1,38 @@
-<form novalidate (ngSubmit)="submit()" [formGroup]="payment">
-  <div *ngIf="askUserInfo">
-    <input type="text" formControlName="userName" placeholder="Your name please" class="sm-input">
+<form (ngSubmit)="submit()" class="row col-12 payment-container">
+  <div class="payment-form row col-12">
+    <div class="col-12 payment-form-header">
+      <h6>Credit Card</h6>
+
+      <span class="brand payment-form-header-brand">
+        <img src="{{brandIcon}}" class="payment-form-header-brand-icon">
+      </span>
+    </div>
+    <div class="col-12 row payment-form-body">
+      <div class="col-12 payment-form-body-field">
+        <span class="sm-body-text payment-form-body-field-label">Card number</span>
+        <div id="card-number-element" class="field md-body-text payment-form-body-field-input"></div>
+      </div>
+
+      <div class="col-12 col-lg-6 payment-form-body-field">
+        <span class="sm-body-text payment-form-body-field-label">Expiry date</span>
+        <div id="card-expiry-element" class="field md-body-text payment-form-body-field-input"></div>
+      </div>
+
+      <div class="col-12 col-lg-6 payment-form-body-field">
+        <span class="sm-body-text payment-form-body-field-label">Card Code (CVC)</span>
+        <div id="card-cvc-element" class="field md-body-text payment-form-body-field-input"></div>
+      </div>
+    </div>
   </div>
 
-  <div id="card-element" class="field"></div>
-
-  <div class="alert alert-danger" role="alert" [hidden]="!error">
-    {{error}}
+  <div class="col-12 payment-disclaimer md-body-text">
+    <img src="/assets/images/s-icons/success.png" class="payment-disclaimer-icon" />
+    I have read and agree to the website <a href="https://oliveoilschool.org/terms/" target="_blank"
+      rel="noopener noreferer" class="payment-disclaimer-text-link">terms and conditions</a>.
   </div>
 
-  <button type="submit" class="sm-cta">
+  <button class="col-12 md-cta lg-buttons submit-button" type="submit">
     <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" [hidden]="!loading"></span>
-    SUBMIT
+    {{buttonLabel}}
   </button>
 </form>
