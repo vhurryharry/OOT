@@ -45,59 +45,50 @@
         </div>
       </div>
 
-      <div class="col-12 col-sm-6 col-lg-4 course-card" *ngFor="let course of courses" [hidden]="course.hidden">
+      <a href="/course/{{course.slug}}" class="col-12 col-sm-6 col-lg-4 course-card" *ngFor="let course of courses"
+        [hidden]="course.hidden">
         <div class="course-card-content">
-          <div class="course-card-row">
-            <img src="/assets/images/s-icons/calendar.png" class="d-none d-lg-block" />
+
+          <div class="course-card-content-header">
             <div class="md-body-medium">
-              {{ course.start_date | date : 'MMMM dd, yyyy' }}
+              Sommelier Certification Course
             </div>
           </div>
 
-          <div class="course-card-row">
-            <img src="/assets/images/s-icons/map.png" class="d-none d-lg-block" />
-            <div class="md-body-text">
-              {{ course.city }}
-            </div>
-          </div>
-
-          <div class="course-card-row">
-            <img src="/assets/images/s-icons/ticket.png" class="d-none d-lg-block" />
-            <div class="md-body-text {{course.reservations >= course.spots ? 'course-sold-out' : ''}}">
-              {{course.reservations >= course.spots ? 'Sold Out' : 'Registration Open'}}
-            </div>
-          </div>
-
-          <div class="course-card-row" *ngIf="course.reservations >= course.spots">
-            <div class="course-card-score">
-              <img src="/assets/images/s-icons/star.png" />
-              <div class="md-body-text">
-                {{ course.rating.toFixed(2) }}
+          <div class="course-card-content-body">
+            <div class="course-card-row">
+              <img src="/assets/images/s-icons/calendar.png" class="d-none d-lg-block" />
+              <div class="md-body-medium">
+                {{ course.start_date | date : 'MMMM dd, yyyy' }}
               </div>
             </div>
 
-            <a href="/course/{{course.slug}}" class="md-text-link course-card-link">
-              Get Updates
-              <img src="/assets/images/arrows/right.png" />
-            </a>
-          </div>
-
-          <div class="course-card-row" *ngIf="course.spots > course.reservations">
-            <div class="course-card-score">
-              <img src="/assets/images/s-icons/star.png" />
+            <div class="course-card-row">
+              <img src="/assets/images/s-icons/map.png" class="d-none d-lg-block" />
               <div class="md-body-text">
-                {{ course.rating.toFixed(2) }}
+                {{ course.city }}
               </div>
             </div>
 
-            <a href="/course/{{course.slug}}" class="md-text-link course-card-link course-learn-more-link">
-              Learn more
-              <img src="/assets/images/arrows/right.png" />
-            </a>
-          </div>
+            <div class="course-card-row course-card-last-row">
+              <div class="course-card-score">
+                <img src="/assets/images/s-icons/star.png" />
+                <div class="md-body-text">
+                  {{ course.rating.toFixed(2) }}
+                </div>
+              </div>
 
+              <div
+                class="md-text-link course-card-link {{course.spots > course.reservations ? 'course-registration-open' : 'course-sold-out'}}">
+                <img src="/assets/images/s-icons/ticket.png" class="d-none d-lg-block course-card-link-icon" />
+                <div class="md-body-text course-card-link-to-detail">
+                  {{course.spots > course.reservations ? "Registration Open" : "Sold Out"}}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </a>
 
     </div>
 

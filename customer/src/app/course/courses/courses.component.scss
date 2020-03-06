@@ -53,23 +53,40 @@
   margin: 0;
   padding: 1vw;
 
-  .course-card-content {
-    padding: 1.25vw;
+  text-decoration: none;
+  color: $black;
+
+  &-content {
+    padding: 0;
     width: 100%;
     height: 100%;
 
     border: 1px solid #e7e7ea;
     box-sizing: border-box;
     border-radius: 16px;
+
+    &:hover {
+      cursor: pointer;
+      box-shadow: 0px 8px 24px rgba(15, 20, 45, 0.04);
+    }
+
+    &-header {
+      padding: 1.4vw 2vw;
+      border-bottom: 1px solid $gray500;
+    }
+
+    &-body {
+      padding: 1.4vw 2vw;
+    }
   }
 
-  .course-card-row {
+  &-row {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
 
-    margin: 1.25vw;
+    margin: 1.25vw 0;
 
     img {
       margin: 0 1.25vw 0 0;
@@ -109,6 +126,11 @@
 
   .course-card-link {
     float: right;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
   }
 }
 
@@ -153,6 +175,30 @@
   padding: 10vw;
 }
 
+.course-sold-out {
+  .course-card-link-to-detail {
+    color: $gray800;
+  }
+
+  .course-card-link-icon {
+    filter: opacity(0.5);
+    padding: 0 10px 0 0;
+    margin: 0;
+  }
+}
+
+.course-registration-open {
+  .course-card-link-to-detail {
+    color: $blue;
+  }
+
+  .course-card-link-icon {
+    filter: brightness(4);
+    padding: 0 10px 0 0;
+    margin: 0;
+  }
+}
+
 @media #{$tablet} {
   #background-1 {
     top: 112px;
@@ -176,8 +222,26 @@
   }
 
   .course-card {
-    .course-card-row:last-child {
-      margin-top: 2.5vw;
+    margin: 0;
+    padding: 1vw;
+
+    &-content {
+      padding: 0;
+      width: 100%;
+      height: 100%;
+
+      border: 1px solid #e7e7ea;
+      box-sizing: border-box;
+      border-radius: 16px;
+
+      &-header {
+        padding: 2.6vw 3.1vw;
+        border-bottom: 1px solid $gray500;
+      }
+
+      &-body {
+        padding: 2.6vw 3.1vw;
+      }
     }
   }
 }
@@ -210,8 +274,39 @@
   }
 
   .course-card {
-    .course-card-row:last-child {
-      margin-top: 2.5vw;
+    margin: 0;
+    padding: 24px 1vw;
+
+    &-content {
+      padding: 0;
+      width: 100%;
+      height: 100%;
+
+      border: 1px solid #e7e7ea;
+      box-sizing: border-box;
+      border-radius: 16px;
+
+      &-header {
+        padding: 24px 32px;
+        border-bottom: 1px solid $gray500;
+      }
+
+      &-body {
+        padding: 24px 32px;
+      }
+    }
+
+    &-row {
+      margin: 8px 0;
+
+      &.course-card-last-row {
+        flex-direction: column;
+        align-items: flex-start;
+
+        .course-card-link-to-detail {
+          margin: 8px 0 0;
+        }
+      }
     }
   }
 }
