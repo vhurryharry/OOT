@@ -1,0 +1,153 @@
+@import "src/assets/styles/variables";
+
+#cart-background-1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 152px;
+  z-index: -1;
+}
+
+.cart-container {
+  padding: 0;
+  margin: calc(156px + 3.25vw) 8vw 0;
+}
+
+.cart-heading-title {
+  text-align: center;
+  margin: 0 0 3.25vw;
+  padding: 0 8.5vw;
+}
+
+.cart-details {
+  &-heading {
+    margin: 16px -15px;
+  }
+
+  &-item {
+    margin: 16px 0;
+    padding: 30px 0;
+    border-top: 1px solid $gray500;
+
+    &:last-child {
+      border-bottom: 1px solid $gray500;
+    }
+
+    &-field {
+      &-label {
+        color: $gray800;
+      }
+
+      &:first-child {
+        padding: 0 15px 0 0;
+      }
+    }
+
+    &-actions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 0 0 15px;
+    }
+  }
+}
+
+.cart-summary {
+  margin: 15px;
+  padding: 0;
+
+  border: 1px solid $gray500;
+  box-sizing: border-box;
+  border-radius: 16px;
+
+  max-width: 370px;
+  float: right;
+
+  &-heading {
+    padding: 32px 32px 24px;
+    border-bottom: 1px solid $gray500;
+  }
+
+  &-body {
+    padding: 32px 32px 24px;
+    margin: 0;
+
+    &-total {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      margin: 0 0 24px;
+      padding: 0;
+    }
+
+    &-buttons {
+      padding: 0;
+
+      button {
+        margin: 8px 0;
+      }
+    }
+  }
+}
+
+@media #{$tablet} {
+  #cart-background-1 {
+    top: 112px;
+  }
+
+  .cart-container {
+    margin: calc(112px + 3vw) 5.86vw 0;
+  }
+
+  .cart-heading-title {
+    margin: 0 0 3.25vw;
+    padding: 0 21.2vw;
+  }
+
+  .cart-summary {
+    margin: 15px 30px 15px 15px;
+    border: none;
+
+    &-heading {
+      padding: 8px 32px;
+      border-bottom: none;
+    }
+
+    &-body {
+      padding: 8px 32px;
+    }
+  }
+}
+
+@media #{$mobile} {
+  #cart-background-1 {
+    display: none;
+  }
+
+  .cart-container {
+    margin: 96px 0 0;
+  }
+
+  .cart-heading-title {
+    margin: 0 0 24px;
+    padding: 0;
+  }
+
+  .cart-summary {
+    margin: 15px 30px 15px 15px;
+    border: none;
+
+    &-heading {
+      padding: 8px 32px;
+      border-bottom: none;
+    }
+
+    &-body {
+      padding: 8px 32px;
+    }
+  }
+}

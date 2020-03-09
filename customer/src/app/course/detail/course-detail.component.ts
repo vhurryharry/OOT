@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+
+import { PaymentService, ICartItem } from "src/app/services/payment.service";
 import { CourseService } from "../course.service";
-import { ActivatedRoute } from "@angular/router";
 
 declare var $: any;
 
@@ -18,6 +20,8 @@ export class CourseDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
+    private paymentService: PaymentService,
     private courseService: CourseService
   ) {
     this.route.params.subscribe(params => {
@@ -65,4 +69,16 @@ export class CourseDetailComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  enroll() {
+    const item: ICartItem = {
+      id: this.course.id,
+      name: this.course.title,
+      price: this.course.options[0].price,
+      quantity: 1
+    };
+
+    this.paymentService.addToCart(item);
+    this.router.navigateByUrl("/cart");
+  }
 }

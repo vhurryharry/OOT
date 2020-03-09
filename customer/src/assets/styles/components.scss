@@ -29,6 +29,8 @@
 }
 
 .lg-cta-primary,
+.md-cta-primary,
+.md-ghost,
 .sm-cta-primary,
 .sm-ghost {
   border-radius: 4px;
@@ -55,7 +57,9 @@
   height: 64px;
 }
 
-.md-cta {
+.md-cta,
+.md-cta-primary,
+.md-ghost {
   padding: 18px 24px;
 
   font-style: normal;
@@ -90,6 +94,10 @@
   min-width: 7vw;
 }
 
+.md-ghost {
+  border: 1px solid $gray500;
+}
+
 .icon-button {
   width: 48px;
   height: 48px;
@@ -99,12 +107,16 @@
   border: 1px solid $gray500;
   border-radius: 4px;
 
+  color: $black;
+
   img {
     width: 24px;
     height: 24px;
   }
 
   &:hover {
+    color: $blue;
+
     img {
       filter: brightness(4);
     }

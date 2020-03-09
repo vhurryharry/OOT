@@ -46,13 +46,12 @@
 
     <div class="col-12 col-lg-8 course-detail-content">
       <img src="/assets/logos/icc-logo.png" class="course-detail-icc-logo" />
-      <p class="lg-subtitle">
-        {{course.content}}
+      <p class="lg-subtitle" [innerHTML]="course.content">
       </p>
       <div class="course-detail-enroll">
-        <a href="#" class="lg-cta lg-buttons">
+        <button (click)="enroll()" class="lg-cta lg-buttons">
           Enroll In Program
-        </a>
+        </button>
         <div class="lg-subtitle course-detail-price">
           ${{ course.options[0].price }}
         </div>

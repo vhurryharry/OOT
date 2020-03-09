@@ -40,6 +40,11 @@ const routes: Routes = [
     loadChildren: "./blog/blog.module#BlogModule"
   },
   {
+    path: "cart",
+    component: CondensedComponent,
+    loadChildren: "./cart/cart.module#CartModule"
+  },
+  {
     path: "login",
     component: CondensedComponent,
     loadChildren: "./auth/login/login.module#LoginModule"

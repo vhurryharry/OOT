@@ -83,6 +83,7 @@ export class LoginService {
   logOut(): void {
     localStorage.removeItem("oot_user_token");
     this.currentUser = null;
+    this.redirectUrl = null;
   }
 
   updateUser(updatedUser): void {

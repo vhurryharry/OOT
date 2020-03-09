@@ -1,0 +1,92 @@
+<div class="screen-container">
+
+  <img src='/assets/images/images/normal-background.png' alt="Olive Oil Times" class="background-image"
+    id="cart-background-1" />
+
+  <app-header [lightHeader]="false"></app-header>
+
+  <div class="row section cart-container">
+    <div class="col-12 order-0 hero cart-heading-title">
+      Tuition Summary
+    </div>
+
+    <div class="col-12 col-lg-8">
+      <div class="col-12 cart-details row">
+        <h6 class="col-12 cart-details-heading">
+          Your Cart ({{cart.length}})
+        </h6>
+
+        <div class="col-12 row cart-details-item" *ngFor="let item of cart; let i = index">
+          <div class="col-5 cart-details-item-field">
+            <div class="sm-body-text cart-details-item-field-label">
+              Course
+            </div>
+            <div class="md-body-text cart-details-item-field-value">
+              {{item.name}}
+            </div>
+          </div>
+
+          <div class="col-3 cart-details-item-field">
+            <div class="sm-body-text cart-details-item-field-label">
+              Tuition:
+            </div>
+            <div class="md-body-text cart-details-item-field-value">
+              $ {{item.price}}
+            </div>
+          </div>
+
+          <div class="col-4 cart-details-item-actions">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn icon-button md-body-medium" (click)="decreaseItem(i)"
+                [disabled]="item.quantity === 0">
+                <img src="/assets/images/s-icons/minus.png" />
+              </button>
+              <button type="button" class="btn icon-button md-body-medium">
+                {{item.quantity}}
+              </button>
+              <button type="button" class="btn icon-button md-body-medium" (click)="increaseItem(i)">
+                <img src="/assets/images/s-icons/plus.png" />
+              </button>
+            </div>
+
+            <button type="button" class="btn icon-button" (click)="removeItem(i)">
+              <img src="/assets/images/s-icons/delete.png" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <div class="cart-summary">
+        <div class="col-12 cart-summary-heading">
+          <h6>Summary</h6>
+        </div>
+
+        <div class="col-12 row cart-summary-body">
+          <div class="col-12 cart-summary-body-total">
+            <div class="lg-body-text">
+              Estimated total
+            </div>
+            <div class="lg-body-medium">
+              ${{total}}
+            </div>
+          </div>
+
+          <div class="col-12 cart-summary-body-buttons">
+            <button class="col-12 md-cta lg-buttons" (click)="checkout()">
+              Checkout
+            </button>
+
+            <button class="col-12 md-ghost lg-buttons" *ngIf="!loggedIn" (click)="loginAndCheckout()">
+              Sign In & Checkout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+
+</div>
