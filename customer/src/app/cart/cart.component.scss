@@ -21,12 +21,12 @@
 
 .cart-details {
   &-heading {
-    margin: 16px -15px;
+    margin: 32px -15px;
   }
 
   &-item {
-    margin: 16px 0;
-    padding: 30px 0;
+    margin: 0px 0;
+    padding: 32px 0;
     border-top: 1px solid $gray500;
 
     &:last-child {
@@ -55,7 +55,7 @@
 }
 
 .cart-summary {
-  margin: 15px;
+  margin: 32px 15px;
   padding: 0;
 
   border: 1px solid $gray500;
@@ -91,6 +91,91 @@
         margin: 8px 0;
       }
     }
+  }
+}
+
+.spinner-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-wrapper-payment {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.cart-payment-method {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 27px 32px;
+  margin: 0;
+
+  box-sizing: border-box;
+  border-radius: 0;
+
+  &-wrapper {
+    border-top: 1px solid $gray500;
+    margin: 0;
+    padding: 0;
+
+    &:last-child {
+      border-bottom: 1px solid $gray500;
+    }
+  }
+
+  &:hover {
+    background-color: $gray300;
+    transition: all 0.3s ease;
+  }
+
+  &:active,
+  &.selected {
+    background-color: $gray500;
+    transition: all 0.3s ease;
+  }
+
+  &-brand-wrapper {
+    padding: 0;
+  }
+
+  &-brand {
+    height: 30px;
+    margin: 0;
+    padding: 0 1.5vw 0 0;
+  }
+
+  &-first {
+    padding: 0;
+    margin: 0;
+  }
+
+  &-last4 {
+    color: $blue;
+    padding: 0 2vw 0 0.75vw;
+    margin: 0;
+  }
+
+  &-exp-date {
+    padding: 0;
+  }
+
+  &-user-name {
+    margin: 0;
+    padding: 0 2vw 0 0;
   }
 }
 

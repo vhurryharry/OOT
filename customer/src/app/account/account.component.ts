@@ -2,7 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { LoginService, IUserInfo } from "src/app/services/login.service";
-import { AccountService, IPaymentMethod } from "./account.service";
+import { AccountService } from "./account.service";
+import { PaymentService, IPaymentMethod } from "../services/payment.service";
 
 declare var $: any;
 
@@ -35,6 +36,7 @@ export class AccountComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
+    private paymentService: PaymentService,
     private router: Router,
     private accountService: AccountService
   ) {
@@ -68,7 +70,7 @@ export class AccountComponent implements OnInit {
         }
       });
 
-    this.accountService
+    this.paymentService
       .getPaymentMethod(this.userInfo.id)
       .subscribe((result: any) => {
         if (result.success) {
@@ -77,7 +79,7 @@ export class AccountComponent implements OnInit {
             return {
               ...method,
               expYear: method.expYear % 100,
-              brand: this.accountService.getPaymentIcon(method.brand)
+              brand: this.paymentService.getPaymentIcon(method.brand)
             };
           });
         } else {
@@ -211,7 +213,7 @@ export class AccountComponent implements OnInit {
   removePayment(index) {
     this.loading = true;
 
-    this.accountService
+    this.paymentService
       .removePaymentMethod(this.userInfo.id, this.paymentMethods[index].id)
       .subscribe((result: any) => {
         if (result.success) {
@@ -230,7 +232,7 @@ export class AccountComponent implements OnInit {
 
     this.loading = true;
 
-    this.accountService
+    this.paymentService
       .addPaymentMethod(this.userInfo.id, token.id)
       .subscribe((result: any) => {
         this.loading = false;
@@ -239,7 +241,7 @@ export class AccountComponent implements OnInit {
             return {
               ...method,
               expYear: method.expYear % 100,
-              brand: this.accountService.getPaymentIcon(method.brand)
+              brand: this.paymentService.getPaymentIcon(method.brand)
             };
           });
           this.success[4] = true;

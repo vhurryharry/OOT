@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 
 import { loadStripe } from "@stripe/stripe-js";
 import { environment } from "src/environments/environment";
-import { AccountService } from "src/app/account/account.service";
+import { PaymentService } from "src/app/services/payment.service";
 
 @Component({
   selector: "app-payment",
@@ -43,8 +43,8 @@ export class PaymentComponent implements OnInit {
   error: string = null;
   brandIcon = "";
 
-  constructor(private accountService: AccountService) {
-    this.brandIcon = this.accountService.getPaymentIcon("unknown");
+  constructor(private paymentService: PaymentService) {
+    this.brandIcon = this.paymentService.getPaymentIcon("unknown");
   }
 
   async ngOnInit() {
@@ -88,7 +88,7 @@ export class PaymentComponent implements OnInit {
   }
 
   setBrandIcon(brand) {
-    this.brandIcon = this.accountService.getPaymentIcon(brand);
+    this.brandIcon = this.paymentService.getPaymentIcon(brand);
   }
 
   submit() {

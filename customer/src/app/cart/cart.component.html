@@ -54,6 +54,11 @@
             </button>
           </div>
         </div>
+
+        <div class="alert alert-success" role="alert" [hidden]="!success">
+          Your order has been placed successfully!
+        </div>
+
       </div>
     </div>
 
@@ -85,6 +90,64 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="selectPaymentMethodModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Select Payment Method</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body row">
+            <div class="col-12 spinner-wrapper" *ngIf="!paymentLoaded">
+              <span class="spinner-border" role="status" aria-hidden="true"></span>
+            </div>
+
+            <div class="spinner-wrapper-payment" *ngIf="paymentRequested">
+              <span class="spinner-border" role="status" aria-hidden="true"></span>
+            </div>
+
+            <div class="cart-payment-method-wrapper col-12 row" *ngFor="let method of paymentMethods; let i = index">
+              <button role="button" (click)="selectPaymentMethod(i)"
+                class="cart-payment-method btn col-12 {{i === selectedPaymentMethod ? 'selected' : ''}}">
+                <div class="cart-payment-method-brand-wrapper">
+                  <img src="{{method.brand}}" class="cart-payment-method-brand" />
+                </div>
+                <div class="cart-payment-method-first">
+                  <img src="/assets/images/s-icons/dots.png" />
+                </div>
+                <div class="md-body-medium cart-payment-method-last4">
+                  {{method.last4}}
+                </div>
+                <div class="md-body-text cart-payment-method-user-name">
+                  {{method.userName}}
+                </div>
+                <div class="md-body-text cart-payment-method-exp-date">
+                  {{method.expMonth}}/{{method.expYear}}
+                </div>
+              </button>
+            </div>
+
+            <div class="alert alert-danger" role="alert" [hidden]="!errorMessage[1]">
+              {{errorMessage}}
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="sm-cta" (click)="pay()"
+              [disabled]="0 > selectedPaymentMethod || paymentRequested">
+              Pay
+            </button>
+            <button type="button" class="sm-cta-primary" data-dismiss="modal" aria-label="Close">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <app-footer></app-footer>

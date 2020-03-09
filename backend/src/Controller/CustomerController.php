@@ -17,6 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\LoginType;
 use App\Form\RegisterType;
 use App\Repository\CustomerRepository;
+use App\Repository\PaymentRepository;
+use App\Repository\CourseRepository;
+use App\Entity\Course;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -40,17 +43,36 @@ class CustomerController extends AbstractController
      * @var CustomerRepository
      */
     protected $customerRepository;
+	
+    /**
+     * @var PaymentRepository
+     */
+    protected $paymentRepository;
 
     /**
      * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
+	
+    /**
+     * @var CourseRepository
+     */
+    protected $courseRepository;
 
-    public function __construct(Database $db, CsvExporter $csv, CustomerRepository $customerRepository, EventDispatcherInterface $eventDispatcher)
+    public function __construct(
+        Database $db, 
+        CsvExporter $csv, 
+        CustomerRepository $customerRepository, 
+        PaymentRepository $paymentRepository,
+        CourseRepository $courseRepository,
+        EventDispatcherInterface $eventDispatcher
+    )
     {
         $this->db = $db;
         $this->csv = $csv;
         $this->customerRepository = $customerRepository;
+        $this->paymentRepository = $paymentRepository;
+		$this->courseRepository = $courseRepository;
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -310,11 +332,12 @@ class CustomerController extends AbstractController
     }
 
     /**
-     * @Route("/payment-method/{id}", methods={"POST"})
+     * @Route("/payment-method", methods={"POST"})
      */
-    public function addPaymentMethod(string $id, Request $request)
+    public function addPaymentMethod(Request $request)
     {
-        $customer = $this->customerRepository->getCustomer($id);
+        $userId = $request->get('userId');
+        $customer = $this->customerRepository->getCustomer($userId);
         
         if (!$customer) {
             return new JsonResponse([
@@ -326,7 +349,7 @@ class CustomerController extends AbstractController
         $customer = Customer::fromDatabase($customer);
 
         $skey = $this->getParameter('env(STRIPE_SKEY)');
-        $result = $this->customerRepository->addPaymentInfo($customer, $request->get('token'), $skey);
+        $result = $this->paymentRepository->addPaymentInfo($customer, $request->get('token'), $skey);
 
         if($result == false) {
             return new JsonResponse([
@@ -337,7 +360,7 @@ class CustomerController extends AbstractController
 
         return new JsonResponse([
             'success' => true,
-            'methods' => $this->customerRepository->getPaymentInfo($customer, $skey),
+            'methods' => $this->paymentRepository->getPaymentInfo($customer, $skey),
             'error' => null
         ]);
     }
@@ -359,7 +382,7 @@ class CustomerController extends AbstractController
         $customer = Customer::fromDatabase($customer);
 
         $skey = $this->getParameter('env(STRIPE_SKEY)');
-        $result = $this->customerRepository->getPaymentInfo($customer, $skey);
+        $result = $this->paymentRepository->getPaymentInfo($customer, $skey);
 
         if($result == null) {
             return new JsonResponse([
@@ -392,7 +415,52 @@ class CustomerController extends AbstractController
         $customer = Customer::fromDatabase($customer);
 
         $skey = $this->getParameter('env(STRIPE_SKEY)');
-        $result = $this->customerRepository->removePaymentInfo($customer, $methodId, $skey);
+        $result = $this->paymentRepository->removePaymentInfo($customer, $methodId, $skey);
+
+        if($result == null) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => "Error occured!"
+            ]);
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'error' => null
+        ]);
+    }
+
+    /**
+     * @Route("/order", methods={"POST"})
+     */
+    public function placeOrder(Request $request)
+    {
+        $userId = $request->get('userId');
+        $customer = $this->customerRepository->getCustomer($userId);
+        
+        if (!$customer) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => 'User not found!'
+            ]);
+        }
+
+        $customer = Customer::fromDatabase($customer);
+
+        $skey = $this->getParameter('env(STRIPE_SKEY)');
+        $cart = $request->get('cart');
+        $courses = [];
+
+        foreach($cart as $item) 
+        {
+            $course = $this->courseRepository->getCourseWithPrice($item['id']);
+            $course['quantity'] = $item['quantity'];
+
+            $courses[] = $course;
+        }
+
+
+        $result = $this->paymentRepository->placeOrder($customer, $courses, $skey);
 
         if($result == null) {
             return new JsonResponse([

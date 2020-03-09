@@ -63,6 +63,21 @@ class CourseRepository
         return $this->db->find("select min(start_date) from course where deleted_at is null and start_date > NOW()")['min'];
     }
 
+    public function getCourseWithPrice(string $id): array
+    {
+        $course = $this->db->find('select * from course where id = ? and deleted_at is null', [$id]);
+
+        if (!$course) {
+            throw new NotFoundHttpException();
+        }
+
+        $options = $this->db->findAll('select id, title, price, dates, combo from course_option where course = ? and deleted_at is null', [$course['id']]);
+
+        $course['price'] = $options[0]['price'];
+
+        return $course;
+    }
+
     public function findBySlug(string $slug): array
     {
         $course = $this->db->find(

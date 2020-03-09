@@ -6,7 +6,7 @@
   <app-header [lightHeader]="false"></app-header>
 
   <div class="row section course-detail-container spinner-wrapper" *ngIf="!dataLoaded">
-    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+    <span class="spinner-border" role="status" aria-hidden="true"></span>
   </div>
 
   <div class="row section course-detail-container" *ngIf="dataLoaded">
@@ -158,6 +158,6 @@
 
   </div>
 
-  <app-footer [price]="dataLoaded ? course.options[0].price : 0"></app-footer>
+  <app-footer [price]="dataLoaded ? course.options[0].price : 0" (enroll)="enroll()"></app-footer>
 
 </div>

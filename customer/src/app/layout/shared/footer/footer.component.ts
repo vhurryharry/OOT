@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 
 @Component({
   selector: "app-footer",
@@ -9,6 +9,9 @@ export class FooterComponent implements OnInit {
   @Input()
   public price = -1;
 
+  @Output()
+  enroll: EventEmitter<any> = new EventEmitter();
+
   constructor() {}
 
   ngOnInit() {}
@@ -17,5 +20,9 @@ export class FooterComponent implements OnInit {
     return (
       "Tuition: $ " + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     );
+  }
+
+  onEnroll() {
+    this.enroll.emit();
   }
 }

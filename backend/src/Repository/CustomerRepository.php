@@ -12,8 +12,6 @@ use Ramsey\Uuid\Uuid;
 use RandomLib\Factory;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-use Stripe\Stripe;
-
 class CustomerRepository
 {
     /**
@@ -143,88 +141,5 @@ class CustomerRepository
     public function getMyCourses(string $id) 
     {
         $courseReservations = $this->db->findAll('select  * from course_reservation where customer_id = ?', $id);
-    }
-
-    public function addPaymentInfo(Customer $customer, string $token, string $skey): bool {
-        try {
-            Stripe::setApiKey($skey);
-
-            $stripe = \Stripe\Customer::create([
-                'source' => $token,
-                'email' => $customer->getLogin(),
-            ]);
-
-            $customerPaymentMethod = CustomerPaymentMethod::fromJson([
-                'customerId' => $customer->getId(),
-                'token' => $stripe->id
-            ]);
-
-            $this->db->insert(
-                'customer_payment_method',
-                $customerPaymentMethod->toDatabase(),
-            );
-
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-    public function getPaymentInfo(Customer $customer, string $skey): array {
-        try {
-            Stripe::setApiKey($skey);
-
-            $paymentMethods = $this->db->findAll('select * from customer_payment_method where deleted_at is null and customer_id = ?', [$customer->getId()]);
-
-            if($paymentMethods == null) {
-                return [];
-            }
-
-            $result = [];
-
-            foreach ($paymentMethods as $method) {
-                $method = CustomerPaymentMethod::fromDatabase($method);
-
-                $stripeCustomer = \Stripe\Customer::retrieve($method->getToken());
-
-                $result[] = [
-                    'id' => $method->getId(),
-                    'userName' => $customer->getName(),
-                    'last4' => $stripeCustomer->sources->data[0]->last4,
-                    'expMonth' => $stripeCustomer->sources->data[0]->exp_month,
-                    'expYear' => $stripeCustomer->sources->data[0]->exp_year,
-                    'brand' => $stripeCustomer->sources->data[0]->brand
-                ];
-            }
-
-            return $result;
-        } catch (Exception $e) {
-            return null;
-        }
-    }
-
-    public function removePaymentInfo(Customer $customer, string $methodId, string $skey): bool {
-        try {
-            Stripe::setApiKey($skey);
-
-            $method = $this->db->find('select * from customer_payment_method where id = ?', [$methodId]);
-
-            if($method == null) {
-                return false;
-            }
-
-            $method = CustomerPaymentMethod::fromDatabase($method);
-
-            $stripeCustomer = \Stripe\Customer::retrieve($method->getToken());
-            $stripeCustomer->delete();
-
-            $method->setDeletedAt(Carbon::now());
-
-            $this->db->update('customer_payment_method', $method->toDatabase());
-
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
     }
 }

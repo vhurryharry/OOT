@@ -8,6 +8,20 @@
 }
 
 // Buttons
+button:disabled {
+  background: $gray600;
+
+  &:hover,
+  &:focus,
+  &.focus,
+  &:active,
+  &.active {
+    background: $gray600;
+  }
+}
+
+button:focus,
+button.focus,
 .btn:focus,
 .btn.focus {
   outline: none !important;
@@ -236,4 +250,9 @@ input:focus,
 input.focus {
   outline: none;
   box-shadow: none;
+}
+
+// Modal
+.modal-header {
+  align-items: center;
 }
