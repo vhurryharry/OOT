@@ -1,11 +1,11 @@
 @import "src/assets/styles/variables";
 
-.payment-container {
+.card-container {
   margin: 15px;
   padding: 0;
 }
 
-.payment-form {
+.card-form {
   margin: 0 0 16px;
   padding: 0;
   border: 1px solid $gray500;
@@ -48,7 +48,7 @@
   }
 }
 
-.payment-disclaimer {
+.card-disclaimer {
   margin: 16px 0;
   padding: 0;
 
@@ -63,7 +63,7 @@
   }
 }
 
-.payment-disclaimer-bottom {
+.card-disclaimer-bottom {
   color: $gray800;
 }
 
@@ -72,11 +72,11 @@
 }
 
 @media #{$mobile} {
-  .payment-form {
+  .card-form {
     border: none;
 
     &-header {
-      padding: 16px 32px;
+      padding: 16px 0px;
 
       border: none;
 
@@ -88,6 +88,11 @@
       &-brand {
         margin: 20px 0 0;
       }
+    }
+
+    &-body {
+      padding: 16px 0;
+      margin: 0;
     }
   }
 }

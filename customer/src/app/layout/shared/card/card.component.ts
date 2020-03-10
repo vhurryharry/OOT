@@ -5,11 +5,11 @@ import { environment } from "src/environments/environment";
 import { PaymentService } from "src/app/services/payment.service";
 
 @Component({
-  selector: "app-payment",
-  templateUrl: "./payment.component.html",
-  styleUrls: ["./payment.component.scss"]
+  selector: "app-card",
+  templateUrl: "./card.component.html",
+  styleUrls: ["./card.component.scss"]
 })
-export class PaymentComponent implements OnInit {
+export class CardComponent implements OnInit {
   @Input()
   public askUserInfo = false;
   @Input()

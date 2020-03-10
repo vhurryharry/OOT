@@ -2,21 +2,21 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 
-import { SharedModule } from "src/app/layout/shared/shared.module";
-import { SignupRoutingModule } from "./signup-routing.module";
-import { SignupComponent } from "./signup.component";
+import { SharedModule } from "../layout/shared/shared.module";
+import { PaymentRoutingModule } from "./payment-routing.module";
+import { PaymentComponent } from "./payment.component";
 
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
 
 @NgModule({
   imports: [
     CommonModule,
-    SignupRoutingModule,
-    SharedModule,
     FormsModule,
+    PaymentRoutingModule,
+    SharedModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule
   ],
-  declarations: [SignupComponent]
+  declarations: [PaymentComponent]
 })
-export class SignupModule {}
+export class PaymentModule {}

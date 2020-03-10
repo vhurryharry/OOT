@@ -33,13 +33,28 @@ export const paymentIcons = {
   unknown: 0
 };
 
+export enum PaymentAction {
+  AddCard = 1,
+  RegisterAndPay = 2
+}
+
 @Injectable({
   providedIn: "root"
 })
 export class PaymentService {
   private baseURL: string = environment.baseURL + "/api/customer";
 
+  private action: PaymentAction;
+
   constructor(private http: HttpClient) {}
+
+  setAction(action: PaymentAction) {
+    this.action = action;
+  }
+
+  getAction() {
+    return this.action;
+  }
 
   addToCart(item: ICartItem) {
     const cart = this.getCart();
@@ -68,10 +83,17 @@ export class PaymentService {
     }
   }
 
-  addPaymentMethod(userId: string, token: string) {
+  addPaymentMethod(
+    userId: string,
+    token: string,
+    billingDetails,
+    attendeeInformation
+  ) {
     return this.http.post(this.baseURL + "/payment-method", {
       userId,
-      token
+      token,
+      billing: billingDetails,
+      attendee: attendeeInformation
     });
   }
 

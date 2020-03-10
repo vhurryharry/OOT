@@ -44,6 +44,16 @@
 
     <div class="auth-row">
       <div class="sm-body-text">
+        Date of Birth (MM/DD/YY)
+      </div>
+      <input class="form-control md-input md-body-text" id="birthDate" name="birthDate" placeholder="MM/DD/YY"
+        [owlDateTime]="dobPicker" [owlDateTimeTrigger]="dobPicker" [(ngModel)]="birthDate">
+      <owl-date-time #dobPicker pickerType="calendar" startView="multi-years" [startAt]="startAt">
+      </owl-date-time>
+    </div>
+
+    <div class="auth-row">
+      <div class="sm-body-text">
         Password
       </div>
       <input type="password" class="form-control md-input md-body-text" id="password" name="password"

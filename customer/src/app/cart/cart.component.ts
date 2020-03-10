@@ -134,9 +134,8 @@ export class CartComponent implements OnInit {
           }
         },
         (error: any) => {
-          this.paymentRequested = true;
-          this.errorMessage[1] =
-            "Error occured while getting your payment methods!";
+          this.paymentRequested = false;
+          this.errorMessage[1] = "Error occured while processing your order!";
         }
       );
   }

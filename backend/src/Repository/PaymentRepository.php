@@ -73,7 +73,7 @@ class PaymentRepository
           ]);
     }
 
-    public function placeOrder(Customer $customer, array $cart, string $skey) {
+    public function placeOrder(Customer $customer, array $cart, int $paymentMethodId, string $skey) {
         try {
             Stripe::setApiKey($skey);
 
@@ -94,21 +94,29 @@ class PaymentRepository
                 ];
             }
 
+            $customerToken = $this->db->find("select token from customer_payment_method where deleted_at is null and id = ?", [$paymentMethodId])['token'];
+
+            $stripeCustomer = \Stripe\Customer::retrieve($customerToken);
+            $shipping = $stripeCustomer['shipping'];
+            
             $order = \Stripe\Order::create([
                 'currency' => 'usd',
                 'email' => $customer->getLogin(),
                 'items' => $items,
                 'shipping' => [
-                    'name' => $customer->getName(),
+                    'name' => $shipping['name'],
                     'address' => [
-                        'line1' => 'Test Street',
-                        'city' => 'Test City',
-                        'state' => 'Test State',
-                        'country' => 'Test Country',
-                        'postal_code' => '11111',
-                      ],
+                        'line1' => $shipping['address']['line1'],
+                        'city' => $shipping['address']['city'],
+                        'state' => $shipping['address']['state'],
+                        'country' => $shipping['address']['country'],
+                        'postal_code' => $shipping['address']['postal_code']
+                    ]
                 ]
             ]);
+
+
+            $order->pay(['customer' => $stripeCustomer['id']]);
 
             return true;
         } catch (Exception $e) {
@@ -116,13 +124,25 @@ class PaymentRepository
         }
     }
 
-    public function addPaymentInfo(Customer $customer, string $token, string $skey): bool {
+    public function addPaymentInfo(Customer $customer, string $token, string $skey, array $billing, array $attendee): bool {
         try {
             Stripe::setApiKey($skey);
 
             $stripe = \Stripe\Customer::create([
                 'source' => $token,
                 'email' => $customer->getLogin(),
+                'phone' => $attendee['phone'],
+                'shipping' => [
+                    'name' => $attendee['firstName'].' '.$attendee['lastName'],
+                    'phone' => $attendee['phone'],
+                    'address' => [
+                        'line1' => $billing['street'],
+                        'city' => $billing['city'],
+                        'country' => $billing['country'],
+                        'postal_code' => $billing['zip'],
+                        'state' => $billing['state']
+                    ]
+                ]
             ]);
 
             $customerPaymentMethod = CustomerPaymentMethod::fromJson([

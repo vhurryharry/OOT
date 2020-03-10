@@ -1,0 +1,281 @@
+<div class="screen-container">
+
+  <img src='/assets/images/images/normal-background.png' alt="Olive Oil Times" class="background-image"
+    id="payment-background-1" />
+
+  <app-header [lightHeader]="false"></app-header>
+
+  <div class="row section payment-container">
+    <div class="col-12 hero payment-heading-title">
+      {{addCard ? "Add Payment Method" : "Registration and Payment"}}
+    </div>
+
+    <div class="col-12 row payment-stepper">
+      <div class="col-3 payment-stepper-step row">
+        <span class="col-6"></span>
+        <div class="col-6 payment-stepper-step-bar first">
+
+          <img src="/assets/images/s-icons/current-pin.png" class="payment-stepper-step-bar-selected first"
+            *ngIf="currentStep === 1" />
+          <img src="/assets/images/s-icons/done-pin.png" class="payment-stepper-step-bar-done first"
+            *ngIf="currentStep > 1" />
+
+          <div class="col-12 payment-stepper-step-bar-line right {{currentStep > 1 ? 'done' : ''}}"></div>
+
+        </div>
+        <div class="md-body-text payment-stepper-step-label first col-12 {{currentStep === 1 ? 'selected' : ''}}">
+          Billing details
+        </div>
+      </div>
+      <div class="col-6 payment-stepper-step row">
+        <div class="col-12 payment-stepper-step-bar">
+
+          <div class="payment-stepper-step-bar-point" *ngIf="2 > currentStep"></div>
+          <img src="/assets/images/s-icons/current-pin.png" class="payment-stepper-step-bar-selected"
+            *ngIf="currentStep === 2" />
+          <img src="/assets/images/s-icons/done-pin.png" class="payment-stepper-step-bar-done"
+            *ngIf="currentStep > 2" />
+
+          <div class="col-6 payment-stepper-step-bar-line left {{currentStep > 1 ? 'done' : ''}}"></div>
+          <div class="col-6 payment-stepper-step-bar-line right {{currentStep > 2 ? 'done' : ''}}"></div>
+
+        </div>
+        <div class="md-body-text payment-stepper-step-label col-12 {{currentStep === 2 ? 'selected' : ''}}">
+          Attendee Information
+        </div>
+      </div>
+      <div class="col-3 payment-stepper-step row">
+        <div class="col-6 payment-stepper-step-bar last">
+
+          <div class="payment-stepper-step-bar-point last" *ngIf="3 > currentStep"></div>
+          <img src="/assets/images/s-icons/current-pin.png" class="payment-stepper-step-bar-selected last"
+            *ngIf="currentStep === 3" />
+          <img src="/assets/images/s-icons/done-pin.png" class="payment-stepper-step-bar-done last"
+            *ngIf="currentStep > 3" />
+
+          <div class="col-12 payment-stepper-step-bar-line left {{currentStep > 2 ? 'done' : ''}}"></div>
+
+        </div>
+        <div class="md-body-text payment-stepper-step-label last col-12 {{currentStep === 3 ? 'selected' : ''}}">
+          {{addCard ? "Card Information" : "Estimated Total"}}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 row payment-stepper-mob">
+      <div class="col-12 md-body-text payment-stepper-mob-progress">
+        <span class="payment-stepper-mob-progress-current">Step {{currentStep}}</span> of 3
+      </div>
+
+      <div class="col-12 payment-stepper-mob-steps">
+        <div
+          class="payment-stepper-mob-steps-step {{currentStep >= 1 ? 'payment-stepper-mob-steps-step-selected' : ''}}">
+        </div>
+        <div
+          class="payment-stepper-mob-steps-step {{currentStep >= 2 ? 'payment-stepper-mob-steps-step-selected' : ''}}">
+        </div>
+        <div
+          class="payment-stepper-mob-steps-step {{currentStep >= 3 ? 'payment-stepper-mob-steps-step-selected' : ''}}">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 row payment-information" *ngIf="currentStep === 1">
+      <h4 class="col-12 payment-information-heading">
+        Billing details
+      </h4>
+
+      <div class="col-12 col-sm-6 payment-information-row form-group row">
+        <div class="col-12 sm-body-text payment-information-row-label">
+          Billing First name
+        </div>
+        <input
+          class="col-12 md-input form-control {{showError === 1 ? billingDetails.firstName === '' ? 'is-invalid' : 'is-valid' : ''}}"
+          [(ngModel)]="billingDetails.firstName" />
+      </div>
+
+      <div class="col-12 col-sm-6 payment-information-row form-group row">
+        <div class="col-12 sm-body-text payment-information-row-label">
+          Billing Last name
+        </div>
+        <input
+          class="col-12 md-input form-control {{showError === 1 ? billingDetails.lastName === '' ? 'is-invalid' : 'is-valid' : ''}}"
+          [(ngModel)]="billingDetails.lastName" />
+      </div>
+
+      <div class="col-12 payment-information-row form-group row">
+        <div class="col-12 sm-body-text payment-information-row-label">
+          Company name (optional)
+        </div>
+        <input class="col-12 md-input form-control" [(ngModel)]="billingDetails.company" />
+      </div>
+
+      <div class="col-12 payment-information-row form-group row">
+        <div class="col-12 sm-body-text payment-information-row-label">
+          Country
+        </div>
+        <select
+          class="col-12 md-input form-control {{showError === 1 ? billingDetails.country === '' ? 'is-invalid' : 'is-valid' : ''}}"
+          [(ngModel)]="billingDetails.country">
+          <option *ngFor="let country of countryList" [value]="country.code">
+            {{country.name}}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-12 col-sm-6 payment-information-row form-group row">
+        <div class="col-12 sm-body-text payment-information-row-label">
+          Town / City
+        </div>
+        <input
+          class="col-12 md-input form-control {{showError === 1 ? billingDetails.city === '' ? 'is-invalid' : 'is-valid' : ''}}"
+          [(ngModel)]="billingDetails.city" />
+      </div>
+
+      <div class="col-12 col-sm-6 payment-information-row form-group row">
+        <div class="col-12 sm-body-text payment-information-row-label">
+          Street Address
+        </div>
+        <input
+          class="col-12 md-input form-control {{showError === 1 ? billingDetails.street === '' ? 'is-invalid' : 'is-valid' : ''}}"
+          [(ngModel)]="billingDetails.street" />
+      </div>
+
+      <div class="col-12 col-sm-6 payment-information-row form-group row">
+        <div class="col-12 sm-body-text payment-information-row-label">
+          State
+        </div>
+        <input
+          class="col-12 md-input form-control {{showError === 1 ? billingDetails.state === '' ? 'is-invalid' : 'is-valid' : ''}}"
+          [(ngModel)]="billingDetails.state" />
+      </div>
+
+      <div class="col-12 col-sm-6 payment-information-row form-group row">
+        <div class="col-12 sm-body-text payment-information-row-label">
+          ZIP
+        </div>
+        <input
+          class="col-12 md-input form-control {{showError === 1 ? billingDetails.zip === '' ? 'is-invalid' : 'is-valid' : ''}}"
+          [(ngModel)]="billingDetails.zip" />
+      </div>
+
+      <div class="col-6 d-none d-sm-flex">
+      </div>
+
+      <div class="col-12 col-sm-6 payment-information-row form-group row">
+        <button class="col-12 md-cta lg-buttons" (click)="nextStep()">
+          Continue
+        </button>
+      </div>
+    </div>
+
+    <div class="col-12 row payment-information" *ngIf="currentStep === 2">
+      <h4 class="col-12 payment-information-heading">
+        Attendee Information
+      </h4>
+
+      <div class="col-12 col-sm-6 payment-information-row form-group row">
+        <div class="col-12 sm-body-text payment-information-row-label">
+          First name
+        </div>
+        <input
+          class="col-12 md-input form-control {{showError === 2 ? attendeeInformation.firstName === '' ? 'is-invalid' : 'is-valid' : ''}}"
+          [(ngModel)]="attendeeInformation.firstName" />
+      </div>
+
+      <div class="col-12 col-sm-6 payment-information-row form-group row">
+        <div class="col-12 sm-body-text payment-information-row-label">
+          Last name
+        </div>
+        <input
+          class="col-12 md-input form-control {{showError === 2 ? attendeeInformation.lastName === '' ? 'is-invalid' : 'is-valid' : ''}}"
+          [(ngModel)]="attendeeInformation.lastName" />
+      </div>
+
+      <div class="col-12 col-sm-6 payment-information-row form-group row">
+        <div class="col-12 sm-body-text payment-information-row-label">
+          Title
+        </div>
+        <select
+          class="col-12 md-input form-control {{showError === 2 ? attendeeInformation.title === '' ? 'is-invalid' : 'is-valid' : ''}}"
+          [(ngModel)]="attendeeInformation.title">
+          <option value="Mr">Mr</option>
+          <option value="Mrs">Mrs</option>
+          <option value="Miss">Miss</option>
+          <option value="Ms">Ms</option>
+        </select>
+      </div>
+
+      <div class="col-12 col-sm-6 payment-information-row form-group row">
+        <div class="col-12 sm-body-text payment-information-row-label">
+          Date of Birth (MM/DD/YY)
+        </div>
+        <input
+          class="col-12 form-control md-input md-body-text {{showError === 2 ? attendeeInformation.birthDate === null ? 'is-invalid' : 'is-valid' : ''}}"
+          placeholder="MM/DD/YY" [owlDateTime]="dobPicker" [owlDateTimeTrigger]="dobPicker"
+          [(ngModel)]="attendeeInformation.birthDate">
+        <owl-date-time #dobPicker pickerType="calendar" startView="multi-years" [startAt]="startAt">
+        </owl-date-time>
+      </div>
+
+      <div class="col-12 payment-information-row form-group row">
+        <div class="col-12 sm-body-text payment-information-row-label">
+          Occupation (optional)
+        </div>
+        <input class="col-12 md-input form-control" [(ngModel)]="attendeeInformation.occupation" />
+      </div>
+
+      <div class="col-12 col-sm-6 payment-information-row form-group row">
+        <div class="col-12 sm-body-text payment-information-row-label">
+          Phone (mobile)
+        </div>
+        <input
+          class="col-12 md-input form-control {{showError === 2 ? attendeeInformation.phone === '' ? 'is-invalid' : 'is-valid' : ''}}"
+          [(ngModel)]="attendeeInformation.phone" />
+      </div>
+
+      <div class="col-12 col-sm-6 payment-information-row form-group row">
+        <div class="col-12 sm-body-text payment-information-row-label">
+          Email address
+        </div>
+        <input
+          class="col-12 md-input form-control {{showError === 2 ? attendeeInformation.email === '' ? 'is-invalid' : 'is-valid' : ''}}"
+          [(ngModel)]="attendeeInformation.email" />
+      </div>
+
+      <div class="col-6">
+      </div>
+
+      <div class="col-12 col-sm-6 payment-information-row form-group row">
+        <button class="col-12 md-cta lg-buttons" (click)="nextStep()">
+          Continue
+        </button>
+      </div>
+    </div>
+
+    <div class="col-12 row payment-information" *ngIf="currentStep === 3">
+      <h4 class="col-12 payment-information-heading">
+        {{addCard ? "Card Information" : "Estimated Total"}}
+      </h4>
+
+      <div class="alert alert-danger" role="alert" [hidden]="!error">
+        {{error}}
+      </div>
+
+      <div class="col-12 payment-information-row form-group row">
+        <app-card class="col-12 row" [buttonLabel]="addCard ? 'Add Card' : 'Place Order'"
+          (tokenReady)="onTokenReady($event)" [name]="billingDetails.firstName + ' ' + billingDetails.lastName"
+          [addressCity]="billingDetails.city" [addressState]="billingDetails.state" [addressZip]="billingDetails.zip"
+          [addressCountry]="billingDetails.country" [addressLine1]="billingDetails.street">
+        </app-card>
+      </div>
+    </div>
+
+    <div class="spinner-wrapper-payment" *ngIf="loading">
+      <span class="spinner-border" role="status" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+
+</div>

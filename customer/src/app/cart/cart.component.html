@@ -55,10 +55,10 @@
           </div>
         </div>
 
-        <div class="alert alert-success" role="alert" [hidden]="!success">
-          Your order has been placed successfully!
-        </div>
+      </div>
 
+      <div class="col-12 alert alert-success" role="alert" [hidden]="!success">
+        Your order has been placed successfully!
       </div>
     </div>
 
@@ -129,10 +129,10 @@
                 </div>
               </button>
             </div>
+          </div>
 
-            <div class="alert alert-danger" role="alert" [hidden]="!errorMessage[1]">
-              {{errorMessage}}
-            </div>
+          <div class="col-12 alert alert-danger" role="alert" [hidden]="!errorMessage[1]">
+            {{errorMessage[1]}}
           </div>
 
           <div class="modal-footer">

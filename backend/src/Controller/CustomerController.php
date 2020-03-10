@@ -349,7 +349,8 @@ class CustomerController extends AbstractController
         $customer = Customer::fromDatabase($customer);
 
         $skey = $this->getParameter('env(STRIPE_SKEY)');
-        $result = $this->paymentRepository->addPaymentInfo($customer, $request->get('token'), $skey);
+        $result = $this->paymentRepository->addPaymentInfo($customer, $request->get('token'), $skey, 
+            $request->get('billing'), $request->get('attendee'));
 
         if($result == false) {
             return new JsonResponse([
@@ -460,7 +461,7 @@ class CustomerController extends AbstractController
         }
 
 
-        $result = $this->paymentRepository->placeOrder($customer, $courses, $skey);
+        $result = $this->paymentRepository->placeOrder($customer, $courses, $request->get('paymentMethodId'), $skey);
 
         if($result == null) {
             return new JsonResponse([

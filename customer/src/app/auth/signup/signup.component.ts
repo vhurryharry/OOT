@@ -16,6 +16,10 @@ export class SignupComponent implements OnInit {
   errorMessage: string;
   loading = false;
   confirmationSent = false;
+  birthDate: Date;
+
+  public startAt = new Date(1990, 1, 1);
+  public maxDate = new Date().setFullYear(new Date().getFullYear() - 17);
 
   constructor(private loginService: LoginService, private router: Router) {}
 
@@ -50,6 +54,8 @@ export class SignupComponent implements OnInit {
 
     this.loading = true;
 
+    console.log(this.birthDate);
+
     const data = {
       user: {
         email: this.email,
@@ -57,6 +63,9 @@ export class SignupComponent implements OnInit {
         password: this.password,
         firstName: this.firstName,
         lastName: this.lastName,
+        birthDate: new Date(
+          this.birthDate.getTime() - this.birthDate.getTimezoneOffset() * 60000
+        ),
         occupation: this.business,
         type: "student"
       }

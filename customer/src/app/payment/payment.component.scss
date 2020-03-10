@@ -1,0 +1,229 @@
+@import "src/assets/styles/variables";
+
+#payment-background-1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 152px;
+  z-index: -1;
+}
+
+.payment-container {
+  padding: 0;
+  margin: calc(156px + 3.25vw) 15.6vw 96px;
+}
+
+.payment-heading-title {
+  text-align: center;
+  margin: 0 0 3.25vw;
+  padding: 0 8.5vw;
+}
+
+.payment-stepper {
+  margin: 6vw 0;
+
+  &-step {
+    margin: 0;
+    padding: 0;
+
+    &-label {
+      padding: 0;
+      text-align: center;
+      color: $gray800;
+
+      &.selected {
+        color: $black;
+      }
+    }
+
+    &-bar {
+      height: 2px;
+
+      margin: 0 0 32px;
+      padding: 0;
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      &-line {
+        border: 1px solid $gray500;
+        height: 2px;
+        position: absolute;
+        z-index: -1;
+
+        &.done {
+          border: 1px solid $blue;
+        }
+
+        &.left {
+          left: 0;
+        }
+
+        &.right {
+          right: 0;
+        }
+      }
+
+      &.first {
+        justify-content: flex-start;
+      }
+
+      &.last {
+        justify-content: flex-end;
+      }
+
+      &-point {
+        height: 24px;
+        width: 24px;
+        border-radius: 12px;
+        background-color: $gray500;
+
+        &.first {
+          margin-left: -13px;
+        }
+
+        &.last {
+          margin-right: -13px;
+        }
+      }
+
+      &-selected {
+        margin-top: 13px;
+
+        &.first {
+          margin-left: -28px;
+        }
+
+        &.last {
+          margin-right: -28px;
+        }
+      }
+
+      &-done {
+        &.first {
+          margin-left: -17px;
+        }
+
+        &.last {
+          margin-right: -17px;
+        }
+      }
+    }
+  }
+}
+
+.payment-stepper-mob {
+  display: none;
+}
+
+.payment-information {
+  margin: 0;
+
+  &-heading {
+    margin: 0 0 32px;
+  }
+
+  &-row {
+    margin: 16px 0;
+
+    &-label {
+      padding: 12px 0;
+    }
+
+    button {
+      margin: 12px 0;
+    }
+  }
+}
+
+.spinner-wrapper-payment {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+@media #{$tablet} {
+  #payment-background-1 {
+    top: 112px;
+  }
+
+  .payment-container {
+    margin: calc(112px + 3vw) 5.86vw 0;
+  }
+
+  .payment-heading-title {
+    margin: 0 0 3.25vw;
+    padding: 0 21.2vw;
+  }
+}
+
+@media #{$mobile} {
+  #payment-background-1 {
+    display: none;
+  }
+
+  .payment-container {
+    margin: 96px 24px 0;
+  }
+
+  .payment-heading-title {
+    margin: 0 0 24px;
+    padding: 0;
+  }
+
+  .payment-stepper {
+    display: none;
+  }
+
+  .payment-stepper-mob {
+    display: flex;
+    margin: 2vw 0;
+
+    &-progress {
+      text-align: center;
+      color: $gray800;
+      margin: 16px 0;
+
+      &-current {
+        color: $blue;
+      }
+    }
+
+    &-steps {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      &-step {
+        height: 2px;
+        width: 32px;
+        border: 1px solid $gray500;
+
+        margin: 0 2px;
+
+        &-selected {
+          border: 1px solid $blue;
+        }
+      }
+    }
+  }
+
+  .payment-information {
+    h4 {
+      margin: 32px 0 16px;
+      text-align: center;
+    }
+  }
+}

@@ -45,6 +45,11 @@ const routes: Routes = [
     loadChildren: "./cart/cart.module#CartModule"
   },
   {
+    path: "payment",
+    component: CondensedComponent,
+    loadChildren: "./payment/payment.module#PaymentModule"
+  },
+  {
     path: "login",
     component: CondensedComponent,
     loadChildren: "./auth/login/login.module#LoginModule"

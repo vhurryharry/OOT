@@ -3,7 +3,11 @@ import { Router } from "@angular/router";
 
 import { LoginService, IUserInfo } from "src/app/services/login.service";
 import { AccountService } from "./account.service";
-import { PaymentService, IPaymentMethod } from "../services/payment.service";
+import {
+  PaymentService,
+  IPaymentMethod,
+  PaymentAction
+} from "../services/payment.service";
 
 declare var $: any;
 
@@ -90,7 +94,12 @@ export class AccountComponent implements OnInit {
       });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.paymentService.getAction() === PaymentAction.AddCard) {
+      this.paymentService.setAction(null);
+      this.onClickNav(4);
+    }
+  }
 
   onUpdateAvatar() {
     $("#account-profile-avatar").trigger("click");
@@ -227,28 +236,8 @@ export class AccountComponent implements OnInit {
       });
   }
 
-  onTokenReady(token) {
-    $("#addPaymentModal").modal("hide");
-
-    this.loading = true;
-
-    this.paymentService
-      .addPaymentMethod(this.userInfo.id, token.id)
-      .subscribe((result: any) => {
-        this.loading = false;
-        if (result.success) {
-          this.paymentMethods = result.methods.map(method => {
-            return {
-              ...method,
-              expYear: method.expYear % 100,
-              brand: this.paymentService.getPaymentIcon(method.brand)
-            };
-          });
-          this.success[4] = true;
-        } else {
-          this.success[4] = false;
-          this.errorMessage[4] = result.error;
-        }
-      });
+  addPaymentMethod() {
+    this.paymentService.setAction(PaymentAction.AddCard);
+    this.router.navigateByUrl("/payment");
   }
 }
