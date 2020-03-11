@@ -369,8 +369,41 @@
             </button>
           </div>
         </div>
+
+
+        <div
+          class="account-profile-sub-section col-12 col-lg-9 account-profile-sub-section-limited {{selectedNav === 6 ? 'nav-selected' : ''}}"
+          id="billing">
+          <h5 class="d-none d-lg-block">
+            {{selectedNavString}}
+          </h5>
+
+          <div class="col-12 spinner-wrapper">
+            <span class="spinner-border" role="status" aria-hidden="true" [hidden]="billingsLoaded"></span>
+          </div>
+
+          <div class="col-12 account-billing row" *ngFor="let billing of billings; let i = index">
+            <div class="col-4 account-billing-number">
+              # {{billing.number}}
+            </div>
+            <div class="col-3 account-billing-amount">
+              ${{billing.amount | number}}
+            </div>
+            <div class="col-4 account-billing-paid">
+              {{billing.paid}}
+            </div>
+            <div class="col-1 account-billing-print">
+              <button type="button" class="btn account-billing-print-button" (click)="printInvoice(i)">
+                <img src="/assets/images/s-icons/print.png" />
+              </button>
+            </div>
+          </div>
+
+        </div>
+
       </div>
 
     </div>
+
   </div>
 </div>

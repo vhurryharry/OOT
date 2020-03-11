@@ -99,7 +99,10 @@ class CourseRepository
         $course['topics'] = $topics;
         $course['reserved_count'] = $this->db->find('select count(*) from course_reservation where course_id = ?', [$course['id']])['count'];
         if($userId != 'default') {
-            $course['reserved'] = $this->db->find('select number, status from course_reservation where course_id = ? and customer_id = ?', [$course['id'], $userId]);
+            $course['reserved'] = $this->db->find('select status from course_reservation where course_id = ? and customer_id = ?', [$course['id'], $userId]);
+            if($course['reserved'] == []) {
+                $course['reserved'] = null;
+            }
         } else {
             $course['reserved'] = null;
         }

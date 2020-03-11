@@ -142,21 +142,26 @@ class CustomerRepository
 
     public function getMyCourses(string $id) 
     {
-        $courseReservations = $this->db->findAll('select  * from course_reservation where customer_id = ?', $id);
+        $courseReservations = $this->db->findAll('select * from course_reservation where customer_id = ?', $id);
+    }
+
+    public function getPayments(Customer $customer)
+    {
+        return $this->db->findAll("select * from course_payment where customer = ?", [$customer->getId()]);
     }
 
     public function reserveCourse(Customer $customer, array $courses, string $transactionId)
     {
+        $coursePayment = new CoursePayment();
+        $coursePayment->setCustomer($customer->getId());
+        $coursePayment->setTransactionId($transactionId);
+
+        $this->db->insert(
+            'course_payment',
+            $coursePayment->toDatabase(),
+        );
+
         foreach ($courses as $course) {
-            $coursePayment = new CoursePayment();
-            $coursePayment->setCustomer($customer->getId());
-            $coursePayment->setTransactionId($transactionId);
-
-            $this->db->insert(
-                'course_payment',
-                $coursePayment->toDatabase(),
-            );
-
             $courseReservation = new CourseReservation();
             $courseReservation->setPayment($coursePayment->getId());
             $courseReservation->setCustomerId($customer->getId());

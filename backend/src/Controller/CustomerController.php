@@ -479,4 +479,32 @@ class CustomerController extends AbstractController
             'error' => null
         ]);
     }
+
+    /**
+     * @Route("/billings/{userId}", methods={"GET"})
+     */
+    public function getBillings(string $userId)
+    {
+        $customer = $this->customerRepository->getCustomer($userId);
+        
+        if (!$customer) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => 'User not found!'
+            ]);
+        }
+
+        $customer = Customer::fromDatabase($customer);
+
+        $payments = $this->customerRepository->getPayments($customer);
+        
+        $skey = $this->getParameter('env(STRIPE_SKEY)');
+        $billings = $this->paymentRepository->getBillings($payments, $skey);
+
+        return new JsonResponse([
+            'success' => true,
+            'error' => null,
+            'billings' => $billings
+        ]);
+    }
 }

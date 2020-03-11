@@ -9,7 +9,6 @@ use Carbon\Carbon;
 use JsonSerializable;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use RandomLib\Factory;
 
 class CourseReservation implements JsonSerializable
 {
@@ -32,11 +31,6 @@ class CourseReservation implements JsonSerializable
      * @var Carbon
      */
     protected $updatedAt;
-
-    /**
-     * @var string
-     */
-    protected $number;
 
     /**
      * @var ?UuidInterface
@@ -87,14 +81,6 @@ class CourseReservation implements JsonSerializable
     {
         $this->createdAt = Carbon::now();
         $this->updatedAt = $this->createdAt;
-        $this->number = $this->generateNumber();
-    }
-
-    protected function generateNumber(): string
-    {
-        $generator = (new Factory())->getLowStrengthGenerator();
-
-        return $generator->generateString(10, '0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ');
     }
 
     public function getId(): int
@@ -135,16 +121,6 @@ class CourseReservation implements JsonSerializable
     public function setUpdatedAt(Carbon $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
-    }
-
-    public function getNumber(): string
-    {
-        return $this->number;
-    }
-
-    public function setNumber(string $number): void
-    {
-        $this->number = $number;
     }
 
     public function getCourseId(): ?UuidInterface
@@ -257,10 +233,6 @@ class CourseReservation implements JsonSerializable
             $instance->setUpdatedAt(new Carbon($row['updated_at']));
         }
 
-        if (isset($row['number'])) {
-            $instance->setNumber($row['number']);
-        }
-
         if (isset($row['course_id'])) {
             $instance->setCourseId(Uuid::fromString($row['course_id']));
         }
@@ -312,10 +284,6 @@ class CourseReservation implements JsonSerializable
             $instance->setUpdatedAt(new Carbon($row['updatedAt']));
         }
 
-        if (isset($row['number'])) {
-            $instance->setNumber($row['number']);
-        }
-
         if (isset($row['courseId'])) {
             $instance->setCourseId(Uuid::fromString($row['courseId']));
         }
@@ -354,7 +322,6 @@ class CourseReservation implements JsonSerializable
             'option_dates' => json_encode($this->optionDates),
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
             'updated_at' => $this->updatedAt->format('Y-m-d H:i:s'),
-            'number' => $this->number,
             'course_id' => $this->courseId,
             'customer_id' => $this->customerId,
             'status' => $this->status,
@@ -372,7 +339,6 @@ class CourseReservation implements JsonSerializable
             'optionDates' => $this->optionDates,
             'createdAt' => $this->createdAt->format('Y-m-d\TH:i:s'),
             'updatedAt' => $this->updatedAt->format('Y-m-d\TH:i:s'),
-            'number' => $this->number,
             'courseId' => $this->courseId,
             'customerId' => $this->customerId,
             'payment' => $this->payment,

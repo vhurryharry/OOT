@@ -215,4 +215,37 @@ class PaymentRepository
             return false;
         }
     }
+
+    public function getBillings(array $payments, string $skey)
+    {
+        $billings = [];
+        
+        Stripe::setApiKey($skey);
+
+        foreach ($payments as $payment) {
+
+            try {
+                $order = \Stripe\Order::retrieve($payment['transaction_id']);
+
+                $billings[] = [
+                    'number' => $payment['number'],
+                    'amount' => $order['amount'],
+                    'currency' => $order['currency'],
+                    'order_id' => $order['id'],
+                    'paid' => date("F, Y", $order['created'])
+                ];
+            } catch (Exception $e) {
+                
+                $billings[] = [
+                    'number' => $payment['number'],
+                    'amount' => '0',
+                    'currency' => 'usd',
+                    'order_id' => $payment['transaction_id'],
+                    'paid' => date("F, Y", $payment['created_at'])
+                ];
+            }                
+        }
+
+        return $billings;
+    }
 }

@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use JsonSerializable;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use RandomLib\Factory;
 
 class CoursePayment implements JsonSerializable
 {
@@ -15,6 +16,11 @@ class CoursePayment implements JsonSerializable
      * @var UuidInterface
      */
     protected $id;
+
+    /**
+     * @var string
+     */
+    protected $number;
 
     /**
      * @var string
@@ -40,6 +46,14 @@ class CoursePayment implements JsonSerializable
     {
         $this->id = Uuid::uuid4();
         $this->createdAt = Carbon::now();
+        $this->number = $this->generateNumber();
+    }
+
+    protected function generateNumber(): string
+    {
+        $generator = (new Factory())->getLowStrengthGenerator();
+
+        return $generator->generateString(10, '0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ');
     }
 
     public function getId(): UuidInterface
@@ -50,6 +64,16 @@ class CoursePayment implements JsonSerializable
     public function setId(UuidInterface $id): void
     {
         $this->id = $id;
+    }
+
+    public function getNumber(): string
+    {
+        return $this->number;
+    }
+
+    public function setNumber(string $number): void
+    {
+        $this->number = $number;
     }
 
     public function getTransactionId(): string
@@ -104,6 +128,10 @@ class CoursePayment implements JsonSerializable
             $instance->setTransactionId($row['transaction_id']);
         }
 
+        if (isset($row['number'])) {
+            $instance->setNumber($row['number']);
+        }
+
         if (isset($row['metadata'])) {
             $instance->setMetadata((array) json_decode($row['metadata'], true));
         }
@@ -131,6 +159,10 @@ class CoursePayment implements JsonSerializable
             $instance->setTransactionId($row['transactionId']);
         }
 
+        if (isset($row['number'])) {
+            $instance->setNumber($row['number']);
+        }
+
         if (isset($row['metadata'])) {
             $instance->setMetadata($row['metadata']);
         }
@@ -152,6 +184,7 @@ class CoursePayment implements JsonSerializable
             'id' => $this->id,
             'transaction_id' => $this->transactionId,
             'metadata' => json_encode($this->metadata),
+            'number' => $this->number,
             'customer' => $this->customer,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
         ];
@@ -162,6 +195,7 @@ class CoursePayment implements JsonSerializable
         return [
             'id' => $this->id,
             'transactionId' => $this->transactionId,
+            'number' => $this->number,
             'metadata' => $this->metadata,
             'customer' => $this->customer,
             'createdAt' => $this->createdAt->format('Y-m-d\TH:i:s'),

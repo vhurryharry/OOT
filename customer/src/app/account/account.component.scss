@@ -340,6 +340,33 @@
   padding: 0;
 }
 
+.account-billing {
+  min-width: 450px;
+  padding: 22px 0;
+  margin: 0;
+
+  border-top: 1px solid $gray500;
+
+  &:last-child {
+    border-bottom: 1px solid $gray500;
+  }
+
+  &-number {
+    padding: 0;
+  }
+
+  &-print {
+    padding: 0;
+
+    &-button {
+      border: none;
+      background-color: transparent;
+      padding: 0;
+      margin-left: auto;
+    }
+  }
+}
+
 @media #{$tablet} {
   .account-container {
     margin: calc(112px + 3vw) 0 0;
