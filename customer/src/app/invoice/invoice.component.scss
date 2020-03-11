@@ -1,0 +1,108 @@
+@import "src/assets/styles/variables";
+
+#invoice-background-1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 152px;
+  z-index: -1;
+}
+
+.invoice-container {
+  padding: 0;
+  margin: calc(156px + 3.25vw) auto 0;
+  width: 9.5in;
+}
+
+.invoice-heading-title {
+  text-align: center;
+  margin: 0 0 3.25vw;
+  padding: 0 8.5vw;
+}
+
+.invoice-pdf {
+  background-color: $white;
+  width: 100%;
+  padding: 0.5in;
+
+  &-content {
+    border: 1px solid $gray500;
+    padding: 40px 50px;
+
+    &-subtitle {
+      margin: 40px 0 20px;
+    }
+
+    &-products-header {
+      padding: 10px 0;
+      margin: 40px 0 0;
+      background-color: $black;
+      color: $white;
+
+      &-price {
+        padding: 0;
+        margin: 0;
+      }
+    }
+
+    &-products-item {
+      padding: 15px 0;
+      margin: 0;
+      border-bottom: 1px solid $gray500;
+
+      &-sku {
+        font-size: 12px;
+      }
+
+      &-price {
+        padding: 0;
+        margin: 0;
+      }
+    }
+
+    &-subtotal {
+      padding: 5px 0;
+      margin: 40px 0 0;
+
+      border-top: 1px solid $gray500;
+      border-bottom: 3px solid $black;
+    }
+
+    &-total {
+      padding: 5px 0;
+      margin: 0;
+
+      border-bottom: 3px solid $black;
+    }
+  }
+}
+
+@media #{$tablet} {
+  #invoice-background-1 {
+    top: 112px;
+  }
+
+  .invoice-container {
+    margin: calc(112px + 3vw) 5.86vw 0;
+  }
+
+  .invoice-heading-title {
+    margin: 0 0 3.25vw;
+    padding: 0 21.2vw;
+  }
+}
+
+@media #{$mobile} {
+  #invoice-background-1 {
+    display: none;
+  }
+
+  .invoice-container {
+    margin: 96px 24px 0;
+  }
+
+  .invoice-heading-title {
+    margin: 0 0 24px;
+    padding: 0;
+  }
+}
