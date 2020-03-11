@@ -49,9 +49,9 @@
       <p class="lg-subtitle" [innerHTML]="course.content">
       </p>
       <div class="course-detail-enroll">
-        <button (click)="enroll()" class="lg-cta lg-buttons"
-          [disabled]="course.reserved_count >= course.spots || course.reserved.number">
-          {{course.reserved.number ? "You've already enrolled" : course.reserved_count >= course.spots ? "Sold out" : "Enroll in program"}}
+        <button (click)="enroll()" class="btn lg-cta lg-buttons"
+          [disabled]="course.reserved_count >= course.spots || course.reserved">
+          {{course.reserved ? "Already enrolled" : course.reserved_count >= course.spots ? "Sold out" : "Enroll in program"}}
         </button>
 
         <div class="lg-subtitle course-detail-price">
@@ -160,6 +160,7 @@
 
   </div>
 
-  <app-footer [price]="dataLoaded ? course.options[0].price : 0" (enroll)="enroll()"></app-footer>
+  <app-footer [status]="course.reserved ? 'reserved' : course.reserved_count >= course.spots ? 'sold out' : 'available'"
+    [price]="dataLoaded ? course.options[0].price : 0" (enroll)="enroll()"></app-footer>
 
 </div>

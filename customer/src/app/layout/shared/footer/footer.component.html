@@ -11,7 +11,10 @@
       <h2 class="footer-heading">
         {{ price > 0 ? formatPrice(price) : "Be an olive oil expert."}}
       </h2>
-      <button class="lg-cta-primary lg-buttons" *ngIf="price > 0" (click)="onEnroll()">
+      <div class="lg-buttons footer-heading" *ngIf="price > 0 && status !== 'available'">
+        {{status === "reserved" ? "Already enrolled" : status === "sold out" ? "Sold out" : "Enroll in program"}}
+      </div>
+      <button class="btn lg-cta-primary lg-buttons" *ngIf="price > 0 && status === 'available'" (click)="onEnroll()">
         Enroll in program
       </button>
       <a href="/course" class="lg-cta-primary lg-buttons" *ngIf="0 >= price">

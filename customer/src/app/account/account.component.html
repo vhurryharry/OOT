@@ -52,6 +52,11 @@
             Payment Methods
             <img src="/assets/images/arrows/right.png" class="nav-link-arrow-icon" />
           </a>
+          <a class="link-button nav-link {{selectedNav === 6 ? 'active' : ''}}" role="button" (click)="onClickNav(6)">
+            <img src="/assets/images/s-icons/invoice.png" class="nav-link-icon" />
+            Billing
+            <img src="/assets/images/arrows/right.png" class="nav-link-arrow-icon" />
+          </a>
           <a class="link-button nav-link {{selectedNav === 5 ? 'active' : ''}}" role="button" (click)="onClickNav(5)">
             <img src="/assets/images/s-icons/social.png" class="nav-link-icon" />
             Social Profiles
@@ -308,7 +313,7 @@
           </div>
 
           <div class="col-12 account-add-payment-button">
-            <button type="button" class="md-cta lg-buttons account-payment-method-add-button"
+            <button type="button" class="btn md-cta lg-buttons account-payment-method-add-button"
               (click)="addPaymentMethod()">
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                 [hidden]="!loading"></span>

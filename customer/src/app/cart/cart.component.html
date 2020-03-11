@@ -78,11 +78,11 @@
           </div>
 
           <div class="col-12 cart-summary-body-buttons">
-            <button class="col-12 md-cta lg-buttons" (click)="checkout()" [disabled]="0 >= total">
+            <button class="btn col-12 md-cta lg-buttons" (click)="checkout()" [disabled]="0 >= total">
               Checkout
             </button>
 
-            <button class="col-12 md-ghost lg-buttons" *ngIf="!loggedIn" (click)="loginAndCheckout()">
+            <button class="btn col-12 md-ghost lg-buttons" *ngIf="!loggedIn" (click)="loginAndCheckout()">
               Sign in & Checkout
             </button>
           </div>

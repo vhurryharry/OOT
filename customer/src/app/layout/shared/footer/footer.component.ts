@@ -1,28 +1,31 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 
 @Component({
-  selector: "app-footer",
-  templateUrl: "./footer.component.html",
-  styleUrls: ["./footer.component.scss"]
+    selector: "app-footer",
+    templateUrl: "./footer.component.html",
+    styleUrls: ["./footer.component.scss"]
 })
 export class FooterComponent implements OnInit {
-  @Input()
-  public price = -1;
+    @Input()
+    public price = -1;
 
-  @Output()
-  enroll: EventEmitter<any> = new EventEmitter();
+    @Input()
+    public status = "";
 
-  constructor() {}
+    @Output()
+    enroll: EventEmitter<any> = new EventEmitter();
 
-  ngOnInit() {}
+    constructor() { }
 
-  formatPrice(price) {
-    return (
-      "Tuition: $ " + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    );
-  }
+    ngOnInit() { }
 
-  onEnroll() {
-    this.enroll.emit();
-  }
+    formatPrice(price) {
+        return (
+            "Tuition: $ " + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        );
+    }
+
+    onEnroll() {
+        this.enroll.emit();
+    }
 }
