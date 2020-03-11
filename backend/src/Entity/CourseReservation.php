@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use JsonSerializable;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use RandomLib\Factory;
 
 class CourseReservation implements JsonSerializable
 {
@@ -78,9 +79,23 @@ class CourseReservation implements JsonSerializable
     protected $optionLocation;
 
     /**
-     * @var ?CoursePayment
+     * @var UuidInterface
      */
     protected $payment;
+
+    public function __construct()
+    {
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = $this->createdAt;
+        $this->number = $this->generateNumber();
+    }
+
+    protected function generateNumber(): string
+    {
+        $generator = (new Factory())->getLowStrengthGenerator();
+
+        return $generator->generateString(10, '0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ');
+    }
 
     public function getId(): int
     {
@@ -182,12 +197,12 @@ class CourseReservation implements JsonSerializable
         $this->status = $status;
     }
 
-    public function getPayment(): ?CoursePayment
+    public function getPayment(): ?UuidInterface
     {
         return $this->payment;
     }
 
-    public function setPayment(CoursePayment $payment): void
+    public function setPayment(UuidInterface $payment): void
     {
         $this->payment = $payment;
     }
@@ -270,16 +285,8 @@ class CourseReservation implements JsonSerializable
             $instance->setOptionLocation($row['option_location']);
         }
 
-        if (isset($row['course_json'])) {
-            $instance->setCourse(Course::fromDatabase(json_decode($row['course_json'], true)));
-        }
-
-        if (isset($row['customer_json'])) {
-            $instance->setCustomer(Customer::fromDatabase(json_decode($row['customer_json'], true)));
-        }
-
-        if (isset($row['payment_json'])) {
-            $instance->setPayment(CoursePayment::fromDatabase(json_decode($row['payment_json'], true)));
+        if (isset($row['payment'])) {
+            $instance->setPayment($row['payment']);
         }
 
         return $instance;
@@ -315,6 +322,10 @@ class CourseReservation implements JsonSerializable
 
         if (isset($row['customerId'])) {
             $instance->setCustomerId(Uuid::fromString($row['customerId']));
+        }
+
+        if (isset($row['payment'])) {
+            $instance->setPayment(Uuid::fromString($row['payment']));
         }
 
         if (isset($row['status'])) {
@@ -364,13 +375,13 @@ class CourseReservation implements JsonSerializable
             'number' => $this->number,
             'courseId' => $this->courseId,
             'customerId' => $this->customerId,
+            'payment' => $this->payment,
             'status' => $this->status,
             'optionTitle' => $this->optionTitle,
             'optionPrice' => $this->optionPrice,
             'optionLocation' => $this->optionLocation,
             'course' => $this->course ? $this->course->jsonSerialize() : null,
             'customer' => $this->customer ? $this->customer->jsonSerialize() : null,
-            'payment' => $this->payment ? $this->payment->jsonSerialize() : null,
         ];
     }
 }

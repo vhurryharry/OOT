@@ -10,6 +10,7 @@ export interface IUserInfo {
   type: string;
   login: string;
   phone: string;
+  title: string;
   firstName: string;
   lastName: string;
   occupation: string;

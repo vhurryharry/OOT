@@ -115,10 +115,7 @@ class PaymentRepository
                 ]
             ]);
 
-
-            $order->pay(['customer' => $stripeCustomer['id']]);
-
-            return true;
+            return $order->pay(['customer' => $stripeCustomer['id']]);
         } catch (Exception $e) {
             return null;
         }

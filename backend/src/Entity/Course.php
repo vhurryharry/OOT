@@ -116,6 +116,16 @@ class Course implements JsonSerializable
      */
     protected $content;
 
+    /**
+     * @var ?string
+     */
+    protected $productId;
+
+    /**
+     * @var ?string
+     */
+    protected $skuId;
+
     public function __construct()
     {
         $this->id = Uuid::uuid4();
@@ -333,6 +343,26 @@ class Course implements JsonSerializable
         $this->content = $content;
     }
 
+    public function getProductId(): ?string
+    {
+        return $this->product_id;
+    }
+
+    public function setProductId(string $productId): void
+    {
+        $this->productId = $productId;
+    }
+
+    public function getSkuId(): ?string
+    {
+        return $this->skuId;
+    }
+
+    public function setSkuId(string $skuId): void
+    {
+        $this->skuId = $skuId;
+    }
+
     public static function fromDatabase(array $row): Course
     {
         $instance = new Course();
@@ -415,6 +445,14 @@ class Course implements JsonSerializable
 
         if (isset($row['content'])) {
             $instance->setContent($row['content']);
+        }
+
+        if (isset($row['product_id'])) {
+            $instance->setProductId($row['product_id']);
+        }
+
+        if (isset($row['sku_id'])) {
+            $instance->setSkuId($row['sku_id']);
         }
 
         return $instance;
@@ -504,6 +542,14 @@ class Course implements JsonSerializable
             $instance->setContent($row['content']);
         }
 
+        if (isset($row['productId'])) {
+            $instance->setProductId($row['productId']);
+        }
+
+        if (isset($row['skuId'])) {
+            $instance->setSkuId($row['skuId']);
+        }
+
         return $instance;
     }
 
@@ -530,6 +576,8 @@ class Course implements JsonSerializable
             'thumbnail' => $this->thumbnail,
             'hero' => $this->hero,
             'content' => $this->content,
+            'product_id' => $this->productId,
+            'sku_id' => $this->skuId,
         ];
     }
 
@@ -556,6 +604,8 @@ class Course implements JsonSerializable
             'thumbnail' => $this->thumbnail,
             'hero' => $this->hero,
             'content' => $this->content,
+            'productId' => $this->productId,
+            'skuId' => $this->skuId,
         ];
     }
 }

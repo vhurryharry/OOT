@@ -44,12 +44,33 @@
 
     <div class="auth-row">
       <div class="sm-body-text">
+        Phone number
+      </div>
+      <input type="text" class="form-control md-input md-body-text" id="phone" name="phone"
+        placeholder="What's your phone number?" [(ngModel)]="phone">
+    </div>
+
+    <div class="auth-row">
+      <div class="sm-body-text">
         Date of Birth (MM/DD/YY)
       </div>
       <input class="form-control md-input md-body-text" id="birthDate" name="birthDate" placeholder="MM/DD/YY"
         [owlDateTime]="dobPicker" [owlDateTimeTrigger]="dobPicker" [(ngModel)]="birthDate">
       <owl-date-time #dobPicker pickerType="calendar" startView="multi-years" [startAt]="startAt">
       </owl-date-time>
+    </div>
+
+    <div class="auth-row">
+      <div class="sm-body-text">
+        Title
+      </div>
+      <select class="md-input form-control md-body-text" [(ngModel)]="title" placeholder="What's your title?" id="title"
+        name="title">
+        <option value="Mr">Mr</option>
+        <option value="Mrs">Mrs</option>
+        <option value="Miss">Miss</option>
+        <option value="Ms">Ms</option>
+      </select>
     </div>
 
     <div class="auth-row">

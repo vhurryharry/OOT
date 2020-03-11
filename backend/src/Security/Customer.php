@@ -160,6 +160,16 @@ class Customer implements UserInterface, JsonSerializable
      */
     protected $avatar;
 
+    /**
+     * @var ?string
+     */
+    protected $phone;
+
+    /**
+     * @var ?string
+     */
+    protected $title;
+
     public function __construct(string $login = null, UuidInterface $id = null)
     {
         $this->id = $id ?? Uuid::uuid4();
@@ -481,6 +491,26 @@ class Customer implements UserInterface, JsonSerializable
         $this->avatar = $avatar;
     }
 
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): void
+    {
+        $this->phone = $phone;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
     public static function fromJson(array $row): Customer
     {
         $instance = new Customer($row['login']);
@@ -583,6 +613,14 @@ class Customer implements UserInterface, JsonSerializable
 
         if (isset($row['avatar'])) {
             $instance->setAvatar($row['avatar']);
+        }
+
+        if (isset($row['phone'])) {
+            $instance->setPhone($row['phone']);
+        }
+
+        if (isset($row['title'])) {
+            $instance->setTitle($row['title']);
         }
 
         return $instance;
@@ -688,6 +726,14 @@ class Customer implements UserInterface, JsonSerializable
             $instance->setAvatar($row['avatar']);
         }
 
+        if (isset($row['phone'])) {
+            $instance->setPhone($row['phone']);
+        }
+
+        if (isset($row['title'])) {
+            $instance->setTitle($row['title']);
+        }
+
         return $instance;
     }
 
@@ -720,6 +766,8 @@ class Customer implements UserInterface, JsonSerializable
             'password' => $this->password,
             'mfa' => $this->mfa,
             'avatar' => $this->avatar,
+            'phone' => $this->phone,
+            'title' => $this->title,
         ];
     }
 
@@ -752,6 +800,8 @@ class Customer implements UserInterface, JsonSerializable
             'password' => $this->password,
             'mfa' => $this->mfa,
             'avatar' => $this->avatar,
+            'phone' => $this->phone,
+            'title' => $this->title,
         ];
     }
 }

@@ -1,6 +1,8 @@
 @import "src/assets/styles/variables";
 
 .signup-content {
+  top: 70% !important;
+
   @media #{$desktop} {
     padding-top: 20vw;
   }

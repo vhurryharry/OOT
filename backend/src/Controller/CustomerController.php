@@ -470,6 +470,8 @@ class CustomerController extends AbstractController
             ]);
         }
 
+        $this->customerRepository->reserveCourse($customer, $courses, $result['id']);
+
         return new JsonResponse([
             'success' => true,
             'error' => null

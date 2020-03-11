@@ -181,7 +181,7 @@
   margin: 0;
   padding: 1vw;
 
-  .course-card-content {
+  &-content {
     padding: 1.25vw;
     width: 100%;
     height: 100%;
@@ -191,7 +191,7 @@
     border-radius: 16px;
   }
 
-  .course-card-row {
+  &-row {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -227,7 +227,7 @@
     }
   }
 
-  .course-card-link {
+  &-link {
     float: right;
   }
 }
@@ -522,5 +522,11 @@
 
   .account-add-payment-button {
     text-align: center;
+  }
+
+  .course-card {
+    &-content {
+      padding: 24px;
+    }
   }
 }

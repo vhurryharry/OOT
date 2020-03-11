@@ -199,46 +199,47 @@
           </div>
         </div>
 
-        <div
-          class="account-profile-sub-section account-profile-sub-section-flex col-12 row {{selectedNav === 3 ? 'nav-selected' : ''}}"
-          id="my-courses">
+        <div class="account-profile-sub-section col-12 row {{selectedNav === 3 ? 'nav-selected' : ''}}" id="my-courses">
           <h5 class="d-none d-lg-block col-12">
             {{selectedNavString}}
           </h5>
 
-          <div class="col-12 col-sm-6 course-card" *ngFor="let course of myCourses" [hidden]="course.hidden">
-            <div class="course-card-content">
-              <div class="course-card-row">
-                <img src="/assets/images/s-icons/calendar.png" class="d-none d-lg-block" />
-                <div class="md-body-medium">
-                  {{ course.start_date | date : 'MMMM dd, yyyy' }}
+          <div class="col-12 row">
+            <div class="col-12 col-sm-6 course-card" *ngFor="let course of myCourses" [hidden]="course.hidden">
+              <div class="course-card-content">
+                <div class="course-card-row">
+                  <img src="/assets/images/s-icons/calendar.png" class="d-none d-lg-block" />
+                  <div class="md-body-medium">
+                    {{ course.start_date | date : 'MMMM dd, yyyy' }}
+                  </div>
                 </div>
-              </div>
 
-              <div class="course-card-row">
-                <img src="/assets/images/s-icons/map.png" class="d-none d-lg-block" />
-                <div class="md-body-text">
-                  {{ course.city }}
+                <div class="course-card-row">
+                  <img src="/assets/images/s-icons/map.png" class="d-none d-lg-block" />
+                  <div class="md-body-text">
+                    {{ course.city }}
+                  </div>
                 </div>
-              </div>
 
-              <div class="course-card-row">
-                <img src="/assets/images/s-icons/time.png" class="d-none d-lg-block" />
-                <div class="md-body-text {{course.completed ? 'completed-course' : 'enrolled-course'}}">
-                  {{course.completed ? 'Completed' : 'Enrolled'}}
+                <div class="course-card-row">
+                  <img src="/assets/images/s-icons/time.png" class="d-none d-lg-block" />
+                  <div class="md-body-text {{course.completed ? 'completed-course' : 'enrolled-course'}}">
+                    {{course.completed ? 'Completed' : 'Enrolled'}}
+                  </div>
                 </div>
-              </div>
 
-              <div class="course-card-row course-buttons-row {{course.completed ? '' : 'disabled'}}">
-                <button class="sm-ghost md-buttons" [disabled]="!course.completed"
-                  (click)="onGetCertificate(course.id)">
-                  Get Certificate
-                </button>
-                <button class="sm-ghost md-buttons" [disabled]="!course.completed" (click)="onLeaveFeedback(course.id)">
-                  Leave Feedback
-                </button>
-              </div>
+                <div class="course-card-row course-buttons-row {{course.completed ? '' : 'disabled'}}">
+                  <button class="sm-ghost md-buttons" [disabled]="!course.completed"
+                    (click)="onGetCertificate(course.id)">
+                    Get Certificate
+                  </button>
+                  <button class="sm-ghost md-buttons" [disabled]="!course.completed"
+                    (click)="onLeaveFeedback(course.id)">
+                    Leave Feedback
+                  </button>
+                </div>
 
+              </div>
             </div>
           </div>
 

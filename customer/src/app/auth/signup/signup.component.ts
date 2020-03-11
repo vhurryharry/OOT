@@ -13,6 +13,9 @@ export class SignupComponent implements OnInit {
   email: string;
   password: string;
   business: string;
+  phone: string;
+  title: string;
+
   errorMessage: string;
   loading = false;
   confirmationSent = false;
@@ -63,6 +66,8 @@ export class SignupComponent implements OnInit {
         password: this.password,
         firstName: this.firstName,
         lastName: this.lastName,
+        phone: this.phone,
+        title: this.title,
         birthDate: new Date(
           this.birthDate.getTime() - this.birthDate.getTimezoneOffset() * 60000
         ),

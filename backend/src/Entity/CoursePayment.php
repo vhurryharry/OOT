@@ -36,6 +36,12 @@ class CoursePayment implements JsonSerializable
      */
     protected $createdAt;
 
+    public function __construct()
+    {
+        $this->id = Uuid::uuid4();
+        $this->createdAt = Carbon::now();
+    }
+
     public function getId(): UuidInterface
     {
         return $this->id;

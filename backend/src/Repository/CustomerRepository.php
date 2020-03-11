@@ -7,6 +7,8 @@ namespace App\Repository;
 use App\Database;
 use App\Security\Customer;
 use App\Entity\CustomerPaymentMethod;
+use App\Entity\CoursePayment;
+use App\Entity\CourseReservation;
 use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
 use RandomLib\Factory;
@@ -141,5 +143,32 @@ class CustomerRepository
     public function getMyCourses(string $id) 
     {
         $courseReservations = $this->db->findAll('select  * from course_reservation where customer_id = ?', $id);
+    }
+
+    public function reserveCourse(Customer $customer, array $courses, string $transactionId)
+    {
+        foreach ($courses as $course) {
+            $coursePayment = new CoursePayment();
+            $coursePayment->setCustomer($customer->getId());
+            $coursePayment->setTransactionId($transactionId);
+
+            $this->db->insert(
+                'course_payment',
+                $coursePayment->toDatabase(),
+            );
+
+            $courseReservation = new CourseReservation();
+            $courseReservation->setPayment($coursePayment->getId());
+            $courseReservation->setCustomerId($customer->getId());
+            $courseReservation->setCourseId(Uuid::fromString($course['id']));
+            $courseReservation->setOptionPrice($course['price']);
+            $courseReservation->setOptionTitle($course['title']);
+            $courseReservation->setStatus('paid');
+
+            $this->db->insert(
+                'course_reservation',
+                $courseReservation->toDatabase(),
+            );
+        }
     }
 }

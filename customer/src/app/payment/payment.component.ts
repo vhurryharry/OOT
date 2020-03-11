@@ -79,6 +79,7 @@ export class PaymentComponent implements OnInit {
         birthDate: userInfo.birthDate,
         occupation: userInfo.occupation,
         phone: userInfo.phone,
+        title: userInfo.title,
         email: userInfo.login
       };
     }
