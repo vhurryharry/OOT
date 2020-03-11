@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 import { PaymentService, ICartItem } from "src/app/services/payment.service";
 import { CourseService } from "../course.service";
+import { LoginService } from "src/app/services/login.service";
 
 declare var $: any;
 
@@ -22,25 +23,33 @@ export class CourseDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private paymentService: PaymentService,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private loginService: LoginService
   ) {
     this.route.params.subscribe(params => {
       this.slug = params.slug;
-      this.courseService.findBySlug(this.slug).subscribe((result: any) => {
-        this.course = result.course;
+      let userId = "default";
+      if (this.loginService.isLoggedIn()) {
+        userId = this.loginService.getCurrentUserId();
+      }
 
-        this.course.location = JSON.parse(
-          "[" + this.course.location.slice(1, -1) + "]"
-        );
+      this.courseService
+        .findBySlug(this.slug, this.loginService.getCurrentUserId())
+        .subscribe((result: any) => {
+          this.course = result.course;
 
-        this.dataLoaded = true;
+          this.course.location = JSON.parse(
+            "[" + this.course.location.slice(1, -1) + "]"
+          );
 
-        setTimeout(() => {
-          $('[data-toggle="tooltip"]').tooltip();
+          this.dataLoaded = true;
 
-          this.initCarousels("course-testimonials-gallery");
-        }, 500);
-      });
+          setTimeout(() => {
+            $('[data-toggle="tooltip"]').tooltip();
+
+            this.initCarousels("course-testimonials-gallery");
+          }, 500);
+        });
     });
   }
 
@@ -71,14 +80,18 @@ export class CourseDetailComponent implements OnInit {
   ngOnInit() {}
 
   enroll() {
-    const item: ICartItem = {
-      id: this.course.id,
-      name: this.course.title,
-      price: this.course.options[0].price,
-      quantity: 1
-    };
+    if (this.loginService.isLoggedIn()) {
+      const item: ICartItem = {
+        id: this.course.id,
+        name: this.course.title,
+        price: this.course.options[0].price,
+        quantity: 1
+      };
 
-    this.paymentService.addToCart(item);
-    this.router.navigateByUrl("/cart");
+      this.paymentService.addToCart(item);
+      this.router.navigateByUrl("/cart");
+    } else {
+      this.router.navigateByUrl("/signup");
+    }
   }
 }

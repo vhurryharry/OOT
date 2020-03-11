@@ -49,9 +49,11 @@
       <p class="lg-subtitle" [innerHTML]="course.content">
       </p>
       <div class="course-detail-enroll">
-        <button (click)="enroll()" class="lg-cta lg-buttons">
-          Enroll In Program
+        <button (click)="enroll()" class="lg-cta lg-buttons"
+          [disabled]="course.reserved_count >= course.spots || course.reserved.number">
+          {{course.reserved.number ? "You've already enrolled" : course.reserved_count >= course.spots ? "Sold out" : "Enroll in program"}}
         </button>
+
         <div class="lg-subtitle course-detail-price">
           ${{ course.options[0].price }}
         </div>

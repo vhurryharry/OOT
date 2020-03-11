@@ -30,6 +30,7 @@ export class AccountComponent implements OnInit {
   loading = false;
   success = [null, null, null, null, null, null];
   errorMessage = [null, null, null, null, null, null];
+  coursesLoaded = false;
   paymentLoaded = false;
   savingAvatar = false;
 
@@ -69,16 +70,20 @@ export class AccountComponent implements OnInit {
     this.accountService
       .getMyCourses(this.userInfo.id)
       .subscribe((result: any) => {
+        this.coursesLoaded = true;
         if (result.success === true) {
           this.myCourses = result.courses;
+        } else {
+          this.errorMessage[3] = result.error;
         }
       });
 
     this.paymentService
       .getPaymentMethod(this.userInfo.id)
       .subscribe((result: any) => {
+        this.paymentLoaded = true;
+
         if (result.success) {
-          this.paymentLoaded = true;
           this.paymentMethods = result.methods.map(method => {
             return {
               ...method,
@@ -87,7 +92,6 @@ export class AccountComponent implements OnInit {
             };
           });
         } else {
-          this.paymentLoaded = true;
           this.errorMessage[4] =
             "Error occured while getting your payment methods!";
         }
@@ -239,5 +243,9 @@ export class AccountComponent implements OnInit {
   addPaymentMethod() {
     this.paymentService.setAction(PaymentAction.AddCard);
     this.router.navigateByUrl("/payment");
+  }
+
+  showCourse(slug) {
+    this.router.navigateByUrl("/course/" + slug);
   }
 }

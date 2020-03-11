@@ -155,7 +155,7 @@
             <button class="btn md-cta account-profile-save-button" type="button" (click)="onSaveChanges(1)">
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                 [hidden]="!loading"></span>
-              Save Changes
+              Save changes
             </button>
           </div>
         </div>
@@ -194,7 +194,7 @@
             <button class="btn md-cta account-profile-save-button" type="button" (click)="onSavePasswordChanges()">
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                 [hidden]="!loading"></span>
-              Save Changes
+              Save changes
             </button>
           </div>
         </div>
@@ -204,41 +204,59 @@
             {{selectedNavString}}
           </h5>
 
-          <div class="col-12 row">
-            <div class="col-12 col-sm-6 course-card" *ngFor="let course of myCourses" [hidden]="course.hidden">
-              <div class="course-card-content">
-                <div class="course-card-row">
-                  <img src="/assets/images/s-icons/calendar.png" class="d-none d-lg-block" />
+          <div class="col-12 spinner-wrapper">
+            <span class="spinner-border" role="status" aria-hidden="true" [hidden]="coursesLoaded"></span>
+          </div>
+
+          <div class="alert alert-danger" role="alert" [hidden]="!errorMessage[3]">
+            {{errorMessage[3]}}
+          </div>
+
+          <div class="alert alert-info" role="alert" [hidden]="myCourses.length > 0">
+            You haven't enrolled to any courses yet.
+          </div>
+
+          <div class="col-12 row account-profile-courses-section">
+            <div class="col-12 col-sm-6 course-card-wrapper" *ngFor="let course of myCourses" [hidden]="course.hidden">
+              <div class="course-card">
+                <div class="course-card-header">
                   <div class="md-body-medium">
-                    {{ course.start_date | date : 'MMMM dd, yyyy' }}
+                    {{course.title}}
                   </div>
                 </div>
+                <div class="course-card-content">
+                  <div class="course-card-row">
+                    <img src="/assets/images/s-icons/calendar.png" class="d-none d-lg-block" />
+                    <div class="md-body-medium">
+                      {{ course.start_date | date : 'MMMM dd, yyyy' }}
+                    </div>
+                  </div>
 
-                <div class="course-card-row">
-                  <img src="/assets/images/s-icons/map.png" class="d-none d-lg-block" />
-                  <div class="md-body-text">
-                    {{ course.city }}
+                  <div class="course-card-row">
+                    <img src="/assets/images/s-icons/map.png" class="d-none d-lg-block" />
+                    <div class="md-body-text">
+                      {{ course.city }}
+                    </div>
+                  </div>
+
+                  <div class="course-card-row">
+                    <img src="/assets/images/s-icons/time.png" class="d-none d-lg-block" />
+                    <div class="md-body-text {{course.completed ? 'completed-course' : 'enrolled-course'}}">
+                      {{course.completed ? 'Completed' : 'Enrolled'}}
+                    </div>
+                  </div>
+
+                  <div class="course-card-row course-buttons-row {{course.completed ? '' : 'disabled'}}">
+                    <button class="sm-ghost md-buttons" [disabled]="!course.completed"
+                      (click)="onGetCertificate(course.id)">
+                      Get certificate
+                    </button>
+                    <button class="sm-ghost md-buttons" [disabled]="!course.completed"
+                      (click)="onLeaveFeedback(course.id)">
+                      Leave feedback
+                    </button>
                   </div>
                 </div>
-
-                <div class="course-card-row">
-                  <img src="/assets/images/s-icons/time.png" class="d-none d-lg-block" />
-                  <div class="md-body-text {{course.completed ? 'completed-course' : 'enrolled-course'}}">
-                    {{course.completed ? 'Completed' : 'Enrolled'}}
-                  </div>
-                </div>
-
-                <div class="course-card-row course-buttons-row {{course.completed ? '' : 'disabled'}}">
-                  <button class="sm-ghost md-buttons" [disabled]="!course.completed"
-                    (click)="onGetCertificate(course.id)">
-                    Get Certificate
-                  </button>
-                  <button class="sm-ghost md-buttons" [disabled]="!course.completed"
-                    (click)="onLeaveFeedback(course.id)">
-                    Leave Feedback
-                  </button>
-                </div>
-
               </div>
             </div>
           </div>
@@ -294,7 +312,7 @@
               (click)="addPaymentMethod()">
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                 [hidden]="!loading"></span>
-              Add Payment Method
+              Add payment method
             </button>
           </div>
         </div>
@@ -342,7 +360,7 @@
             <button class="btn md-cta account-profile-save-button" type="button" (click)="onSaveChanges(5)">
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                 [hidden]="!loading"></span>
-              Save Changes
+              Save changes
             </button>
           </div>
         </div>

@@ -13,7 +13,7 @@ export class CourseService {
     return this.http.get(this.baseURL);
   }
 
-  findBySlug(slug) {
-    return this.http.get(this.baseURL + "/find/" + slug);
+  findBySlug(slug: string, userId: string) {
+    return this.http.get(this.baseURL + "/find/" + userId + "/" + slug);
   }
 }

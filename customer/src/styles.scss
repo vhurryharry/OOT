@@ -16,10 +16,7 @@ h2,
 h3,
 h4,
 h5,
-h6,
-.lg-buttons,
-.md-buttons,
-.sm-buttons {
+h6 {
   font-style: normal;
   font-weight: bold;
 }
@@ -42,7 +39,10 @@ h6,
 .sm-body-text,
 .xs-body-text,
 .md-body-list,
-.sm-body-list {
+.sm-body-list,
+.lg-buttons,
+.md-buttons,
+.sm-buttons {
   font-style: normal;
   font-weight: normal;
 }

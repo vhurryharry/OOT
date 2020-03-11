@@ -78,7 +78,7 @@ class CourseRepository
         return $course;
     }
 
-    public function findBySlug(string $slug): array
+    public function findBySlug(string $userId, string $slug): array
     {
         $course = $this->db->find(
             'select * from course where slug = ? and deleted_at is null',
@@ -97,6 +97,8 @@ class CourseRepository
         }
         
         $course['topics'] = $topics;
+        $course['reserved_count'] = $this->db->find('select count(*) from course_reservation where course_id = ?', [$course['id']])['count'];
+        $course['reserved'] = $this->db->find('select number, status from course_reservation where course_id = ? and customer_id = ?', [$course['id'], $userId]);
 
         $course['options'] = $this->db->findAll('select id, title, price, dates, combo from course_option where course = ? and deleted_at is null', [$course['id']]);
 

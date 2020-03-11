@@ -335,11 +335,11 @@ class CourseController extends AbstractController
     }
 
     /**
-     * @Route("/find/{slug}", name="course", requirements={"slug"="[a-zA-Z0-9\-]+"})
+     * @Route("/find/{userId}/{slug}", name="course", requirements={"slug"="[a-zA-Z0-9\-]+"})
      */
-    public function course(string $slug)
+    public function course(string $userId, string $slug)
     {
-        $course = $this->courseRepository->findBySlug($slug);
+        $course = $this->courseRepository->findBySlug($userId, $slug);
 
         return new JsonResponse([
             "course" => $course

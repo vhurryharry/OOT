@@ -97,24 +97,25 @@ export class PaymentComponent implements OnInit {
         this.billingDetails.country === "" ||
         this.billingDetails.city === "" ||
         this.billingDetails.street === "" ||
-        this.billingDetails.state === "" ||
         this.billingDetails.zip === ""
       ) {
         this.showError = 1;
       }
-    } else if (this.currentStep === 2) {
-      if (
-        this.attendeeInformation.firstName === "" ||
-        this.attendeeInformation.lastName === "" ||
-        this.attendeeInformation.birthDate === null ||
-        this.attendeeInformation.title === "" ||
-        this.attendeeInformation.phone === "" ||
-        this.attendeeInformation.email === ""
-      ) {
-        this.showError = 2;
-      }
     }
-    console.log(this.billingDetails.country);
+
+    // if (this.currentStep === 2) {
+    //     if (
+    //         this.attendeeInformation.firstName === "" ||
+    //         this.attendeeInformation.lastName === "" ||
+    //         this.attendeeInformation.birthDate === null ||
+    //         this.attendeeInformation.title === "" ||
+    //         this.attendeeInformation.phone === "" ||
+    //         this.attendeeInformation.email === ""
+    //     ) {
+    //         this.showError = 2;
+    //     }
+    // }
+
     if (this.showError === 0) {
       this.currentStep += 1;
     }

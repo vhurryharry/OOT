@@ -8,8 +8,12 @@
 }
 
 // Buttons
-button:disabled {
+button:disabled,
+.btn:disabled,
+.icon-button:disabled {
   background: $gray600;
+  color: $white;
+  cursor: default;
 
   &:hover,
   &:focus,
@@ -17,6 +21,11 @@ button:disabled {
   &:active,
   &.active {
     background: $gray600;
+    color: $white;
+
+    img {
+      filter: none;
+    }
   }
 }
 
@@ -77,7 +86,6 @@ button.focus,
   padding: 18px 24px;
 
   font-style: normal;
-  font-weight: bold;
 
   font-size: 17px;
   line-height: 20px;

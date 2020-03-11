@@ -317,6 +317,8 @@ class CustomerController extends AbstractController
         foreach($reservations as $reservation) {
             $courses[] = [
                 'id' => $reservation['course_id'],
+                'slug' => $reservation['slug'],
+                'title' => $reservation['title'],
                 'city' => $reservation['city'],
                 'start_date' => $reservation['start_date'],
                 'completed' => $reservation['start_date'] < $today ? true : false
