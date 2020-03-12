@@ -46,17 +46,17 @@
           <div>
             {{billing.shipping.name}} <br />
             {{billing.shipping.address.line1}} <br />
-            {{billing.shipping.address.city}}, {{billing.shipping.address.state}}
-            {{billing.shipping.address.postal_code}}
+            {{billing.shipping.address.city}}, {{billing.shipping.address.postal_code}} <br />
+            {{billing.shipping.address.country}}
           </div>
         </div>
 
         <div class="col-5 invoice-pdf-content-details">
           <div>
-            Invoice Number: {{billing.invoice.number}} <br />
+            Invoice Number: {{invoiceNumber}} <br />
             Invoice Date: {{billing.invoice.created_at | date:'MMMM dd, yyyy'}} <br />
-            Order Number: {{billing.id}} <br />
-            Order Date: {{billing.created | date:'MMMM dd, yyyy'}} <br />
+            Order Number: {{billing.invoice.number}} <br />
+            Order Date: {{billing.invoice.created_at | date:'MMMM dd, yyyy'}} <br />
             Payment Method: {{billing.method}}
           </div>
         </div>

@@ -6,217 +6,223 @@ import { Observable, pipe, throwError } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 
 export interface IUserInfo {
-  id: string;
-  type: string;
-  login: string;
-  phone: string;
-  title: string;
-  firstName: string;
-  lastName: string;
-  occupation: string;
-  birthDate: Date;
-  bio: string;
-  website: string;
-  instagram: string;
-  twitter: string;
-  facebook: string;
-  avatar: string;
+    id: string;
+    type: string;
+    login: string;
+    phone: string;
+    title: string;
+    firstName: string;
+    lastName: string;
+    occupation: string;
+    birthDate: Date;
+    bio: string;
+    website: string;
+    instagram: string;
+    twitter: string;
+    facebook: string;
+    avatar: string;
 }
 
 @Injectable()
 export class LoginService {
-  private authURL: string = environment.baseURL + `/api/auth`;
-  currentUser: IUserInfo;
-  authError: string;
-  redirectUrl: string;
+    private authURL: string = environment.baseURL + `/api/auth`;
+    currentUser: IUserInfo;
+    authError: string;
+    redirectUrl: string;
 
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
-  isLoggedIn(): boolean {
-    if (localStorage.getItem("oot_user_token")) {
-      if (!this.currentUser) {
-        this.currentUser = JSON.parse(localStorage.getItem("oot_user_token"));
-      }
+    isLoggedIn(): boolean {
+        if (localStorage.getItem("oot_user_token")) {
+            if (!this.currentUser) {
+                this.currentUser = JSON.parse(localStorage.getItem("oot_user_token"));
+            }
 
-      return true;
+            return true;
+        }
+        return false;
     }
-    return false;
-  }
 
-  getCurrentUser(): IUserInfo {
-    return this.currentUser;
-  }
-
-  getCurrentUserId(): string {
-    return this.currentUser.id;
-  }
-
-  authenticate(email, password): Observable<IUserInfo> {
-    return this.http
-      .post<any>(`${this.authURL}/customer-login`, {
-        email,
-        password
-      })
-      .pipe(
-        catchError(error => throwError(new Error("Unexpected error occured!")))
-      )
-      .pipe<any>(
-        map(response => {
-          if (response && response.success) {
-            localStorage.setItem(
-              "oot_user_token",
-              JSON.stringify(response.user)
-            );
-
-            this.currentUser = response.user;
-            this.authError = null;
-
+    getCurrentUser(): IUserInfo {
+        if (this.isLoggedIn()) {
             return this.currentUser;
-          } else {
-            this.authError = response.error;
-            this.currentUser = null;
+        }
+        return null;
+    }
 
-            throw new Error(response.error);
-          }
-        })
-      );
-  }
+    getCurrentUserId(): string {
+        if (this.isLoggedIn()) {
+            return this.currentUser.id;
+        }
+        return null;
+    }
 
-  logOut(): void {
-    localStorage.removeItem("oot_user_token");
-    this.currentUser = null;
-    this.redirectUrl = null;
-  }
+    authenticate(email, password): Observable<IUserInfo> {
+        return this.http
+            .post<any>(`${this.authURL}/customer-login`, {
+                email,
+                password
+            })
+            .pipe(
+                catchError(error => throwError(new Error("Unexpected error occured!")))
+            )
+            .pipe<any>(
+                map(response => {
+                    if (response && response.success) {
+                        localStorage.setItem(
+                            "oot_user_token",
+                            JSON.stringify(response.user)
+                        );
 
-  updateUser(updatedUser): void {
-    this.currentUser = {
-      ...this.currentUser,
-      ...updatedUser
-    };
+                        this.currentUser = response.user;
+                        this.authError = null;
 
-    localStorage.setItem("oot_user_token", JSON.stringify(this.currentUser));
-  }
+                        return this.currentUser;
+                    } else {
+                        this.authError = response.error;
+                        this.currentUser = null;
 
-  register(userInfo: any): Observable<IUserInfo> {
-    return this.http
-      .post<any>(`${this.authURL}/customer-register`, userInfo)
-      .pipe(
-        catchError(error => throwError(new Error("Unexpected error occured!")))
-      )
-      .pipe<any>(
-        map(response => {
-          if (response && response.success === true) {
-            this.currentUser = null;
-            this.authError = null;
-
-            return this.currentUser;
-          } else {
-            this.authError = response.error;
-            this.currentUser = null;
-
-            throw new Error(response.error);
-          }
-        })
-      );
-  }
-
-  resetPasswordRequest(email: string): Observable<boolean> {
-    return this.http
-      .post<any>(`${this.authURL}/customer-reset-password-requested`, { email })
-      .pipe(
-        catchError(error => throwError(new Error("Unexpected error occured!")))
-      )
-      .pipe<any>(
-        map(response => {
-          if (response && response.success === true) {
-            return true;
-          } else {
-            throw new Error(response.error);
-          }
-        })
-      );
-  }
-
-  resetPassword(email: string, password: string): Observable<boolean> {
-    return this.http
-      .post<any>(`${this.authURL}/customer-reset-password`, { email, password })
-      .pipe(
-        catchError(error => throwError(new Error("Unexpected error occured!")))
-      )
-      .pipe<any>(
-        map(response => {
-          if (response && response.success === true) {
-            return true;
-          } else {
-            throw new Error(response.error);
-          }
-        })
-      );
-  }
-
-  resetPasswordValidateToken(token: string): Observable<string> {
-    return this.http
-      .post<any>(`${this.authURL}/customer-reset-password-validate-token`, {
-        token
-      })
-      .pipe(
-        catchError(error => throwError(new Error("Unexpected error occured!")))
-      )
-      .pipe<any>(
-        map(response => {
-          if (response && response.success === true) {
-            return response.email;
-          } else {
-            throw new Error(response.error);
-          }
-        })
-      );
-  }
-
-  confirmationValidateToken(token: string): Observable<string> {
-    return this.http
-      .post<any>(`${this.authURL}/customer-confirmation-validate-token`, {
-        token
-      })
-      .pipe(
-        catchError(error => throwError(new Error("Unexpected error occured!")))
-      )
-      .pipe<any>(
-        map(response => {
-          if (response && response.success === true) {
-            localStorage.setItem(
-              "oot_user_token",
-              JSON.stringify(response.user)
+                        throw new Error(response.error);
+                    }
+                })
             );
+    }
 
-            this.currentUser = response.user;
+    logOut(): void {
+        localStorage.removeItem("oot_user_token");
+        this.currentUser = null;
+        this.redirectUrl = null;
+    }
 
-            return response.user;
-          } else {
-            throw new Error(response.error);
-          }
-        })
-      );
-  }
+    updateUser(updatedUser): void {
+        this.currentUser = {
+            ...this.currentUser,
+            ...updatedUser
+        };
 
-  sendConfirmation(email: string): Observable<boolean> {
-    return this.http
-      .post<any>(`${this.authURL}/resend-confirmation`, { email })
-      .pipe(
-        catchError(error => throwError(new Error("Unexpected error occured!")))
-      )
-      .pipe<any>(
-        map(response => {
-          if (response && response.success === true) {
-            return true;
-          } else {
-            throw new Error(response.error);
-          }
-        })
-      );
-  }
+        localStorage.setItem("oot_user_token", JSON.stringify(this.currentUser));
+    }
 
-  handleError(error: any): void {
-    throw new Error("Unexpected error occured!");
-  }
+    register(userInfo: any): Observable<IUserInfo> {
+        return this.http
+            .post<any>(`${this.authURL}/customer-register`, userInfo)
+            .pipe(
+                catchError(error => throwError(new Error("Unexpected error occured!")))
+            )
+            .pipe<any>(
+                map(response => {
+                    if (response && response.success === true) {
+                        this.currentUser = null;
+                        this.authError = null;
+
+                        return this.currentUser;
+                    } else {
+                        this.authError = response.error;
+                        this.currentUser = null;
+
+                        throw new Error(response.error);
+                    }
+                })
+            );
+    }
+
+    resetPasswordRequest(email: string): Observable<boolean> {
+        return this.http
+            .post<any>(`${this.authURL}/customer-reset-password-requested`, { email })
+            .pipe(
+                catchError(error => throwError(new Error("Unexpected error occured!")))
+            )
+            .pipe<any>(
+                map(response => {
+                    if (response && response.success === true) {
+                        return true;
+                    } else {
+                        throw new Error(response.error);
+                    }
+                })
+            );
+    }
+
+    resetPassword(email: string, password: string): Observable<boolean> {
+        return this.http
+            .post<any>(`${this.authURL}/customer-reset-password`, { email, password })
+            .pipe(
+                catchError(error => throwError(new Error("Unexpected error occured!")))
+            )
+            .pipe<any>(
+                map(response => {
+                    if (response && response.success === true) {
+                        return true;
+                    } else {
+                        throw new Error(response.error);
+                    }
+                })
+            );
+    }
+
+    resetPasswordValidateToken(token: string): Observable<string> {
+        return this.http
+            .post<any>(`${this.authURL}/customer-reset-password-validate-token`, {
+                token
+            })
+            .pipe(
+                catchError(error => throwError(new Error("Unexpected error occured!")))
+            )
+            .pipe<any>(
+                map(response => {
+                    if (response && response.success === true) {
+                        return response.email;
+                    } else {
+                        throw new Error(response.error);
+                    }
+                })
+            );
+    }
+
+    confirmationValidateToken(token: string): Observable<string> {
+        return this.http
+            .post<any>(`${this.authURL}/customer-confirmation-validate-token`, {
+                token
+            })
+            .pipe(
+                catchError(error => throwError(new Error("Unexpected error occured!")))
+            )
+            .pipe<any>(
+                map(response => {
+                    if (response && response.success === true) {
+                        localStorage.setItem(
+                            "oot_user_token",
+                            JSON.stringify(response.user)
+                        );
+
+                        this.currentUser = response.user;
+
+                        return response.user;
+                    } else {
+                        throw new Error(response.error);
+                    }
+                })
+            );
+    }
+
+    sendConfirmation(email: string): Observable<boolean> {
+        return this.http
+            .post<any>(`${this.authURL}/resend-confirmation`, { email })
+            .pipe(
+                catchError(error => throwError(new Error("Unexpected error occured!")))
+            )
+            .pipe<any>(
+                map(response => {
+                    if (response && response.success === true) {
+                        return true;
+                    } else {
+                        throw new Error(response.error);
+                    }
+                })
+            );
+    }
+
+    handleError(error: any): void {
+        throw new Error("Unexpected error occured!");
+    }
 }
