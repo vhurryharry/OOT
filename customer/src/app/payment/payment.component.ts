@@ -136,7 +136,11 @@ export class PaymentComponent implements OnInit {
         .subscribe((result: any) => {
           this.loading = false;
           if (result.success) {
-            this.router.navigateByUrl("/account");
+            const redirectUrl = this.paymentService.redirectUrl
+              ? this.paymentService.redirectUrl
+              : "/account";
+            this.paymentService.redirectUrl = null;
+            this.router.navigateByUrl(redirectUrl);
           } else {
             this.error = result.error;
           }

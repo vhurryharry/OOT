@@ -160,7 +160,8 @@
 
   </div>
 
-  <app-footer [status]="course.reserved ? 'reserved' : course.reserved_count >= course.spots ? 'sold out' : 'available'"
+  <app-footer
+    [status]="dataLoaded ? (course.reserved ? 'reserved' : course.reserved_count >= course.spots ? 'sold out' : 'available') : 'available'"
     [price]="dataLoaded ? course.options[0].price : 0" (enroll)="enroll()"></app-footer>
 
 </div>

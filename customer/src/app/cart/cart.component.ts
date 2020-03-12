@@ -4,7 +4,8 @@ import { Router } from "@angular/router";
 import {
   PaymentService,
   ICartItem,
-  IPaymentMethod
+  IPaymentMethod,
+  PaymentAction
 } from "../services/payment.service";
 import { LoginService, IUserInfo } from "../services/login.service";
 
@@ -143,5 +144,13 @@ export class CartComponent implements OnInit {
   loginAndCheckout() {
     this.loginService.redirectUrl = "/cart";
     this.router.navigateByUrl("/login");
+  }
+
+  addPaymentMethod() {
+    $("#selectPaymentMethodModal").modal("hide");
+
+    this.paymentService.redirectUrl = "/cart";
+    this.paymentService.setAction(PaymentAction.AddCard);
+    this.router.navigateByUrl("/payment");
   }
 }

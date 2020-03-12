@@ -45,6 +45,7 @@ export class PaymentService {
   private baseURL: string = environment.baseURL + "/api/customer";
 
   private action: PaymentAction;
+  public redirectUrl: string = null;
 
   constructor(private http: HttpClient) {}
 
@@ -57,7 +58,7 @@ export class PaymentService {
   }
 
   addToCart(item: ICartItem) {
-    const cart = this.getCart();
+    const cart = [];
     cart.push(item);
 
     localStorage.setItem("cart", JSON.stringify(cart));

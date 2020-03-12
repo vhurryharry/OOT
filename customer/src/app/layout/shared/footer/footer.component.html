@@ -1,5 +1,5 @@
 <div class="footer">
-  <div class="footer-enroll-section">
+  <div class="footer-enroll-section" [hidden]="!showBadge">
     <picture>
       <source srcset="/assets/images/images/footer/background-1-mob.png" media="(max-width: 576px)" />
       <source srcset="/assets/images/images/footer/background-1.png" />
@@ -35,11 +35,7 @@
         <div class="col-12 col-sm-4 col-lg-3 footer-logo-section">
 
           <a class="footer-logo-wrapper" href="/">
-            <picture>
-              <source srcset="/assets/logos/logo-s.png" media="(max-width: 576px)" />
-              <source srcset="/assets/logos/logo.png" />
-              <img src='/assets/logos/logo.png' alt="Olive Oil Times" class="footer-logo" />
-            </picture>
+            <img src='/assets/logos/logo.svg' alt="Olive Oil Times" class="footer-logo" />
           </a>
 
           <div class="sm-body-text d-none d-sm-block footer-copyright">
@@ -79,9 +75,9 @@
           <div class="footer-links-signup">
             <div class="email-input-wrapper">
               <input type="email" class="form-control sm-input sm-body-text" id="email" aria-describedby="emailHelp"
-                placeholder="Your Email">
+                placeholder="Your Email" [(ngModel)]="email">
             </div>
-            <a href="#" class="sm-cta md-buttons footer-sign-up-btn">Sign up</a>
+            <button (click)="signup()" class="btn sm-cta md-buttons footer-sign-up-btn">Sign up</button>
           </div>
         </div>
 

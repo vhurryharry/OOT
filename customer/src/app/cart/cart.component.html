@@ -108,6 +108,12 @@
               <span class="spinner-border" role="status" aria-hidden="true"></span>
             </div>
 
+            <div class="col-12" *ngIf="paymentLoaded && paymentMethods.length === 0">
+              <button class="btn sm-cta" (click)="addPaymentMethod()">
+                Add payment method
+              </button>
+            </div>
+
             <div class="cart-payment-method-wrapper col-12 row" *ngFor="let method of paymentMethods; let i = index">
               <button role="button" (click)="selectPaymentMethod(i)"
                 class="cart-payment-method btn col-12 {{i === selectedPaymentMethod ? 'selected' : ''}}">
@@ -137,7 +143,7 @@
           <div class="modal-footer">
             <button type="button" class="btn sm-cta" (click)="pay()"
               [disabled]="0 > selectedPaymentMethod || paymentRequested">
-              Place order
+              Pay and enroll
             </button>
             <button type="button" class="btm sm-cta-primary" data-dismiss="modal" aria-label="Close">
               Cancel
@@ -149,6 +155,6 @@
 
   </div>
 
-  <app-footer></app-footer>
+  <app-footer [showBadge]="false"></app-footer>
 
 </div>

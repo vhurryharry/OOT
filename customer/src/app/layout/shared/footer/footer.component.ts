@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-footer",
@@ -12,10 +13,15 @@ export class FooterComponent implements OnInit {
   @Input()
   public status = "";
 
+  @Input()
+  public showBadge = true;
+
   @Output()
   enroll: EventEmitter<any> = new EventEmitter();
 
-  constructor() {}
+  private email = "";
+
+  constructor(private router: Router) {}
 
   ngOnInit() {}
 
@@ -27,5 +33,9 @@ export class FooterComponent implements OnInit {
 
   onEnroll() {
     this.enroll.emit();
+  }
+
+  signup() {
+    this.router.navigateByUrl("/signup");
   }
 }

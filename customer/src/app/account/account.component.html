@@ -278,7 +278,7 @@
             <span class="spinner-border" role="status" aria-hidden="true" [hidden]="paymentLoaded"></span>
           </div>
 
-          <div class="alert alert-info" role="alert" [hidden]="paymentMethods && paymentMethods.length > 0">
+          <div class="alert alert-info" role="alert" [hidden]="!paymentMethods || paymentMethods.length > 0">
             You haven't added any payment methods yet!
           </div>
 

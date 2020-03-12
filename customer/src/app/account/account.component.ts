@@ -261,6 +261,7 @@ export class AccountComponent implements OnInit {
 
   addPaymentMethod() {
     this.paymentService.setAction(PaymentAction.AddCard);
+    this.paymentService.redirectUrl = "/account";
     this.router.navigateByUrl("/payment");
   }
 
