@@ -150,10 +150,11 @@ class CustomerRepository
         return $this->db->findAll("select * from course_payment where customer = ?", [$customer->getId()]);
     }
 
-    public function reserveCourse(Customer $customer, array $courses, string $transactionId)
+    public function savePayment(Customer $customer, string $transactionId, int $paymentMethodId): CoursePayment
     {
         $coursePayment = new CoursePayment();
         $coursePayment->setCustomer($customer->getId());
+        $coursePayment->setMethod($paymentMethodId);
         $coursePayment->setTransactionId($transactionId);
 
         $this->db->insert(
@@ -161,9 +162,14 @@ class CustomerRepository
             $coursePayment->toDatabase(),
         );
 
+        return $coursePayment;
+    }
+
+    public function reserveCourse(Customer $customer, array $courses, $paymentId)
+    {
         foreach ($courses as $course) {
             $courseReservation = new CourseReservation();
-            $courseReservation->setPayment($coursePayment->getId());
+            $courseReservation->setPayment($paymentId);
             $courseReservation->setCustomerId($customer->getId());
             $courseReservation->setCourseId(Uuid::fromString($course['id']));
             $courseReservation->setOptionPrice($course['price']);

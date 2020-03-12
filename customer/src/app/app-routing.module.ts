@@ -4,91 +4,91 @@ import { Routes, RouterModule } from "@angular/router";
 import { CondensedComponent } from "./layout/condensed/condensed.component";
 
 const routes: Routes = [
-    {
-        path: "",
-        component: CondensedComponent,
-        loadChildren: "./home/home.module#HomeModule"
-    },
-    {
-        path: "contact",
-        component: CondensedComponent,
-        loadChildren: "./contact/contact.module#ContactModule"
-    },
-    {
-        path: "about",
-        component: CondensedComponent,
-        loadChildren: "./about/about.module#AboutModule"
-    },
-    {
-        path: "course",
-        component: CondensedComponent,
-        loadChildren: "./course/course.module#CourseModule"
-    },
-    {
-        path: "account",
-        component: CondensedComponent,
-        loadChildren: "./account/account.module#AccountModule"
-    },
-    {
-        path: "faq",
-        component: CondensedComponent,
-        loadChildren: "./faq/faq.module#FAQModule"
-    },
-    {
-        path: "blog",
-        component: CondensedComponent,
-        loadChildren: "./blog/blog.module#BlogModule"
-    },
-    {
-        path: "cart",
-        component: CondensedComponent,
-        loadChildren: "./cart/cart.module#CartModule"
-    },
-    {
-        path: "payment",
-        component: CondensedComponent,
-        loadChildren: "./payment/payment.module#PaymentModule"
-    },
-    {
-        path: "invoice",
-        component: CondensedComponent,
-        loadChildren: "./invoice/invoice.module#InvoiceModule"
-    },
-    {
-        path: "login",
-        component: CondensedComponent,
-        loadChildren: "./auth/login/login.module#LoginModule"
-    },
-    {
-        path: "signup",
-        component: CondensedComponent,
-        loadChildren: "./auth/signup/signup.module#SignupModule"
-    },
-    {
-        path: "email-confirmation",
-        component: CondensedComponent,
-        loadChildren:
-            "./auth/email-confirmation/email-confirmation.module#EmailConfirmationModule"
-    },
-    {
-        path: "forgot-pwd",
-        component: CondensedComponent,
-        loadChildren: "./auth/forgot-pwd/forgot-pwd.module#ForgotPwdModule"
-    },
-    {
-        path: "reset-pwd",
-        component: CondensedComponent,
-        loadChildren: "./auth/reset-pwd/reset-pwd.module#ResetPwdModule"
-    },
-    {
-        path: "**",
-        redirectTo: "",
-        pathMatch: "full"
-    }
+  {
+    path: "",
+    component: CondensedComponent,
+    loadChildren: "./home/home.module#HomeModule"
+  },
+  {
+    path: "contact",
+    component: CondensedComponent,
+    loadChildren: "./contact/contact.module#ContactModule"
+  },
+  {
+    path: "about",
+    component: CondensedComponent,
+    loadChildren: "./about/about.module#AboutModule"
+  },
+  {
+    path: "course",
+    component: CondensedComponent,
+    loadChildren: "./course/course.module#CourseModule"
+  },
+  {
+    path: "account",
+    component: CondensedComponent,
+    loadChildren: "./account/account.module#AccountModule"
+  },
+  {
+    path: "faq",
+    component: CondensedComponent,
+    loadChildren: "./faq/faq.module#FAQModule"
+  },
+  {
+    path: "blog",
+    component: CondensedComponent,
+    loadChildren: "./blog/blog.module#BlogModule"
+  },
+  {
+    path: "cart",
+    component: CondensedComponent,
+    loadChildren: "./cart/cart.module#CartModule"
+  },
+  {
+    path: "payment",
+    component: CondensedComponent,
+    loadChildren: "./payment/payment.module#PaymentModule"
+  },
+  {
+    path: "invoice",
+    component: CondensedComponent,
+    loadChildren: "./invoice/invoice.module#InvoiceModule"
+  },
+  {
+    path: "login",
+    component: CondensedComponent,
+    loadChildren: "./auth/login/login.module#LoginModule"
+  },
+  {
+    path: "signup",
+    component: CondensedComponent,
+    loadChildren: "./auth/signup/signup.module#SignupModule"
+  },
+  {
+    path: "email-confirmation",
+    component: CondensedComponent,
+    loadChildren:
+      "./auth/email-confirmation/email-confirmation.module#EmailConfirmationModule"
+  },
+  {
+    path: "forgot-pwd",
+    component: CondensedComponent,
+    loadChildren: "./auth/forgot-pwd/forgot-pwd.module#ForgotPwdModule"
+  },
+  {
+    path: "reset-pwd",
+    component: CondensedComponent,
+    loadChildren: "./auth/reset-pwd/reset-pwd.module#ResetPwdModule"
+  },
+  {
+    path: "**",
+    redirectTo: "",
+    pathMatch: "full"
+  }
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

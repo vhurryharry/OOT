@@ -248,4 +248,27 @@ class PaymentRepository
 
         return $billings;
     }
+
+    public function getBilling(string $billingNumber, string $skey)
+    {
+        $payment = $this->db->find("select transaction_id, created_at, number, method from course_payment where number = ?", [$billingNumber]);
+
+        Stripe::setApiKey($skey);
+
+        $method = $this->db->find("select token from customer_payment_method where id = ?", [$payment['method']]);
+
+        $stripeCustomer = \Stripe\Customer::retrieve($method['token']);
+
+        $order = [];
+
+        try {
+            $order = \Stripe\Order::retrieve($payment['transaction_id']);
+        } catch (Exception $e) {            
+        }
+
+        $order['invoice'] = $payment;
+        $order['method'] = $stripeCustomer->sources->data[0]->brand;
+
+        return $order;
+    }
 }

@@ -462,7 +462,6 @@ class CustomerController extends AbstractController
             $courses[] = $course;
         }
 
-
         $result = $this->paymentRepository->placeOrder($customer, $courses, $request->get('paymentMethodId'), $skey);
 
         if($result == null) {
@@ -472,7 +471,8 @@ class CustomerController extends AbstractController
             ]);
         }
 
-        $this->customerRepository->reserveCourse($customer, $courses, $result['id']);
+        $coursePayment = $this->customerRepository->savePayment($customer, $result['id'], $request->get('paymentMethodId'));
+        $this->customerRepository->reserveCourse($customer, $courses, $coursePayment->getId());
 
         return new JsonResponse([
             'success' => true,
@@ -505,6 +505,21 @@ class CustomerController extends AbstractController
             'success' => true,
             'error' => null,
             'billings' => $billings
+        ]);
+    }
+
+    /**
+     * @Route("/billing/{billingNumber}", methods={"GET"})
+     */
+    public function getBilling(string $billingNumber)
+    {
+        $skey = $this->getParameter('env(STRIPE_SKEY)');
+        $billing = $this->paymentRepository->getBilling($billingNumber, $skey);
+
+        return new JsonResponse([
+            'success' => true,
+            'error' => null,
+            'billing' => $billing
         ]);
     }
 }

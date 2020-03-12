@@ -8,7 +8,17 @@
   <div class="row section invoice-container">
 
     <div class="col-12 row invoice-pdf">
-      <div class="col-12 row invoice-pdf-content sm-body-text">
+      <div class="col-12 invoice-pdf-buttons">
+        <button class="btn sm-cta" (click)="download()" [disabled]="!dataLoaded">
+          Download
+        </button>
+      </div>
+
+      <div class="col-12 spinner-wrapper" [hidden]="dataLoaded">
+        <span class="spinner-border" role="status" aria-hidden="true"></span>
+      </div>
+
+      <div class="col-12 row invoice-pdf-content sm-body-text" id="invoice-pdf-content" *ngIf="dataLoaded">
         <div class="col-7 invoice-pdf-content-logo">
           <img src="/assets/logos/logo.png" />
         </div>
@@ -34,20 +44,20 @@
 
         <div class="col-7 invoice-pdf-content-receiver">
           <div>
-            Lucas Soler <br />
-            Almeria Grove <br />
-            2924 Landon Ridge Drive <br />
-            New Hill, NC 27562
+            {{billing.shipping.name}} <br />
+            {{billing.shipping.address.line1}} <br />
+            {{billing.shipping.address.city}}, {{billing.shipping.address.state}}
+            {{billing.shipping.address.postal_code}}
           </div>
         </div>
 
         <div class="col-5 invoice-pdf-content-details">
           <div>
-            Invoice Number: 4082 <br />
-            Invoice Date: February 28, 2020 <br />
-            Order Number: 4027 <br />
-            Order Date: February 28, 2020 <br />
-            Payment Method: Credit Card
+            Invoice Number: {{billing.invoice.number}} <br />
+            Invoice Date: {{billing.invoice.created_at | date:'MMMM dd, yyyy'}} <br />
+            Order Number: {{billing.id}} <br />
+            Order Date: {{billing.created | date:'MMMM dd, yyyy'}} <br />
+            Payment Method: {{billing.method}}
           </div>
         </div>
 
@@ -65,19 +75,19 @@
           </div>
         </div>
 
-        <div class="col-12 invoice-pdf-content-products-item row">
+        <div class="col-12 invoice-pdf-content-products-item row" *ngFor="let item of billing.items">
           <div class="col-7">
-            New York - May, 2020
+            {{item.description}}
             <div class="invoice-pdf-content-products-item-sku">
-              SKU: NY20
+              SKU: {{item.parent}}
             </div>
           </div>
           <div class="col-5 row invoice-pdf-content-products-item-price">
             <div class="col-6">
-              1
+              {{item.quantity}}
             </div>
             <div class="col-6">
-              $2800
+              ${{item.amount}}
             </div>
           </div>
         </div>
@@ -89,7 +99,7 @@
             Subtotal
           </div>
           <div class="col-6">
-            $2800
+            ${{billing.amount}}
           </div>
         </div>
 
@@ -97,10 +107,10 @@
 
         <div class="col-5 invoice-pdf-content-total row">
           <div class="col-6 sm-body-medium">
-            Total
+            Total paid
           </div>
           <div class="col-6 sm-body-medium">
-            $2800
+            ${{billing.amount}}
           </div>
         </div>
 

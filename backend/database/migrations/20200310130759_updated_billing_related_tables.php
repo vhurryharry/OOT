@@ -21,6 +21,7 @@ class UpdatedBillingRelatedTables extends AbstractMigration
 
         $course_payment = $this->table('course_payment');
         $course_payment->addColumn('number', 'string')
+            ->addColumn('method', 'integer')
             ->save();
     }
 
@@ -37,6 +38,7 @@ class UpdatedBillingRelatedTables extends AbstractMigration
 
         $course_payment = $this->table('course_payment');
         $course_payment->removeColumn('number')
+            ->removeColumn('method')
             ->save();
     }
 }

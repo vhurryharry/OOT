@@ -28,6 +28,11 @@ class CoursePayment implements JsonSerializable
     protected $transactionId;
 
     /**
+     * @var int
+     */
+    protected $method;
+
+    /**
      * @var ?array
      */
     protected $metadata;
@@ -74,6 +79,16 @@ class CoursePayment implements JsonSerializable
     public function setNumber(string $number): void
     {
         $this->number = $number;
+    }
+
+    public function getMethod(): int
+    {
+        return $this->method;
+    }
+
+    public function setMethod(int $method): void
+    {
+        $this->method = $method;
     }
 
     public function getTransactionId(): string
@@ -132,6 +147,10 @@ class CoursePayment implements JsonSerializable
             $instance->setNumber($row['number']);
         }
 
+        if (isset($row['method'])) {
+            $instance->setMethod($row['method']);
+        }
+
         if (isset($row['metadata'])) {
             $instance->setMetadata((array) json_decode($row['metadata'], true));
         }
@@ -163,6 +182,10 @@ class CoursePayment implements JsonSerializable
             $instance->setNumber($row['number']);
         }
 
+        if (isset($row['method'])) {
+            $instance->setMethod($row['method']);
+        }
+
         if (isset($row['metadata'])) {
             $instance->setMetadata($row['metadata']);
         }
@@ -185,6 +208,7 @@ class CoursePayment implements JsonSerializable
             'transaction_id' => $this->transactionId,
             'metadata' => json_encode($this->metadata),
             'number' => $this->number,
+            'method' => $this->method,
             'customer' => $this->customer,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
         ];
@@ -196,6 +220,7 @@ class CoursePayment implements JsonSerializable
             'id' => $this->id,
             'transactionId' => $this->transactionId,
             'number' => $this->number,
+            'method' => $this->method,
             'metadata' => $this->metadata,
             'customer' => $this->customer,
             'createdAt' => $this->createdAt->format('Y-m-d\TH:i:s'),

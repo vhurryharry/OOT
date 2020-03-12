@@ -130,4 +130,8 @@ export class PaymentService {
       cart
     });
   }
+
+  getBilling(billingNumber: string) {
+    return this.http.get(this.baseURL + "/billing/" + billingNumber);
+  }
 }
