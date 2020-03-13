@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { Router } from "@angular/router";
+
+declare var ml_account: any;
 
 @Component({
   selector: "app-footer",
@@ -21,7 +22,7 @@ export class FooterComponent implements OnInit {
 
   private email = "";
 
-  constructor(private router: Router) {}
+  constructor() {}
 
   ngOnInit() {}
 
@@ -35,7 +36,7 @@ export class FooterComponent implements OnInit {
     this.enroll.emit();
   }
 
-  signup() {
-    this.router.navigateByUrl("/signup");
+  subscribe() {
+    ml_account("webforms", "1835666", "j9o3x0", "show");
   }
 }
