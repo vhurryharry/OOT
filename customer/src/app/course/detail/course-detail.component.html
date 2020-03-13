@@ -112,7 +112,7 @@
     </div>
 
     <div class="section col-12 row">
-      <div class="course-testimonial-section row">
+      <div class="course-testimonial-section row" *ngIf="course.testimonials && course.testimonials.length > 0">
         <h2 class="col-12 col-lg-7 order-0">
           What others are saying.
         </h2>
