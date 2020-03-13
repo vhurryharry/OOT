@@ -240,8 +240,8 @@ class CustomerController extends AbstractController
                 'region' => 'us-east-2',
                 'version' => 'latest',
                 'credentials' => [
-                    'key' => 'AKIA2BEPBX4AEHLFSNEM',
-                    'secret' => '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'
+                    'key' => $this->getParameter('env(S3_KEY)'),
+                    'secret' => $this->getParameter('env(S3_SECRET)')
                 ]
             ];
             $sdk = new Sdk($sharedConfig);

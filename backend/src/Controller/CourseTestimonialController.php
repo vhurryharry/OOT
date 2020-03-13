@@ -13,6 +13,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Filesystem\Filesystem;
+use Aws\Sdk;
+use App\Utils\Aws\AwsS3Util;
+use Ramsey\Uuid\Uuid;
 
 class CourseTestimonialController extends AbstractController
 {
@@ -38,7 +42,7 @@ class CourseTestimonialController extends AbstractController
     public function courseTestimonials(Request $request)
     {
         $testimonials = $this->db->findAll(
-            'select * from course_testimonial'
+            'select * from course_testimonial where'
         );
 
         $items = [];
@@ -60,7 +64,7 @@ class CourseTestimonialController extends AbstractController
     {
         $state = State::fromDatagrid($request->request->all());
         $testimonials = $this->db->findAll(
-            'select * from course_testimonial ' . $state->toQuery(),
+            'select * from course_testimonial where course is null ' . $state->toQuery(),
             $state->toQueryParams()
         );
 
@@ -71,8 +75,8 @@ class CourseTestimonialController extends AbstractController
 
         return new JsonResponse([
             'items' => $items,
-			'total' => $this->db->count('course_testimonial'),
-			'alive' => $this->db->count('course_testimonial', false)
+			'total' => $this->db->find('select count(*) from course_testimonial where course is null')['count'],
+			'alive' => $this->db->find('select count(*) from course_testimonial where course is null and deleted_at is null')['count']
         ]);
     }
 
@@ -90,13 +94,84 @@ class CourseTestimonialController extends AbstractController
     }
 
     /**
+     * @Route("/findByCourse", methods={"POST"})
+     */
+    public function findByCourse(Request $request)
+    {
+        $testimonials = $this->db->findAll('select * from course_testimonial where course = ?', [$request->get('id')]);
+        if (!$testimonials) {            
+            return new JsonResponse([
+                'items' => []
+            ]);
+        }
+
+        $items = [];
+        foreach ($testimonials as $course_testimonial) {
+            $items[] = (CourseTestimonial::fromDatabase($course_testimonial))->jsonSerialize();
+        }
+
+        return new JsonResponse([
+            'items' => $items
+        ]);
+    }
+
+    /**
      * @Route("/create", methods={"POST"})
      */
     public function create(Request $request)
     {
-        $this->db->insert('course_testimonial', CourseTestimonial::fromJson($request->request->all())->toDatabase());
+        $id = $this->db->insert('course_testimonial', CourseTestimonial::fromJson($request->request->all())->toDatabase());
 
-        return new JsonResponse();
+        return new JsonResponse([
+            'id' => $id
+        ]);
+    }
+
+    /**
+     * @Route("/file/{id}", methods={"POST"})
+     */
+    public function uploadFile(string $id, Request $request)
+    {        
+        if ($request->files->get('file')) {
+            $tempDirectory = "temp/";
+
+            $filesystem = new Filesystem();
+            $filesystem->mkdir($tempDirectory);
+
+            $uploadedFile = $request->files->get('file');
+            $uploadedFile->move($tempDirectory, $id.".jpg");
+
+            $sharedConfig = [
+                'region' => 'us-east-2',
+                'version' => 'latest',
+                'credentials' => [
+                    'key' => $this->getParameter('env(S3_KEY)'),
+                    'secret' => $this->getParameter('env(S3_SECRET)')
+                ]
+            ];
+            $sdk = new Sdk($sharedConfig);
+
+            $s3 = new AwsS3Util($sdk);
+            $avatarUrl = $s3->putObject('ootdev', $tempDirectory.$id.".jpg", "testimonial_avatars/".Uuid::uuid4().'.jpg');
+
+            $filesystem->remove([$tempDirectory.$id.'.jpg']);
+
+            $query = "update course_testimonial set author_avatar = '".$avatarUrl."' where id = ".$id;
+            
+            $this->db->execute($query);
+
+            return new JsonResponse([
+                'success' => true,
+                "avatar" => $avatarUrl,
+                'error' => null
+            ]);
+        }
+
+        return new JsonResponse([
+            'success' => false,
+            "avatar" => "",
+            'error' => "No file to upload"
+        ]);
     }
 
     /**
@@ -104,9 +179,11 @@ class CourseTestimonialController extends AbstractController
      */
     public function update(Request $request)
     {
-        $this->db->update('course_testimonial', CourseTestimonial::fromJson($request->request->all())->toDatabase());
+        $id = $this->db->update('course_testimonial', CourseTestimonial::fromJson($request->request->all())->toDatabase());
 
-        return new JsonResponse();
+        return new JsonResponse([
+            'id' => $id
+        ]);
     }
 
     /**
@@ -179,7 +256,7 @@ class CourseTestimonialController extends AbstractController
     public function courseTestimonialsForHome(Request $request)
     {
         $testimonials = $this->db->findAll(
-            'select a.title, a.content, b.first_name, b.last_name, b.occupation from course_testimonial a left join customer b on a.author = b."id" where course IS NULL '
+            'select testimonial, author, author_occupation, author_avatar from course_testimonial where course IS NULL '
         );
 
         return new JsonResponse([

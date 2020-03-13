@@ -1,0 +1,40 @@
+<clr-spinner *ngIf="loading"></clr-spinner>
+
+<h4>{{pageTitle}}</h4>
+
+<button type="button" class="btn btn-link" (click)="onAdd()">
+  <clr-icon shape="plus"></clr-icon> Add Testimonial
+</button>
+/
+<button type="button" class="btn btn-link" (click)="goBack()">
+  <clr-icon shape="undo"></clr-icon> Back
+</button>
+
+<clr-datagrid>
+  <clr-dg-column [clrDgField]="'testimonial'">Testimonial</clr-dg-column>
+  <clr-dg-column [clrDgField]="'author'">Author</clr-dg-column>
+  <clr-dg-column [clrDgField]="'authorOccupation'">Author Occupation</clr-dg-column>
+  <clr-dg-column [clrDgField]="'created_at'">Created At</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deleted_at'">Deleted At</clr-dg-column>
+  <clr-dg-column>Options</clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let testimonial of testimonials" [ngClass]="{'deleted-row': testimonial.deletedAt != null}">
+    <clr-dg-cell (click)="onEdit(testimonial.id)" class="item-title">{{testimonial.testimonial}}</clr-dg-cell>
+    <clr-dg-cell>{{testimonial.author}}</clr-dg-cell>
+    <clr-dg-cell>{{testimonial.authorOccupation}}</clr-dg-cell>
+    <clr-dg-cell>{{testimonial.createdAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{testimonial.deletedAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell *ngIf="testimonial.deletedAt == null">
+      <button type="button" class="btn btn-sm btn-secondary" (click)="onRemove(testimonial.id)">
+        <clr-icon shape="trash"></clr-icon> Remove
+      </button>
+    </clr-dg-cell>
+    <clr-dg-cell *ngIf="testimonial.deletedAt != null">
+      <button type="button" class="btn btn-sm btn-secondary" (click)="onRestore(testimonial.id)">
+        <clr-icon shape="undo"></clr-icon> Restore
+      </button>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>{{testimonials.length}} testimonials</clr-dg-footer>
+</clr-datagrid>

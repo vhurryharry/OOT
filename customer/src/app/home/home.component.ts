@@ -12,8 +12,16 @@ export class HomeComponent implements OnInit {
   testimonials: any;
 
   constructor(private homeService: HomeService) {
+    const defaultAvatar = "/assets/images/images/auth/avatar.png";
+
     homeService.getTestimonials().subscribe((result: any) => {
-      this.testimonials = result.testimonials;
+      this.testimonials = result.testimonials.map(item => {
+        if (item.author_avatar === null) {
+          item.author_avatar = defaultAvatar;
+        }
+
+        return item;
+      });
 
       setTimeout(() => {
         this.initCarousels("home-testimonials-gallery");

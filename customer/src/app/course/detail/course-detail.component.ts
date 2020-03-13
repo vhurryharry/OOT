@@ -33,10 +33,19 @@ export class CourseDetailComponent implements OnInit {
         userId = this.loginService.getCurrentUserId();
       }
 
+      const defaultAvatar = "/assets/images/images/auth/avatar.png";
       this.courseService
         .findBySlug(this.slug, userId)
         .subscribe((result: any) => {
           this.course = result.course;
+
+          this.course.testimonials = this.course.testimonials.map(item => {
+            if (!item.author_avatar) {
+              item.author_avatar = defaultAvatar;
+            }
+
+            return item;
+          });
 
           this.course.location = JSON.parse(
             "[" + this.course.location.slice(1, -1) + "]"

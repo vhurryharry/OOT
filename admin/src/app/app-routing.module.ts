@@ -42,6 +42,13 @@ const routes: Routes = [
     canLoad: [AuthGuard]
   },
   {
+    path: "testimonials",
+    component: CondensedComponent,
+    loadChildren: "./testimonials/testimonials.module#TestimonialsModule",
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
     path: "categories",
     component: CondensedComponent,
     loadChildren: "./categories/categories.module#CategoriesModule",

@@ -1,0 +1,47 @@
+<div>
+  <h4>{{pageTitle}}</h4>
+
+  <button type="button" class="btn btn-link" (click)="goBack()">
+    <clr-icon shape="undo"></clr-icon> Back
+  </button>
+
+  <form clrForm [formGroup]="testimonialForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+
+    <clr-textarea-container>
+      <label>Testimonial</label>
+      <textarea clrTextarea formControlName="testimonial" required></textarea>
+      <clr-control-error>The testimonial is required</clr-control-error>
+    </clr-textarea-container>
+
+    <clr-input-container>
+      <label>Author</label>
+      <input clrInput type="text" formControlName="author" required />
+    </clr-input-container>
+
+    <clr-input-container>
+      <label>Author Occupation</label>
+      <input clrInput type="text" formControlName="authorOccupation" required />
+    </clr-input-container>
+
+    <div class="author-avatar">
+
+      <label>Author Avatar</label> <br />
+
+      <img src="{{ authorAvatar }}" class="account-profile-avatar" alt="Please choose an avatar" />
+
+      <div class="account-profile-edit-avatar-buttons">
+        <button class="sm-ghost md-buttons" (click)="onUpdateAvatar()" type="button">
+          Update avatar
+        </button>
+
+        <input type="file" id="account-profile-avatar" hidden (change)="onUpdateAvatarSource($event)" />
+      </div>
+    </div>
+
+    <button class="btn btn-primary pull-right" type="submit" [disabled]="!testimonialForm.valid"
+      *ngIf="!loading">Submit</button>
+  </form>
+
+  <clr-spinner *ngIf="loading"></clr-spinner>
+
+</div>

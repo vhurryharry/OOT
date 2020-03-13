@@ -190,17 +190,17 @@
               <div class="item__third">
                 <div class="testimonial-item">
                   <div class="md-body-text">
-                    "{{item.title}}"
+                    "{{item.testimonial}}"
                   </div>
                   <div class="testimonial-author">
-                    <img src="/assets/images/images/auth/avatar.png" class="testimonial-author-avatar" />
+                    <img [src]="item.author_avatar" class="testimonial-author-avatar" />
                     <div class="testimonial-author-detail">
                       <h6>
-                        {{item.first_name + " " + item.last_name}}
+                        {{item.author}}
                       </h6>
 
                       <div class="sm-body-text">
-                        {{item.occupation}}
+                        {{item.author_occupation}}
                       </div>
                     </div>
                   </div>

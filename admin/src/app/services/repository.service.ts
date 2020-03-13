@@ -19,6 +19,17 @@ export class RepositoryService {
     return this.http.post(this.baseURL + module + "/find", { id });
   }
 
+  custom(module, id, func) {
+    return this.http.post(this.baseURL + module + "/" + func, { id });
+  }
+
+  uploadFile(module, file: File, id) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    return this.http.post(this.baseURL + module + "/file/" + id, formData);
+  }
+
   create(module, data) {
     return this.http.post(this.baseURL + module + "/create", data);
   }

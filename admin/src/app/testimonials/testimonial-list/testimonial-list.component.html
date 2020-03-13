@@ -1,0 +1,56 @@
+<clr-datagrid (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading" [(clrDgSelected)]="selected">
+  <clr-dg-placeholder>No testimonials found.</clr-dg-placeholder>
+
+  <clr-dg-action-bar>
+    <button type="button" class="btn btn-secondary" (click)="onCreate()">
+      <clr-icon shape="file"></clr-icon> Create testimonial
+    </button>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-secondary" (click)="onEdit()" *ngIf="selected.length == 1">
+        <clr-icon shape="pencil"></clr-icon> Edit
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onDelete()" *ngIf="selected.length > 0">
+        <clr-icon shape="trash"></clr-icon> Delete
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onRestore()" *ngIf="selected.length > 0">
+        <clr-icon shape="undo"></clr-icon> Restore
+      </button>
+    </div>
+
+    <clr-dropdown>
+      <button type="button" class="btn btn-secondary" clrDropdownTrigger>
+        Export
+        <clr-icon shape="caret down"></clr-icon>
+      </button>
+      <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
+        <button type="button" (click)="onExportAll()" clrDropdownItem>Export all</button>
+        <button type="button" (click)="onExportSelected()" [disabled]="selected.length === 0" clrDropdownItem>Export
+          selected</button>
+      </clr-dropdown-menu>
+    </clr-dropdown>
+  </clr-dg-action-bar>
+
+  <clr-dg-column [clrDgField]="'testimonial'">Testimonial</clr-dg-column>
+  <clr-dg-column [clrDgField]="'author'">Author</clr-dg-column>
+  <clr-dg-column [clrDgField]="'authorOccupation'">Author Occupation</clr-dg-column>
+  <clr-dg-column [clrDgField]="'created_at'">Created At</clr-dg-column>
+  <clr-dg-column [clrDgField]="'updated_at'">Updated At</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deleted_at'">Deleted At</clr-dg-column>
+
+  <clr-dg-row *ngFor="let testimonial of testimonials" [clrDgItem]="testimonial"
+    [ngClass]="{'deleted-row': testimonial.deletedAt != null}">
+    <clr-dg-cell (click)="onEdit(testimonial.id)" class="item-title">{{testimonial.testimonial}}</clr-dg-cell>
+    <clr-dg-cell>{{testimonial.author}}</clr-dg-cell>
+    <clr-dg-cell>{{testimonial.authorOccupation}}</clr-dg-cell>
+    <clr-dg-cell>{{testimonial.createdAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{testimonial.updatedAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{testimonial.deletedAt | date:'short'}}</clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+    of {{total}} testimonials ({{deleted}} deleted)
+    <clr-dg-pagination #pagination [clrDgTotalItems]="total"></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>

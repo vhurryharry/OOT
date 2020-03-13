@@ -9,6 +9,7 @@ import { ManageReviewsComponent } from "./manage-reviews/manage-reviews.componen
 import { ManageInstructorsComponent } from "./manage-instructors/manage-instructors.component";
 import { ManageCategoriesComponent } from "./manage-categories/manage-categories.component";
 import { ManageTopicsComponent } from "./manage-topics/manage-topics.component";
+import { ManageTestimonialsComponent } from "./manage-testimonials/manage-testimonials.component";
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: "edit/:id/reviews",
         component: ManageReviewsComponent
+      },
+      {
+        path: "edit/:id/testimonials",
+        component: ManageTestimonialsComponent
       },
       {
         path: "edit/:id/instructors",

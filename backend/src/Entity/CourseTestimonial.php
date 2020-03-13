@@ -19,17 +19,22 @@ class CourseTestimonial implements JsonSerializable
     /**
      * @var string
      */
-    protected $title;
+    protected $testimonial;
 
     /**
-     * @var ?string
-     */
-    protected $content;
-
-    /**
-     * @var ?UuidInterface
+     * @var string
      */
     protected $author;
+
+    /**
+     * @var string
+     */
+    protected $authorOccupation;
+
+    /**
+     * @var string
+     */
+    protected $authorAvatar;
 
     /**
      * @var ?UuidInterface
@@ -51,6 +56,12 @@ class CourseTestimonial implements JsonSerializable
      */
     protected $deletedAt;
 
+    public function __construct()
+    {
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = $this->createdAt;
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -61,34 +72,44 @@ class CourseTestimonial implements JsonSerializable
         $this->id = $id;
     }
 
-    public function getTitle(): string
+    public function getTestimonial(): string
     {
-        return $this->title;
+        return $this->testimonial;
     }
 
-    public function setTitle(string $title): void
+    public function setTestimonial(string $testimonial): void
     {
-        $this->title = $title;
+        $this->testimonial = $testimonial;
     }
 
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(string $content): void
-    {
-        $this->content = $content;
-    }
-
-    public function getAuthor(): ?UuidInterface
+    public function getAuthor(): ?string
     {
         return $this->author;
     }
 
-    public function setAuthor(UuidInterface $author): void
+    public function setAuthor(string $author): void
     {
         $this->author = $author;
+    }
+
+    public function getAuthorOccupation(): ?string
+    {
+        return $this->authorOccupation;
+    }
+
+    public function setAuthorOccupation(string $authorOccupation): void
+    {
+        $this->authorOccupation = $authorOccupation;
+    }
+
+    public function getAuthorAvatar(): ?string
+    {
+        return $this->authorAvatar;
+    }
+
+    public function setAuthorAvatar(string $authorAvatar): void
+    {
+        $this->authorAvatar = $authorAvatar;
     }
 
     public function getCourse(): ?UuidInterface
@@ -139,16 +160,20 @@ class CourseTestimonial implements JsonSerializable
             $instance->setId($row['id']);
         }
 
-        if (isset($row['title'])) {
-            $instance->setTitle($row['title']);
-        }
-
-        if (isset($row['content'])) {
-            $instance->setContent($row['content']);
+        if (isset($row['testimonial'])) {
+            $instance->setTestimonial($row['testimonial']);
         }
 
         if (isset($row['author'])) {
             $instance->setAuthor($row['author']);
+        }
+
+        if (isset($row['author_occupation'])) {
+            $instance->setAuthorOccupation($row['author_occupation']);
+        }
+
+        if (isset($row['author_avatar'])) {
+            $instance->setAuthorAvatar($row['author_avatar']);
         }
 
         if (isset($row['course'])) {
@@ -178,19 +203,23 @@ class CourseTestimonial implements JsonSerializable
             $instance->setId($row['id']);
         }
 
-        if (isset($row['title'])) {
-            $instance->setTitle($row['title']);
-        }
-
-        if (isset($row['content'])) {
-            $instance->setContent($row['content']);
+        if (isset($row['testimonial'])) {
+            $instance->setTestimonial($row['testimonial']);
         }
 
         if (isset($row['author'])) {
             $instance->setAuthor($row['author']);
         }
 
-        if (isset($row['course'])) {
+        if (isset($row['authorOccupation'])) {
+            $instance->setAuthorOccupation($row['authorOccupation']);
+        }
+
+        if (isset($row['authorAvatar'])) {
+            $instance->setAuthorAvatar($row['authorAvatar']);
+        }
+
+        if (isset($row['course']) && $row['course'] != '') {
             $instance->setCourse(Uuid::fromString($row['course']));
         }
 
@@ -213,9 +242,10 @@ class CourseTestimonial implements JsonSerializable
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'content' => $this->content,
+            'testimonial' => $this->testimonial,
             'author' => $this->author,
+            'author_occupation' => $this->authorOccupation,
+            'author_avatar' => $this->authorAvatar,
             'course' => $this->course,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
             'updated_at' => $this->updatedAt->format('Y-m-d H:i:s'),
@@ -227,9 +257,10 @@ class CourseTestimonial implements JsonSerializable
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'content' => $this->content,
+            'testimonial' => $this->testimonial,
             'author' => $this->author,
+            'authorOccupation' => $this->authorOccupation,
+            'authorAvatar' => $this->authorAvatar,
             'course' => $this->course,
             'createdAt' => $this->createdAt->format('Y-m-d\TH:i:s'),
             'updatedAt' => $this->updatedAt->format('Y-m-d\TH:i:s'),

@@ -119,7 +119,7 @@ class Database
         return $stmt;
     }
 
-    public function insert(string $table, array $params): int
+    public function insert(string $table, array $params)
     {
         $params = array_filter($params);
         $columns = [];
@@ -133,18 +133,26 @@ class Database
             $values[$placeholder] = $value;
         }
 
-        return $this->execute(
+        $stmt = $this->executeStatement(
             sprintf(
-                'insert into "%s" (%s) values (%s)',
+                'insert into "%s" (%s) values (%s) RETURNING id',
                 $table,
                 implode(',', $columns),
                 implode(',', $placeholders)
             ),
             $values
         );
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row === false) {
+            return null;
+        }
+
+        return $row['id'];
     }
 
-    public function update(string $table, array $params): int
+    public function update(string $table, array $params)
     {
         $params = array_filter($params);
         $values = [];
@@ -155,14 +163,22 @@ class Database
             $values[':' . $column] = $value;
         }
 
-        return $this->execute(
+        $stmt = $this->executeStatement(
             sprintf(
-                'update "%s" set %s where id = :id',
+                'update "%s" set %s where id = :id RETURNING id',
                 $table,
                 implode(',', $placeholders)
             ),
             $values
         );
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row === false) {
+            return null;
+        }
+
+        return $row['id'];
     }
 
     public function beginTransaction(): void
