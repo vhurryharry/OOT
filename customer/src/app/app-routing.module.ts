@@ -35,6 +35,11 @@ const routes: Routes = [
     loadChildren: "./faq/faq.module#FAQModule"
   },
   {
+    path: "terms",
+    component: CondensedComponent,
+    loadChildren: "./terms/terms.module#TermsModule"
+  },
+  {
     path: "blog",
     component: CondensedComponent,
     loadChildren: "./blog/blog.module#BlogModule"
