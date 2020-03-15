@@ -51,6 +51,10 @@ export class CourseDetailComponent implements OnInit {
             "[" + this.course.location.slice(1, -1) + "]"
           );
 
+          const temp = this.course.location[0];
+          this.course.location[0] = this.course.location[1];
+          this.course.location[1] = temp;
+
           this.dataLoaded = true;
 
           setTimeout(() => {
