@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use Carbon\Carbon;
 use JsonSerializable;
-use Ramsey\Uuid\UuidInterface;
 
 class Blog implements JsonSerializable
 {
@@ -21,14 +20,24 @@ class Blog implements JsonSerializable
     protected $coverImage;
 
     /**
-     * @var UuidInterface
+     * @var string
      */
-    protected $authorId;
+    protected $author;
 
     /**
      * @var string
      */
     protected $title;
+
+    /**
+     * @var string
+     */
+    protected $subtitle;
+
+    /**
+     * @var int
+     */
+    protected $category;
 
     /**
      * @var string
@@ -81,14 +90,14 @@ class Blog implements JsonSerializable
         $this->coverImage = $coverImage;
     }
 
-    public function getAuthorId(): ?UuidInterface
+    public function getAuthor(): ?string
     {
-        return $this->authorId;
+        return $this->author;
     }
 
-    public function setAuthorId(UuidInterface $authorId): void
+    public function setAuthor(string $author): void
     {
-        $this->authorId = $authorId;
+        $this->author = $author;
     }
 
     public function getTitle(): string
@@ -99,6 +108,26 @@ class Blog implements JsonSerializable
     public function setTitle(string $title): void
     {
         $this->title = $title;
+    }
+
+    public function getSubTitle(): string
+    {
+        return $this->subtitle;
+    }
+
+    public function setSubTitle(string $subtitle): void
+    {
+        $this->subtitle = $subtitle;
+    }
+
+    public function getCategory(): int
+    {
+        return $this->category;
+    }
+
+    public function setCategory(int $category): void
+    {
+        $this->category = $category;
     }
 
     public function getSlug(): string
@@ -167,12 +196,20 @@ class Blog implements JsonSerializable
             $instance->setTitle($row['title']);
         }
 
+        if (isset($row['subtitle'])) {
+            $instance->setSubTitle($row['subtitle']);
+        }
+
+        if (isset($row['category'])) {
+            $instance->setCategory($row['category']);
+        }
+
         if (isset($row['slug'])) {
             $instance->setSlug($row['slug']);
         }
 
-        if (isset($row['author_id'])) {
-            $instance->setAuthorId($row['author_id']);
+        if (isset($row['author'])) {
+            $instance->setAuthor($row['author']);
         }
 
         if (isset($row['content'])) {
@@ -210,12 +247,20 @@ class Blog implements JsonSerializable
             $instance->setTitle($row['title']);
         }
 
+        if (isset($row['subtitle'])) {
+            $instance->setSubTitle($row['subtitle']);
+        }
+
+        if (isset($row['category'])) {
+            $instance->setCategory($row['category']);
+        }
+
         if (isset($row['slug'])) {
             $instance->setSlug($row['slug']);
         }
 
-        if (isset($row['authorId'])) {
-            $instance->setAuthorId($row['authorId']);
+        if (isset($row['author'])) {
+            $instance->setAuthor($row['author']);
         }
 
         if (isset($row['content'])) {
@@ -242,8 +287,10 @@ class Blog implements JsonSerializable
         return [
             'id' => $this->id,
             'cover_image' => $this->coverImage,
-            'author_id' => $this->authorId,
+            'author' => $this->author,
             'title' => $this->title,
+            'subtitle' => $this->subtitle,
+            'category' => $this->category,
             'slug' => $this->slug,
             'content' => $this->content,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
@@ -257,8 +304,10 @@ class Blog implements JsonSerializable
         return [
             'id' => $this->id,
             'coverImage' => $this->coverImage,
-            'authorId' => $this->authorId,
+            'author' => $this->author,
             'title' => $this->title,
+            'subtitle' => $this->subtitle,
+            'category' => $this->category,
             'slug' => $this->slug,
             'content' => $this->content,
             'createdAt' => $this->createdAt->format('Y-m-d\TH:i:s'),

@@ -6,8 +6,34 @@
   <app-header [lightHeader]="false"></app-header>
 
   <div class="row section blog-container">
-    <div class="col-12 order-0 hero blog-heading-title">
+    <div class="col-12 hero blog-heading-title">
       Education Lab Blog
+    </div>
+
+    <div class="col-12 spinner-wrapper" [hidden]="dataLoaded">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <div class="col-12 blog-content row">
+      <div class="col-12 col-sm-6 col-lg-4 blog-card" *ngFor="let blog of blogs">
+        <div class="blog-card-content" (click)="showBlog(blog.slug)">
+          <img [src]="blog.cover_image" class="blog-card-content-cover-image">
+
+          <div class="blog-card-content-details">
+            <div class="sm-body-text">
+              {{blog.author}}
+            </div>
+            <h6>
+              {{blog.title}}
+            </h6>
+            <div class="md-body-text blog-card-content-details-sub-title">
+              {{blog.subtitle}}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

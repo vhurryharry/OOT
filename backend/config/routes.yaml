@@ -13,6 +13,16 @@ api_course:
   type: annotation
   prefix: /api/course
 
+api_blog:
+  resource: 'App\Controller\BlogController'
+  type: annotation
+  prefix: /api/blog
+
+api_blog_category:
+  resource: 'App\Controller\BlogCategoryController'
+  type: annotation
+  prefix: /api/blog_category
+
 api_course_category:
   resource: 'App\Controller\CourseCategoryController'
   type: annotation

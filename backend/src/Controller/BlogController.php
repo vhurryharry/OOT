@@ -8,11 +8,16 @@ use App\Repository\State;
 use App\CsvExporter;
 use App\Database;
 use App\Entity\Blog;
+use App\Repository\BlogRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Filesystem\Filesystem;
+use Aws\Sdk;
+use App\Utils\Aws\AwsS3Util;
+use Ramsey\Uuid\Uuid;
 
 class BlogController extends AbstractController
 {
@@ -25,11 +30,17 @@ class BlogController extends AbstractController
      * @var CsvExporter
      */
     protected $csv;
+	
+    /**
+     * @var BlogRepository
+     */
+    protected $blogRepository;
 
-    public function __construct(Database $db, CsvExporter $csv)
+    public function __construct(Database $db, CsvExporter $csv, BlogRepository $blogRepository)
     {
         $this->db = $db;
         $this->csv = $csv;
+		$this->blogRepository = $blogRepository;
     }
 
     /**
@@ -73,9 +84,58 @@ class BlogController extends AbstractController
      */
     public function create(Request $request)
     {
-        $this->db->insert('blog', Blog::fromJson($request->request->all())->toDatabase());
+        $id = $this->db->insert('blog', Blog::fromJson($request->request->all())->toDatabase());
 
-        return new JsonResponse();
+        return new JsonResponse([
+            'id' => $id
+        ]);
+    }
+
+    /**
+     * @Route("/file/{id}", methods={"POST"})
+     */
+    public function uploadFile(string $id, Request $request)
+    {        
+        if ($request->files->get('file')) {
+            $tempDirectory = "temp/";
+
+            $filesystem = new Filesystem();
+            $filesystem->mkdir($tempDirectory);
+
+            $uploadedFile = $request->files->get('file');
+            $uploadedFile->move($tempDirectory, $id.".jpg");
+
+            $sharedConfig = [
+                'region' => 'us-east-2',
+                'version' => 'latest',
+                'credentials' => [
+                    'key' => $this->getParameter('env(S3_KEY)'),
+                    'secret' => $this->getParameter('env(S3_SECRET)')
+                ]
+            ];
+            $sdk = new Sdk($sharedConfig);
+
+            $s3 = new AwsS3Util($sdk);
+            $coverUrl = $s3->putObject('ootdev', $tempDirectory.$id.".jpg", "blog/".Uuid::uuid4().'.jpg');
+
+            $filesystem->remove([$tempDirectory.$id.'.jpg']);
+
+            $query = "update blog set cover_image = '".$coverUrl."' where id = ".$id;
+            
+            $this->db->execute($query);
+
+            return new JsonResponse([
+                'success' => true,
+                "avatar" => $coverUrl,
+                'error' => null
+            ]);
+        }
+
+        return new JsonResponse([
+            'success' => false,
+            "avatar" => "",
+            'error' => "No file to upload"
+        ]);
     }
 
     /**
@@ -83,9 +143,11 @@ class BlogController extends AbstractController
      */
     public function update(Request $request)
     {
-        $this->db->update('blog', Blog::fromJson($request->request->all())->toDatabase());
+        $id = $this->db->update('blog', Blog::fromJson($request->request->all())->toDatabase());
 
-        return new JsonResponse();
+        return new JsonResponse([
+            'id' => $id
+        ]);
     }
 
     /**
@@ -150,5 +212,31 @@ class BlogController extends AbstractController
         }
 
         return new JsonResponse(['csv' => $this->csv->export($blogs)]);
+    }
+
+    /**
+     * @Route("/", methods={"GET"})
+     */
+    public function list(Request $request)
+    {
+        $blogs = $this->blogRepository->findAll();
+        $categories = $this->blogRepository->getCategories();
+
+        return new JsonResponse([
+            "blogs" => $blogs,
+            "categories" => $categories
+        ]);
+    }
+
+    /**
+     * @Route("/find/{slug}", name="blog", requirements={"slug"="[a-zA-Z0-9\-]+"})
+     */
+    public function blog(string $slug)
+    {
+        $blog = $this->blogRepository->findBySlug($slug);
+
+        return new JsonResponse([
+            "blog" => $blog
+        ]);
     }
 }

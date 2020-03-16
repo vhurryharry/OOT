@@ -45,3 +45,8 @@ $clr-p6-font-size: 0.75rem;
 
 // Clarity
 @import "../node_modules/@clr/ui/src/utils/components.clarity";
+
+textarea,
+input {
+  min-width: 300px;
+}

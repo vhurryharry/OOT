@@ -1,0 +1,66 @@
+<div>
+  <h4>{{pageTitle}}</h4>
+
+  <button type="button" class="btn btn-link" (click)="goBack()">
+    <clr-icon shape="undo"></clr-icon> Back
+  </button>
+
+  <form clrForm [formGroup]="blogForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+    <clr-tabs clrLayout="vertical">
+      <clr-tab>
+        <button clrTabLink>Details</button>
+        <clr-tab-content *clrIfActive="true">
+          <clr-input-container>
+            <label>Title</label>
+            <input clrInput type="text" formControlName="title" required />
+            <clr-control-error>The title is required</clr-control-error>
+          </clr-input-container>
+          <clr-input-container>
+            <label>Sub Title</label>
+            <input clrInput type="text" formControlName="subtitle" required />
+            <clr-control-error>The sub title is required</clr-control-error>
+          </clr-input-container>
+          <clr-input-container>
+            <label>Slug</label>
+            <input clrInput type="text" formControlName="slug" required />
+            <clr-control-error>The slug is required</clr-control-error>
+          </clr-input-container>
+          <clr-select-container>
+            <label>Category</label>
+            <select clrSelect formControlName="category">
+              <option *ngFor="let category of blogCategories" value="{{ category.id }}">{{ category.category }}</option>
+            </select>
+            <clr-control-helper>Specify which category you want to add to this course</clr-control-helper>
+          </clr-select-container>
+
+          <div class="cover-image">
+
+            <label>Cover Image</label> <br />
+
+            <img src="{{ coverImage }}" class="blog-cover-image" alt="Please choose a cover image" />
+
+            <div class="blog-cover-image-buttons">
+              <button class="sm-ghost md-buttons" (click)="onUpdateCoverImage()" type="button">
+                Update cover image
+              </button>
+
+              <input type="file" id="blog-cover-image" hidden (change)="onUpdateCoverImageSource($event)" />
+            </div>
+          </div>
+
+        </clr-tab-content>
+      </clr-tab>
+      <clr-tab>
+        <button clrTabLink>Content</button>
+        <clr-tab-content *clrIfActive>
+          <ckeditor [editor]="editor" formControlName="content"></ckeditor>
+        </clr-tab-content>
+      </clr-tab>
+    </clr-tabs>
+
+    <button class="btn btn-primary pull-right" type="submit" [disabled]="!blogForm.valid"
+      *ngIf="!loading">Submit</button>
+  </form>
+
+  <clr-spinner *ngIf="loading"></clr-spinner>
+</div>

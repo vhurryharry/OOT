@@ -12,4 +12,8 @@ export class BlogService {
   get() {
     return this.http.get(this.baseURL);
   }
+
+  findBySlug(slug: string) {
+    return this.http.get(this.baseURL + "/find/" + slug);
+  }
 }

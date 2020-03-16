@@ -1,0 +1,19 @@
+input {
+  min-width: 500px;
+}
+
+.cover-image {
+  margin: 20px 0;
+}
+
+.cover-image label {
+  font-weight: 500;
+}
+
+.blog-cover-image {
+  height: 300px;
+  max-height: 300px;
+
+  object-fit: cover;
+  margin: 10px 0;
+}

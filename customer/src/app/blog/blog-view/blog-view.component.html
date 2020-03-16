@@ -1,14 +1,38 @@
 <div class="screen-container">
 
-  <img src='/assets/images/images/normal-background.png' alt="Olive Oil Times" class="background-image"
-    id="blog-background-1" />
-
   <app-header [lightHeader]="false"></app-header>
 
   <div class="row section blog-container">
-    <div class="col-12 order-0 hero blog-heading-title">
-      Blog Title
+
+    <div class="col-12 spinner-wrapper" [hidden]="dataLoaded">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
     </div>
+
+    <div class="col-12 blog-heading" [hidden]="!dataLoaded"
+      [ngStyle]="{backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)), url(' + blog.cover_image + ')'}">
+      <h2 class="blog-heading-title">
+        {{blog.title}}
+      </h2>
+      <div class="md-body-text blog-heading-sub-title">
+        {{blog.subtitle}}
+      </div>
+
+      <div class="sm-body-text blog-heading-details">
+        <div class="blog-heading-details-created">
+          <img src="/assets/images/s-icons/time.png" class="blog-heading-details-icon">
+          {{blog.created_at | date : 'MMM dd, yyyy'}}
+        </div>
+        <div class="blog-heading-details-author">
+          <img src="/assets/images/s-icons/edit-profile.png" class="blog-heading-details-icon">
+          By {{blog.author}}
+        </div>
+      </div>
+    </div>
+
+    <p class="col-12 blog-content lg-subtitle" [hidden]="!dataLoaded" [innerHTML]="blog.content">
+    </p>
   </div>
 
   <app-footer></app-footer>

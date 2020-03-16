@@ -28,6 +28,36 @@ const routes: Routes = [
     canLoad: [AuthGuard]
   },
   {
+    path: "course-categories",
+    component: CondensedComponent,
+    loadChildren:
+      "./course-categories/course-categories.module#CourseCategoriesModule",
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
+    path: "course-topics",
+    component: CondensedComponent,
+    loadChildren: "./course-topics/course-topics.module#CourseTopicsModule",
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
+    path: "blogs",
+    component: CondensedComponent,
+    loadChildren: "./blogs/blogs.module#BlogsModule",
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
+    path: "blog-categories",
+    component: CondensedComponent,
+    loadChildren:
+      "./blog-categories/blog-categories.module#BlogCategoriesModule",
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
     path: "pages",
     component: CondensedComponent,
     loadChildren: "./entities/entities.module#EntitiesModule",
@@ -52,21 +82,6 @@ const routes: Routes = [
     path: "categories",
     component: CondensedComponent,
     loadChildren: "./categories/categories.module#CategoriesModule",
-    canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
-  },
-  {
-    path: "course-categories",
-    component: CondensedComponent,
-    loadChildren:
-      "./course-categories/course-categories.module#CourseCategoriesModule",
-    canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
-  },
-  {
-    path: "course-topics",
-    component: CondensedComponent,
-    loadChildren: "./course-topics/course-topics.module#CourseTopicsModule",
     canActivate: [AuthGuard],
     canLoad: [AuthGuard]
   },
