@@ -22,7 +22,7 @@ class CourseRepository
     public function findAll(): array
     {
         $courses = $this->db->findAll(
-            'select id, title, slug, city, start_date, spots, categories from course where deleted_at is null'
+            'select id, title, slug, city, start_date, last_date, spots, categories from course where deleted_at is null'
         );
 
         if (!$courses) {

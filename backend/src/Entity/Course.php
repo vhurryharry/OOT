@@ -52,6 +52,11 @@ class Course implements JsonSerializable
     protected $startDate;
 
     /**
+     * @var Carbon
+     */
+    protected $lastDate;
+
+    /**
      * @var int
      */
     protected $spots;
@@ -211,6 +216,16 @@ class Course implements JsonSerializable
     public function setStartDate(Carbon $startDate): void
     {
         $this->startDate = $startDate;
+    }
+
+    public function getLastDate(): Carbon
+    {
+        return $this->lastDate;
+    }
+
+    public function setLastDate(Carbon $lastDate): void
+    {
+        $this->lastDate = $lastDate;
     }
 
     public function getSpots(): int
@@ -395,6 +410,10 @@ class Course implements JsonSerializable
             $instance->setStartDate(new Carbon($row['start_date']));
         }
 
+        if (isset($row['last_date'])) {
+            $instance->setLastDate(new Carbon($row['last_date']));
+        }
+
         if (isset($row['spots'])) {
             $instance->setSpots($row['spots']);
         }
@@ -490,6 +509,10 @@ class Course implements JsonSerializable
             $instance->setStartDate(new Carbon($row['startDate']));
         }
 
+        if (isset($row['lastDate'])) {
+            $instance->setLastDate(new Carbon($row['lastDate']));
+        }
+
         if (isset($row['spots'])) {
             $instance->setSpots($row['spots']);
         }
@@ -563,6 +586,7 @@ class Course implements JsonSerializable
             'address' => $this->address,
             'city' => $this->city,
             'start_date' => $this->startDate->format('Y-m-d H:i:s'),
+            'last_date' => $this->lastDate->format('Y-m-d H:i:s'),
             'spots' => $this->spots,
             'display_order' => $this->displayOrder,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
@@ -591,6 +615,7 @@ class Course implements JsonSerializable
             'address' => $this->address,
             'city' => $this->city,
             'startDate' => $this->startDate->format('Y-m-d\TH:i:s'),
+            'lastDate' => $this->lastDate->format('Y-m-d\TH:i:s'),
             'spots' => $this->spots,
             'displayOrder' => $this->displayOrder,
             'createdAt' => $this->createdAt->format('Y-m-d\TH:i:s'),

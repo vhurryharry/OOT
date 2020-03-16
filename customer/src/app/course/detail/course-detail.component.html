@@ -15,7 +15,7 @@
         {{ course.city }}
       </div>
       <div class="lg-subtitle course-detail-subtitle">
-        Olive Oil Sommelier Certificate Program
+        {{ course.tagline }}
       </div>
       <div class="course-rating">
         <img src="/assets/images/s-icons/star.png" />
@@ -29,7 +29,7 @@
       <div class="course-detail-schedule row">
         <div class="course-detail-schedule-item col col-12 col-sm-6 col-lg-auto">
           <img src="/assets/images/s-icons/calendar.png" />
-          {{course.start_date}}
+          {{ course.start_date | date : 'MMM dd, yyyy' }} - {{ course.last_date | date : 'MMM dd, yyyy' }}
         </div>
 
         <div class="course-detail-schedule-item col col-12 col-sm-6 col-lg-auto">
