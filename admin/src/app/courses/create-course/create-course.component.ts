@@ -7,127 +7,137 @@ import slugify from "slugify";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 @Component({
-  selector: "admin-create-course",
-  templateUrl: "./create-course.component.html",
-  styleUrls: ["./create-course.component.scss"]
+    selector: "admin-create-course",
+    templateUrl: "./create-course.component.html",
+    styleUrls: ["./create-course.component.scss"]
 })
 export class CreateCourseComponent implements OnInit {
-  loading = false;
-  courseId: string = null;
-  pageTitle = "";
+    loading = false;
+    courseId: string = null;
+    pageTitle = "";
 
-  courseForm = this.fb.group({
-    id: [""],
-    title: ["", Validators.required],
-    slug: ["", Validators.required],
-    tagline: [""],
-    metaTitle: [""],
-    metaDescription: [""],
-    thumbnail: [""],
-    hero: [""],
-    content: [""],
-    program: [""],
-    location: [""],
-    address: [""],
-    city: [""],
-    startDate: ["", Validators.required],
-    spots: ["", Validators.required]
-  });
-  public editor = ClassicEditor;
-
-  constructor(
-    private fb: FormBuilder,
-    private repository: RepositoryService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
-    this.route.params.subscribe(params => {
-      this.courseId = params.id;
-      if (params.id === "0") {
-        this.courseId = null;
-      }
-
-      if (this.courseId) {
-        this.pageTitle = "Edit Course";
-      } else {
-        this.pageTitle = "Create New Course";
-      }
+    courseForm = this.fb.group({
+        id: [""],
+        title: ["", Validators.required],
+        slug: ["", Validators.required],
+        tagline: [""],
+        metaTitle: [""],
+        metaDescription: [""],
+        thumbnail: [""],
+        hero: [""],
+        content: [""],
+        program: [""],
+        location: [""],
+        address: [""],
+        city: [""],
+        startDate: ["", Validators.required],
+        lastDate: ["", Validators.required],
+        spots: ["", Validators.required]
     });
+    public editor = ClassicEditor;
 
-    this.courseForm.get("title").valueChanges.subscribe(val => {
-      if (!val) {
-        return;
-      }
+    constructor(
+        private fb: FormBuilder,
+        private repository: RepositoryService,
+        private route: ActivatedRoute,
+        private router: Router
+    ) {
+        this.route.params.subscribe(params => {
+            this.courseId = params.id;
+            if (params.id === "0") {
+                this.courseId = null;
+            }
 
-      this.courseForm.patchValue({ slug: slugify(val, { lower: true }) });
-    });
-  }
-
-  ngOnInit() {
-    if (this.courseId) {
-      this.repository.find("course", this.courseId).subscribe((result: any) => {
-        this.loading = false;
-        this.courseForm.patchValue(result);
-
-        const startDate = new Date(result.startDate);
-        const startDateString =
-          startDate.getMonth() +
-          1 +
-          "/" +
-          startDate.getDate() +
-          "/" +
-          startDate.getFullYear();
-        this.courseForm.patchValue({ startDate: startDateString });
-      });
-    }
-  }
-
-  goBack() {
-    this.router.navigate(["/courses"]);
-  }
-
-  onSubmit() {
-    this.loading = true;
-
-    if (!this.courseId) {
-      delete this.courseForm.value.id;
-      this.repository
-        .create("course", this.courseForm.value)
-        .subscribe((result: any) => {
-          this.loading = false;
-          this.router.navigate(["/courses"]);
+            if (this.courseId) {
+                this.pageTitle = "Edit Course";
+            } else {
+                this.pageTitle = "Create New Course";
+            }
         });
-    } else {
-      this.repository
-        .update("course", this.courseForm.value)
-        .subscribe((result: any) => {
-          this.loading = false;
-          this.router.navigate(["/courses"]);
+
+        this.courseForm.get("title").valueChanges.subscribe(val => {
+            if (!val) {
+                return;
+            }
+
+            this.courseForm.patchValue({ slug: slugify(val, { lower: true }) });
         });
     }
-  }
 
-  onOptions() {
-    this.router.navigate(["/courses/edit/" + this.courseId + "/options"]);
-  }
+    ngOnInit() {
+        if (this.courseId) {
+            this.repository.find("course", this.courseId).subscribe((result: any) => {
+                this.loading = false;
+                this.courseForm.patchValue(result);
 
-  onCategories() {
-    this.router.navigate(["/courses/edit/" + this.courseId + "/categories"]);
-  }
+                const startDate = new Date(result.startDate);
+                const startDateString =
+                    startDate.getMonth() +
+                    1 +
+                    "/" +
+                    startDate.getDate() +
+                    "/" +
+                    startDate.getFullYear();
 
-  onTopics() {
-    this.router.navigate(["/courses/edit/" + this.courseId + "/topics"]);
-  }
+                const lastDate = new Date(result.lastDate);
+                const lastDateString =
+                    lastDate.getMonth() +
+                    1 +
+                    "/" +
+                    lastDate.getDate() +
+                    "/" +
+                    lastDate.getFullYear();
+                this.courseForm.patchValue({ startDate: startDateString, lastDate: lastDateString });
+            });
+        }
+    }
 
-  onInstructors() {
-    this.router.navigate(["/courses/edit/" + this.courseId + "/instructors"]);
-  }
+    goBack() {
+        this.router.navigate(["/courses"]);
+    }
 
-  onReviews() {
-    this.router.navigate(["/courses/edit/" + this.courseId + "/reviews"]);
-  }
+    onSubmit() {
+        this.loading = true;
 
-  onTestimonials() {
-    this.router.navigate(["/courses/edit/" + this.courseId + "/testimonials"]);
-  }
+        if (!this.courseId) {
+            delete this.courseForm.value.id;
+            this.repository
+                .create("course", this.courseForm.value)
+                .subscribe((result: any) => {
+                    this.loading = false;
+                    this.router.navigate(["/courses"]);
+                });
+        } else {
+            this.repository
+                .update("course", this.courseForm.value)
+                .subscribe((result: any) => {
+                    this.loading = false;
+                    this.router.navigate(["/courses"]);
+                });
+        }
+    }
+
+    onOptions() {
+        this.router.navigate(["/courses/edit/" + this.courseId + "/options"]);
+    }
+
+    onCategories() {
+        this.router.navigate(["/courses/edit/" + this.courseId + "/categories"]);
+    }
+
+    onTopics() {
+        this.router.navigate(["/courses/edit/" + this.courseId + "/topics"]);
+    }
+
+    onInstructors() {
+        this.router.navigate(["/courses/edit/" + this.courseId + "/instructors"]);
+    }
+
+    onReviews() {
+        this.router.navigate(["/courses/edit/" + this.courseId + "/reviews"]);
+    }
+
+    onTestimonials() {
+        this.router.navigate(["/courses/edit/" + this.courseId + "/testimonials"]);
+    }
 }

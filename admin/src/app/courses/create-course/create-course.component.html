@@ -112,6 +112,11 @@
             <input type="date" [(clrDate)]="startDate" required formControlName="startDate">
             <clr-control-helper>First day of the course</clr-control-helper>
           </clr-date-container>
+          <clr-date-container>
+            <label>Last date</label>
+            <input type="date" [(clrDate)]="lastDate" required formControlName="lastDate">
+            <clr-control-helper>Last day of the course</clr-control-helper>
+          </clr-date-container>
           <clr-input-container>
             <label>Spots</label>
             <input clrInput type="number" formControlName="spots" min="0" />
