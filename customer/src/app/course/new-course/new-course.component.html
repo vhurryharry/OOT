@@ -1,0 +1,197 @@
+<div class="screen-container">
+
+    <img src='/assets/images/images/normal-background.png' alt="Olive Oil Times" class="background-image"
+        id="new-course-background-1" />
+
+    <app-header [lightHeader]="false"></app-header>
+
+    <div class="row section new-course-container">
+        <div class="col-12 hero new-course-heading-title">
+            Submit New Course
+        </div>
+
+        <div class="col-12 new-course-row form-group row">
+            <div class="col-12 md-body-text new-course-row-label">
+                Course Title
+            </div>
+            <input
+                class="col-12 md-input new-course-row-value form-control {{showError ? courseDetails.title === '' ? 'is-invalid' : 'is-valid' : ''}}"
+                [(ngModel)]="courseDetails.title" />
+        </div>
+
+        <div class="col-12 new-course-row form-group row">
+            <div class="col-12 md-body-text new-course-row-label">
+                Address Line
+            </div>
+            <input
+                class="col-12 md-input new-course-row-value form-control {{showError ? courseDetails.title === '' ? 'is-invalid' : 'is-valid' : ''}}"
+                [(ngModel)]="courseDetails.address" />
+        </div>
+
+        <div class="col-12 col-sm-6 new-course-row form-group row">
+            <div class="col-12 md-body-text new-course-row-label">
+                City
+            </div>
+            <input
+                class="col-12 md-input new-course-row-value form-control {{showError ? courseDetails.title === '' ? 'is-invalid' : 'is-valid' : ''}}"
+                [(ngModel)]="courseDetails.city" />
+        </div>
+
+        <div class="col-6 col-sm-3 new-course-row form-group row">
+            <div class="col-12 md-body-text new-course-row-label">
+                Latitude
+            </div>
+            <input
+                class="col-12 md-input new-course-row-value form-control {{showError ? courseDetails.title === '' ? 'is-invalid' : 'is-valid' : ''}}"
+                [(ngModel)]="courseDetails.latitude" />
+        </div>
+
+        <div class="col-6 col-sm-3 new-course-row form-group row">
+            <div class="col-12 md-body-text new-course-row-label">
+                Longitude
+            </div>
+            <input
+                class="col-12 md-input new-course-row-value form-control {{showError ? courseDetails.title === '' ? 'is-invalid' : 'is-valid' : ''}}"
+                [(ngModel)]="courseDetails.longitude" />
+        </div>
+
+        <div class="col-12 col-sm-6 new-course-row form-group row">
+            <div class="col-12 md-body-text new-course-row-label">
+                Start Date
+            </div>
+            <input
+                class="form-control md-input md-body-text {{showError ? courseDetails.startDate === '' ? 'is-invalid' : 'is-valid' : ''}}"
+                id="startDate" name="startDate" placeholder="MM/DD/YY" [owlDateTime]="startDatePicker"
+                [owlDateTimeTrigger]="startDatePicker" [(ngModel)]="courseDetails.startDate">
+            <owl-date-time #startDatePicker pickerType="calendar">
+            </owl-date-time>
+        </div>
+
+        <div class="col-12 col-sm-6 new-course-row form-group row">
+            <div class="col-12 md-body-text new-course-row-label">
+                Last Date
+            </div>
+            <input
+                class="form-control md-input md-body-text {{showError ? courseDetails.lastDate === '' ? 'is-invalid' : 'is-valid' : ''}}"
+                id="lastDate" name="lastDate" placeholder="MM/DD/YY" [owlDateTime]="lastDatePicker"
+                [owlDateTimeTrigger]="lastDatePicker" [(ngModel)]="courseDetails.lastDate">
+            <owl-date-time #lastDatePicker pickerType="calendar">
+            </owl-date-time>
+        </div>
+
+        <div class="col-12 col-sm-6 new-course-row form-group row">
+            <div class="col-12 md-body-text new-course-row-label">
+                Start Time
+            </div>
+            <input
+                class="form-control md-input md-body-text {{showError ? courseDetails.startTime === '' ? 'is-invalid' : 'is-valid' : ''}}"
+                id="startTime" name="startTime" placeholder="HH:MM" [owlDateTime]="startTimePicker"
+                [owlDateTimeTrigger]="startTimePicker" [(ngModel)]="courseDetails.startTime">
+            <owl-date-time #startTimePicker pickerType="timer">
+            </owl-date-time>
+        </div>
+
+        <div class="col-12 col-sm-6 new-course-row form-group row">
+            <div class="col-12 md-body-text new-course-row-label">
+                End Time
+            </div>
+            <input
+                class="form-control md-input md-body-text {{showError ? courseDetails.endTime === '' ? 'is-invalid' : 'is-valid' : ''}}"
+                id="endTime" name="endTime" placeholder="HH:MM" [owlDateTime]="endTimePicker"
+                [owlDateTimeTrigger]="endTimePicker" [(ngModel)]="courseDetails.endTime">
+            <owl-date-time #endTimePicker pickerType="timer">
+            </owl-date-time>
+        </div>
+
+        <div class="col-12 new-course-row form-group row">
+            <div class="col-12 md-body-text new-course-row-label">
+                Course Description
+            </div>
+            <input
+                class="col-12 md-input new-course-row-value form-control {{showError ? courseDetails.tagline === '' ? 'is-invalid' : 'is-valid' : ''}}"
+                [(ngModel)]="courseDetails.tagline" />
+        </div>
+
+        <div class="col-12 col-sm-6 new-course-row form-group row">
+            <div class="col-12 md-body-text new-course-row-label">
+                Maximum number of guests
+            </div>
+            <input type="number"
+                class="col-12 md-input new-course-row-value form-control {{showError ? courseDetails.spots === '' ? 'is-invalid' : 'is-valid' : ''}}"
+                [(ngModel)]="courseDetails.spots" />
+        </div>
+
+        <div class="col-12 col-sm-6 new-course-row form-group row">
+            <div class="col-12 md-body-text new-course-row-label">
+                Tuition (USD)
+            </div>
+            <input
+                class="col-12 md-input new-course-row-value form-control {{showError ? courseDetails.tuition === '' ? 'is-invalid' : 'is-valid' : ''}}"
+                [(ngModel)]="courseDetails.tuition" />
+        </div>
+
+        <div class="col-12 new-course-row form-group row">
+            <div class="col-12 md-body-text new-course-row-label">
+                Instructors
+            </div>
+
+            <div class="col-12 sm-body-text new-course-row-label">
+                Please select and add the instructors from the list below
+            </div>
+
+            <ul class="col-12 col-sm-5 list-group md-body-text new-course-row-instructors-list">
+                <li class="list-group-item new-course-row-value new-course-row-instructor {{instructor.selected ? 'instructor-selected' : ''}}"
+                    *ngFor="let instructor of instructors; let i = index" (click)="selectInstructor(i)">
+                    {{instructor.name}}
+                </li>
+            </ul>
+
+            <div class="col-12 col-sm-2 new-course-row-instructor-buttons">
+                <button class="icon-button" (click)="addToSelected()">
+                    <img src="/assets/images/s-icons/arrow-right.png" />
+                </button>
+                <button class="icon-button" (click)="removeFromSelected()">
+                    <img src="/assets/images/s-icons/arrow-left.png" />
+                </button>
+            </div>
+
+            <ul class="col-12 col-sm-5 list-group md-body-text new-course-row-instructors-list">
+                <li class="list-group-item new-course-row-value new-course-row-instructor {{instructor.selected ? 'instructor-selected' : ''}}"
+                    *ngFor="let instructor of selectedInstructors; let i = index" (click)="selectSelectedInstructor(i)">
+                    {{instructor.name}}
+                </li>
+            </ul>
+        </div>
+
+        <div class=" col-12 new-course-row form-group row">
+            <div class="col-12 md-body-text new-course-row-label">
+                Notes for Admin
+            </div>
+            <textarea rows="3"
+                class="col-12 md-input new-course-row-value form-control {{showError ? courseDetails.note === '' ? 'is-invalid' : 'is-valid' : ''}}"
+                [(ngModel)]="courseDetails.note">
+            </textarea>
+        </div>
+
+        <div class="col-12 new-course-row form-group row">
+            <div class="col-12 md-body-text new-course-row-label">
+                Course Content
+            </div>
+            <ckeditor [editor]="editor"
+                class="col-12 new-course-row-value {{showError ? courseDetails.content === '' ? 'is-invalid' : 'is-valid' : ''}}"
+                [(ngModel)]="courseDetails.content"></ckeditor>
+        </div>
+
+        <div class="col-12 new-course-row form-group row">
+            <div class="col-8"></div>
+            <div class="col-12 col-sm-4 new-course-row-button">
+                <button class="btn col-12 md-cta lg-buttons" (click)="submitCourse()">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+
+</div>

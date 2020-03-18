@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Database;
+use App\Entity\Course;
+use App\Entity\CourseInstructor;
+use App\Entity\CourseOption;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CourseRepository
@@ -22,7 +26,7 @@ class CourseRepository
     public function findAll(): array
     {
         $courses = $this->db->findAll(
-            'select id, title, slug, city, start_date, last_date, spots, categories from course where deleted_at is null'
+            'select id, title, slug, city, start_date, last_date, spots, categories from course where deleted_at is null and status is null'
         );
 
         if (!$courses) {
@@ -31,16 +35,16 @@ class CourseRepository
 
         foreach ($courses as &$course) {
             $reviews = $this->db->find('select sum(rating), count(rating) from course_review where course = ? and deleted_at is null', [$course['id']]);
-    
+
             $course['rating'] = $reviews['count'] > 0 ? $reviews['sum'] / $reviews['count'] : 0;
-    
+
             $categoryIds = substr($course['categories'], 1, -1);
-            if(strlen($categoryIds) == 0) {
+            if (strlen($categoryIds) == 0) {
                 $categories = [];
             } else {
                 $categories = $this->db->findAll("select * from course_category where id IN ($categoryIds)");
             }
-            
+
             $course['categories'] = $categories;
 
             $course['reservations'] = $this->db->find('select count(*) from course_reservation where course_id = ?', [$course['id']])['count'];
@@ -49,7 +53,34 @@ class CourseRepository
         return $courses;
     }
 
-    public function getCategories(): array 
+    public function addNewCourse(Course $course)
+    {
+        return $this->db->insert('course', $course->toDatabase());
+    }
+
+    public function addCourseOption(UuidInterface $courseId, int $price)
+    {
+        $option = CourseOption::fromJson([
+            "courseId" => $courseId,
+            "price" => $price,
+            "title" => "New",
+            "dates" => [],
+            "combo" => "f"
+        ]);
+
+        return $this->db->insert('course_option', $option->toDatabase());
+    }
+
+    public function addInstructor(UuidInterface $courseId, UuidInterface $instructorId)
+    {
+        $instructor = new CourseInstructor();
+        $instructor->setCourseId($courseId);
+        $instructor->setCustomerId($instructorId);
+
+        return $this->db->insert('course_instructor', $instructor->toDatabase());
+    }
+
+    public function getCategories(): array
     {
         $availableCategories = $this->db->findAll(
             'select * from course_category where deleted_at is null'
@@ -90,17 +121,17 @@ class CourseRepository
         }
 
         $topicIds = substr($course['topics'], 1, -1);
-        if(strlen($topicIds) == 0) {
+        if (strlen($topicIds) == 0) {
             $topics = [];
         } else {
             $topics = $this->db->findAll("select * from course_topic where id IN ($topicIds)");
         }
-        
+
         $course['topics'] = $topics;
         $course['reserved_count'] = $this->db->find('select count(*) from course_reservation where course_id = ?', [$course['id']])['count'];
-        if($userId != 'default') {
+        if ($userId != 'default') {
             $course['reserved'] = $this->db->find('select status from course_reservation where course_id = ? and customer_id = ?', [$course['id'], $userId]);
-            if($course['reserved'] == []) {
+            if ($course['reserved'] == []) {
                 $course['reserved'] = null;
             }
         } else {

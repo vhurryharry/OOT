@@ -16,4 +16,14 @@ export class CourseService {
   findBySlug(slug: string, userId: string) {
     return this.http.get(this.baseURL + "/find/" + userId + "/" + slug);
   }
+
+  submitNewCourse(course: any) {
+    return this.http.post(this.baseURL + "/new", {
+      course
+    });
+  }
+
+  getInstructors() {
+    return this.http.get(this.baseURL + "/instructors");
+  }
 }

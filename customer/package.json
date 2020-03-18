@@ -20,6 +20,8 @@
         "@angular/platform-browser": "^8.2.14",
         "@angular/platform-browser-dynamic": "^8.2.14",
         "@angular/router": "^8.2.14",
+        "@ckeditor/ckeditor5-angular": "^1.2.2",
+        "@ckeditor/ckeditor5-build-classic": "^17.0.0",
         "@stripe/stripe-js": "^1.0.2",
         "@types/mapbox-gl": "^1.7.0",
         "bootstrap": "^4.4.1",

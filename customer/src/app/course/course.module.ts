@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 
 import { SharedModule } from "../layout/shared/shared.module";
 import { CourseRoutingModule } from "./course-routing.module";
@@ -10,6 +11,8 @@ import { CourseService } from "./course.service";
 
 import { NgxMapboxGLModule } from "ngx-mapbox-gl";
 import { environment } from "src/environments/environment";
+import { NewCourseComponent } from "./new-course/new-course.component";
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
 
 @NgModule({
   imports: [
@@ -19,9 +22,13 @@ import { environment } from "src/environments/environment";
     FormsModule,
     NgxMapboxGLModule.withConfig({
       accessToken: environment.mapbox.accessToken
-    })
+    }),
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    CKEditorModule,
+    ReactiveFormsModule
   ],
-  declarations: [CoursesComponent, CourseDetailComponent],
+  declarations: [CoursesComponent, CourseDetailComponent, NewCourseComponent],
   providers: [CourseService]
 })
 export class CourseModule {}

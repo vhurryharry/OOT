@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
   public lightHeader = false;
   private loggedIn = false;
   private userName = "";
+  private isInstructor = false;
   private userAvatar = "";
   private menuExpanded = false;
 
@@ -32,6 +33,8 @@ export class HeaderComponent implements OnInit {
   constructor(private loginService: LoginService) {
     this.loggedIn = this.loginService.isLoggedIn();
     if (this.loggedIn) {
+      this.isInstructor = this.loginService.isInstructor();
+
       const user = this.loginService.getCurrentUser();
       this.userName = user.firstName + " " + user.lastName;
       this.userAvatar = user.avatar;

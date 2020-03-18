@@ -56,13 +56,15 @@ class CustomerRepository
         );
     }
 
-    public function resetPassword(Customer $customer, string $newPassword): Customer {
+    public function resetPassword(Customer $customer, string $newPassword)
+    {
         $customer->setPassword($this->encoder->encodePassword($customer, $newPassword));
 
         $this->updateUser($customer);
     }
 
-    public function confirmUser(Customer $customer): Customer {
+    public function confirmUser(Customer $customer): Customer
+    {
         $customer->setStatus(Customer::ACTIVE);
 
         $this->updateUser($customer);
@@ -71,14 +73,14 @@ class CustomerRepository
 
     public function register(array $form): Customer
     {
-		$rawPassword = $form['password'];
-		$customer = Customer::fromJson($form);
-		$customer->setId(Uuid::uuid4());
-		$customer->setLogin($form['email']);
+        $rawPassword = $form['password'];
+        $customer = Customer::fromJson($form);
+        $customer->setId(Uuid::uuid4());
+        $customer->setLogin($form['email']);
 
         $customer->setPassword($this->encoder->encodePassword($customer, $rawPassword));
         $customer->setConfirmationToken($this->getRandomKey());
-		$customer->setStatus(Customer::PENDING_CONFIRMATION);
+        $customer->setStatus(Customer::PENDING_CONFIRMATION);
 
         $this->db->insert(
             'customer',
@@ -109,16 +111,16 @@ class CustomerRepository
         return $customer;
     }
 
-    public function checkPassword(Customer $customer, string $password): bool 
+    public function checkPassword(Customer $customer, string $password): bool
     {
-        if(!$this->encoder->isPasswordValid($customer, $password)) {
-			return false;
+        if (!$this->encoder->isPasswordValid($customer, $password)) {
+            return false;
         }
 
         return true;
     }
 
-    public function updatePassword(Customer $customer, string $newPassword): Customer 
+    public function updatePassword(Customer $customer, string $newPassword): Customer
     {
         $customer->setPassword($this->encoder->encodePassword($customer, $newPassword));
 
@@ -127,7 +129,8 @@ class CustomerRepository
         return $customer;
     }
 
-    public function updateUser(Customer $customer): Customer {
+    public function updateUser(Customer $customer): Customer
+    {
         $this->db->update('customer', $customer->toDatabase());
 
         return $customer;
@@ -140,9 +143,9 @@ class CustomerRepository
         return $generator->generateString($size);
     }
 
-    public function getMyCourses(string $id) 
+    public function getMyCourses(string $id)
     {
-        $courseReservations = $this->db->findAll('select * from course_reservation where customer_id = ?', $id);
+        $courseReservations = $this->db->findAll('select * from course_reservation where customer_id = ?', [$id]);
     }
 
     public function getPayments(Customer $customer)
@@ -181,5 +184,12 @@ class CustomerRepository
                 $courseReservation->toDatabase(),
             );
         }
+    }
+
+    public function getInstructors()
+    {
+        $instructors = $this->db->findAll("select id, concat(first_name, ' ', last_name) as name from customer where deleted_at is null and type = 'instructor'");
+
+        return $instructors;
     }
 }

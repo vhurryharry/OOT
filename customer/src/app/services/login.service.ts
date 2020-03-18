@@ -43,6 +43,14 @@ export class LoginService {
     return false;
   }
 
+  isInstructor(): boolean {
+    if (this.isLoggedIn) {
+      return this.currentUser.type === "instructor";
+    }
+
+    return false;
+  }
+
   getCurrentUser(): IUserInfo {
     if (this.isLoggedIn()) {
       return this.currentUser;

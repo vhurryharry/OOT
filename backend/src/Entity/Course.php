@@ -27,6 +27,11 @@ class Course implements JsonSerializable
     protected $categories;
 
     /**
+     * @var int[]
+     */
+    protected $topics;
+
+    /**
      * @var ?array
      */
     protected $metadata;
@@ -131,11 +136,25 @@ class Course implements JsonSerializable
      */
     protected $skuId;
 
+    /**
+     * @var ?string
+     */
+    protected $note;
+
+    /**
+     * @var string
+     */
+    protected $status;
+
     public function __construct()
     {
         $this->id = Uuid::uuid4();
         $this->createdAt = Carbon::now();
         $this->updatedAt = $this->createdAt;
+        $this->status = "pending_confirmation";
+
+        $this->categories = [];
+        $this->topics = [];
     }
 
     public function getId(): UuidInterface
@@ -378,6 +397,26 @@ class Course implements JsonSerializable
         $this->skuId = $skuId;
     }
 
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(string $note): void
+    {
+        $this->note = $note;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
+    }
+
     public static function fromDatabase(array $row): Course
     {
         $instance = new Course();
@@ -472,6 +511,14 @@ class Course implements JsonSerializable
 
         if (isset($row['sku_id'])) {
             $instance->setSkuId($row['sku_id']);
+        }
+
+        if (isset($row['note'])) {
+            $instance->setNote($row['note']);
+        }
+
+        if (isset($row['status'])) {
+            $instance->setStatus($row['status']);
         }
 
         return $instance;
@@ -573,6 +620,14 @@ class Course implements JsonSerializable
             $instance->setSkuId($row['skuId']);
         }
 
+        if (isset($row['note'])) {
+            $instance->setNote($row['note']);
+        }
+
+        if (isset($row['status'])) {
+            $instance->setStatus($row['status']);
+        }
+
         return $instance;
     }
 
@@ -602,6 +657,10 @@ class Course implements JsonSerializable
             'content' => $this->content,
             'product_id' => $this->productId,
             'sku_id' => $this->skuId,
+            'note' => $this->note,
+            'status' => $this->status,
+            'categories' => "{}",
+            'topics' => "{}"
         ];
     }
 
@@ -631,6 +690,8 @@ class Course implements JsonSerializable
             'content' => $this->content,
             'productId' => $this->productId,
             'skuId' => $this->skuId,
+            'note' => $this->note,
+            'status' => $this->status,
         ];
     }
 }

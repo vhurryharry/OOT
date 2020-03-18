@@ -8,6 +8,7 @@ use App\Repository\State;
 use App\CsvExporter;
 use App\Database;
 use App\Repository\CourseRepository;
+use App\Repository\CustomerRepository;
 use App\Entity\Course;
 use App\Security\Customer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Ramsey\Uuid\Uuid;
 
 class CourseController extends AbstractController
 {
@@ -26,18 +28,24 @@ class CourseController extends AbstractController
     /**
      * @var CsvExporter
      */
-	protected $csv;
-	
+    protected $csv;
+
+    /**
+     * @var CustomerRepository
+     */
+    protected $customerRepository;
+
     /**
      * @var CourseRepository
      */
     protected $courseRepository;
 
-    public function __construct(Database $db, CsvExporter $csv, CourseRepository $courseRepository)
+    public function __construct(Database $db, CsvExporter $csv, CourseRepository $courseRepository, CustomerRepository $customerRepository)
     {
         $this->db = $db;
-		$this->csv = $csv;
-		$this->courseRepository = $courseRepository;
+        $this->csv = $csv;
+        $this->courseRepository = $courseRepository;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
@@ -58,7 +66,7 @@ class CourseController extends AbstractController
 
         return new JsonResponse([
             'items' => $items,
-			'total' => $this->db->count('course'),
+            'total' => $this->db->count('course'),
             'alive' => $this->db->count('course', false),
         ]);
     }
@@ -100,12 +108,12 @@ class CourseController extends AbstractController
     {
         $categoryIds = $this->db->find("select categories from course where id = ?", [$request->get('id')])['categories'];
 
-        if(strlen($categoryIds) == 0) {
+        if (strlen($categoryIds) == 0) {
             return new JsonResponse([]);
         }
 
         $categoryIds = substr($categoryIds, 1, -1);
-        if(strlen($categoryIds) == 0) {
+        if (strlen($categoryIds) == 0) {
             $categories = [];
         } else {
             $categories = $this->db->findAll("select * from course_category where id IN ($categoryIds)");
@@ -122,15 +130,15 @@ class CourseController extends AbstractController
         $course = $this->db->find("select * from course where id = ?", [$request->get('course_id')]);
         $categoryIds = $course['categories'];
 
-        if(strlen($categoryIds) == 0) {
+        if (strlen($categoryIds) == 0) {
             return new JsonResponse([]);
         }
 
         $categoryIds = substr($categoryIds, 1, -1);
-        if(strlen($categoryIds) == 0) {
-            $course['categories'] = "{".$request->get('category_id')."}";    
+        if (strlen($categoryIds) == 0) {
+            $course['categories'] = "{" . $request->get('category_id') . "}";
         } else {
-            $course['categories'] = "{".$categoryIds.",".$request->get('category_id')."}";
+            $course['categories'] = "{" . $categoryIds . "," . $request->get('category_id') . "}";
         }
         $this->db->update("course", $course);
 
@@ -146,7 +154,7 @@ class CourseController extends AbstractController
         $course = $this->db->find("select * from course where id = ?", [$ids['course_id']]);
         $categoryIds = $course['categories'];
 
-        if(strlen($categoryIds) == 0) {
+        if (strlen($categoryIds) == 0) {
             return new JsonResponse([]);
         }
 
@@ -158,7 +166,7 @@ class CourseController extends AbstractController
         unset($categoryIds[$pos]);
         $categoryIds = implode(",", $categoryIds);
 
-        $course['categories'] = "{".$categoryIds."}";
+        $course['categories'] = "{" . $categoryIds . "}";
         $this->db->update("course", $course);
 
         return new JsonResponse();
@@ -172,12 +180,12 @@ class CourseController extends AbstractController
     {
         $topicIds = $this->db->find("select topics from course where id = ?", [$request->get('id')])['topics'];
 
-        if(strlen($topicIds) == 0) {
+        if (strlen($topicIds) == 0) {
             return new JsonResponse([]);
         }
 
         $topicIds = substr($topicIds, 1, -1);
-        if(strlen($topicIds) == 0) {
+        if (strlen($topicIds) == 0) {
             $topics = [];
         } else {
             $topics = $this->db->findAll("select * from course_topic where id IN ($topicIds)");
@@ -194,15 +202,15 @@ class CourseController extends AbstractController
         $course = $this->db->find("select * from course where id = ?", [$request->get('course_id')]);
         $topicIds = $course['topics'];
 
-        if(strlen($topicIds) == 0) {
+        if (strlen($topicIds) == 0) {
             return new JsonResponse([]);
         }
 
         $topicIds = substr($topicIds, 1, -1);
-        if(strlen($topicIds) == 0) {
-            $course['topics'] = "{".$request->get('topic_id')."}";    
+        if (strlen($topicIds) == 0) {
+            $course['topics'] = "{" . $request->get('topic_id') . "}";
         } else {
-            $course['topics'] = "{".$topicIds.",".$request->get('topic_id')."}";
+            $course['topics'] = "{" . $topicIds . "," . $request->get('topic_id') . "}";
         }
         $this->db->update("course", $course);
 
@@ -218,7 +226,7 @@ class CourseController extends AbstractController
         $course = $this->db->find("select * from course where id = ?", [$ids['course_id']]);
         $topicIds = $course['topics'];
 
-        if(strlen($topicIds) == 0) {
+        if (strlen($topicIds) == 0) {
             return new JsonResponse([]);
         }
 
@@ -230,7 +238,7 @@ class CourseController extends AbstractController
         unset($topicIds[$pos]);
         $topicIds = implode(",", $topicIds);
 
-        $course['topics'] = "{".$topicIds."}";
+        $course['topics'] = "{" . $topicIds . "}";
         $this->db->update("course", $course);
 
         return new JsonResponse();
@@ -318,7 +326,7 @@ class CourseController extends AbstractController
         }
 
         return new JsonResponse(['csv' => $this->csv->export($courses)]);
-	}
+    }
 
     /**
      * @Route("/", name="courses")
@@ -332,6 +340,37 @@ class CourseController extends AbstractController
             "courses" => $courses,
             "categories" => $categories
         ]);
+    }
+
+    /**
+     * @Route("/instructors", methods={"GET"})
+     */
+    public function getInstructors(Request $request)
+    {
+        $instructors = $this->customerRepository->getInstructors();
+
+        return new JsonResponse([
+            "instructors" => $instructors
+        ]);
+    }
+
+    /**
+     * @Route("/new", methods={"POST"})
+     */
+    public function newCourse(Request $request)
+    {
+        $course = $request->request->get('course');
+
+        $courseId = $this->courseRepository->addNewCourse(Course::fromJson($course));
+        $this->courseRepository->addCourseOption(Uuid::fromString($courseId), (int) $course['tuition']);
+
+        $instructors = $course['instructors'];
+
+        foreach ($instructors as $instructor) {
+            $this->courseRepository->addInstructor(Uuid::fromString($courseId), Uuid::fromString($instructor['id']));
+        }
+
+        return new JsonResponse();
     }
 
     /**

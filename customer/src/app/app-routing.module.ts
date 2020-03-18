@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
 import { CondensedComponent } from "./layout/condensed/condensed.component";
+import { AuthGuard } from "./services/auth-guard.service";
 
 const routes: Routes = [
   {
@@ -27,7 +28,9 @@ const routes: Routes = [
   {
     path: "account",
     component: CondensedComponent,
-    loadChildren: "./account/account.module#AccountModule"
+    loadChildren: "./account/account.module#AccountModule",
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
   },
   {
     path: "faq",
@@ -47,17 +50,23 @@ const routes: Routes = [
   {
     path: "cart",
     component: CondensedComponent,
-    loadChildren: "./cart/cart.module#CartModule"
+    loadChildren: "./cart/cart.module#CartModule",
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
   },
   {
     path: "payment",
     component: CondensedComponent,
-    loadChildren: "./payment/payment.module#PaymentModule"
+    loadChildren: "./payment/payment.module#PaymentModule",
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
   },
   {
     path: "invoice",
     component: CondensedComponent,
-    loadChildren: "./invoice/invoice.module#InvoiceModule"
+    loadChildren: "./invoice/invoice.module#InvoiceModule",
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
   },
   {
     path: "login",
