@@ -52,18 +52,48 @@ export class CourseDetailComponent implements OnInit {
           );
 
           const temp = this.course.location[0];
-          this.course.location[0] = this.course.location[1];
-          this.course.location[1] = temp;
+          this.course.location[0] = parseFloat(this.course.location[1]);
+          this.course.location[1] = parseFloat(temp);
+
+          this.course.location[0] =
+            this.course.location[0] > 90
+              ? 90
+              : this.course.location[0] < -90
+              ? -90
+              : this.course.location[0];
+          this.course.location[1] =
+            this.course.location[1] > 90
+              ? 90
+              : this.course.location[1] < -90
+              ? -90
+              : this.course.location[1];
 
           this.dataLoaded = true;
 
+          this.course.startTime = this.timeConvert(this.course.startTime);
+          this.course.endTime = this.timeConvert(this.course.endTime);
+
           setTimeout(() => {
-            $('[data-toggle="tooltip"]').tooltip();
+            $("[data-toggle='tooltip']").tooltip();
 
             this.initCarousels("course-testimonials-gallery");
           }, 500);
         });
     });
+  }
+
+  timeConvert(time) {
+    // Check correct time format and split into components
+    time = time.match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+    if (time.length > 1) {
+      // If time format correct
+      time = time.slice(1); // Remove full string match value
+      time[3] = +time[0] < 12 ? " AM" : " PM"; // Set AM/PM
+      time[4] = "";
+      time[0] = +time[0] % 12 || 12; // Adjust hours
+    }
+    return time.join(""); // return adjusted time or original string
   }
 
   initCarousels(id) {
@@ -97,7 +127,7 @@ export class CourseDetailComponent implements OnInit {
       const item: ICartItem = {
         id: this.course.id,
         name: this.course.title,
-        price: this.course.options[0].price,
+        price: this.course.price,
         quantity: 1
       };
 

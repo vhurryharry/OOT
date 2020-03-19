@@ -267,7 +267,7 @@ class CourseOption implements JsonSerializable
 
     public function jsonSerialize(): array
     {
-        $numberFormatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
+        $numberFormatter = new NumberFormatter('en', NumberFormatter::CURRENCY);
         $moneyFormatter = new IntlMoneyFormatter($numberFormatter, new ISOCurrencies());
         $dates = [];
 
@@ -282,8 +282,8 @@ class CourseOption implements JsonSerializable
             'title' => $this->title,
             'curPrice' => $moneyFormatter->format(
                 new Money($this->price, new Currency('USD')),
-			),
-			'price' => $this->price,
+            ),
+            'price' => $this->price,
             'dates' => $dates,
             'combo' => $this->combo,
             'course' => $this->course,

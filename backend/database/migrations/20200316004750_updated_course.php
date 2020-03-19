@@ -10,6 +10,8 @@ class UpdatedCourse extends AbstractMigration
         $course->addColumn('last_date', 'date')
             ->addColumn('note', 'string', ['null' => true])
             ->addColumn('status', 'string')
+            ->addColumn('start_time', 'time')
+            ->addColumn('end_time', 'time')
             ->save();
     }
 
@@ -19,6 +21,8 @@ class UpdatedCourse extends AbstractMigration
         $course->removeColumn('last_date')
             ->removeColumn('note')
             ->removeColumn('status')
+            ->removeColumn('start_time')
+            ->removeColumn('end_time')
             ->save();
     }
 }

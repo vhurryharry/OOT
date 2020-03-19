@@ -62,6 +62,16 @@ class Course implements JsonSerializable
     protected $lastDate;
 
     /**
+     * @var string
+     */
+    protected $startTime;
+
+    /**
+     * @var string
+     */
+    protected $endTime;
+
+    /**
      * @var int
      */
     protected $spots;
@@ -151,7 +161,7 @@ class Course implements JsonSerializable
         $this->id = Uuid::uuid4();
         $this->createdAt = Carbon::now();
         $this->updatedAt = $this->createdAt;
-        $this->status = "pending_confirmation";
+        $this->status = "";
 
         $this->categories = [];
         $this->topics = [];
@@ -245,6 +255,26 @@ class Course implements JsonSerializable
     public function setLastDate(Carbon $lastDate): void
     {
         $this->lastDate = $lastDate;
+    }
+
+    public function getStartTime(): string
+    {
+        return $this->startTime;
+    }
+
+    public function setStartTime(string $startTime): void
+    {
+        $this->startTime = $startTime;
+    }
+
+    public function getEndTime(): string
+    {
+        return $this->endTime;
+    }
+
+    public function setEndTime(string $endTime): void
+    {
+        $this->endTime = $endTime;
     }
 
     public function getSpots(): int
@@ -453,6 +483,14 @@ class Course implements JsonSerializable
             $instance->setLastDate(new Carbon($row['last_date']));
         }
 
+        if (isset($row['start_time'])) {
+            $instance->setStartTime($row['start_time']);
+        }
+
+        if (isset($row['end_time'])) {
+            $instance->setEndTime($row['end_time']);
+        }
+
         if (isset($row['spots'])) {
             $instance->setSpots($row['spots']);
         }
@@ -560,6 +598,14 @@ class Course implements JsonSerializable
             $instance->setLastDate(new Carbon($row['lastDate']));
         }
 
+        if (isset($row['startTime'])) {
+            $instance->setStartTime($row['startTime']);
+        }
+
+        if (isset($row['endTime'])) {
+            $instance->setEndTime($row['endTime']);
+        }
+
         if (isset($row['spots'])) {
             $instance->setSpots($row['spots']);
         }
@@ -642,6 +688,8 @@ class Course implements JsonSerializable
             'city' => $this->city,
             'start_date' => $this->startDate->format('Y-m-d H:i:s'),
             'last_date' => $this->lastDate->format('Y-m-d H:i:s'),
+            'start_time' => $this->startTime,
+            'end_time' => $this->endTime,
             'spots' => $this->spots,
             'display_order' => $this->displayOrder,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
@@ -675,6 +723,8 @@ class Course implements JsonSerializable
             'city' => $this->city,
             'startDate' => $this->startDate->format('Y-m-d\TH:i:s'),
             'lastDate' => $this->lastDate->format('Y-m-d\TH:i:s'),
+            'startTime' => $this->startTime,
+            'endTime' => $this->endTime,
             'spots' => $this->spots,
             'displayOrder' => $this->displayOrder,
             'createdAt' => $this->createdAt->format('Y-m-d\TH:i:s'),

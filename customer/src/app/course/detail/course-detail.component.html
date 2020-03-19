@@ -29,12 +29,12 @@
       <div class="course-detail-schedule row">
         <div class="course-detail-schedule-item col col-12 col-sm-6 col-lg-auto">
           <img src="/assets/images/s-icons/calendar.png" />
-          {{ course.start_date | date : 'MMM dd, yyyy' }} - {{ course.last_date | date : 'MMM dd, yyyy' }}
+          {{ course.startDate | date : 'MMM dd, yyyy' }} - {{ course.lastDate | date : 'MMM dd, yyyy' }}
         </div>
 
         <div class="course-detail-schedule-item col col-12 col-sm-6 col-lg-auto">
           <img src="/assets/images/s-icons/time.png" />
-          9:00 AM - 4:00 PM
+          {{ course.startTime }} - {{ course.endTime }}
         </div>
 
         <div class="course-detail-schedule-item col col-12 col-sm-12 col-lg-auto">
@@ -49,12 +49,12 @@
       </p>
       <div class="course-detail-enroll">
         <button (click)="enroll()" class="btn lg-cta lg-buttons"
-          [disabled]="course.reserved_count >= course.spots || course.reserved">
+          [disabled]="!course.price || course.reserved_count >= course.spots || course.reserved">
           {{course.reserved ? "Already enrolled" : course.reserved_count >= course.spots ? "Sold out" : "Enroll in program"}}
         </button>
 
         <div class="lg-subtitle course-detail-price">
-          ${{ course.options[0].price }}
+          ${{ course.price | number }}
         </div>
       </div>
     </div>
@@ -110,8 +110,9 @@
       </div>
     </div>
 
-    <div class="section col-12 row">
-      <div class="course-testimonial-section row" *ngIf="course.testimonials && course.testimonials.length > 0">
+    <div class="section col-12 row course-testimonial-section-row"
+      *ngIf="course.testimonials && course.testimonials.length > 0">
+      <div class="course-testimonial-section row">
         <h2 class="col-12 col-lg-7 order-0">
           What others are saying.
         </h2>
@@ -161,6 +162,6 @@
 
   <app-footer
     [status]="dataLoaded ? (course.reserved ? 'reserved' : course.reserved_count >= course.spots ? 'sold out' : 'available') : 'available'"
-    [price]="dataLoaded ? course.options[0].price : 0" (enroll)="enroll()"></app-footer>
+    [price]="dataLoaded ? course.price : 0" (enroll)="enroll()"></app-footer>
 
 </div>

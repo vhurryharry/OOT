@@ -22,7 +22,7 @@
 
   <clr-dg-row *clrDgItems="let option of options" (click)="onEditOption(option)" style="cursor: pointer;">
     <clr-dg-cell>{{option.title}}</clr-dg-cell>
-    <clr-dg-cell>{{option.curPrice}}</clr-dg-cell>
+    <clr-dg-cell>${{option.price | number}}</clr-dg-cell>
     <clr-dg-cell>{{option.dates.join(', ')}}</clr-dg-cell>
     <clr-dg-cell>{{option.combo ? 'Yes' : 'No'}}</clr-dg-cell>
     <clr-dg-cell>{{option.createdAt | date:'short'}}</clr-dg-cell>

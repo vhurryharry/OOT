@@ -51,6 +51,18 @@
             <input clrInput type="text" formControlName="tagline" size="70" />
             <clr-control-helper>Headline text displayed at the top of course page</clr-control-helper>
           </clr-input-container>
+          <clr-select-container>
+            <label>Status</label>
+            <select clrSelect formControlName="status">
+              <option value="active">
+                Active
+              </option>
+              <option value="pending_confirmation">
+                Pending Confirmation
+              </option>
+            </select>
+            <clr-control-helper>Specify which topic you want to add to this course</clr-control-helper>
+          </clr-select-container>
         </clr-tab-content>
       </clr-tab>
 
@@ -117,6 +129,21 @@
             <input type="date" [(clrDate)]="lastDate" required formControlName="lastDate">
             <clr-control-helper>Last day of the course</clr-control-helper>
           </clr-date-container>
+          <clr-input-container>
+            <label>Start Time</label>
+            <input clrInput type="string" formControlName="startTime" min="0" />
+            <clr-control-helper>Start time of the course</clr-control-helper>
+          </clr-input-container>
+          <clr-input-container>
+            <label>End Time</label>
+            <input clrInput type="string" formControlName="endTime" min="0" />
+            <clr-control-helper>End time of the course</clr-control-helper>
+          </clr-input-container>
+          <clr-input-container>
+            <label>Spots</label>
+            <input clrInput type="number" formControlName="spots" min="0" />
+            <clr-control-helper>Number of available spots on the course</clr-control-helper>
+          </clr-input-container>
           <clr-input-container>
             <label>Spots</label>
             <input clrInput type="number" formControlName="spots" min="0" />

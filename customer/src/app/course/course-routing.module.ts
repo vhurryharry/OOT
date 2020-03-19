@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { CoursesComponent } from "./courses/courses.component";
 import { CourseDetailComponent } from "./detail/course-detail.component";
 import { NewCourseComponent } from "./new-course/new-course.component";
+import { AuthGuard } from "../services/auth-guard.service";
 
 const routes: Routes = [
   {
@@ -11,7 +12,9 @@ const routes: Routes = [
   },
   {
     path: "new",
-    component: NewCourseComponent
+    component: NewCourseComponent,
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
   },
   {
     path: ":slug",
@@ -23,4 +26,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class CourseRoutingModule {}
+export class CourseRoutingModule { }

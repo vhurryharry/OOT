@@ -32,7 +32,10 @@ export class CreateCourseComponent implements OnInit {
     city: [""],
     startDate: ["", Validators.required],
     lastDate: ["", Validators.required],
-    spots: ["", Validators.required]
+    spots: ["", Validators.required],
+    status: "",
+    startTime: "",
+    endTime: ""
   });
   public editor = ClassicEditor;
 

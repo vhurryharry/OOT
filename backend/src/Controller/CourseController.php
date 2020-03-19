@@ -386,11 +386,11 @@ class CourseController extends AbstractController
     }
 
     /**
-     * @Route("/next-course-date", methods={"GET"})
+     * @Route("/next-course-info", methods={"GET"})
      */
-    public function getNextCourseDate()
+    public function getNextCourseInfo()
     {
-        $nextCourse = $this->courseRepository->getNextCourseDate();
+        $nextCourse = $this->courseRepository->getNextCourseInfo();
 
         return new JsonResponse([
             "nextCourse" => $nextCourse

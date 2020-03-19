@@ -26,11 +26,11 @@ class CourseRepository
     public function findAll(): array
     {
         $courses = $this->db->findAll(
-            'select id, title, slug, city, start_date, last_date, spots, categories from course where deleted_at is null and status is null'
+            "select id, title, slug, city, start_date, last_date, spots, categories from course where deleted_at is null and status <> 'pending_confirmation'"
         );
 
         if (!$courses) {
-            throw new NotFoundHttpException();
+            return [];
         }
 
         foreach ($courses as &$course) {
@@ -55,13 +55,15 @@ class CourseRepository
 
     public function addNewCourse(Course $course)
     {
-        return $this->db->insert('course', $course->toDatabase());
+        $this->db->insert('course', $course->toDatabase());
+
+        return $course->getId();
     }
 
     public function addCourseOption(UuidInterface $courseId, int $price)
     {
         $option = CourseOption::fromJson([
-            "courseId" => $courseId,
+            "course" => $courseId,
             "price" => $price,
             "title" => "New",
             "dates" => [],
@@ -89,9 +91,9 @@ class CourseRepository
         return $availableCategories;
     }
 
-    public function getNextCourseDate()
+    public function getNextCourseInfo()
     {
-        return $this->db->find("select min(start_date) from course where deleted_at is null and start_date > NOW()")['min'];
+        return $this->db->find("select c.start_date, c.city from course as c inner join (select min(start_date) from course where deleted_at is null and start_date > NOW()) as c1 on c.start_date = c1.min");
     }
 
     public function getCourseWithPrice(string $id): array
@@ -127,6 +129,8 @@ class CourseRepository
             $topics = $this->db->findAll("select * from course_topic where id IN ($topicIds)");
         }
 
+        $course = Course::fromDatabase($course)->jsonSerialize();
+
         $course['topics'] = $topics;
         $course['reserved_count'] = $this->db->find('select count(*) from course_reservation where course_id = ?', [$course['id']])['count'];
         if ($userId != 'default') {
@@ -138,7 +142,10 @@ class CourseRepository
             $course['reserved'] = null;
         }
 
-        $course['options'] = $this->db->findAll('select id, title, price, dates, combo from course_option where course = ? and deleted_at is null', [$course['id']]);
+        $options = $this->db->findAll('select id, title, price, dates, combo from course_option where course = ? and deleted_at is null', [$course['id']]);
+        $course['price'] = 0;
+        if (count($options) > 0)
+            $course['price'] = $options[0]['price'];
 
         $rating = $this->db->find('select sum(rating), count(rating) from course_review where course = ? and deleted_at is null', [$course['id']]);
         $course['rating'] = $rating['count'] > 0 ? $rating['sum'] / $rating['count'] : 0;

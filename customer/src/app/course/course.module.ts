@@ -13,6 +13,7 @@ import { NgxMapboxGLModule } from "ngx-mapbox-gl";
 import { environment } from "src/environments/environment";
 import { NewCourseComponent } from "./new-course/new-course.component";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
+import { AuthGuard } from "../services/auth-guard.service";
 
 @NgModule({
   imports: [
@@ -29,6 +30,6 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
     ReactiveFormsModule
   ],
   declarations: [CoursesComponent, CourseDetailComponent, NewCourseComponent],
-  providers: [CourseService]
+  providers: [CourseService, AuthGuard]
 })
-export class CourseModule {}
+export class CourseModule { }

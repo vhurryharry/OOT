@@ -159,7 +159,6 @@
 .course-detail-instructors {
   padding: 10vw 0;
   border-top: 1px solid $gray500;
-  border-bottom: 1px solid $gray500;
 
   display: flex;
   flex-direction: column;
@@ -180,6 +179,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  margin-bottom: 20px;
 
   h5 {
     margin: 2vw 0 0.5vw;
@@ -190,7 +190,10 @@
   max-width: 100%;
   min-width: 100%;
   width: 100%;
+  height: 20vw;
   border-radius: 16px;
+
+  object-fit: cover;
 }
 
 .spinner-wrapper {
@@ -296,6 +299,10 @@
       border-bottom: 1px solid $gray500;
     }
   }
+}
+
+.course-testimonial-section-row {
+  border-top: 1px solid $gray500;
 }
 
 .course-testimonial-section {

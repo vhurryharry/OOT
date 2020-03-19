@@ -9,7 +9,7 @@ export class ContactService {
 
   constructor(private http: HttpClient) {}
 
-  getNextCourseDate() {
-    return this.http.get(this.baseURL + "/course/next-course-date");
+  getNextCourseInfo() {
+    return this.http.get(this.baseURL + "/course/next-course-info");
   }
 }

@@ -11,12 +11,14 @@ export class ContactComponent implements OnInit {
   hours = "0";
   minutes = "0";
   seconds = "0";
+  nextCoursecity = "";
 
   nextCourseTime = new Date();
 
   constructor(private contactService: ContactService) {
-    this.contactService.getNextCourseDate().subscribe((result: any) => {
-      this.nextCourseTime = new Date(result.nextCourse);
+    this.contactService.getNextCourseInfo().subscribe((result: any) => {
+      this.nextCourseTime = new Date(result.nextCourse.start_date);
+      this.nextCoursecity = result.nextCourse.city;
 
       setInterval(() => this.tick(), 1000);
     });

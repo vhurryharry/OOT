@@ -92,7 +92,10 @@ export class NewCourseComponent implements OnInit {
         .replace(/ /g, "-")
         .replace(/[^\w-]+/g, ""),
       location: `(${this.courseDetails.latitude}, ${this.courseDetails.longitude})`,
-      instructors: this.selectedInstructors
+      instructors: this.selectedInstructors,
+      status: "pending_confirmation",
+      startTime: this.courseDetails.startTime.toLocaleTimeString(),
+      endTime: this.courseDetails.endTime.toLocaleTimeString()
     };
 
     this.errorMsg = null;
