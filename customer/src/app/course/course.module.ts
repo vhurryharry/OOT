@@ -32,4 +32,4 @@ import { AuthGuard } from "../services/auth-guard.service";
   declarations: [CoursesComponent, CourseDetailComponent, NewCourseComponent],
   providers: [CourseService, AuthGuard]
 })
-export class CourseModule { }
+export class CourseModule {}
