@@ -18,4 +18,4 @@ import { RouterModule } from "@angular/router";
   declarations: [HeaderComponent, FooterComponent, CardComponent],
   exports: [HeaderComponent, FooterComponent, CardComponent]
 })
-export class SharedModule { }
+export class SharedModule {}
