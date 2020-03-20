@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg fixed-top header custom-toggler {{lightHeader ? 'light-header' : ''}}">
 
-  <a class="navbar-brand header-logo" href="/">
+  <a class="navbar-brand header-logo" routerLink="/">
     <img src='/assets/logos/logo.svg' alt="Olive Oil Times" />
   </a>
 
@@ -14,10 +14,10 @@
     <ul class="navbar-nav mr-auto color-change-navbar">
 
       <li class="nav-item">
-        <a class="nav-link" href="/course">Courses</a>
+        <a class="nav-link" routerLink="/course">Courses</a>
       </li>
       <li class="nav-item" *ngIf="isInstructor">
-        <a class="nav-link" href="/course/new">New Course</a>
+        <a class="nav-link" routerLink="/course/new">New Course</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link" href="#" id="companyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -28,15 +28,15 @@
 
         <div class="dropdown-menu" aria-labelledby="companyDropdown">
           <div class="md-body-text dropdown-menu-content">
-            <a class="dropdown-item" href="/about">About</a>
-            <a class="dropdown-item" href="/faq">FAQ</a>
-            <!-- <a class="dropdown-item" href="/blog">Blog</a> -->
-            <a class="dropdown-item" href="/contact">Contact</a>
+            <a class="dropdown-item" routerLink="/about">About</a>
+            <a class="dropdown-item" routerLink="/faq">FAQ</a>
+            <!-- <a class="dropdown-item" routerLink="/blog">Blog</a> -->
+            <a class="dropdown-item" routerLink="/contact">Contact</a>
           </div>
         </div>
       </li>
       <!-- <li class="nav-item">
-        <a class="nav-link" href="https://oliveoilsommelier.org/">Sommelier Registry</a>
+        <a class="nav-link" routerLink="https://oliveoilsommelier.org/">Sommelier Registry</a>
       </li> -->
       <li class="nav-item">
         <a class="nav-link" href="https://oliveoilschool.org/notify" target="_blank" rel="noopener noreferer">Get
@@ -46,11 +46,11 @@
 
     <ul class="nav navbar-nav navbar-right user-nav" *ngIf="!loggedIn">
       <li class="nav-item">
-        <a class="nav-link" href="/login">Log in</a>
+        <a class="nav-link" routerLink="/login">Log in</a>
       </li>
 
       <li class="nav-item">
-        <a class="btn sm-cta navbar-btn md-buttons" href="/signup">
+        <a class="btn sm-cta navbar-btn md-buttons" routerLink="/signup">
           Sign up
         </a>
       </li>
@@ -66,7 +66,7 @@
 
         <div class="dropdown-menu" aria-labelledby="userDropdown">
           <div class="md-body-text dropdown-menu-content">
-            <a class="dropdown-item" href="/account">Account</a>
+            <a class="dropdown-item" routerLink="/account">Account</a>
             <button class="dropdown-item" (click)="logout()">Log out</button>
           </div>
         </div>

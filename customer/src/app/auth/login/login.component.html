@@ -4,7 +4,7 @@
     id="auth-background" />
 
   <div class="auth-header">
-    <a class="navbar-brand header-logo" href="/">
+    <a class="navbar-brand header-logo" routerLink="/">
       <picture>
         <source srcset="/assets/logos/logo-blue-s.png" media="(max-width: 576px)" />
         <source srcset="/assets/logos/logo-blue.png" />
@@ -30,7 +30,7 @@
       <div class="sm-body-text password-label">
         Password
 
-        <a href="/forgot-pwd" class="md-text-link">
+        <a routerLink="/forgot-pwd" class="md-text-link">
           Forgot password?
         </a>
       </div>
@@ -75,7 +75,7 @@
 
     <div class="auth-row">
       <div class="signup-row md-body-text">
-        Don't have an account? <a href="/signup" class="md-text-link">Sign up</a>
+        Don't have an account? <a routerLink="/signup" class="md-text-link">Sign up</a>
       </div>
     </div>
   </form>

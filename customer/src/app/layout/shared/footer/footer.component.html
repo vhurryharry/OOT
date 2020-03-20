@@ -17,7 +17,7 @@
       <button class="btn lg-cta-primary lg-buttons" *ngIf="price > 0 && status === 'available'" (click)="onEnroll()">
         Enroll in program
       </button>
-      <a href="/course" class="lg-cta-primary lg-buttons" *ngIf="0 >= price">
+      <a routerLink="/course" class="lg-cta-primary lg-buttons" *ngIf="0 >= price">
         Enroll now
       </a>
     </div>
@@ -34,7 +34,7 @@
       <div class="footer-links-content row">
         <div class="col-12 col-sm-4 col-lg-3 footer-logo-section">
 
-          <a class="footer-logo-wrapper" href="/">
+          <a class="footer-logo-wrapper" routerLink="/">
             <img src='/assets/logos/logo.svg' alt="Olive Oil Times" class="footer-logo" />
           </a>
 
@@ -49,10 +49,10 @@
             Company
           </h6>
           <div class="footer-links-group">
-            <a href="/course" class="sm-body-list">All courses</a>
-            <a href="/faq" class="sm-body-list">FAQ</a>
-            <a href="/about" class="sm-body-list">About</a>
-            <a href="/blog" class="sm-body-list">Blog</a>
+            <a routerLink="/course" class="sm-body-list">All courses</a>
+            <a routerLink="/faq" class="sm-body-list">FAQ</a>
+            <a routerLink="/about" class="sm-body-list">About</a>
+            <a routerLink="/blog" class="sm-body-list">Blog</a>
             <a href="https://oliveoilsommelier.org/" class="sm-body-list">Sommelier Registry</a>
           </div>
         </div>
@@ -86,7 +86,7 @@
 
             </script>
 
-            <a href="/terms" class="sm-body-list">Terms of Use</a>
+            <a routerLink="/terms" class="sm-body-list">Terms of Use</a>
           </div>
         </div>
 

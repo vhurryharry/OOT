@@ -45,8 +45,8 @@
         </div>
       </div>
 
-      <a href="/course/{{course.slug}}" class="col-12 col-sm-6 col-lg-4 course-card" *ngFor="let course of courses"
-        [hidden]="course.hidden">
+      <a routerLink="/course/{{course.slug}}" class="col-12 col-sm-6 col-lg-4 course-card"
+        *ngFor="let course of courses" [hidden]="course.hidden">
         <div class="course-card-content">
 
           <div class="course-card-content-header">

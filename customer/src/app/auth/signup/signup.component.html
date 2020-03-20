@@ -4,7 +4,7 @@
     id="auth-background" />
 
   <div class="auth-header">
-    <a class="navbar-brand header-logo" href="/">
+    <a class="navbar-brand header-logo" routerLink="/">
       <picture>
         <source srcset="/assets/logos/logo-blue-s.png" media="(max-width: 576px)" />
         <source srcset="/assets/logos/logo-blue.png" />
@@ -121,9 +121,11 @@
 
     <div class="auth-row">
       <div class="login-row md-body-text">
-        By signing up, you agree to our <a href="https://oliveoilschool.org/terms/" class="md-text-link">Terms &
-          Conditions</a> and the <a href="#" class="md-text-link">Privacy Policy</a>. <br />
-        Already have an account? <a href="/login" class="md-text-link">Log in</a>
+        By signing up, you agree to our <a routerLink="/terms" class="md-text-link">Terms &
+          Conditions</a> and the <a href="https://www.iubenda.com/privacy-policy/31685143" target="_blank"
+          rel="noopener noreferrer" class="md-text-link">Privacy
+          Policy</a>. <br />
+        Already have an account? <a routerLink="/login" class="md-text-link">Log in</a>
       </div>
     </div>
   </form>
