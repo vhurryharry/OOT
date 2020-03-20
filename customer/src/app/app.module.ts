@@ -12,6 +12,7 @@ import { BlankComponent } from "./layout/blank/blank.component";
 
 import { LoginService } from "./services/login.service";
 import { PaymentService } from "./services/payment.service";
+import { AuthGuard } from "./services/auth-guard.service";
 
 import "@stripe/stripe-js";
 
@@ -24,7 +25,7 @@ import "@stripe/stripe-js";
     FormsModule,
     HttpClientModule
   ],
-  providers: [LoginService, PaymentService],
+  providers: [LoginService, PaymentService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

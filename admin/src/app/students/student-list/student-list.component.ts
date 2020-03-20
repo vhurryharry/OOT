@@ -6,7 +6,8 @@ import { Router } from "@angular/router";
 
 @Component({
   selector: "admin-student-list",
-  templateUrl: "./student-list.component.html"
+  templateUrl: "./student-list.component.html",
+  styleUrls: ["./student-list.component.css"]
 })
 export class StudentListComponent implements OnInit {
   @Input()
@@ -15,6 +16,7 @@ export class StudentListComponent implements OnInit {
   @ViewChild(ClrDatagrid, { static: false })
   datagrid: ClrDatagrid;
 
+  orgStudents = [];
   students = [];
   selected = [];
   singleSelection = null;
@@ -24,6 +26,7 @@ export class StudentListComponent implements OnInit {
   loading = true;
   showCreateStudent = false;
   showEditStudent = false;
+  searchStr = "";
 
   constructor(
     private repository: RepositoryService,
@@ -46,8 +49,10 @@ export class StudentListComponent implements OnInit {
 
     this.repository.fetch("customer", studentState).subscribe((result: any) => {
       this.students = result.items;
+      this.orgStudents = result.items;
       this.total = result.total;
       this.deleted = result.total - result.alive;
+      this.searchStr = "";
       this.loading = false;
     });
   }
@@ -116,5 +121,18 @@ export class StudentListComponent implements OnInit {
     }
 
     return ids;
+  }
+
+  onChangeSearchStr(newValue) {
+    this.selected = [];
+
+    this.students = this.orgStudents.filter(student => {
+      return (
+        student.firstName
+          .toLowerCase()
+          .includes(this.searchStr.toLowerCase()) ||
+        student.lastName.toLowerCase().includes(this.searchStr.toLowerCase())
+      );
+    });
   }
 }

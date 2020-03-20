@@ -77,21 +77,31 @@ export class CreateInstructorComponent implements OnInit {
     this.router.navigate(["/instructors"]);
   }
 
-  onSubmit() {
+  onSubmit(type = "instructor") {
     this.loading = true;
     const payload = this.instructorForm.value;
-    payload.type = "instructor";
+    payload.type = type;
 
     if (!this.instructorId) {
       delete payload.id;
       this.repository.create("customer", payload).subscribe((result: any) => {
         this.loading = false;
-        this.router.navigate(["/instructors"]);
+
+        if (type === "instructor") {
+          this.router.navigate(["/instructors"]);
+        } else {
+          this.router.navigateByUrl("/students/edit/" + this.instructorId);
+        }
       });
     } else {
       this.repository.update("customer", payload).subscribe((result: any) => {
         this.loading = false;
-        this.router.navigate(["/instructors"]);
+
+        if (type === "instructor") {
+          this.router.navigate(["/instructors"]);
+        } else {
+          this.router.navigateByUrl("/students/edit/" + this.instructorId);
+        }
       });
     }
   }

@@ -64,21 +64,31 @@ export class CreateStudentComponent implements OnInit {
     this.router.navigate(["/students"]);
   }
 
-  onSubmit() {
+  onSubmit(type = "student") {
     this.loading = true;
     const payload = this.studentForm.value;
-    payload.type = "student";
+    payload.type = type;
 
     if (!this.studentId) {
       delete payload.id;
       this.repository.create("customer", payload).subscribe((result: any) => {
         this.loading = false;
-        this.router.navigate(["/students"]);
+
+        if (type === "student") {
+          this.router.navigate(["/students"]);
+        } else {
+          this.router.navigateByUrl("/instructors/edit/" + this.studentId);
+        }
       });
     } else {
       this.repository.update("customer", payload).subscribe((result: any) => {
         this.loading = false;
-        this.router.navigate(["/students"]);
+
+        if (type === "student") {
+          this.router.navigate(["/students"]);
+        } else {
+          this.router.navigateByUrl("/instructors/edit/" + this.studentId);
+        }
       });
     }
   }

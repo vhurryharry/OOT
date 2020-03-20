@@ -4,6 +4,7 @@ import { CoursesComponent } from "./courses/courses.component";
 import { CourseDetailComponent } from "./detail/course-detail.component";
 import { NewCourseComponent } from "./new-course/new-course.component";
 import { AuthGuard } from "../services/auth-guard.service";
+import { CourseRoleGuard } from "./course-role-guard.service";
 
 const routes: Routes = [
   {
@@ -13,7 +14,7 @@ const routes: Routes = [
   {
     path: "new",
     component: NewCourseComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, CourseRoleGuard],
     canLoad: [AuthGuard]
   },
   {

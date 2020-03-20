@@ -29,6 +29,11 @@
           selected</button>
       </clr-dropdown-menu>
     </clr-dropdown>
+
+    <div class="search-box">
+      <input clrInput type="text" placeholder="Search instructors..." [(ngModel)]="searchStr"
+        (ngModelChange)="onChangeSearchStr($event)" />
+    </div>
   </clr-dg-action-bar>
 
   <clr-dg-column [clrDgField]="'firstName'">First Name</clr-dg-column>

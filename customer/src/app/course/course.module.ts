@@ -14,6 +14,7 @@ import { environment } from "src/environments/environment";
 import { NewCourseComponent } from "./new-course/new-course.component";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
 import { AuthGuard } from "../services/auth-guard.service";
+import { CourseRoleGuard } from "./course-role-guard.service";
 
 @NgModule({
   imports: [
@@ -30,6 +31,6 @@ import { AuthGuard } from "../services/auth-guard.service";
     ReactiveFormsModule
   ],
   declarations: [CoursesComponent, CourseDetailComponent, NewCourseComponent],
-  providers: [CourseService, AuthGuard]
+  providers: [CourseService, AuthGuard, CourseRoleGuard]
 })
 export class CourseModule {}
