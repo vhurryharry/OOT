@@ -19,6 +19,8 @@ export class CourseDetailComponent implements OnInit {
 
   Math = Math;
 
+  isInstructor = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -26,6 +28,8 @@ export class CourseDetailComponent implements OnInit {
     private courseService: CourseService,
     private loginService: LoginService
   ) {
+    this.isInstructor = this.loginService.isInstructor();
+
     this.route.params.subscribe(params => {
       this.slug = params.slug;
       let userId = "default";

@@ -37,13 +37,13 @@ class CustomerController extends AbstractController
     /**
      * @var CsvExporter
      */
-	protected $csv;
-	
+    protected $csv;
+
     /**
      * @var CustomerRepository
      */
     protected $customerRepository;
-	
+
     /**
      * @var PaymentRepository
      */
@@ -53,26 +53,25 @@ class CustomerController extends AbstractController
      * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
-	
+
     /**
      * @var CourseRepository
      */
     protected $courseRepository;
 
     public function __construct(
-        Database $db, 
-        CsvExporter $csv, 
-        CustomerRepository $customerRepository, 
+        Database $db,
+        CsvExporter $csv,
+        CustomerRepository $customerRepository,
         PaymentRepository $paymentRepository,
         CourseRepository $courseRepository,
         EventDispatcherInterface $eventDispatcher
-    )
-    {
+    ) {
         $this->db = $db;
         $this->csv = $csv;
         $this->customerRepository = $customerRepository;
         $this->paymentRepository = $paymentRepository;
-		$this->courseRepository = $courseRepository;
+        $this->courseRepository = $courseRepository;
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -81,23 +80,27 @@ class CustomerController extends AbstractController
      */
     public function search(Request $request)
     {
-		$state = State::fromDatagrid($request->request->all());
+        $state = State::fromDatagrid($request->request->all());
         $customers = $this->db->findAll(
-            'select * from customer '.$state->toQuery(),
+            'select * from customer ' . $state->toQuery(),
             $state->toQueryParams()
         );
 
-		$items = [];
+        $items = [];
         foreach ($customers as $customer) {
             $items[] = (Customer::fromDatabase($customer))->jsonSerialize();
         }
 
         return new JsonResponse([
             'items' => $items,
-			'total' => (int) $this->db->execute('select * from customer '.$state->toQuery(false, false),
-				$state->toQueryParams()),
-			'alive' => (int) $this->db->execute('select * from customer '.$state->toQuery(true, false),
-				$state->toQueryParams())
+            'total' => (int) $this->db->execute(
+                'select * from customer ' . $state->toQuery(false, false),
+                $state->toQueryParams()
+            ),
+            'alive' => (int) $this->db->execute(
+                'select * from customer ' . $state->toQuery(true, false),
+                $state->toQueryParams()
+            )
         ]);
     }
 
@@ -226,7 +229,7 @@ class CustomerController extends AbstractController
             $filesystem->mkdir($tempDirectory);
 
             $uploadedFile = $request->files->get('avatar');
-            $uploadedFile->move($tempDirectory, $id.".jpg");
+            $uploadedFile->move($tempDirectory, $id . ".jpg");
 
             $customer = $this->customerRepository->getCustomer($id);
 
@@ -247,11 +250,11 @@ class CustomerController extends AbstractController
             $sdk = new Sdk($sharedConfig);
 
             $s3 = new AwsS3Util($sdk);
-            $avatarUrl = $s3->putObject('ootdev', $tempDirectory.$id.".jpg", "avatars/".Uuid::uuid4().'.jpg');
+            $avatarUrl = $s3->putObject('ootdev', $tempDirectory . $id . ".jpg", "avatars/" . Uuid::uuid4() . '.jpg');
 
             $customer->setAvatar($avatarUrl);
 
-            $filesystem->remove([$tempDirectory.$id.'.jpg']);
+            $filesystem->remove([$tempDirectory . $id . '.jpg']);
 
             $this->customerRepository->updateUser($customer);
 
@@ -278,15 +281,15 @@ class CustomerController extends AbstractController
         $customer = $this->customerRepository->findByLogin($data['login']);
         $customer = Customer::fromDatabase($customer);
 
-        if(!$this->customerRepository->checkPassword($customer, $data['oldPassword'])) { 
+        if (!$this->customerRepository->checkPassword($customer, $data['oldPassword'])) {
             return new JsonResponse([
                 'success' => false,
                 'error' => "Invalid Password!"
-            ]);           
+            ]);
         }
 
         $this->customerRepository->updatePassword($customer, $data['newPassword']);
-        
+
         return new JsonResponse([
             'success' => true,
             'error' => null
@@ -299,7 +302,7 @@ class CustomerController extends AbstractController
     public function getMyCourses(string $id)
     {
         $customer = $this->customerRepository->getCustomer($id);
-        
+
         if (!$customer) {
             return new JsonResponse([
                 'success' => false,
@@ -308,22 +311,27 @@ class CustomerController extends AbstractController
         }
 
         $customer = Customer::fromDatabase($customer);
+        $myCourses = [];
 
-        $reservations = $this->customerRepository->findReservations($customer);
+        if ($customer->getType() == "instructor") {
+            $myCourses = $this->customerRepository->findAssignedCourses($customer);
+        } else {
+            $myCourses = $this->customerRepository->findReservations($customer);
+        }
+
         $courses = [];
 
         $today = date("Y-m-d");
 
-        foreach($reservations as $reservation) {
+        foreach ($myCourses as $myCourse) {
             $courses[] = [
-                'id' => $reservation['course_id'],
-                'slug' => $reservation['slug'],
-                'title' => $reservation['title'],
-                'city' => $reservation['city'],
-                'start_date' => $reservation['start_date'],
-                'completed' => $reservation['start_date'] < $today ? true : false
+                'id' => $myCourse['course_id'],
+                'slug' => $myCourse['slug'],
+                'title' => $myCourse['title'],
+                'city' => $myCourse['city'],
+                'start_date' => $myCourse['start_date'],
+                'completed' => $myCourse['start_date'] < $today ? true : false
             ];
-
         }
 
         return new JsonResponse([
@@ -340,7 +348,7 @@ class CustomerController extends AbstractController
     {
         $userId = $request->get('userId');
         $customer = $this->customerRepository->getCustomer($userId);
-        
+
         if (!$customer) {
             return new JsonResponse([
                 'success' => false,
@@ -351,10 +359,15 @@ class CustomerController extends AbstractController
         $customer = Customer::fromDatabase($customer);
 
         $skey = $this->getParameter('env(STRIPE_SKEY)');
-        $result = $this->paymentRepository->addPaymentInfo($customer, $request->get('token'), $skey, 
-            $request->get('billing'), $request->get('attendee'));
+        $result = $this->paymentRepository->addPaymentInfo(
+            $customer,
+            $request->get('token'),
+            $skey,
+            $request->get('billing'),
+            $request->get('attendee')
+        );
 
-        if($result == false) {
+        if ($result == false) {
             return new JsonResponse([
                 'success' => false,
                 'error' => "Error occured!"
@@ -374,7 +387,7 @@ class CustomerController extends AbstractController
     public function getPaymentMethod(string $id)
     {
         $customer = $this->customerRepository->getCustomer($id);
-        
+
         if (!$customer) {
             return new JsonResponse([
                 'success' => false,
@@ -387,7 +400,7 @@ class CustomerController extends AbstractController
         $skey = $this->getParameter('env(STRIPE_SKEY)');
         $result = $this->paymentRepository->getPaymentInfo($customer, $skey);
 
-        if($result == null) {
+        if ($result == null) {
             return new JsonResponse([
                 'success' => false,
                 'error' => "Error occured!"
@@ -407,7 +420,7 @@ class CustomerController extends AbstractController
     public function removePaymentMethod(string $userId, string $methodId)
     {
         $customer = $this->customerRepository->getCustomer($userId);
-        
+
         if (!$customer) {
             return new JsonResponse([
                 'success' => false,
@@ -420,7 +433,7 @@ class CustomerController extends AbstractController
         $skey = $this->getParameter('env(STRIPE_SKEY)');
         $result = $this->paymentRepository->removePaymentInfo($customer, $methodId, $skey);
 
-        if($result == null) {
+        if ($result == null) {
             return new JsonResponse([
                 'success' => false,
                 'error' => "Error occured!"
@@ -440,7 +453,7 @@ class CustomerController extends AbstractController
     {
         $userId = $request->get('userId');
         $customer = $this->customerRepository->getCustomer($userId);
-        
+
         if (!$customer) {
             return new JsonResponse([
                 'success' => false,
@@ -454,8 +467,7 @@ class CustomerController extends AbstractController
         $cart = $request->get('cart');
         $courses = [];
 
-        foreach($cart as $item) 
-        {
+        foreach ($cart as $item) {
             $course = $this->courseRepository->getCourseWithPrice($item['id']);
             $course['quantity'] = $item['quantity'];
 
@@ -464,7 +476,7 @@ class CustomerController extends AbstractController
 
         $result = $this->paymentRepository->placeOrder($customer, $courses, $request->get('paymentMethodId'), $skey);
 
-        if($result == null) {
+        if ($result == null) {
             return new JsonResponse([
                 'success' => false,
                 'error' => "Error occured!"
@@ -486,7 +498,7 @@ class CustomerController extends AbstractController
     public function getBillings(string $userId)
     {
         $customer = $this->customerRepository->getCustomer($userId);
-        
+
         if (!$customer) {
             return new JsonResponse([
                 'success' => false,
@@ -497,7 +509,7 @@ class CustomerController extends AbstractController
         $customer = Customer::fromDatabase($customer);
 
         $payments = $this->customerRepository->getPayments($customer);
-        
+
         $skey = $this->getParameter('env(STRIPE_SKEY)');
         $billings = $this->paymentRepository->getBillings($payments, $skey);
 

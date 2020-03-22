@@ -43,12 +43,16 @@ export class AccountComponent implements OnInit {
   selectedNav = -2;
   selectedNavString = "Edit Profile";
 
+  isInstructor = false;
+
   constructor(
     private loginService: LoginService,
     private paymentService: PaymentService,
     private router: Router,
     private accountService: AccountService
   ) {
+    this.isInstructor = this.loginService.isInstructor();
+
     if (!this.loginService.isLoggedIn()) {
       this.router.navigateByUrl("/login");
     }
@@ -272,4 +276,6 @@ export class AccountComponent implements OnInit {
   printInvoice(id) {
     this.router.navigateByUrl("/invoice/" + this.billings[id].number);
   }
+
+  onStudents(id) {}
 }

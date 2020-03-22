@@ -48,9 +48,13 @@
       <p class="lg-subtitle" [innerHTML]="course.content">
       </p>
       <div class="course-detail-enroll">
-        <button (click)="enroll()" class="btn lg-cta lg-buttons"
+        <button (click)="enroll()" class="btn lg-cta lg-buttons" *ngIf="!isInstructor"
           [disabled]="!course.price || course.reserved_count >= course.spots || course.reserved">
           {{course.reserved ? "Already enrolled" : course.reserved_count >= course.spots ? "Sold out" : "Enroll in program"}}
+        </button>
+
+        <button (click)="enroll()" class="btn lg-cta lg-buttons" *ngIf="isInstructor" disabled>
+          Enroll in program
         </button>
 
         <div class="lg-subtitle course-detail-price">

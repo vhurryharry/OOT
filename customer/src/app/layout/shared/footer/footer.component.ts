@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { LoginService } from "src/app/services/login.service";
 
 declare var ml_account: any;
 
@@ -21,8 +22,11 @@ export class FooterComponent implements OnInit {
   enroll: EventEmitter<any> = new EventEmitter();
 
   private email = "";
+  isInstructor = false;
 
-  constructor() {}
+  constructor(private loginService: LoginService) {
+    this.isInstructor = this.loginService.isInstructor();
+  }
 
   ngOnInit() {}
 

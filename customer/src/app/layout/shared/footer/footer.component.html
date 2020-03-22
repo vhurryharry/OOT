@@ -11,10 +11,11 @@
       <h2 class="footer-heading">
         {{ price > 0 ? formatPrice(price) : "Be an olive oil expert."}}
       </h2>
-      <div class="lg-buttons footer-heading" *ngIf="price > 0 && status !== 'available'">
+      <div class="lg-buttons footer-heading" *ngIf="price > 0 && status !== 'available' && !isInstructor">
         {{status === "reserved" ? "Already enrolled" : status === "sold out" ? "Sold out" : "Enroll in program"}}
       </div>
-      <button class="btn lg-cta-primary lg-buttons" *ngIf="price > 0 && status === 'available'" (click)="onEnroll()">
+      <button class="btn lg-cta-primary lg-buttons" *ngIf="isInstructor || (price > 0 && status === 'available')"
+        (click)="onEnroll()" [disabled]="isInstructor">
         Enroll in program
       </button>
       <a routerLink="/course" class="lg-cta-primary lg-buttons" *ngIf="0 >= price">

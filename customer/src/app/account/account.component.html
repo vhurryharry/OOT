@@ -218,7 +218,7 @@
           </div>
 
           <div class="alert alert-info" role="alert" [hidden]="myCourses.length > 0">
-            You haven't enrolled to any courses yet.
+            {{isInstructor ? "You have no assigned courses." : "You haven't enrolled to any courses yet." }}
           </div>
 
           <div class="col-12 row account-profile-courses-section">
@@ -251,7 +251,8 @@
                     </div>
                   </div>
 
-                  <div class="course-card-row course-buttons-row {{course.completed ? '' : 'disabled'}}">
+                  <div class="course-card-row course-buttons-row {{course.completed ? '' : 'disabled'}}"
+                    *ngIf="!isInstructor">
                     <button class="sm-ghost md-buttons" [disabled]="!course.completed"
                       (click)="onGetCertificate(course.id)">
                       Get certificate
@@ -259,6 +260,12 @@
                     <button class="sm-ghost md-buttons" [disabled]="!course.completed"
                       (click)="onLeaveFeedback(course.id)">
                       Leave feedback
+                    </button>
+                  </div>
+
+                  <div class="course-card-row course-buttons-row" *ngIf="isInstructor">
+                    <button class="sm-ghost md-buttons" (click)="onStudents(course.id)">
+                      Students
                     </button>
                   </div>
                 </div>
