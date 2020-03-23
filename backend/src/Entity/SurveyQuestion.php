@@ -6,6 +6,8 @@ namespace App\Entity;
 
 use Carbon\Carbon;
 use JsonSerializable;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 class SurveyQuestion implements JsonSerializable
 {
@@ -28,6 +30,11 @@ class SurveyQuestion implements JsonSerializable
      * @var string
      */
     protected $extra;
+
+    /**
+     * @var ?UuidInterface
+     */
+    protected $courseId;
 
     /**
      * @var Carbon
@@ -58,6 +65,16 @@ class SurveyQuestion implements JsonSerializable
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    public function getCourseId(): ?UuidInterface
+    {
+        return $this->courseId;
+    }
+
+    public function setCourseId(UuidInterface $courseId): void
+    {
+        $this->courseId = $courseId;
     }
 
     public function getQuestion(): string
@@ -132,6 +149,10 @@ class SurveyQuestion implements JsonSerializable
             $instance->setQuestion($row['question']);
         }
 
+        if (isset($row['course_id'])) {
+            $instance->setCourseId(Uuid::fromString($row['course_id']));
+        }
+
         if (isset($row['type'])) {
             $instance->setType($row['type']);
         }
@@ -167,6 +188,10 @@ class SurveyQuestion implements JsonSerializable
             $instance->setQuestion($row['question']);
         }
 
+        if (isset($row['courseId'])) {
+            $instance->setCourseId(Uuid::fromString($row['courseId']));
+        }
+
         if (isset($row['type'])) {
             $instance->setType($row['type']);
         }
@@ -195,6 +220,7 @@ class SurveyQuestion implements JsonSerializable
         return [
             'id' => $this->id,
             'question' => $this->question,
+            'course_id' => $this->courseId,
             'type' => $this->type,
             'extra' => $this->extra,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
@@ -208,6 +234,7 @@ class SurveyQuestion implements JsonSerializable
         return [
             'id' => $this->id,
             'question' => $this->question,
+            'courseId' => $this->courseId,
             'type' => $this->type,
             'extra' => $this->extra,
             'createdAt' => $this->createdAt->format('Y-m-d\TH:i:s'),

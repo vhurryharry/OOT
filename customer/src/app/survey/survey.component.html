@@ -1,0 +1,65 @@
+<div class="screen-container">
+
+  <img src='/assets/images/images/normal-background.png' alt="Olive Oil Times" class="background-image"
+    id="survey-background-1" />
+
+  <div class="row section survey-container">
+    <div class="col-12 survey-logo row">
+      <img src="/assets/logos/logo.svg" class="survey-logo-image">
+    </div>
+
+    <div class="survey-item col-12 row" *ngIf="!index">
+      <div class="survey-item-intro">
+        <img src="/assets/images/images/survey/feedback.png" class="survey-item-intro-icon">
+        <div class="lg-subtitle">
+          Please take a few minutes to share feedback on the London course. Your answers are anonymous.
+        </div>
+        <button class="btn md-cta lg-buttons" (click)="onStartSurvey()" (keydown.enter)="onStartSurvey()">
+          Start
+        </button>
+      </div>
+    </div>
+
+    <div class="survey-item col-12 row" *ngIf="index > 0">
+      <div class="survey-item-question">
+        <div class="survey-item-question-index md-body-medium">
+          {{index}}
+        </div>
+        <div class="lg-subtitle" [innerHTML]="questions[index].question"></div>
+      </div>
+
+      <div class="survey-item-answers" *ngIf="questions[index].type === 'rating'">
+        <div class="survey-item-answers-values">
+          <button class="btn rating-button lg-body-medium" *ngFor="let number of numbers">
+            {{number}}
+          </button>
+        </div>
+        <div class="survey-item-answers-labels">
+          <div class="md-body-text">
+            Poor
+          </div>
+          <div class="md-body-text">
+            Okay
+          </div>
+          <div class="md-body-text">
+            Excellent
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="survey-footer col-12 row" *ngIf="!index">
+      <div class="survey-footer-intro">
+        <div class="md-body-text survey-footer-intro-label">
+          press
+        </div>
+        <div class="lg-body-medium survey-footer-intro-enter">
+          ENTER
+        </div>
+      </div>
+    </div>
+
+    <div class="survey-footer col-12 row" *ngIf="index > 0"></div>
+  </div>
+
+</div>

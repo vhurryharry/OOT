@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\SurveyRepository;
 
 class SurveyQuestionController extends AbstractController
 {
@@ -26,10 +27,16 @@ class SurveyQuestionController extends AbstractController
      */
     protected $csv;
 
-    public function __construct(Database $db, CsvExporter $csv)
+    /**
+     * @var SurveyRepository
+     */
+    protected $surveyRepository;
+
+    public function __construct(Database $db, CsvExporter $csv, SurveyRepository $surveyRepository)
     {
         $this->db = $db;
         $this->csv = $csv;
+        $this->surveyRepository = $surveyRepository;
     }
 
     /**
@@ -50,8 +57,8 @@ class SurveyQuestionController extends AbstractController
 
         return new JsonResponse([
             'items' => $items,
-			'total' => $this->db->count('survey_question'),
-			'alive' => $this->db->count('survey_question', false)
+            'total' => $this->db->count('survey_question'),
+            'alive' => $this->db->count('survey_question', false)
         ]);
     }
 
@@ -150,5 +157,17 @@ class SurveyQuestionController extends AbstractController
         }
 
         return new JsonResponse(['csv' => $this->csv->export($survey_questions)]);
+    }
+
+    /**
+     * @Route("/find/{slug}", methods={"GET"})
+     */
+    public function findBySlug(string $slug, Request $request)
+    {
+        $questions = $this->surveyRepository->findQuestionsBySlug($slug);
+
+        return new JsonResponse([
+            'questions' => $questions
+        ]);
     }
 }

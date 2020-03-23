@@ -48,6 +48,11 @@ api_course_review:
   type: annotation
   prefix: /api/course/reviews
 
+api_survey_questions:
+  resource: 'App\Controller\SurveyQuestionController'
+  type: annotation
+  prefix: /api/survey/questions
+
 api_document:
   resource: 'App\Controller\DocumentController'
   type: annotation

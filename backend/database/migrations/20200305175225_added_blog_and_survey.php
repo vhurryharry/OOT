@@ -4,31 +4,33 @@ use Phinx\Migration\AbstractMigration;
 
 class AddedBlogAndSurvey extends AbstractMigration
 {
-    public function up(): void {        
+    public function up(): void
+    {
         $blog = $this->table('blog');
         $blog->addColumn('author', 'string')
-              ->addColumn('cover_image', 'string')
-              ->addColumn('title', 'string')
-              ->addColumn('subtitle', 'string')
-              ->addColumn('category', 'integer')
-              ->addColumn('slug', 'string')
-              ->addColumn('content', 'string')
-              ->addColumn('created_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
-              ->addColumn('updated_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
-              ->addColumn('deleted_at', 'timestamp', ['null' => true])
-              ->create();
+            ->addColumn('cover_image', 'string')
+            ->addColumn('title', 'string')
+            ->addColumn('subtitle', 'string')
+            ->addColumn('category', 'integer')
+            ->addColumn('slug', 'string')
+            ->addColumn('content', 'string')
+            ->addColumn('created_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('updated_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('deleted_at', 'timestamp', ['null' => true])
+            ->create();
 
         $blogCategory = $this->table('blog_category')
-              ->addColumn('category', 'string');
+            ->addColumn('category', 'string');
 
         $surveyQuestion = $this->table('survey_question');
         $surveyQuestion->addColumn('question', 'string')
-              ->addColumn('type', 'string')
-              ->addColumn('extra', 'string', ['null' => true])
-              ->addColumn('created_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
-              ->addColumn('updated_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
-              ->addColumn('deleted_at', 'timestamp', ['null' => true])
-              ->create();
+            ->addColumn('type', 'string')
+            ->addColumn('course_id', 'string')
+            ->addColumn('extra', 'string', ['null' => true])
+            ->addColumn('created_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('updated_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('deleted_at', 'timestamp', ['null' => true])
+            ->create();
 
         $surveyResult = $this->table('survey_result');
         $surveyResult->addColumn('customer_id', 'string')
@@ -42,7 +44,8 @@ class AddedBlogAndSurvey extends AbstractMigration
             ->create();
     }
 
-    public function down(): void {
+    public function down(): void
+    {
         $blog = $this->table('blog')->drop();
         $blogCategory = $this->table('blog_category')->drop();
         $surveyQuestion = $this->table('survey_question')->drop();

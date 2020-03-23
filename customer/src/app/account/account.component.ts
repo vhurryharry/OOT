@@ -238,12 +238,12 @@ export class AccountComponent implements OnInit {
     }
   }
 
-  onGetCertificate(id: string) {
-    console.log(id);
+  onGetCertificate(slug: string) {
+    console.log(slug);
   }
 
-  onLeaveFeedback(id: string) {
-    console.log(id);
+  onLeaveFeedback(slug: string) {
+    this.router.navigateByUrl("/survey/" + slug);
   }
 
   removePayment(index) {

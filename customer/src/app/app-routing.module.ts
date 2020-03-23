@@ -33,6 +33,13 @@ const routes: Routes = [
     canLoad: [AuthGuard]
   },
   {
+    path: "survey",
+    component: CondensedComponent,
+    loadChildren: "./survey/survey.module#SurveyModule",
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  {
     path: "faq",
     component: CondensedComponent,
     loadChildren: "./faq/faq.module#FAQModule"

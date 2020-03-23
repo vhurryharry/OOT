@@ -254,11 +254,11 @@
                   <div class="course-card-row course-buttons-row {{course.completed ? '' : 'disabled'}}"
                     *ngIf="!isInstructor">
                     <button class="sm-ghost md-buttons" [disabled]="!course.completed"
-                      (click)="onGetCertificate(course.id)">
+                      (click)="onGetCertificate(course.slug)">
                       Get certificate
                     </button>
                     <button class="sm-ghost md-buttons" [disabled]="!course.completed"
-                      (click)="onLeaveFeedback(course.id)">
+                      (click)="onLeaveFeedback(course.slug)">
                       Leave feedback
                     </button>
                   </div>

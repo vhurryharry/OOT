@@ -1,0 +1,191 @@
+@import "src/assets/styles/variables";
+
+#survey-background-1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100px;
+  z-index: -1;
+}
+
+.survey-container {
+  padding: 0;
+  margin: 0 auto;
+  max-width: 770px;
+
+  min-height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.survey-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-bottom: 1px solid $gray500;
+
+  padding: 88px 0;
+  margin: 0;
+
+  &-image {
+    filter: brightness(0);
+    width: 190px;
+  }
+}
+
+.survey-item {
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+
+  &-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    max-width: 570px;
+    margin: auto;
+
+    button {
+      min-width: 170px;
+    }
+
+    * {
+      margin: 28px 0;
+    }
+  }
+
+  &-question {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    margin: 0 0 20px;
+
+    &-index {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      min-height: 40px;
+
+      background-color: $gray400;
+      border-radius: 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin: 0 1.5vw 0 0;
+    }
+  }
+
+  &-answers {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+
+    margin: 20px 0 12px;
+
+    &-values {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      .rating-button {
+        border: 1px solid $gray500;
+        border-radius: 4px;
+
+        width: 68px;
+        height: 68px;
+        min-width: 68px;
+        min-height: 68px;
+      }
+    }
+
+    &-labels {
+      color: $gray800;
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      margin: 12px 0 0;
+
+      div {
+        width: 80px;
+        max-width: 80px;
+
+        text-align: center;
+
+        &:first-child {
+          text-align: left;
+        }
+
+        &:last-child {
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
+.survey-footer {
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  &-intro {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 0 120px;
+
+    &-label {
+      color: $gray800;
+    }
+
+    &-enter {
+      color: $gray900;
+    }
+  }
+}
+
+@media #{$tablet} {
+  #survey-background-1 {
+    top: 112px;
+  }
+
+  .survey-container {
+    margin: calc(112px + 3vw) 5.86vw 0;
+  }
+}
+
+@media #{$mobile} {
+  #survey-background-1 {
+    display: none;
+  }
+
+  .survey-container {
+    margin: 96px 24px 0;
+  }
+}

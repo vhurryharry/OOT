@@ -83,7 +83,7 @@ button.focus,
 .lg-cta-primary {
   padding: 22px 24px;
 
-  height: 64px;
+  min-height: 64px;
 }
 
 .md-cta,
@@ -96,7 +96,7 @@ button.focus,
   font-size: 17px;
   line-height: 20px;
 
-  height: 56px;
+  min-height: 56px;
 
   @media #{$mobile} {
     padding: 14px 20px 16px;
@@ -110,7 +110,7 @@ button.focus,
 .sm-cta,
 .sm-ghost {
   padding: 14px 20px 16px;
-  height: 48px;
+  min-height: 48px;
 
   &.md-buttons {
     text-align: center;
