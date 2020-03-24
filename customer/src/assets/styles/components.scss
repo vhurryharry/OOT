@@ -261,7 +261,9 @@ button.focus,
 button:focus,
 button.focus,
 input:focus,
-input.focus {
+input.focus,
+textarea:focus,
+textarea.focus {
   outline: none;
   box-shadow: none;
 }
@@ -269,4 +271,12 @@ input.focus {
 // Modal
 .modal-header {
   align-items: center;
+}
+
+.progress {
+  height: 4px;
+
+  &-bar {
+    background-color: $blue;
+  }
 }

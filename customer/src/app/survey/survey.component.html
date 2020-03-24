@@ -14,42 +14,90 @@
         <div class="lg-subtitle">
           Please take a few minutes to share feedback on the London course. Your answers are anonymous.
         </div>
-        <button class="btn md-cta lg-buttons" (click)="onStartSurvey()" (keydown.enter)="onStartSurvey()">
+        <button class="btn md-cta lg-buttons" (click)="onStartSurvey()" (window:keydown.enter)="onStartSurvey()"
+          (window:keydown.arrowDown)="onStartSurvey()" (window:keydown.arrowRight)="onStartSurvey()"
+          [disabled]="!questions.length">
           Start
         </button>
       </div>
     </div>
 
-    <div class="survey-item col-12 row" *ngIf="index > 0">
+    <div class="survey-item col-12 row" *ngIf="index > 0 && questions.length >= index"
+      (window:keydown.enter)="onNext(true, true)" (window:keydown.arrowDown)="onNext(true)"
+      (window:keydown.arrowRight)="onNext(true)" (window:keydown.arrowLeft)="onPrevious(true)"
+      (window:keydown.arrowUp)="onPrevious(true)">
       <div class="survey-item-question">
         <div class="survey-item-question-index md-body-medium">
           {{index}}
         </div>
-        <div class="lg-subtitle" [innerHTML]="questions[index].question"></div>
+        <div class="lg-subtitle">
+          {{questions[index-1].question}}
+        </div>
       </div>
 
-      <div class="survey-item-answers" *ngIf="questions[index].type === 'rating'">
+      <div class="survey-item-answers" *ngIf="questions[index-1].type === 'rating'">
         <div class="survey-item-answers-values">
-          <button class="btn rating-button lg-body-medium" *ngFor="let number of numbers">
+          <button class="btn rating-button lg-body-medium {{results[index-1] === number ? 'selected' : ''}}"
+            *ngFor="let number of numbers" (click)="onRate(number, index-1)">
             {{number}}
           </button>
         </div>
-        <div class="survey-item-answers-labels">
-          <div class="md-body-text">
+        <div class="survey-item-answers-labels d-none d-sm-flex">
+          <div class="md-body-text rating-label">
             Poor
           </div>
-          <div class="md-body-text">
+          <div class="md-body-text rating-label">
             Okay
           </div>
-          <div class="md-body-text">
+          <div class="md-body-text rating-label">
             Excellent
+          </div>
+        </div>
+      </div>
+
+      <div class="survey-item-answers" *ngIf="questions[index-1].type === 'interest'">
+        <div class="survey-item-answers-values">
+          <button class="btn interest-button {{interest.key === results[index-1] ? 'selected' : ''}}"
+            *ngFor="let interest of interests" (click)="onInterest(interest.key, index-1)">
+            <div class="sm-body-medium interest-button-key">
+              {{interest.key}}
+            </div>
+            <div class="md-body-text interest-button-text">
+              {{interest.text}}
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div class="survey-item-answers" *ngIf="questions[index-1].type === 'comment'">
+        <div class="survey-item-answers-values">
+          <textarea [rows]="results[index-1].rows" class="comment-textarea lg-body-text"
+            placeholder="Type your answer here..." autofocus [(ngModel)]="results[index-1].comment"
+            (input)="onComment($event, index-1)"></textarea>
+        </div>
+        <div class="survey-item-answers-labels d-none d-sm-flex">
+          <div class="sm-body-text">
+            <span class="comment-key">SHIFT</span> + <span class="comment-key">ENTER</span> to make a line break
           </div>
         </div>
       </div>
     </div>
 
-    <div class="survey-footer col-12 row" *ngIf="!index">
-      <div class="survey-footer-intro">
+    <div class="survey-item col-12 row" *ngIf="index > questions.length">
+      <div class="survey-item-intro">
+        <img src="/assets/images/images/survey/feedback.png" class="survey-item-intro-icon">
+        <div class="lg-subtitle">
+          Thank you very much for taking the time to help us improve the program. Have a great day.
+        </div>
+        <button class="btn md-cta lg-buttons" (click)="onSubmitSurvey()" (window:keydown.enter)="onSubmitSurvey()"
+          (window:keydown.arrowLeft)="onPrevious()" (window:keydown.arrowUp)="onPrevious()">
+          Submit and close
+        </button>
+      </div>
+    </div>
+
+    <div class="survey-footer col-12 row" *ngIf="!index || index > questions.length">
+      <div class="survey-footer-intro d-none d-sm-flex">
         <div class="md-body-text survey-footer-intro-label">
           press
         </div>
@@ -59,7 +107,24 @@
       </div>
     </div>
 
-    <div class="survey-footer col-12 row" *ngIf="index > 0"></div>
+    <div class="survey-footer col-12 row" *ngIf="index > 0 && questions.length >= index">
+      <button class="btn md-ghost col-auto order-2 order-sm-1" (click)="onPrevious()">
+        Previous
+      </button>
+
+      <div class="survey-footer-progress col-12 col-sm-auto order-1 order-sm-2">
+        <div class="survey-footer-progress-label sm-body-text">
+          {{index}} of {{questions.length}}
+        </div>
+        <div class="progress survey-footer-progress-bar">
+          <div class="progress-bar" role="progressbar" [style.width.%]="index * 100 / questions.length"></div>
+        </div>
+      </div>
+
+      <button class="btn md-cta col-auto order-3 order-sm-3" (click)="onNext()">
+        Next
+      </button>
+    </div>
   </div>
 
 </div>

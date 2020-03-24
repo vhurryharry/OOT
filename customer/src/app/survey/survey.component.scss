@@ -39,7 +39,7 @@
 
 .survey-item {
   padding: 0;
-  margin: 0;
+  margin: 20px 0;
 
   display: flex;
   flex-direction: column;
@@ -113,6 +113,67 @@
         height: 68px;
         min-width: 68px;
         min-height: 68px;
+
+        &.selected,
+        &:hover {
+          border: 1px solid $blue;
+          color: $blue;
+        }
+      }
+
+      .interest-button {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+
+        padding: 16px;
+
+        border: 1px solid $gray500;
+        border-radius: 4px;
+
+        width: 240px;
+        min-width: 240px;
+
+        &.selected,
+        &:hover {
+          border: 1px solid $blue;
+          color: $blue;
+
+          .interest-button-key {
+            background-color: $blue;
+            color: $white;
+          }
+        }
+
+        &-key {
+          width: 32px;
+          height: 32px;
+          min-width: 32px;
+          min-height: 32px;
+
+          margin: 0 16px 0 0;
+
+          border-radius: 16px;
+          background-color: $gray400;
+          color: $black;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      .comment-textarea {
+        border: none;
+        border-bottom: 1px solid $gray500;
+
+        width: 100%;
+
+        padding: 0 0 16px;
+
+        height: 100%;
+        resize: none;
       }
     }
 
@@ -126,7 +187,7 @@
 
       margin: 12px 0 0;
 
-      div {
+      .rating-label {
         width: 80px;
         max-width: 80px;
 
@@ -140,6 +201,10 @@
           text-align: right;
         }
       }
+
+      .comment-key {
+        color: $black;
+      }
     }
   }
 }
@@ -150,6 +215,17 @@
   margin: 0;
   padding: 0;
 
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 0 120px;
+
+  button {
+    width: 128px;
+  }
+
   &-intro {
     width: 100%;
 
@@ -157,8 +233,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    padding: 0 0 120px;
 
     &-label {
       color: $gray800;
@@ -168,15 +242,47 @@
       color: $gray900;
     }
   }
+
+  &-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &-label {
+      color: $gray800;
+      margin: 4px 0;
+    }
+
+    &-bar {
+      width: 232px;
+      height: 4px;
+      margin: 4px 0;
+    }
+  }
 }
 
 @media #{$tablet} {
-  #survey-background-1 {
-    top: 112px;
+  .survey-container {
+    max-width: 570px;
   }
 
-  .survey-container {
-    margin: calc(112px + 3vw) 5.86vw 0;
+  .survey-item {
+    &-answers {
+      &-values {
+        .rating-button {
+          width: 52px;
+          height: 52px;
+          min-width: 52px;
+          min-height: 52px;
+        }
+
+        .interest-button {
+          width: 180px;
+          min-width: 180px;
+        }
+      }
+    }
   }
 }
 
@@ -186,6 +292,100 @@
   }
 
   .survey-container {
-    margin: 96px 24px 0;
+    max-width: 300px;
+  }
+
+  .survey-logo {
+    padding: 32px 0;
+  }
+
+  .survey-item {
+    &-intro {
+      button {
+        width: 100%;
+      }
+    }
+
+    &-question {
+      flex-direction: column;
+      justify-content: center;
+
+      text-align: center;
+
+      margin: 0 0 20px;
+
+      &-index {
+        margin: 0 0 16px;
+      }
+    }
+
+    &-answers {
+      margin: 20px 0 12px;
+
+      &-values {
+        flex-wrap: wrap;
+
+        .rating-button {
+          width: 52px;
+          height: 52px;
+          min-width: 52px;
+          min-height: 52px;
+
+          margin: 3px;
+
+          &:hover {
+            border: 1px solid $gray500;
+            color: $black;
+          }
+        }
+
+        .interest-button {
+          margin: 8px 0;
+          padding: 16px;
+
+          width: 100%;
+          min-width: 100%;
+
+          &:hover {
+            border: 1px solid $gray500;
+            color: $black;
+
+            .interest-button-key {
+              background-color: $gray400;
+              color: $black;
+            }
+          }
+        }
+
+        .comment-textarea {
+          border: none;
+          border-bottom: 1px solid $gray500;
+
+          width: 100%;
+
+          padding: 0 0 16px;
+
+          height: 100%;
+          resize: none;
+        }
+      }
+    }
+  }
+
+  .survey-footer {
+    padding: 0 0 120px;
+
+    button {
+      min-width: 128px;
+    }
+
+    &-progress {
+      margin: 0 0 24px;
+      padding: 0;
+
+      &-bar {
+        width: 100%;
+      }
+    }
   }
 }
