@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 import { LoginService } from "src/app/services/login.service";
 import { SurveyService } from "./survey.service";
@@ -35,10 +35,13 @@ export class SurveyComponent implements OnInit {
     }
   ];
 
+  submitted = false;
+
   constructor(
     private loginService: LoginService,
     private surveyService: SurveyService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.route.params.subscribe(params => {
       this.slug = params.slug;
@@ -74,6 +77,10 @@ export class SurveyComponent implements OnInit {
   }
 
   onPrevious(check = false) {
+    if (this.submitted) {
+      return;
+    }
+
     if (check) {
       if (this.questions[this.index - 1].type === "comment") {
         return;
@@ -84,6 +91,10 @@ export class SurveyComponent implements OnInit {
   }
 
   onNext(check = false, fromEnter = false) {
+    if (this.submitted) {
+      return;
+    }
+
     if (check) {
       if (this.questions[this.index - 1].type === "comment") {
         if (fromEnter) {
@@ -118,5 +129,49 @@ export class SurveyComponent implements OnInit {
     this.results[index].rows = rows > maxRows ? maxRows : rows;
   }
 
-  onSubmitSurvey() {}
+  onSubmitSurvey() {
+    if (this.submitted) {
+      return;
+    }
+
+    const surveyResults = this.results.map((result, index) => {
+      const surveyResult: any = {
+        question: this.questions[index].id,
+        type: this.questions[index].type
+      };
+
+      switch (this.questions[index].type) {
+        case "rating":
+        case "interest":
+          return {
+            ...surveyResult,
+            result
+          };
+
+        case "comment":
+          return {
+            ...surveyResult,
+            result: result.comment
+          };
+
+        default:
+          return surveyResult;
+      }
+    });
+
+    this.submitted = true;
+    this.surveyService
+      .submitResults(
+        this.slug,
+        this.loginService.getCurrentUserId(),
+        surveyResults
+      )
+      .subscribe((result: any) => {
+        if (result && result.success) {
+          this.router.navigateByUrl("/account");
+        } else {
+          this.submitted = false;
+        }
+      });
+  }
 }

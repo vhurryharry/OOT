@@ -53,6 +53,11 @@ api_survey_questions:
   type: annotation
   prefix: /api/survey/questions
 
+api_survey_results:
+  resource: 'App\Controller\SurveyResultController'
+  type: annotation
+  prefix: /api/survey/results
+
 api_document:
   resource: 'App\Controller\DocumentController'
   type: annotation

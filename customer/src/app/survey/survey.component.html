@@ -91,6 +91,7 @@
         </div>
         <button class="btn md-cta lg-buttons" (click)="onSubmitSurvey()" (window:keydown.enter)="onSubmitSurvey()"
           (window:keydown.arrowLeft)="onPrevious()" (window:keydown.arrowUp)="onPrevious()">
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" [hidden]="!submitted"></span>
           Submit and close
         </button>
       </div>

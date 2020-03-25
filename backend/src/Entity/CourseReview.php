@@ -56,6 +56,14 @@ class CourseReview implements JsonSerializable
      */
     protected $deletedAt;
 
+    public function __construct()
+    {
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = $this->createdAt;
+        $this->title = "";
+        $this->content = "";
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -150,7 +158,7 @@ class CourseReview implements JsonSerializable
     {
         $instance = new CourseReview();
 
-        if (isset($row['id'])) {			
+        if (isset($row['id'])) {
             $instance->setId($row['id']);
         }
 

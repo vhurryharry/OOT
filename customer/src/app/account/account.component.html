@@ -217,7 +217,7 @@
             {{errorMessage[3]}}
           </div>
 
-          <div class="alert alert-info" role="alert" [hidden]="myCourses.length > 0">
+          <div class="alert alert-info" role="alert" [hidden]="!coursesLoaded || myCourses.length > 0">
             {{isInstructor ? "You have no assigned courses." : "You haven't enrolled to any courses yet." }}
           </div>
 
