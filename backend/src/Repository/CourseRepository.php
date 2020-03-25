@@ -26,7 +26,7 @@ class CourseRepository
     public function findAll(): array
     {
         $courses = $this->db->findAll(
-            "select id, title, slug, city, start_date, last_date, spots, categories from course where deleted_at is null and status <> 'pending_confirmation'"
+            "select id, title, slug, city, start_date, last_date, status, spots, categories from course where deleted_at is null and status <> 'pending_confirmation'"
         );
 
         if (!$courses) {
@@ -101,7 +101,7 @@ class CourseRepository
         $course = $this->db->find('select * from course where id = ? and deleted_at is null', [$id]);
 
         if (!$course) {
-            throw new NotFoundHttpException();
+            return null;
         }
 
         $options = $this->db->findAll('select id, title, price, dates, combo from course_option where course = ? and deleted_at is null', [$course['id']]);
@@ -119,7 +119,7 @@ class CourseRepository
         );
 
         if (!$course) {
-            throw new NotFoundHttpException();
+            return null;
         }
 
         $topicIds = substr($course['topics'], 1, -1);

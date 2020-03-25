@@ -360,8 +360,18 @@ class CourseController extends AbstractController
     public function newCourse(Request $request)
     {
         $course = $request->request->get('course');
+        $course = Course::fromJson($course);
 
-        $courseId = $this->courseRepository->addNewCourse(Course::fromJson($course));
+        $prevCourse = $this->courseRepository->findBySlug("default", $course->getSlug());
+
+        if ($prevCourse != null) {
+            return new JsonResponse([
+                "success" => false,
+                "error" => "Course already exist for that title!"
+            ]);
+        }
+
+        $courseId = $this->courseRepository->addNewCourse($course);
         $this->courseRepository->addCourseOption(Uuid::fromString($courseId), (int) $course['tuition']);
 
         $instructors = $course['instructors'];
@@ -370,7 +380,9 @@ class CourseController extends AbstractController
             $this->courseRepository->addInstructor(Uuid::fromString($courseId), Uuid::fromString($instructor['id']));
         }
 
-        return new JsonResponse();
+        return new JsonResponse([
+            "success" => true
+        ]);
     }
 
     /**
@@ -380,7 +392,15 @@ class CourseController extends AbstractController
     {
         $course = $this->courseRepository->findBySlug($userId, $slug);
 
+        if ($course == null) {
+            return new JsonResponse([
+                "success" => false,
+                "error" => "Course not found for that slug!"
+            ]);
+        }
+
         return new JsonResponse([
+            "success" => true,
             "course" => $course
         ]);
     }

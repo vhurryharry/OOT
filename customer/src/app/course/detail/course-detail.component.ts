@@ -20,6 +20,7 @@ export class CourseDetailComponent implements OnInit {
   Math = Math;
 
   isInstructor = false;
+  canEnroll = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -76,6 +77,15 @@ export class CourseDetailComponent implements OnInit {
 
           this.course.startTime = this.timeConvert(this.course.startTime);
           this.course.endTime = this.timeConvert(this.course.endTime);
+
+          if (
+            !this.course.price ||
+            this.course.reserved_count >= this.course.spots ||
+            this.course.reserved ||
+            new Date(this.course.startDate) <= new Date()
+          ) {
+            this.canEnroll = false;
+          }
 
           setTimeout(() => {
             $("[data-toggle='tooltip']").tooltip();

@@ -11,6 +11,11 @@ use Ramsey\Uuid\UuidInterface;
 
 class Course implements JsonSerializable
 {
+    const PENDING_CONFIRMATION = 'pending_confirmation';
+    const OPENED = 'opened';
+    const ACTIVE = 'active';
+    const COMPLETED = 'completed';
+
     /**
      * @var UuidInterface
      */

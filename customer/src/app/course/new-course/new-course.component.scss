@@ -67,6 +67,14 @@
   }
 }
 
+.is-invalid {
+  border: 1px solid #dc3545;
+}
+
+.is-valid {
+  border: 1px solid #28a745;
+}
+
 @media #{$tablet} {
   #new-course-background-1 {
     top: 112px;

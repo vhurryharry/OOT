@@ -20,7 +20,28 @@ export class CoursesComponent implements OnInit {
 
   constructor(private courseService: CourseService) {
     this.courseService.get().subscribe((result: any) => {
-      this.courses = result.courses;
+      this.courses = result.courses.map(course => {
+        course.canEnroll = course.spots > course.reservations;
+
+        course.statusStr = course.canEnroll
+          ? "Registration Open"
+          : course.spots <= course.reservations
+          ? "Sold Out"
+          : "Registration Open";
+
+        if (new Date(course.start_date) <= new Date()) {
+          course.statusStr = "Active";
+          course.canEnroll = false;
+        }
+
+        if (new Date(course.last_date) < new Date()) {
+          course.statusStr = "Completed";
+          course.canEnroll = false;
+        }
+
+        return course;
+      });
+
       this.categories = this.categories.concat(
         result.categories.sort((a, b) => a.id - b.id)
       );

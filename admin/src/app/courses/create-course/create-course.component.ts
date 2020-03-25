@@ -71,6 +71,11 @@ export class CreateCourseComponent implements OnInit {
     if (this.courseId) {
       this.repository.find("course", this.courseId).subscribe((result: any) => {
         this.loading = false;
+
+        if (result.status === "") {
+          result.status = "confirmed";
+        }
+
         this.courseForm.patchValue(result);
 
         const startDate = new Date(result.startDate);
@@ -103,6 +108,14 @@ export class CreateCourseComponent implements OnInit {
   }
 
   onSubmit() {
+    if (
+      new Date(this.courseForm.value.startDate).getTime() >
+      new Date(this.courseForm.value.lastDate).getTime()
+    ) {
+      alert("Last date can't be prior to start date!");
+      return;
+    }
+
     this.loading = true;
 
     if (!this.courseId) {

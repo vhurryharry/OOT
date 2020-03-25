@@ -34,7 +34,9 @@ export class CourseListComponent implements OnInit {
     this.lastState = state;
 
     this.repository.fetch("course", state).subscribe((result: any) => {
-      this.courses = result.items;
+      this.courses = result.items.map(course => {
+        return course;
+      });
       this.total = result.total;
       this.deleted = result.total - result.alive;
       this.loading = false;

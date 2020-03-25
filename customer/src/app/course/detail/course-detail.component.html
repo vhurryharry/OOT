@@ -48,8 +48,7 @@
       <p class="lg-subtitle" [innerHTML]="course.content">
       </p>
       <div class="course-detail-enroll">
-        <button (click)="enroll()" class="btn lg-cta lg-buttons" *ngIf="!isInstructor"
-          [disabled]="!course.price || course.reserved_count >= course.spots || course.reserved">
+        <button (click)="enroll()" class="btn lg-cta lg-buttons" *ngIf="!isInstructor" [disabled]="!canEnroll">
           {{course.reserved ? "Already enrolled" : course.reserved_count >= course.spots ? "Sold out" : "Enroll in program"}}
         </button>
 
@@ -164,8 +163,7 @@
 
   </div>
 
-  <app-footer
-    [status]="dataLoaded ? (course.reserved ? 'reserved' : course.reserved_count >= course.spots ? 'sold out' : 'available') : 'available'"
+  <app-footer [status]="dataLoaded ? (canEnroll ? 'available' : 'unavailable') : 'available'"
     [price]="dataLoaded ? course.price : 0" (enroll)="enroll()"></app-footer>
 
 </div>

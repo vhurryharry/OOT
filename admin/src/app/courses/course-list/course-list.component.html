@@ -48,7 +48,7 @@
   <clr-dg-column [clrDgField]="'spots'">Spots</clr-dg-column>
   <clr-dg-column [clrDgField]="'startDate'">Start date</clr-dg-column>
   <clr-dg-column [clrDgField]="'lastDate'">Last date</clr-dg-column>
-  <clr-dg-column [clrDgField]="'status'">Status</clr-dg-column>
+  <clr-dg-column [clrDgField]="'confirmed'">Confirmed</clr-dg-column>
   <clr-dg-column [clrDgField]="'created_at'">Created at</clr-dg-column>
   <clr-dg-column [clrDgField]="'updated_at'">Last update</clr-dg-column>
   <clr-dg-column [clrDgField]="'deleted_at'">Deleted?</clr-dg-column>
@@ -59,7 +59,7 @@
     <clr-dg-cell>{{course.spots}}</clr-dg-cell>
     <clr-dg-cell>{{course.startDate | date:'MM/dd/yyyy'}}</clr-dg-cell>
     <clr-dg-cell>{{course.lastDate | date:'MM/dd/yyyy'}}</clr-dg-cell>
-    <clr-dg-cell>{{course.status === "pending_confirmation" ? "Pending Confirmation" : "Active"}}</clr-dg-cell>
+    <clr-dg-cell>{{course.status === "pending_confirmation" ? "Pending Confirmation" : "Confirmed"}}</clr-dg-cell>
     <clr-dg-cell>{{course.createdAt | date:'short'}}</clr-dg-cell>
     <clr-dg-cell>{{course.updatedAt | date:'short'}}</clr-dg-cell>
     <clr-dg-cell>{{course.deletedAt | date:'short'}}</clr-dg-cell>

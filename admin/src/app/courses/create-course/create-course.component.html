@@ -54,14 +54,14 @@
           <clr-select-container>
             <label>Status</label>
             <select clrSelect formControlName="status">
-              <option value="active">
-                Active
-              </option>
               <option value="pending_confirmation">
                 Pending Confirmation
               </option>
+              <option value="confirmed">
+                Confirmed
+              </option>
             </select>
-            <clr-control-helper>Specify which topic you want to add to this course</clr-control-helper>
+            <clr-control-helper>Set the status of this course</clr-control-helper>
           </clr-select-container>
         </clr-tab-content>
       </clr-tab>
@@ -138,11 +138,6 @@
             <label>End Time</label>
             <input clrInput type="string" formControlName="endTime" min="0" />
             <clr-control-helper>End time of the course</clr-control-helper>
-          </clr-input-container>
-          <clr-input-container>
-            <label>Spots</label>
-            <input clrInput type="number" formControlName="spots" min="0" />
-            <clr-control-helper>Number of available spots on the course</clr-control-helper>
           </clr-input-container>
           <clr-input-container>
             <label>Spots</label>

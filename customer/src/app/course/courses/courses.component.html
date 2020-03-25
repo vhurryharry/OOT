@@ -79,10 +79,10 @@
               </div>
 
               <div
-                class="md-text-link course-card-link {{course.spots > course.reservations ? 'course-registration-open' : 'course-sold-out'}}">
+                class="md-text-link course-card-link {{course.canEnroll ? 'course-registration-open' : 'course-sold-out'}}">
                 <img src="/assets/images/s-icons/ticket.png" class="d-none d-lg-block course-card-link-icon" />
                 <div class="md-body-text course-card-link-to-detail">
-                  {{course.spots > course.reservations ? "Registration Open" : "Sold Out"}}
+                  {{course.statusStr}}
                 </div>
               </div>
             </div>

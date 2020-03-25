@@ -26,6 +26,7 @@ export class NewCourseComponent implements OnInit {
     instructors: [],
     note: ""
   };
+
   public editor = ClassicEditor;
   errorMsg: string = null;
   success = false;
@@ -85,6 +86,46 @@ export class NewCourseComponent implements OnInit {
   }
 
   submitCourse() {
+    for (const key in Object.keys(this.courseDetails)) {
+      if (
+        this.courseDetails[key] === null ||
+        this.courseDetails[key] === "" ||
+        this.courseDetails[key] === 0
+      ) {
+        this.showError = true;
+        return;
+      }
+    }
+
+    if (this.selectedInstructors.length === 0) {
+      this.showError = true;
+      return;
+    }
+
+    if (this.courseDetails.startDate <= new Date()) {
+      this.errorMsg = "Start date can't be prior to today's date!";
+      this.success = false;
+      return;
+    }
+
+    if (
+      this.courseDetails.startDate.getTime() >
+      this.courseDetails.lastDate.getTime()
+    ) {
+      this.errorMsg = "Last date can't be prior to start date!";
+      this.success = false;
+      return;
+    }
+
+    if (
+      this.courseDetails.startTime.getTime() >
+      this.courseDetails.endTime.getTime()
+    ) {
+      this.errorMsg = "End time can't be prior to start time!";
+      this.success = false;
+      return;
+    }
+
     const course = {
       ...this.courseDetails,
       slug: this.courseDetails.title
@@ -101,9 +142,20 @@ export class NewCourseComponent implements OnInit {
     this.errorMsg = null;
     this.success = false;
 
-    this.courseService.submitNewCourse(course).subscribe((result: any) => {
-      this.success = true;
-      this.router.navigateByUrl("/course");
-    });
+    this.courseService.submitNewCourse(course).subscribe(
+      (result: any) => {
+        if (result.success) {
+          this.success = true;
+          this.router.navigateByUrl("/course");
+        } else {
+          this.success = false;
+          this.errorMsg = result.error;
+        }
+      },
+      error => {
+        this.errorMsg = "Error occured!";
+        this.success = false;
+      }
+    );
   }
 }
