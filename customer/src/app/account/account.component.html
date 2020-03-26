@@ -258,7 +258,7 @@
                       Get certificate
                     </button>
                     <button class="sm-ghost md-buttons" [disabled]="!course.completed"
-                      (click)="onLeaveFeedback(course.slug)">
+                      (click)="onLeaveFeedback(course.slug, course.title)">
                       Leave feedback
                     </button>
                   </div>

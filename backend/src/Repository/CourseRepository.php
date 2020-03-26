@@ -111,7 +111,7 @@ class CourseRepository
         return $course;
     }
 
-    public function findBySlug(string $userId, string $slug): array
+    public function findBySlug(string $userId, string $slug)
     {
         $course = $this->db->find(
             'select * from course where slug = ? and deleted_at is null',
@@ -151,7 +151,7 @@ class CourseRepository
         $course['rating'] = $rating['count'] > 0 ? $rating['sum'] / $rating['count'] : 0;
         $course['count'] = $rating['count'];
 
-        $course['testimonials'] = $this->db->findAll('select testimonial, author, author_occupation, author_avatar from course_testimonial where course = ?', [$course['id']]);
+        $course['testimonials'] = $this->db->findAll('select testimonial, author, author_occupation, author_avatar from course_testimonial where course = ? and deleted_at is null', [$course['id']]);
 
         $course['instructors'] = $this->db->findAll("select concat(i.first_name, ' ', i.last_name) as name, i.avatar from course_instructor as ci join customer as i on ci.customer_id = i.id where ci.course_id = ? and i.deleted_at is null", [$course['id']]);
 

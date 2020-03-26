@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Database;
 use App\Entity\Course;
 use App\Entity\CourseReview;
+use App\Entity\SurveyQuestion;
 use App\Security\Customer;
 use App\Entity\SurveyResult;
 use Ramsey\Uuid\UuidInterface;
@@ -24,6 +25,79 @@ class SurveyRepository
         $this->db = $db;
     }
 
+    public function findQuestionsByCourse(string $id): array
+    {
+        $course = $this->db->find(
+            'select * from course where id = ? and deleted_at is null',
+            [$id]
+        );
+
+        if (!$course) {
+            return [];
+        }
+
+        $course = Course::fromDatabase($course);
+
+        $questions = $this->db->findAll('select * from survey_question where course_id = ? and deleted_at is null', [$course->getId()]);
+
+        foreach ($questions as &$question) {
+            $question = SurveyQuestion::fromDatabase(($question));
+        }
+
+        return $questions;
+    }
+
+    public function addDefaultQuestions(UuidInterface $courseId, array $instructors)
+    {
+        $city = $this->db->find("select city from course where id = ?", [$courseId])['city'];
+
+        $this->db->insert('survey_question', SurveyQuestion::fromJson([
+            'question' => 'Please rate the quality of the overall program',
+            'courseId' => $courseId,
+            'type' => 'rating',
+            'extra' => ''
+        ])->toDatabase());
+
+        $this->db->insert('survey_question', SurveyQuestion::fromJson([
+            'question' => 'Please rate the overall quality of the instruction in the course',
+            'courseId' => $courseId,
+            'type' => 'rating',
+            'extra' => ''
+        ])->toDatabase());
+
+        $this->db->insert('survey_question', SurveyQuestion::fromJson([
+            'question' => 'How did you like the venue (' . $city . ') for this course?',
+            'courseId' => $courseId,
+            'type' => 'rating',
+            'extra' => ''
+        ])->toDatabase());
+
+        $this->db->insert('survey_question', SurveyQuestion::fromJson([
+            'question' => 'How would you rate the overall organization of the program?',
+            'courseId' => $courseId,
+            'type' => 'rating',
+            'extra' => ''
+        ])->toDatabase());
+
+        $this->db->insert('survey_question', SurveyQuestion::fromJson([
+            'question' => 'How well do you think the program has prepared you for your professional/personal goals related to this topic?',
+            'courseId' => $courseId,
+            'type' => 'rating',
+            'extra' => ''
+        ])->toDatabase());
+
+        foreach ($instructors as &$instructor) {
+            $name = $this->db->find("select concat(first_name, ' ', last_name) as name from customer where id = ?", [$instructor['id']])['name'];
+
+            $this->db->insert('survey_question', SurveyQuestion::fromJson([
+                'question' => 'Please rate the overall quality of instruction in sessions led by ' . $name,
+                'courseId' => $courseId,
+                'type' => 'rating',
+                'extra' => ''
+            ])->toDatabase());
+        }
+    }
+
     public function findQuestionsBySlug(string $slug): array
     {
         $course = $this->db->find(
@@ -38,6 +112,10 @@ class SurveyRepository
         $course = Course::fromDatabase($course);
 
         $questions = $this->db->findAll('select * from survey_question where course_id = ? and deleted_at is null', [$course->getId()]);
+
+        foreach ($questions as &$question) {
+            $question = SurveyQuestion::fromDatabase(($question));
+        }
 
         return $questions;
     }

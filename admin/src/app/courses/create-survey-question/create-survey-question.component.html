@@ -1,0 +1,28 @@
+<form clrForm [formGroup]="questionForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+  <clr-input-container>
+    <label>Question</label>
+    <input clrInput type="text" formControlName="question" required />
+    <clr-control-error>The question is required</clr-control-error>
+  </clr-input-container>
+
+  <clr-select-container>
+    <label>Type</label>
+    <select clrSelect formControlName="type">
+      <option value="rating">
+        Rating
+      </option>
+      <option value="interest">
+        Interest
+      </option>
+      <option value="comment">
+        Comment
+      </option>
+    </select>
+    <clr-control-helper>Set the type of this question</clr-control-helper>
+  </clr-select-container>
+
+  <button class="btn btn-primary pull-right" type="submit" [disabled]="!questionForm.valid"
+    *ngIf="!loading">Submit</button>
+</form>
+
+<clr-spinner *ngIf="loading"></clr-spinner>

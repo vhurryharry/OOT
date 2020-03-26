@@ -52,8 +52,8 @@ class CourseTestimonialController extends AbstractController
 
         return new JsonResponse([
             'items' => $items,
-			'total' => $this->db->count('course_testimonial'),
-			'alive' => $this->db->count('course_testimonial', false)
+            'total' => $this->db->count('course_testimonial'),
+            'alive' => $this->db->count('course_testimonial', false)
         ]);
     }
 
@@ -75,8 +75,8 @@ class CourseTestimonialController extends AbstractController
 
         return new JsonResponse([
             'items' => $items,
-			'total' => $this->db->find('select count(*) from course_testimonial where course is null')['count'],
-			'alive' => $this->db->find('select count(*) from course_testimonial where course is null and deleted_at is null')['count']
+            'total' => $this->db->find('select count(*) from course_testimonial where course is null')['count'],
+            'alive' => $this->db->find('select count(*) from course_testimonial where course is null and deleted_at is null')['count']
         ]);
     }
 
@@ -99,7 +99,7 @@ class CourseTestimonialController extends AbstractController
     public function findByCourse(Request $request)
     {
         $testimonials = $this->db->findAll('select * from course_testimonial where course = ?', [$request->get('id')]);
-        if (!$testimonials) {            
+        if (!$testimonials) {
             return new JsonResponse([
                 'items' => []
             ]);
@@ -131,7 +131,7 @@ class CourseTestimonialController extends AbstractController
      * @Route("/file/{id}", methods={"POST"})
      */
     public function uploadFile(string $id, Request $request)
-    {        
+    {
         if ($request->files->get('file')) {
             $tempDirectory = "temp/";
 
@@ -139,7 +139,7 @@ class CourseTestimonialController extends AbstractController
             $filesystem->mkdir($tempDirectory);
 
             $uploadedFile = $request->files->get('file');
-            $uploadedFile->move($tempDirectory, $id.".jpg");
+            $uploadedFile->move($tempDirectory, $id . ".jpg");
 
             $sharedConfig = [
                 'region' => 'us-east-2',
@@ -152,12 +152,12 @@ class CourseTestimonialController extends AbstractController
             $sdk = new Sdk($sharedConfig);
 
             $s3 = new AwsS3Util($sdk);
-            $avatarUrl = $s3->putObject('ootdev', $tempDirectory.$id.".jpg", "testimonial_avatars/".Uuid::uuid4().'.jpg');
+            $avatarUrl = $s3->putObject('ootdev', $tempDirectory . $id . ".jpg", "testimonial_avatars/" . Uuid::uuid4() . '.jpg');
 
-            $filesystem->remove([$tempDirectory.$id.'.jpg']);
+            $filesystem->remove([$tempDirectory . $id . '.jpg']);
 
-            $query = "update course_testimonial set author_avatar = '".$avatarUrl."' where id = ".$id;
-            
+            $query = "update course_testimonial set author_avatar = '" . $avatarUrl . "' where id = " . $id;
+
             $this->db->execute($query);
 
             return new JsonResponse([
@@ -256,7 +256,7 @@ class CourseTestimonialController extends AbstractController
     public function courseTestimonialsForHome(Request $request)
     {
         $testimonials = $this->db->findAll(
-            'select testimonial, author, author_occupation, author_avatar from course_testimonial where course IS NULL '
+            'select testimonial, author, author_occupation, author_avatar from course_testimonial where course IS NULL and deleted_at is null'
         );
 
         return new JsonResponse([

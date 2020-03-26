@@ -36,6 +36,7 @@ export class SurveyComponent implements OnInit {
   ];
 
   submitted = false;
+  courseTitle = "";
 
   constructor(
     private loginService: LoginService,
@@ -43,6 +44,9 @@ export class SurveyComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
+    console.log(this.surveyService.courseTitle);
+    this.courseTitle = this.surveyService.courseTitle;
+
     this.route.params.subscribe(params => {
       this.slug = params.slug;
 

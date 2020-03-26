@@ -14,6 +14,8 @@ import { ManageTestimonialsComponent } from "./manage-testimonials/manage-testim
 import { ManageInstructorsComponent } from "./manage-instructors/manage-instructors.component";
 import { ManageCategoriesComponent } from "./manage-categories/manage-categories.component";
 import { ManageTopicsComponent } from "./manage-topics/manage-topics.component";
+import { ManageSurveyQuestionsComponent } from "./manage-survey-questions/manage-survey-questions.component";
+import { CreateSurveyQuestionComponent } from "./create-survey-question/create-survey-question.component";
 
 import { CoursesRoutingModule } from "./courses-routing.module";
 
@@ -35,7 +37,9 @@ import { CoursesRoutingModule } from "./courses-routing.module";
     ManageTestimonialsComponent,
     ManageInstructorsComponent,
     ManageCategoriesComponent,
-    ManageTopicsComponent
+    ManageTopicsComponent,
+    ManageSurveyQuestionsComponent,
+    CreateSurveyQuestionComponent
   ]
 })
 export class CoursesModule {}

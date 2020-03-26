@@ -13,7 +13,7 @@ import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 })
 export class CreateCourseComponent implements OnInit {
   loading = false;
-  courseId: string = null;
+  courseId: any = 0;
   pageTitle = "";
 
   courseForm = this.fb.group({
@@ -48,7 +48,7 @@ export class CreateCourseComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.courseId = params.id;
       if (params.id === "0") {
-        this.courseId = null;
+        this.courseId = 0;
       }
 
       if (this.courseId) {
@@ -158,5 +158,11 @@ export class CreateCourseComponent implements OnInit {
 
   onTestimonials() {
     this.router.navigate(["/courses/edit/" + this.courseId + "/testimonials"]);
+  }
+
+  onSurveyQuestions() {
+    this.router.navigate([
+      "/courses/edit/" + this.courseId + "/survey-questions"
+    ]);
   }
 }

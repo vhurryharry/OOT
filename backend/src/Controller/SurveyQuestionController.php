@@ -160,6 +160,18 @@ class SurveyQuestionController extends AbstractController
     }
 
     /**
+     * @Route("/findByCourse", methods={"POST"})
+     */
+    public function findByCourse(Request $request)
+    {
+        $questions = $this->surveyRepository->findQuestionsByCourse($request->get('id'));
+
+        return new JsonResponse([
+            'items' => $questions
+        ]);
+    }
+
+    /**
      * @Route("/find/{slug}", methods={"GET"})
      */
     public function findBySlug(string $slug, Request $request)

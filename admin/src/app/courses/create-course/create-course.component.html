@@ -1,30 +1,36 @@
 <div>
   <h4>{{pageTitle}}</h4>
 
-  <button type="button" class="btn btn-link" (click)="onOptions()">
-    <clr-icon shape="shopping-cart"></clr-icon> Manage Options
-  </button>
-  /
-  <button type="button" class="btn btn-link" (click)="onCategories()">
-    <clr-icon shape="tags"></clr-icon> Manage Categories
-  </button>
-  /
-  <button type="button" class="btn btn-link" (click)="onTopics()">
-    <clr-icon shape="note"></clr-icon> Manage Topics
-  </button>
-  /
-  <button type="button" class="btn btn-link" (click)="onInstructors()">
-    <clr-icon shape="users"></clr-icon> Manage Instructors
-  </button>
-  /
-  <button type="button" class="btn btn-link" (click)="onReviews()">
-    <clr-icon shape="line-chart"></clr-icon> Manage Reviews
-  </button>
-  /
-  <button type="button" class="btn btn-link" (click)="onTestimonials()">
-    <clr-icon shape="share"></clr-icon> Manage Testimonials
-  </button>
-  /
+  <span *ngIf="courseId">
+    <button type="button" class="btn btn-link" (click)="onOptions()">
+      <clr-icon shape="shopping-cart"></clr-icon> Manage Options
+    </button>
+    /
+    <button type="button" class="btn btn-link" (click)="onCategories()">
+      <clr-icon shape="tags"></clr-icon> Manage Categories
+    </button>
+    /
+    <button type="button" class="btn btn-link" (click)="onTopics()">
+      <clr-icon shape="note"></clr-icon> Manage Topics
+    </button>
+    /
+    <button type="button" class="btn btn-link" (click)="onInstructors()">
+      <clr-icon shape="users"></clr-icon> Manage Instructors
+    </button>
+    /
+    <button type="button" class="btn btn-link" (click)="onReviews()">
+      <clr-icon shape="line-chart"></clr-icon> Manage Reviews
+    </button>
+    /
+    <button type="button" class="btn btn-link" (click)="onTestimonials()">
+      <clr-icon shape="share"></clr-icon> Manage Testimonials
+    </button>
+    /
+    <button type="button" class="btn btn-link" (click)="onSurveyQuestions()">
+      <clr-icon shape="assign-user"></clr-icon> Manage Survey Questions
+    </button>
+    /
+  </span>
   <button type="button" class="btn btn-link" (click)="goBack()">
     <clr-icon shape="undo"></clr-icon> Back
   </button>

@@ -8,6 +8,7 @@ import {
   IPaymentMethod,
   PaymentAction
 } from "../services/payment.service";
+import { SurveyService } from "../survey/survey.service";
 
 declare var $: any;
 
@@ -46,9 +47,10 @@ export class AccountComponent implements OnInit {
   isInstructor = false;
 
   constructor(
+    private router: Router,
     private loginService: LoginService,
     private paymentService: PaymentService,
-    private router: Router,
+    private surveyService: SurveyService,
     private accountService: AccountService
   ) {
     this.isInstructor = this.loginService.isInstructor();
@@ -242,7 +244,9 @@ export class AccountComponent implements OnInit {
     console.log(slug);
   }
 
-  onLeaveFeedback(slug: string) {
+  onLeaveFeedback(slug: string, title: string) {
+    this.surveyService.courseTitle = title;
+    console.log(title);
     this.router.navigateByUrl("/survey/" + slug);
   }
 

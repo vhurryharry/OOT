@@ -6,6 +6,7 @@ import { environment } from "../../environments/environment";
 @Injectable()
 export class SurveyService {
   private baseURL: string = environment.baseURL + `/api/survey`;
+  public courseTitle = "";
 
   constructor(private http: HttpClient) {}
 

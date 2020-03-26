@@ -9,6 +9,7 @@ use App\CsvExporter;
 use App\Database;
 use App\Repository\CourseRepository;
 use App\Repository\CustomerRepository;
+use App\Repository\SurveyRepository;
 use App\Entity\Course;
 use App\Security\Customer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,12 +41,23 @@ class CourseController extends AbstractController
      */
     protected $courseRepository;
 
-    public function __construct(Database $db, CsvExporter $csv, CourseRepository $courseRepository, CustomerRepository $customerRepository)
-    {
+    /**
+     * @var SurveyRepository
+     */
+    protected $surveyRepository;
+
+    public function __construct(
+        Database $db,
+        CsvExporter $csv,
+        CourseRepository $courseRepository,
+        CustomerRepository $customerRepository,
+        SurveyRepository $surveyRepository
+    ) {
         $this->db = $db;
         $this->csv = $csv;
         $this->courseRepository = $courseRepository;
         $this->customerRepository = $customerRepository;
+        $this->surveyRepository = $surveyRepository;
     }
 
     /**
@@ -249,7 +261,9 @@ class CourseController extends AbstractController
      */
     public function create(Request $request)
     {
-        $this->db->insert('course', Course::fromJson($request->request->all())->toDatabase());
+        $id = $this->db->insert('course', Course::fromJson($request->request->all())->toDatabase());
+
+        $this->surveyRepository->addDefaultQuestions(Uuid::fromString($id), []);
 
         return new JsonResponse();
     }
@@ -359,8 +373,8 @@ class CourseController extends AbstractController
      */
     public function newCourse(Request $request)
     {
-        $course = $request->request->get('course');
-        $course = Course::fromJson($course);
+        $rawCourse = $request->request->get('course');
+        $course = Course::fromJson($rawCourse);
 
         $prevCourse = $this->courseRepository->findBySlug("default", $course->getSlug());
 
@@ -372,13 +386,15 @@ class CourseController extends AbstractController
         }
 
         $courseId = $this->courseRepository->addNewCourse($course);
-        $this->courseRepository->addCourseOption(Uuid::fromString($courseId), (int) $course['tuition']);
+        $this->courseRepository->addCourseOption(Uuid::fromString($courseId), (int) $rawCourse['tuition']);
 
-        $instructors = $course['instructors'];
+        $instructors = $rawCourse['instructors'];
 
         foreach ($instructors as $instructor) {
             $this->courseRepository->addInstructor(Uuid::fromString($courseId), Uuid::fromString($instructor['id']));
         }
+
+        $this->surveyRepository->addDefaultQuestions($courseId, $instructors);
 
         return new JsonResponse([
             "success" => true

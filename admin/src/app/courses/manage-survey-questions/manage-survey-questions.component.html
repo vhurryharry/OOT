@@ -1,0 +1,55 @@
+<clr-spinner *ngIf="loading"></clr-spinner>
+
+<h4>{{pageTitle}}</h4>
+
+<button type="button" class="btn btn-link" (click)="onAdd()">
+  <clr-icon shape="plus"></clr-icon> Add Question
+</button>
+/
+<button type="button" class="btn btn-link" (click)="goBack()">
+  <clr-icon shape="undo"></clr-icon> Back
+</button>
+
+<clr-datagrid>
+  <clr-dg-column [clrDgField]="'question'">Question</clr-dg-column>
+  <clr-dg-column [clrDgField]="'author'">Type</clr-dg-column>
+  <clr-dg-column [clrDgField]="'created_at'">Created At</clr-dg-column>
+  <clr-dg-column [clrDgField]="'updated_at'">Updated At</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deleted_at'">Deleted At</clr-dg-column>
+  <clr-dg-column>Options</clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let question of questions" [ngClass]="{'deleted-row': question.deletedAt != null}">
+    <clr-dg-cell (click)="onEdit(question)" class="item-title">{{question.question}}</clr-dg-cell>
+    <clr-dg-cell>{{question.type | titlecase}}</clr-dg-cell>
+    <clr-dg-cell>{{question.createdAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{question.updatedAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{question.deletedAt | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell *ngIf="question.deletedAt == null">
+      <button type="button" class="btn btn-sm btn-secondary" (click)="onRemove(question.id)">
+        <clr-icon shape="trash"></clr-icon> Remove
+      </button>
+    </clr-dg-cell>
+    <clr-dg-cell *ngIf="question.deletedAt != null">
+      <button type="button" class="btn btn-sm btn-secondary" (click)="onRestore(question.id)">
+        <clr-icon shape="undo"></clr-icon> Restore
+      </button>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>{{questions.length}} questions</clr-dg-footer>
+</clr-datagrid>
+
+<clr-modal [(clrModalOpen)]="showCreateQuestion" [clrModalSize]="'md'">
+  <h3 class="modal-title">Create Question</h3>
+  <div class="modal-body">
+    <admin-create-survey-question [courseId]="courseId" (finished)='onContentUpdated()'></admin-create-survey-question>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="showEditQuestion" [clrModalSize]="'md'">
+  <h3 class="modal-title">Edit Question</h3>
+  <div class="modal-body">
+    <admin-create-survey-question [courseId]="courseId" [(update)]="singleSelection" (finished)='onContentUpdated()'>
+    </admin-create-survey-question>
+  </div>
+</clr-modal>
