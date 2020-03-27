@@ -25,6 +25,48 @@ class SurveyRepository
         $this->db = $db;
     }
 
+    public function findResultsByCourse(string $id, $state): array
+    {
+        $course = $this->db->find(
+            'select * from course where id = ? and deleted_at is null',
+            [$id]
+        );
+
+        if (!$course) {
+            return [];
+        }
+
+        $course = Course::fromDatabase($course);
+
+        $results = $this->db->findAll(
+            "select sr.*, concat(c.first_name, ' ', c.last_name) as author, sq.question, sq.type 
+            from survey_result as sr join customer as c on sr.customer_id = c.id join survey_question as sq on sr.question_id = sq.id where sr.course_id = ? and sr.deleted_at is null " . $state->toQuery(),
+            [$course->getId()]
+        );
+
+        return $results;
+    }
+
+    public function findResultsByIds(array $ids): array
+    {
+        $params = [];
+        foreach ($ids as $id) {
+            $params[] = 'sr.id = ?';
+        }
+
+        $results = [];
+
+        if (empty($ids)) {
+            $results = $this->db->findAll("select sr.id, concat(c.first_name, ' ', c.last_name) as author, sq.question, sq.type, sr.answer 
+                from survey_result as sr join customer as c on sr.customer_id = c.id join survey_question as sq on sr.question_id = sq.id");
+        } else {
+            $results = $this->db->findAll(sprintf("select sr.id, concat(c.first_name, ' ', c.last_name) as author, sq.question, sq.type, sr.answer 
+                from survey_result as sr join customer as c on sr.customer_id = c.id join survey_question as sq on sr.question_id = sq.id where %s", implode('or ', $params)), $ids);
+        }
+
+        return $results;
+    }
+
     public function findQuestionsByCourse(string $id): array
     {
         $course = $this->db->find(

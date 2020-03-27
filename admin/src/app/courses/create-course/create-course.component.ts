@@ -165,4 +165,10 @@ export class CreateCourseComponent implements OnInit {
       "/courses/edit/" + this.courseId + "/survey-questions"
     ]);
   }
+
+  onSurveyResults() {
+    this.router.navigate([
+      "/courses/edit/" + this.courseId + "/survey-results"
+    ]);
+  }
 }

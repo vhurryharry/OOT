@@ -141,22 +141,24 @@ class SurveyResultController extends AbstractController
     public function export(Request $request)
     {
         $ids = $request->request->get('ids');
-
-        $params = [];
-        foreach ($ids as $id) {
-            $params[] = 'id = ?';
-        }
-
-        if (empty($params)) {
-            $survey_results = $this->db->findAll('select * from survey_result');
-        } else {
-            $survey_results = $this->db->findAll(
-                sprintf('select * from survey_result where %s', implode('or ', $params)),
-                $ids
-            );
-        }
+        $survey_results = $this->surveyRepository->findResultsByIds($ids);
 
         return new JsonResponse(['csv' => $this->csv->export($survey_results)]);
+    }
+
+    /**
+     * @Route("/findByCourse", methods={"POST"})
+     */
+    public function findByCourse(Request $request)
+    {
+        $state = State::fromDatagrid($request->request->all());
+
+        $results = $this->surveyRepository->findResultsByCourse($request->get('id'), $state);
+
+        return new JsonResponse([
+            'items' => $results,
+            'total' => $this->db->count('survey_result'),
+        ]);
     }
 
     /**

@@ -41,7 +41,7 @@ export class ManageSurveyQuestionsComponent implements OnInit {
   load() {
     this.loading = true;
     this.repository
-      .custom("survey/questions", this.courseId, "findByCourse")
+      .custom("survey/questions", { id: this.courseId }, "findByCourse")
       .subscribe((result: any) => {
         this.loading = false;
         this.questions = result.items;

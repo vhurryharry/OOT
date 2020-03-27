@@ -11,6 +11,7 @@ import { ManageCategoriesComponent } from "./manage-categories/manage-categories
 import { ManageTopicsComponent } from "./manage-topics/manage-topics.component";
 import { ManageTestimonialsComponent } from "./manage-testimonials/manage-testimonials.component";
 import { ManageSurveyQuestionsComponent } from "./manage-survey-questions/manage-survey-questions.component";
+import { ManageSurveyResultsComponent } from "./manage-survey-results/manage-survey-results.component";
 
 const routes: Routes = [
   {
@@ -48,6 +49,10 @@ const routes: Routes = [
       {
         path: "edit/:id/survey-questions",
         component: ManageSurveyQuestionsComponent
+      },
+      {
+        path: "edit/:id/survey-results",
+        component: ManageSurveyResultsComponent
       },
       {
         path: "",

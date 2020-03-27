@@ -1,0 +1,46 @@
+<clr-datagrid (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading" [(clrDgSelected)]="selected">
+  <clr-dg-placeholder>No courses found.</clr-dg-placeholder>
+
+  <clr-dg-action-bar>
+    <clr-dropdown>
+      <button type="button" class="btn btn-secondary" clrDropdownTrigger>
+        Export
+        <clr-icon shape="caret down"></clr-icon>
+      </button>
+      <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
+        <button type="button" (click)="onExportAll()" clrDropdownItem>Export all</button>
+        <button type="button" (click)="onExportSelected()" [disabled]="selected.length === 0" clrDropdownItem>Export
+          selected</button>
+      </clr-dropdown-menu>
+    </clr-dropdown>
+
+    <button type="button" class="btn btn-link" (click)="goBack()">
+      <clr-icon shape="undo"></clr-icon> Back
+    </button>
+  </clr-dg-action-bar>
+
+  <clr-dg-column [clrDgField]="'author'">Author</clr-dg-column>
+  <clr-dg-column [clrDgField]="'question'">Question</clr-dg-column>
+  <clr-dg-column [clrDgField]="'type'">Type</clr-dg-column>
+  <clr-dg-column [clrDgField]="'answer'">Answer</clr-dg-column>
+  <clr-dg-column [clrDgField]="'created_at'">Created at</clr-dg-column>
+  <clr-dg-column [clrDgField]="'updated_at'">Last update</clr-dg-column>
+  <clr-dg-column [clrDgField]="'deleted_at'">Deleted?</clr-dg-column>
+
+  <clr-dg-row *ngFor="let result of results" [clrDgItem]="result"
+    [ngClass]="{'deleted-row': result.deleted_at != null}">
+    <clr-dg-cell>{{result.author}}</clr-dg-cell>
+    <clr-dg-cell>{{result.question}}</clr-dg-cell>
+    <clr-dg-cell>{{result.type | titlecase}}</clr-dg-cell>
+    <clr-dg-cell>{{result.answer}}</clr-dg-cell>
+    <clr-dg-cell>{{result.created_at | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{result.updated_at | date:'short'}}</clr-dg-cell>
+    <clr-dg-cell>{{result.deleted_at | date:'short'}}</clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+    of {{total}} results
+    <clr-dg-pagination #pagination [clrDgTotalItems]="total"></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>

@@ -32,7 +32,7 @@ export class ManageTestimonialsComponent implements OnInit {
     if (this.courseId && this.courseId !== "0") {
       this.loading = true;
       this.repository
-        .custom("course_testimonial", this.courseId, "findByCourse")
+        .custom("course_testimonial", { id: this.courseId }, "findByCourse")
         .subscribe((result: any) => {
           this.loading = false;
           this.testimonials = result.items;

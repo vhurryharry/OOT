@@ -7,6 +7,7 @@ namespace App\Entity;
 use Carbon\Carbon;
 use JsonSerializable;
 use Ramsey\Uuid\UuidInterface;
+use Ramsey\Uuid\Uuid;
 
 class SurveyResult implements JsonSerializable
 {
@@ -160,7 +161,7 @@ class SurveyResult implements JsonSerializable
         }
 
         if (isset($row['customer_id'])) {
-            $instance->setCustomerId($row['customer_id']);
+            $instance->setCustomerId(Uuid::fromString($row['customer_id']));
         }
 
         if (isset($row['question_id'])) {
@@ -168,7 +169,7 @@ class SurveyResult implements JsonSerializable
         }
 
         if (isset($row['course_id'])) {
-            $instance->setCourseId($row['course_id']);
+            $instance->setCourseId(Uuid::fromString($row['course_id']));
         }
 
         if (isset($row['answer'])) {
@@ -203,7 +204,7 @@ class SurveyResult implements JsonSerializable
         }
 
         if (isset($row['customerId'])) {
-            $instance->setCustomerId($row['customerId']);
+            $instance->setCustomerId(Uuid::fromString($row['customerId']));
         }
 
         if (isset($row['questionId'])) {
@@ -211,7 +212,7 @@ class SurveyResult implements JsonSerializable
         }
 
         if (isset($row['courseId'])) {
-            $instance->setCourseId($row['courseId']);
+            $instance->setCourseId(Uuid::fromString($row['courseId']));
         }
 
         if (isset($row['answer'])) {

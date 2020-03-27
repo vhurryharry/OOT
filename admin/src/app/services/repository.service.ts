@@ -19,8 +19,8 @@ export class RepositoryService {
     return this.http.post(this.baseURL + module + "/find", { id });
   }
 
-  custom(module, id, func) {
-    return this.http.post(this.baseURL + module + "/" + func, { id });
+  custom(module, payload, func) {
+    return this.http.post(this.baseURL + module + "/" + func, payload);
   }
 
   uploadFile(module, file: File, id) {

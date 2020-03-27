@@ -16,6 +16,7 @@ import { ManageCategoriesComponent } from "./manage-categories/manage-categories
 import { ManageTopicsComponent } from "./manage-topics/manage-topics.component";
 import { ManageSurveyQuestionsComponent } from "./manage-survey-questions/manage-survey-questions.component";
 import { CreateSurveyQuestionComponent } from "./create-survey-question/create-survey-question.component";
+import { ManageSurveyResultsComponent } from "./manage-survey-results/manage-survey-results.component";
 
 import { CoursesRoutingModule } from "./courses-routing.module";
 
@@ -39,6 +40,7 @@ import { CoursesRoutingModule } from "./courses-routing.module";
     ManageCategoriesComponent,
     ManageTopicsComponent,
     ManageSurveyQuestionsComponent,
+    ManageSurveyResultsComponent,
     CreateSurveyQuestionComponent
   ]
 })

@@ -6,18 +6,6 @@
       <clr-icon shape="pencil"></clr-icon> Create course
     </button>
 
-    <div class="btn-group" *ngIf="selected.length == 1">
-      <button type="button" class="btn btn-secondary" (click)="onOptions()">
-        <clr-icon shape="shopping-cart"></clr-icon> Manage Options
-      </button>
-      <button type="button" class="btn btn-secondary" (click)="onInstructors()">
-        <clr-icon shape="users"></clr-icon> Manage Instructors
-      </button>
-      <button type="button" class="btn btn-secondary" (click)="onReviews()">
-        <clr-icon shape="line-chart"></clr-icon> Manage Reviews
-      </button>
-    </div>
-
     <div class="btn-group">
       <button type="button" class="btn btn-secondary" (click)="onEdit()" *ngIf="selected.length == 1">
         <clr-icon shape="pencil"></clr-icon> Edit
