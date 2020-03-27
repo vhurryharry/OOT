@@ -9,7 +9,10 @@ use App\Entity\Course;
 use App\Entity\CourseInstructor;
 use App\Entity\CourseOption;
 use Ramsey\Uuid\UuidInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use App\Event\CourseCompleted;
+use App\Security\Customer;
+use Carbon\Carbon;
 
 class CourseRepository
 {
@@ -18,9 +21,17 @@ class CourseRepository
      */
     protected $db;
 
-    public function __construct(Database $db)
-    {
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
+    public function __construct(
+        Database $db,
+        EventDispatcherInterface $eventDispatcher
+    ) {
         $this->db = $db;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function findAll(): array
@@ -158,5 +169,46 @@ class CourseRepository
         //$course['faq'] = $this->db->findAll('select title, content from faq where course = ? and deleted_at is null', [$course['id']]);
 
         return $course;
+    }
+
+    function sendCourseCompletedEmails(Course $course)
+    {
+        $customers = $this->db->findAll("select c.* from course_reservation as cr join customer as c on cr.customer_id = c.id where cr.course_id = ? and c.deleted_at is null", [$course->getId()]);
+
+        foreach ($customers as $customer) {
+            $customer = Customer::fromDatabase($customer);
+
+            $this->eventDispatcher->dispatch(new CourseCompleted($customer, $course));
+        }
+    }
+
+    public function updateCourseStatus()
+    {
+        $courses = $this->db->findAll("select * from course");
+
+        foreach ($courses as $course) {
+            $course = Course::fromDatabase($course);
+            $status = $course->getStatus();
+
+            if ($status == Course::PENDING_CONFIRMATION) {
+                continue;
+            }
+
+            if ($course->getLastDate()->isPast()) {
+                if ($status != Course::PENDING_CONFIRMATION && $status != Course::COMPLETED) {
+                    $course->setStatus(Course::COMPLETED);
+
+                    $this->sendCourseCompletedEmails($course);
+                }
+            }
+
+            if ($course->getStartDate()->isPast() || $course->getStartDate()->isToday()) {
+                if ($status == Course::CONFIRMED) {
+                    $course->setStatus(Course::ACTIVE);
+                }
+            }
+
+            $this->db->update("course", $course->toDatabase());
+        }
     }
 }

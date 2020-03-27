@@ -47,7 +47,7 @@
     <clr-dg-cell>{{course.spots}}</clr-dg-cell>
     <clr-dg-cell>{{course.startDate | date:'MM/dd/yyyy'}}</clr-dg-cell>
     <clr-dg-cell>{{course.lastDate | date:'MM/dd/yyyy'}}</clr-dg-cell>
-    <clr-dg-cell>{{course.status === "pending_confirmation" ? "Pending Confirmation" : "Confirmed"}}</clr-dg-cell>
+    <clr-dg-cell>{{course.status === "" ? "Confirmed" : course.status | titlecase}}</clr-dg-cell>
     <clr-dg-cell>{{course.createdAt | date:'short'}}</clr-dg-cell>
     <clr-dg-cell>{{course.updatedAt | date:'short'}}</clr-dg-cell>
     <clr-dg-cell>{{course.deletedAt | date:'short'}}</clr-dg-cell>

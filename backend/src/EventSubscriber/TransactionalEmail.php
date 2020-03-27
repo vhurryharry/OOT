@@ -10,6 +10,7 @@ use App\Event\CustomerRegistered;
 use App\Event\OrderPlaced;
 use App\Event\CustomerResetPasswordRequested;
 use App\Event\CustomerConfirmationPended;
+use App\Event\CourseCompleted;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -40,7 +41,8 @@ class TransactionalEmail implements EventSubscriberInterface
             CustomerRegistered::class => 'onCustomerRegistered',
             CustomerResetPasswordRequested::class => 'onCustomerResetPasswordRequested',
             OrderPlaced::class => 'onOrderPlaced',
-            CustomerConfirmationPended::class => 'onCustomerConfirmationPended'
+            CustomerConfirmationPended::class => 'onCustomerConfirmationPended',
+            CourseCompleted::class => 'onCourseCompleted'
         ];
     }
 
@@ -53,7 +55,7 @@ class TransactionalEmail implements EventSubscriberInterface
 
     public function onCustomerRegistered(CustomerRegistered $event): void
     {
-        $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = 'customer.registered'");
+        $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = ?", [$event->getName()]);
 
         if (!$notification) {
             return;
@@ -74,9 +76,39 @@ class TransactionalEmail implements EventSubscriberInterface
         $this->mailer->send($email);
     }
 
+    public function onCourseCompleted(CourseCompleted $event): void
+    {
+        $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = ?", [$event->getName()]);
+
+        if (!$notification) {
+            return;
+        }
+
+        $customer = $event->getCustomer();
+        $course = $event->getCourse();
+
+        $textTemplate = $this->twig->createTemplate($notification['content']);
+        $htmlTemplate = $this->twig->createTemplate($notification['content_rich']);
+
+        $email = (new Email())
+            ->from(new Address($notification['from_email'], $notification['from_name']))
+            ->to($customer->getEmail())
+            ->subject($notification['title'])
+            ->text($textTemplate->render([
+                'customer' => $customer,
+                'course' => $course
+            ]))
+            ->html($htmlTemplate->render([
+                'customer' => $customer,
+                'course' => $course
+            ]));
+
+        $this->mailer->send($email);
+    }
+
     public function onCustomerAutoRegistered(CustomerAutoRegistered $event): void
     {
-        $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = 'customer.auto_registered'");
+        $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = ?", [$event->getName()]);
 
         if (!$notification) {
             return;
@@ -99,7 +131,7 @@ class TransactionalEmail implements EventSubscriberInterface
 
     public function onCustomerResetPasswordRequested(CustomerResetPasswordRequested $event): void
     {
-        $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = 'customer.resetPasswordRequested'");
+        $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = ?", [$event->getName()]);
 
         if (!$notification) {
             return;
@@ -116,9 +148,10 @@ class TransactionalEmail implements EventSubscriberInterface
             ->to($customer->getEmail())
             ->subject($notification['title'])
             ->text($textTemplate->render(['name' => $customer->getFirstName()]))
-            ->html($htmlTemplate->render([
-                'name' => $customer->getFirstName(),
-                'resetUri' => $resetUri
+            ->html($htmlTemplate->render(
+                [
+                    'name' => $customer->getFirstName(),
+                    'resetUri' => $resetUri
                 ]
             ));
 
@@ -127,7 +160,7 @@ class TransactionalEmail implements EventSubscriberInterface
 
     public function onCustomerConfirmationPended(CustomerConfirmationPended $event): void
     {
-        $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = 'customer.confirmationPended'");
+        $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = ?", [$event->getName()]);
 
         if (!$notification) {
             return;
@@ -144,9 +177,10 @@ class TransactionalEmail implements EventSubscriberInterface
             ->to($customer->getEmail())
             ->subject($notification['title'])
             ->text($textTemplate->render(['name' => $customer->getFirstName()]))
-            ->html($htmlTemplate->render([
-                'name' => $customer->getFirstName(),
-                'confirmationUri' => $confirmationUri
+            ->html($htmlTemplate->render(
+                [
+                    'name' => $customer->getFirstName(),
+                    'confirmationUri' => $confirmationUri
                 ]
             ));
 
@@ -155,7 +189,7 @@ class TransactionalEmail implements EventSubscriberInterface
 
     public function onOrderPlaced(OrderPlaced $event): void
     {
-        $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = 'order.placed'");
+        $notification = $this->db->find("select * from notification where deleted_at is null and type = 'email' and event = ?", [$event->getName()]);
 
         if (!$notification) {
             return;

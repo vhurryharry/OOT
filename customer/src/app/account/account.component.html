@@ -233,7 +233,7 @@
                   <div class="course-card-row">
                     <img src="/assets/images/s-icons/calendar.png" class="d-none d-lg-block" />
                     <div class="md-body-medium">
-                      {{ course.start_date | date : 'MMMM dd, yyyy' }}
+                      {{ course.start_date | date : 'MMM dd, yyyy' }} - {{ course.last_date | date : 'MMM dd, yyyy' }}
                     </div>
                   </div>
 

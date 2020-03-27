@@ -330,7 +330,8 @@ class CustomerController extends AbstractController
                 'title' => $myCourse['title'],
                 'city' => $myCourse['city'],
                 'start_date' => $myCourse['start_date'],
-                'completed' => $myCourse['start_date'] < $today ? true : false
+                'last_date' => $myCourse['last_date'],
+                'completed' => $myCourse['status'] == Course::COMPLETED
             ];
         }
 

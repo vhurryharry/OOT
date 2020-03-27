@@ -13,6 +13,11 @@ api_course:
   type: annotation
   prefix: /api/course
 
+api_cron:
+  resource: 'App\Controller\CronController'
+  type: annotation
+  prefix: /api/cron
+
 api_blog:
   resource: 'App\Controller\BlogController'
   type: annotation
