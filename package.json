@@ -8,8 +8,8 @@
 		"redoc-cli": "^0.9.2"
 	},
 	"scripts": {
-		"lint": "prettier --write './**/*.{js,ts,json,scss,css,md,yml,yaml}'",
-		"lint:check": "prettier --list-different './**/*.{js,ts,json,scss,css,md,yml,yaml}'",
+		"lint": "prettier --write './**/*.{js,ts,json,scss,css,md,yml}'",
+		"lint:check": "prettier --list-different './**/*.{js,ts,json,scss,css,md,yml}'",
 		"lint:api": "spectral lint docs/openapi.yaml",
 		"build:docs": "redoc-cli bundle docs/openapi.yaml -o dist/index.html --title \"API Documentation\""
 	},
@@ -19,7 +19,7 @@
 		}
 	},
 	"lint-staged": {
-		"*.{js,json,css,md,yml,yaml,sass,scss}": [
+		"*.{js,json,css,md,yml,sass,scss}": [
 			"prettier --write",
 			"git add"
 		]
