@@ -32,14 +32,7 @@ export class ManageInstructorsComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     this.repository
-      .fetch("customer", {
-        filters: [
-          {
-            property: "type",
-            value: "instructor"
-          }
-        ]
-      })
+      .fetch("customer/instructors", {})
       .subscribe((result: any) => {
         this.availableInstructors = result.items;
         this.loading = false;
@@ -64,9 +57,9 @@ export class ManageInstructorsComponent implements OnInit {
     this.loading = true;
 
     this.repository
-      .attach("course_instructor", {
-        course_id: this.courseId,
-        customer_id: this.instructorForm.value.instructor
+      .create("course/instructor", {
+        courseId: this.courseId,
+        customerId: this.instructorForm.value.instructor
       })
       .subscribe((result: any) => {
         this.loading = false;
@@ -78,7 +71,7 @@ export class ManageInstructorsComponent implements OnInit {
     this.loading = true;
 
     this.repository
-      .detach("course_instructor", { id })
+      .delete("course/instructor", { id })
       .subscribe((result: any) => {
         this.loading = false;
         this.loadInstructors();

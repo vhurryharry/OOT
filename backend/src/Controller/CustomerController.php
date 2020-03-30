@@ -105,6 +105,23 @@ class CustomerController extends AbstractController
     }
 
     /**
+     * @Route("/instructors/search", methods={"POST"})
+     */
+    public function searchInstructors(Request $request)
+    {
+        $customers = $this->db->findAll("select * from customer where type='instructor' and deleted_at is null");
+
+        $items = [];
+        foreach ($customers as $customer) {
+            $items[] = (Customer::fromDatabase($customer))->jsonSerialize();
+        }
+
+        return new JsonResponse([
+            'items' => $items
+        ]);
+    }
+
+    /**
      * @Route("/find", methods={"POST"})
      */
     public function find(Request $request)

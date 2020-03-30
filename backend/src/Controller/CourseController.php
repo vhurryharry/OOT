@@ -11,6 +11,7 @@ use App\Repository\CourseRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\SurveyRepository;
 use App\Entity\Course;
+use App\Entity\CourseInstructor;
 use App\Security\Customer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -111,6 +112,27 @@ class CourseController extends AbstractController
         }
 
         return new JsonResponse($result);
+    }
+
+    /**
+     * @Route("/instructor/create", methods={"POST"})
+     */
+    public function createInstructor(Request $request)
+    {
+        $courseInstructor = CourseInstructor::fromJson($request->request->all());
+        $this->db->insert("course_instructor", $courseInstructor->toDatabase());
+
+        return new JsonResponse();
+    }
+
+    /**
+     * @Route("/instructor/delete", methods={"POST"})
+     */
+    public function deleteInstructor(Request $request)
+    {
+        $this->db->execute("delete from course_instructor where id = ?", [$request->get('ids')['id']]);
+
+        return new JsonResponse();
     }
 
     /**
