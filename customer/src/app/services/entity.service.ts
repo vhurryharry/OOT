@@ -7,11 +7,15 @@ import { environment } from "../../environments/environment";
   providedIn: "root"
 })
 export class EntityService {
-  private baseURL: string = environment.baseURL + `/api/entity`;
+  private baseURL: string = environment.baseURL + `/api`;
 
   constructor(private http: HttpClient) {}
 
   entity(slug) {
-    return this.http.get(this.baseURL + "/entity/" + slug);
+    return this.http.get(this.baseURL + "/entity/entity/" + slug);
+  }
+
+  menus() {
+    return this.http.get(this.baseURL + "/menu/menus");
   }
 }

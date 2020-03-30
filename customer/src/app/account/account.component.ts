@@ -8,7 +8,7 @@ import {
   IPaymentMethod,
   PaymentAction
 } from "../services/payment.service";
-import { SurveyService } from "../survey/survey.service";
+import { SurveyService } from "../services/survey.service";
 
 declare var $: any;
 

@@ -1,0 +1,34 @@
+@import "src/assets/styles/variables";
+
+#page-background-1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 152px;
+  z-index: -1;
+}
+
+.page-container {
+  padding: 0;
+  margin: calc(156px + 3.25vw) 15.6vw 0;
+}
+
+@media #{$tablet} {
+  #page-background-1 {
+    top: 112px;
+  }
+
+  .page-container {
+    margin: calc(112px + 3vw) 5.86vw 0;
+  }
+}
+
+@media #{$mobile} {
+  #page-background-1 {
+    display: none;
+  }
+
+  .page-container {
+    margin: 96px 24px 0;
+  }
+}

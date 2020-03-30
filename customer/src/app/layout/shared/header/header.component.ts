@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, HostListener } from "@angular/core";
 import { LoginService } from "src/app/services/login.service";
+import { EntityService } from "src/app/services/entity.service";
 
 declare var $: any;
 
@@ -16,6 +17,7 @@ export class HeaderComponent implements OnInit {
   private isInstructor = false;
   private userAvatar = "";
   private menuExpanded = false;
+  private items = [];
 
   @HostListener("window:scroll", ["$event"])
   onWindowScroll(e) {
@@ -30,8 +32,16 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  constructor(private loginService: LoginService) {
+  constructor(
+    private loginService: LoginService,
+    private entityService: EntityService
+  ) {
+    this.entityService.menus().subscribe((result: any) => {
+      this.items = result.items;
+    });
+
     this.loggedIn = this.loginService.isLoggedIn();
+
     if (this.loggedIn) {
       this.isInstructor = this.loginService.isInstructor();
 

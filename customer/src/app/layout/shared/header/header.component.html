@@ -19,29 +19,32 @@
       <li class="nav-item" *ngIf="isInstructor">
         <a class="nav-link" routerLink="/course/new">New Course</a>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link" href="#" id="companyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-          aria-expanded="false">
-          Company
-          <img src="/assets/images/arrows/down.png" class="dropdown-icon" />
-        </a>
 
-        <div class="dropdown-menu" aria-labelledby="companyDropdown">
-          <div class="md-body-text dropdown-menu-content">
-            <a class="dropdown-item" routerLink="/about">About</a>
-            <a class="dropdown-item" routerLink="/faq">FAQ</a>
-            <!-- <a class="dropdown-item" routerLink="/blog">Blog</a> -->
-            <a class="dropdown-item" routerLink="/contact">Contact</a>
+      <div *ngFor="let item of items">
+        <li class="nav-item" *ngIf="!item.child.length">
+          <a class="nav-link" routerLink="/{{item.link}}" *ngIf="!item.external">{{item.title}}</a>
+          <a class="nav-link" href="{{item.link}}" target="_blank" rel="noopener noreferrer"
+            *ngIf="item.external">{{item.title}}</a>
+        </li>
+
+        <li class="nav-item dropdown" *ngIf="item.child.length">
+          <a class="nav-link" href="#" id="companyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            {{item.title}}
+            <img src="/assets/images/arrows/down.png" class="dropdown-icon" />
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="companyDropdown">
+            <div class="md-body-text dropdown-menu-content">
+              <div *ngFor="let subItem of item.child">
+                <a class="dropdown-item" routerLink="/{{subItem.link}}" *ngIf="!subItem.external">{{subItem.title}}</a>
+                <a class="dropdown-item" href="{{subItem.link}}" target="_blank" rel="noopener noreferrer"
+                  *ngIf="subItem.external">{{subItem.title}}</a>
+              </div>
+            </div>
           </div>
-        </div>
-      </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link" routerLink="https://oliveoilsommelier.org/">Sommelier Registry</a>
-      </li> -->
-      <li class="nav-item">
-        <a class="nav-link" href="https://oliveoilschool.org/notify" target="_blank" rel="noopener noreferer">Get
-          Updates</a>
-      </li>
+        </li>
+      </div>
     </ul>
 
     <ul class="nav navbar-nav navbar-right user-nav" *ngIf="!loggedIn">

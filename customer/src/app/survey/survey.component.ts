@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { LoginService } from "src/app/services/login.service";
-import { SurveyService } from "./survey.service";
+import { SurveyService } from "../services/survey.service";
 
 @Component({
   selector: "app-survey",

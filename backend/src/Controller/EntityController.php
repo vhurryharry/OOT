@@ -22,7 +22,7 @@ class EntityController extends AbstractController
     protected $db;
 
     /**
-	 * 
+     * 
      * @var CsvExporter
      */
     protected $csv;
@@ -151,20 +151,28 @@ class EntityController extends AbstractController
         }
 
         return new JsonResponse(['csv' => $this->csv->export($entities)]);
-	}
-	
+    }
+
     /**
      * @Route("/entity/{slug}", name="entity", requirements={"slug"="[a-zA-Z0-9\-]+"})
      */
     public function entity(string $slug)
     {
-        $entities = $this->db->find(
+        $entity = $this->db->find(
             'select * from entity where slug = ? and deleted_at is null',
             [$slug]
-		);
+        );
 
-		return new JsonResponse([
-            'entity' => $entities
+        if (!$entity) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => "No page found for that slug"
+            ]);
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'entity' => $entity
         ]);
     }
 }

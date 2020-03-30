@@ -4,6 +4,8 @@ import { Routes, RouterModule } from "@angular/router";
 import { CondensedComponent } from "./layout/condensed/condensed.component";
 import { AuthGuard } from "./services/auth-guard.service";
 
+import { PageComponent } from "./layout/page/page.component";
+
 const routes: Routes = [
   {
     path: "",
@@ -43,11 +45,6 @@ const routes: Routes = [
     path: "faq",
     component: CondensedComponent,
     loadChildren: "./faq/faq.module#FAQModule"
-  },
-  {
-    path: "terms",
-    component: CondensedComponent,
-    loadChildren: "./terms/terms.module#TermsModule"
   },
   {
     path: "blog",
@@ -102,6 +99,10 @@ const routes: Routes = [
     loadChildren: "./auth/reset-pwd/reset-pwd.module#ResetPwdModule"
   },
   {
+    path: ":slug",
+    component: PageComponent
+  },
+  {
     path: "**",
     redirectTo: "",
     pathMatch: "full"
@@ -112,4 +113,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

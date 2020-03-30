@@ -252,6 +252,13 @@ button.focus,
 
 .text-link {
   color: $blue;
+  border: none;
+  background-color: transparent;
+
+  &:hover {
+    text-decoration: none;
+    filter: contrast(100);
+  }
 
   img {
     filter: brightness(4);

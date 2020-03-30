@@ -195,7 +195,7 @@ class Menu implements JsonSerializable
         }
 
         if (isset($row['parent'])) {
-            $instance->setParent($row['parent']);
+            $instance->setParent((int) $row['parent']);
         }
 
         if (isset($row['createdAt'])) {

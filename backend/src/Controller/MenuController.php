@@ -142,9 +142,9 @@ class MenuController extends AbstractController
         );
 
         return new JsonResponse();
-	}
+    }
 
-	/**
+    /**
      * @Route("/list", methods={"GET"})
      */
     public function list(Request $request)
@@ -159,6 +159,43 @@ class MenuController extends AbstractController
 
         return new JsonResponse([
             'items' => $items
+        ]);
+    }
+
+    private function getSubMenus(&$menu)
+    {
+        if ($menu && $menu['link'] && strpos($menu['link'], '://') !== false) {
+            $menu['external'] = true;
+        } else {
+            $menu['external'] = false;
+        }
+
+        $menus = $this->db->findAll('select id, title, link from menu where parent = ? and deleted_at is null order by display_order', [$menu['id']]);
+
+        if ($menus) {
+            foreach ($menus as &$menu) {
+                $menu['child'] = $this->getSubMenus($menu);
+            }
+
+            return $menus;
+        } else {
+            return [];
+        }
+    }
+
+    /**
+     * @Route("/menus", methods={"GET"})
+     */
+    public function menus(Request $request)
+    {
+        $menus = $this->db->findAll('select id, title, link from menu where parent is null and deleted_at is null order by display_order');
+
+        foreach ($menus as &$menu) {
+            $menu['child'] = $this->getSubMenus($menu);
+        }
+
+        return new JsonResponse([
+            'items' => $menus
         ]);
     }
 }
