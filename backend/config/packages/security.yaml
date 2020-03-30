@@ -38,6 +38,10 @@ security:
   access_control:
     # - { path: '^/admin/login', roles: IS_AUTHENTICATED_ANONYMOUSLY }
     # - { path: '^/admin', roles: ROLE_ADMIN }
-    - { path: "^/api/cron", roles: ROLE_USER_IP, ip: 127.0.0.1 }
+    - {
+        path: "^/api/cron",
+        roles: [ROLE_USER_IP, IS_AUTHENTICATED_ANONYMOUSLY],
+        ip: 127.0.0.1,
+      }
     - { path: "^/account", roles: ROLE_USER }
     - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
