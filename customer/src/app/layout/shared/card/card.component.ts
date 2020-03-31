@@ -11,27 +11,19 @@ import { PaymentService } from "src/app/services/payment.service";
 })
 export class CardComponent implements OnInit {
   @Input()
-  public askUserInfo = false;
-  @Input()
-  public name = "";
-  @Input()
-  public addressLine1 = "";
-  @Input()
-  public addressLine2 = "";
-  @Input()
-  public addressCity = "";
-  @Input()
-  public addressState = "";
-  @Input()
-  public addressZip = "";
-  @Input()
-  public addressCountry = "";
+  public clientSecret = "";
 
   @Input()
   public buttonLabel = "Place Order";
 
   @Output()
   tokenReady = new EventEmitter();
+
+  @Output()
+  errorOccured = new EventEmitter();
+
+  @Output()
+  startLoading = new EventEmitter();
 
   private stripe: any;
 
@@ -81,8 +73,8 @@ export class CardComponent implements OnInit {
 
   setOutcome(result) {
     if (result.token) {
-      this.tokenReady.emit(result.token);
     } else if (result.error) {
+      this.errorOccured.emit(result.error.message);
       this.error = result.error.message;
     }
   }
@@ -91,21 +83,36 @@ export class CardComponent implements OnInit {
     this.brandIcon = this.paymentService.getPaymentIcon(brand);
   }
 
-  submit() {
-    this.loading = true;
-    const data = {
-      name: this.name,
-      address_line1: this.addressLine1,
-      address_line2: this.addressLine2,
-      address_city: this.addressCity,
-      address_state: this.addressState,
-      address_zip: this.addressZip,
-      address_country: this.addressCountry
-    };
+  async submit() {
+    this.startLoading.emit();
 
-    this.stripe.createToken(this.cardNumberElement, data).then(result => {
-      this.loading = false;
-      this.setOutcome(result);
-    });
+    const { setupIntent, error } = await this.stripe.confirmCardSetup(
+      this.clientSecret,
+      {
+        payment_method: {
+          card: this.cardNumberElement
+        }
+      }
+    );
+
+    if (error) {
+      // Display error.message in your UI.
+      this.errorOccured.emit(error.message);
+    } else {
+      if (setupIntent.status === "succeeded") {
+        // The setup has succeeded. Display a success message. Send
+        // setupIntent.payment_method to your server to save the card to a Customer
+        console.log(setupIntent.payment_method);
+
+        this.tokenReady.emit(setupIntent.payment_method);
+      } else {
+        this.errorOccured.emit("Unexpected error occured!");
+      }
+    }
+
+    // this.stripe.createToken(this.cardNumberElement, data).then(result => {
+    //   this.loading = false;
+    //   this.setOutcome(result);
+    // });
   }
 }

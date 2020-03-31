@@ -76,6 +76,13 @@ export class AccountComponent implements OnInit {
     }
 
     this.greeting += this.userInfo.firstName + "!";
+  }
+
+  ngOnInit() {
+    if (this.paymentService.getAction() === PaymentAction.AddCard) {
+      this.paymentService.setAction(null);
+      this.onClickNav(4);
+    }
 
     this.accountService
       .getMyCourses(this.userInfo.id)
@@ -117,13 +124,6 @@ export class AccountComponent implements OnInit {
             "Error occured while getting your payment methods!";
         }
       });
-  }
-
-  ngOnInit() {
-    if (this.paymentService.getAction() === PaymentAction.AddCard) {
-      this.paymentService.setAction(null);
-      this.onClickNav(4);
-    }
   }
 
   onUpdateAvatar() {

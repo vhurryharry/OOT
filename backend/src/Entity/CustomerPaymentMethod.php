@@ -41,6 +41,11 @@ class CustomerPaymentMethod implements JsonSerializable
      */
     protected $token;
 
+    /**
+     * @var string
+     */
+    protected $paymentMethod;
+
     public function __construct()
     {
         $this->createdAt = Carbon::now();
@@ -107,6 +112,17 @@ class CustomerPaymentMethod implements JsonSerializable
         $this->token = $token;
     }
 
+
+    public function getPaymentMethod(): string
+    {
+        return $this->paymentMethod;
+    }
+
+    public function setPaymentMethod(string $paymentMethod): void
+    {
+        $this->paymentMethod = $paymentMethod;
+    }
+
     public static function fromDatabase(array $row): CustomerPaymentMethod
     {
         $instance = new CustomerPaymentMethod();
@@ -133,6 +149,10 @@ class CustomerPaymentMethod implements JsonSerializable
 
         if (isset($row['token'])) {
             $instance->setToken($row['token']);
+        }
+
+        if (isset($row['payment_method'])) {
+            $instance->setPaymentMethod($row['payment_method']);
         }
 
         return $instance;
@@ -166,6 +186,10 @@ class CustomerPaymentMethod implements JsonSerializable
             $instance->setToken($row['token']);
         }
 
+        if (isset($row['paymentMethod'])) {
+            $instance->setPaymentMethod($row['paymentMethod']);
+        }
+
         return $instance;
     }
 
@@ -178,6 +202,7 @@ class CustomerPaymentMethod implements JsonSerializable
             'deleted_at' => $this->deletedAt ? $this->deletedAt->format('Y-m-d H:i:s') : null,
             'customer_id' => $this->customerId,
             'token' => $this->token,
+            'payment_method' => $this->paymentMethod,
         ];
     }
 
@@ -190,6 +215,7 @@ class CustomerPaymentMethod implements JsonSerializable
             'deletedAt' => $this->deletedAt ? $this->deletedAt->format('Y-m-d\TH:i:s') : null,
             'customerId' => $this->customerId,
             'token' => $this->token,
+            'paymentMethod' => $this->paymentMethod,
         ];
     }
 }

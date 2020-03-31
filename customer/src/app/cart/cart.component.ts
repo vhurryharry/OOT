@@ -9,6 +9,9 @@ import {
 } from "../services/payment.service";
 import { LoginService, IUserInfo } from "../services/login.service";
 
+import { loadStripe } from "@stripe/stripe-js";
+import { environment } from "src/environments/environment";
+
 declare var $: any;
 
 @Component({
@@ -32,6 +35,8 @@ export class CartComponent implements OnInit {
 
   selectedPaymentMethod = -1;
 
+  private stripe: any;
+
   constructor(
     private router: Router,
     private paymentService: PaymentService,
@@ -47,7 +52,9 @@ export class CartComponent implements OnInit {
     this.userId = this.loginService.getCurrentUserId();
   }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    this.stripe = await loadStripe(environment.stripePKey);
+  }
 
   decreaseItem(index: number) {
     if (this.cart[index].quantity > 0) {
@@ -120,9 +127,9 @@ export class CartComponent implements OnInit {
       )
       .subscribe(
         (result: any) => {
-          this.paymentRequested = false;
-
           if (result && result.success) {
+            this.paymentRequested = false;
+
             this.success = true;
 
             this.paymentService.clearCart();
@@ -131,7 +138,44 @@ export class CartComponent implements OnInit {
 
             $("#selectPaymentMethodModal").modal("hide");
           } else {
-            this.errorMessage[1] = result.error;
+            if (result.paymentIntent) {
+              this.stripe
+                .confirmCardPayment(result.paymentIntent.client_secret, {
+                  payment_method:
+                    result.paymentIntent.last_payment_error.payment_method.id
+                })
+                .then((stripeResult: any) => {
+                  this.paymentRequested = false;
+
+                  if (stripeResult.error) {
+                    // Show error to your customer
+                    this.errorMessage[1] = stripeResult.error.message;
+                  } else {
+                    if (stripeResult.paymentIntent.status === "succeeded") {
+                      // The payment is complete!
+                      this.paymentService
+                        .saveOrder(
+                          this.userId,
+                          this.cart,
+                          stripeResult.paymentIntent.id,
+                          this.paymentMethods[this.selectedPaymentMethod].id
+                        )
+                        .subscribe(res => {
+                          this.success = true;
+
+                          this.paymentService.clearCart();
+                          this.cart = [];
+                          this.total = 0;
+
+                          $("#selectPaymentMethodModal").modal("hide");
+                        });
+                    }
+                  }
+                });
+            } else {
+              this.paymentRequested = false;
+              this.errorMessage[1] = result.error;
+            }
           }
         },
         (error: any) => {

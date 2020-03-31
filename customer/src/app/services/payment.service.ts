@@ -84,17 +84,19 @@ export class PaymentService {
     }
   }
 
-  addPaymentMethod(
-    userId: string,
-    token: string,
-    billingDetails,
-    attendeeInformation
-  ) {
-    return this.http.post(this.baseURL + "/payment-method", {
+  getClientSecret(userId: string, billingDetails, attendeeInformation) {
+    return this.http.post(this.baseURL + "/client-secret", {
       userId,
-      token,
       billing: billingDetails,
       attendee: attendeeInformation
+    });
+  }
+
+  addPaymentMethod(userId: string, clientSecret: string, pmToken: string) {
+    return this.http.post(this.baseURL + "/payment-method", {
+      userId,
+      clientSecret,
+      pmToken
     });
   }
 
@@ -127,6 +129,20 @@ export class PaymentService {
   placeOrder(userId: string, cart: ICartItem[], paymentMethodId: string) {
     return this.http.post(this.baseURL + "/order", {
       userId,
+      paymentMethodId,
+      cart
+    });
+  }
+
+  saveOrder(
+    userId: string,
+    cart: ICartItem[],
+    paymentIntentId: string,
+    paymentMethodId: string
+  ) {
+    return this.http.post(this.baseURL + "/order/save", {
+      userId,
+      paymentIntentId,
       paymentMethodId,
       cart
     });

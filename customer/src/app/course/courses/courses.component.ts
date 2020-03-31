@@ -18,7 +18,9 @@ export class CoursesComponent implements OnInit {
   selectedCategory = 0;
   dataLoaded = false;
 
-  constructor(private courseService: CourseService) {
+  constructor(private courseService: CourseService) {}
+
+  ngOnInit() {
     this.courseService.get().subscribe((result: any) => {
       this.courses = result.courses.map(course => {
         course.canEnroll = course.spots > course.reservations;
@@ -48,8 +50,6 @@ export class CoursesComponent implements OnInit {
       this.dataLoaded = true;
     });
   }
-
-  ngOnInit() {}
 
   onSelectCategory(newCategory) {
     this.selectedCategory = newCategory;

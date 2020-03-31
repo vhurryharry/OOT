@@ -360,6 +360,45 @@ class CustomerController extends AbstractController
     }
 
     /**
+     * @Route("/client-secret", methods={"POST"})
+     */
+    public function getClientSecret(Request $request)
+    {
+        $userId = $request->get('userId');
+        $customer = $this->customerRepository->getCustomer($userId);
+
+        if (!$customer) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => 'User not found!'
+            ]);
+        }
+
+        $customer = Customer::fromDatabase($customer);
+
+        $skey = $this->getParameter('env(STRIPE_SKEY)');
+        $result = $this->paymentRepository->getClientSecret(
+            $customer,
+            $skey,
+            $request->get('billing'),
+            $request->get('attendee')
+        );
+
+        if ($result == "") {
+            return new JsonResponse([
+                'success' => false,
+                'error' => "Error occured!"
+            ]);
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'secret' => $result,
+            'error' => null
+        ]);
+    }
+
+    /**
      * @Route("/payment-method", methods={"POST"})
      */
     public function addPaymentMethod(Request $request)
@@ -379,10 +418,9 @@ class CustomerController extends AbstractController
         $skey = $this->getParameter('env(STRIPE_SKEY)');
         $result = $this->paymentRepository->addPaymentInfo(
             $customer,
-            $request->get('token'),
-            $skey,
-            $request->get('billing'),
-            $request->get('attendee')
+            $request->get('clientSecret'),
+            $request->get('pmToken'),
+            $skey
         );
 
         if ($result == false) {
@@ -497,11 +535,56 @@ class CustomerController extends AbstractController
         if ($result == null) {
             return new JsonResponse([
                 'success' => false,
+                'paymentIntent' => null,
+                'error' => "Unexpected error occured!"
+            ]);
+        } else if (!$result['success']) {
+            return new JsonResponse([
+                'success' => false,
+                'paymentIntent' => $result['paymentIntent'],
                 'error' => "Error occured!"
             ]);
         }
 
-        $coursePayment = $this->customerRepository->savePayment($customer, $result['id'], $request->get('paymentMethodId'));
+        $coursePayment = $this->customerRepository->savePayment($customer, $result['paymentIntent']['id'], $request->get('paymentMethodId'));
+        $this->customerRepository->reserveCourse($customer, $courses, $coursePayment->getId());
+
+        return new JsonResponse([
+            'success' => true,
+            'error' => null,
+            'result' => $result
+        ]);
+    }
+
+    /**
+     * @Route("/order/save", methods={"POST"})
+     */
+    public function saveOrder(Request $request)
+    {
+
+        $userId = $request->get('userId');
+        $customer = $this->customerRepository->getCustomer($userId);
+
+        if (!$customer) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => 'User not found!'
+            ]);
+        }
+
+        $customer = Customer::fromDatabase($customer);
+
+        $cart = $request->get('cart');
+        $courses = [];
+
+        foreach ($cart as $item) {
+            $course = $this->courseRepository->getCourseWithPrice($item['id']);
+            $course['quantity'] = $item['quantity'];
+
+            $courses[] = $course;
+        }
+
+        $coursePayment = $this->customerRepository->savePayment($customer, $request->get('paymentIntentId'), $request->get('paymentMethodId'));
         $this->customerRepository->reserveCourse($customer, $courses, $coursePayment->getId());
 
         return new JsonResponse([

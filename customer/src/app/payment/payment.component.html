@@ -267,9 +267,8 @@
 
       <div class="col-12 payment-information-row form-group row">
         <app-card class="col-12 row" [buttonLabel]="addCard ? 'Add Card' : 'Place Order'"
-          (tokenReady)="onTokenReady($event)" [name]="billingDetails.firstName + ' ' + billingDetails.lastName"
-          [addressCity]="billingDetails.city" [addressState]="billingDetails.state" [addressZip]="billingDetails.zip"
-          [addressCountry]="billingDetails.country" [addressLine1]="billingDetails.street">
+          (tokenReady)="onTokenReady($event)" (startLoading)="onStartLoading()" (errorOccured)="onErrorOccured($event)"
+          [clientSecret]="clientSecret">
         </app-card>
       </div>
     </div>

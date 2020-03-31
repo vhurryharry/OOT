@@ -44,6 +44,8 @@ export class PaymentComponent implements OnInit {
     email: ""
   };
 
+  clientSecret = "";
+
   showError = 0;
 
   constructor(
@@ -100,6 +102,24 @@ export class PaymentComponent implements OnInit {
         this.billingDetails.zip === ""
       ) {
         this.showError = 1;
+      } else {
+        this.loading = true;
+
+        this.paymentService
+          .getClientSecret(
+            this.userInfo.id,
+            this.billingDetails,
+            this.attendeeInformation
+          )
+          .subscribe((result: any) => {
+            this.loading = false;
+            if (result && result.success) {
+              this.clientSecret = result.secret;
+              this.currentStep++;
+            } else {
+              this.error = result.error;
+            }
+          });
       }
     }
 
@@ -115,24 +135,15 @@ export class PaymentComponent implements OnInit {
     //         this.showError = 2;
     //     }
     // }
-
-    if (this.showError === 0) {
-      this.currentStep += 1;
-    }
   }
 
-  onTokenReady(token) {
+  onTokenReady(pmToken) {
     if (this.addCard) {
       this.error = null;
       this.loading = true;
 
       this.paymentService
-        .addPaymentMethod(
-          this.userInfo.id,
-          token.id,
-          this.billingDetails,
-          this.attendeeInformation
-        )
+        .addPaymentMethod(this.userInfo.id, this.clientSecret, pmToken)
         .subscribe((result: any) => {
           this.loading = false;
           if (result.success) {
@@ -146,5 +157,14 @@ export class PaymentComponent implements OnInit {
           }
         });
     }
+  }
+
+  onErrorOccured(error) {
+    this.error = error;
+    this.loading = false;
+  }
+
+  onStartLoading() {
+    this.loading = true;
   }
 }
