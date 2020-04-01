@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { PaymentService, ICartItem } from "src/app/services/payment.service";
@@ -10,7 +10,8 @@ declare var $: any;
 @Component({
   selector: "app-course-detail",
   templateUrl: "./course-detail.component.html",
-  styleUrls: ["./course-detail.component.scss"]
+  styleUrls: ["./course-detail.component.scss"],
+  encapsulation: ViewEncapsulation.None
 })
 export class CourseDetailComponent implements OnInit {
   slug: string = null;

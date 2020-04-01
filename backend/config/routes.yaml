@@ -108,6 +108,11 @@ api_customer:
   type: annotation
   prefix: /api/customer
 
+api_upload:
+  resource: 'App\Controller\UploadController'
+  type: annotation
+  prefix: /api/upload
+
 api_order:
   resource: 'App\Controller\OrderController'
   type: annotation

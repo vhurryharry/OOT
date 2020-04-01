@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { EntityService } from "src/app/services/entity.service";
 
 @Component({
   selector: "app-page",
   templateUrl: "./page.component.html",
-  styleUrls: ["./page.component.scss"]
+  styleUrls: ["./page.component.scss"],
+  encapsulation: ViewEncapsulation.None
 })
 export class PageComponent implements OnInit {
   @ViewChild("root", { static: false }) root;

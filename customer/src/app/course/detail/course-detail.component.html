@@ -45,7 +45,7 @@
     </div>
 
     <div class="col-12 col-lg-8 course-detail-content">
-      <p class="lg-subtitle" [innerHTML]="course.content">
+      <p class="course-detail-content-html" [innerHTML]="course.content">
       </p>
       <div class="course-detail-enroll">
         <button (click)="enroll()" class="btn lg-cta lg-buttons" *ngIf="!isInstructor" [disabled]="!canEnroll">

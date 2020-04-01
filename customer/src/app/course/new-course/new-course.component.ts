@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import * as ClassicEditor from "src/assets/ckeditor/ckeditor.js";
 import { CourseService } from "../course.service";
 import { Router } from "@angular/router";
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { RepositoryService } from "../../services/repository.service";
 import slugify from "slugify";
-import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import * as ClassicEditor from "../../../assets/ckeditor/ckeditor.js";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({

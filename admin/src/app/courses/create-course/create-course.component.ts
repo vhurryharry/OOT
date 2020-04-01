@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 import { RepositoryService } from "../../services/repository.service";
 import slugify from "slugify";
-import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import * as ClassicEditor from "../../../assets/ckeditor/ckeditor.js";
 
 @Component({
   selector: "admin-create-course",

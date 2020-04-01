@@ -11,6 +11,11 @@
 .page-container {
   padding: 0;
   margin: calc(156px + 3.25vw) 15.6vw 0;
+
+  * {
+    max-width: 100%;
+    max-height: 100%;
+  }
 }
 
 @media #{$tablet} {
