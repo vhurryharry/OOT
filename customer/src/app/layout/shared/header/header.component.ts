@@ -7,17 +7,17 @@ declare var $: any;
 @Component({
   selector: "app-header",
   templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.scss"]
+  styleUrls: ["./header.component.scss"],
 })
 export class HeaderComponent implements OnInit {
   @Input()
   public lightHeader = false;
-  private loggedIn = false;
-  private userName = "";
-  private isInstructor = false;
-  private userAvatar = "";
-  private menuExpanded = false;
-  private items = [];
+  public loggedIn = false;
+  public userName = "";
+  public isInstructor = false;
+  public userAvatar = "";
+  public menuExpanded = false;
+  public items = [];
 
   @HostListener("window:scroll", ["$event"])
   onWindowScroll(e) {

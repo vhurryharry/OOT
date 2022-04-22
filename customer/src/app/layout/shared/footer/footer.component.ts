@@ -6,7 +6,7 @@ declare var ml_account: any;
 @Component({
   selector: "app-footer",
   templateUrl: "./footer.component.html",
-  styleUrls: ["./footer.component.scss"]
+  styleUrls: ["./footer.component.scss"],
 })
 export class FooterComponent implements OnInit {
   @Input()
@@ -21,7 +21,7 @@ export class FooterComponent implements OnInit {
   @Output()
   enroll: EventEmitter<any> = new EventEmitter();
 
-  private email = "";
+  public email = "";
   isInstructor = false;
 
   constructor(private loginService: LoginService) {
