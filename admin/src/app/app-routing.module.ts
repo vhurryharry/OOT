@@ -11,165 +11,193 @@ const routes: Routes = [
     path: "",
     component: CondensedComponent,
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "login",
     component: BlankComponent,
-    loadChildren: "./login/login.module#LoginModule"
+    loadChildren: () =>
+      import("./login/login.module").then((x) => x.LoginModule),
   },
 
   // Content
   {
     path: "courses",
     component: CondensedComponent,
-    loadChildren: "./courses/courses.module#CoursesModule",
+    loadChildren: () =>
+      import("./courses/courses.module").then((x) => x.CoursesModule),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "course-categories",
     component: CondensedComponent,
-    loadChildren:
-      "./course-categories/course-categories.module#CourseCategoriesModule",
+    loadChildren: () =>
+      import("./course-categories/course-categories.module").then(
+        (x) => x.CourseCategoriesModule
+      ),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "course-topics",
     component: CondensedComponent,
-    loadChildren: "./course-topics/course-topics.module#CourseTopicsModule",
+    loadChildren: () =>
+      import("./course-topics/course-topics.module").then(
+        (x) => x.CourseTopicsModule
+      ),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "blogs",
     component: CondensedComponent,
-    loadChildren: "./blogs/blogs.module#BlogsModule",
+    loadChildren: () =>
+      import("./blogs/blogs.module").then((x) => x.BlogsModule),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "blog-categories",
     component: CondensedComponent,
-    loadChildren:
-      "./blog-categories/blog-categories.module#BlogCategoriesModule",
+    loadChildren: () =>
+      import("./blog-categories/blog-categories.module").then(
+        (x) => x.BlogCategoriesModule
+      ),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "pages",
     component: CondensedComponent,
-    loadChildren: "./entities/entities.module#EntitiesModule",
+    loadChildren: () =>
+      import("./entities/entities.module").then((x) => x.EntitiesModule),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "notifications",
     component: CondensedComponent,
-    loadChildren: "./notifications/notifications.module#NotificationsModule",
+    loadChildren: () =>
+      import("./notifications/notifications.module").then(
+        (x) => x.NotificationsModule
+      ),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "testimonials",
     component: CondensedComponent,
-    loadChildren: "./testimonials/testimonials.module#TestimonialsModule",
+    loadChildren: () =>
+      import("./testimonials/testimonials.module").then(
+        (x) => x.TestimonialsModule
+      ),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "categories",
     component: CondensedComponent,
-    loadChildren: "./categories/categories.module#CategoriesModule",
+    loadChildren: () =>
+      import("./categories/categories.module").then((x) => x.CategoriesModule),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "tags",
     component: CondensedComponent,
-    loadChildren: "./tags/tags.module#TagsModule",
+    loadChildren: () => import("./tags/tags.module").then((x) => x.TagsModule),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "menus",
     component: CondensedComponent,
-    loadChildren: "./menus/menus.module#MenusModule",
+    loadChildren: () =>
+      import("./menus/menus.module").then((x) => x.MenusModule),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "faqs",
     component: CondensedComponent,
-    loadChildren: "./faqs/faqs.module#FaqsModule",
+    loadChildren: () => import("./faqs/faqs.module").then((x) => x.FaqsModule),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
 
   // Business
   {
     path: "students",
     component: CondensedComponent,
-    loadChildren: "./students/students.module#StudentsModule",
+    loadChildren: () =>
+      import("./students/students.module").then((x) => x.StudentsModule),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "instructors",
     component: CondensedComponent,
-    loadChildren: "./instructors/instructors.module#InstructorsModule",
+    loadChildren: () =>
+      import("./instructors/instructors.module").then(
+        (x) => x.InstructorsModule
+      ),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "orders",
     component: CondensedComponent,
-    loadChildren: "./orders/orders.module#OrdersModule",
+    loadChildren: () =>
+      import("./orders/orders.module").then((x) => x.OrdersModule),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
 
   // System
   {
     path: "users",
     component: CondensedComponent,
-    loadChildren: "./users/users.module#UsersModule",
+    loadChildren: () =>
+      import("./users/users.module").then((x) => x.UsersModule),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "roles",
     component: CondensedComponent,
-    loadChildren: "./roles/roles.module#RolesModule",
+    loadChildren: () =>
+      import("./roles/roles.module").then((x) => x.RolesModule),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "config",
     component: CondensedComponent,
-    loadChildren: "./users/users.module#UsersModule",
+    loadChildren: () =>
+      import("./users/users.module").then((x) => x.UsersModule),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "audit-logs",
     component: CondensedComponent,
-    loadChildren: "./audit-logs/audit-logs.module#AuditLogsModule",
+    loadChildren: () =>
+      import("./audit-logs/audit-logs.module").then((x) => x.AuditLogsModule),
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
 
   {
     path: "**",
     component: CondensedComponent,
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
-  }
+    canLoad: [AuthGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

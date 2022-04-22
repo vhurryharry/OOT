@@ -5,7 +5,7 @@ import { FileService } from "../../services/file.service";
 
 @Component({
   selector: "admin-audit-log-list",
-  templateUrl: "./audit-log-list.component.html"
+  templateUrl: "./audit-log-list.component.html",
 })
 export class AuditLogListComponent implements OnInit {
   @ViewChild(ClrDatagrid, { static: false }) datagrid: ClrDatagrid;

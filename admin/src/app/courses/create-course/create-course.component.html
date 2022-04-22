@@ -1,5 +1,5 @@
 <div>
-  <h4>{{pageTitle}}</h4>
+  <h4>{{ pageTitle }}</h4>
 
   <span *ngIf="courseId">
     <button type="button" class="btn btn-link" (click)="onOptions()">
@@ -39,39 +39,57 @@
     <clr-icon shape="undo"></clr-icon> Back
   </button>
 
-  <form clrForm [formGroup]="courseForm" clrLayout="vertical" (ngSubmit)="onSubmit()" *ngIf="!loading">
+  <form
+    clrForm
+    [formGroup]="courseForm"
+    clrLayout="vertical"
+    (ngSubmit)="onSubmit()"
+    *ngIf="!loading"
+  >
     <clr-tabs clrLayout="vertical">
-
       <clr-tab>
         <button clrTabLink>Details</button>
         <clr-tab-content *clrIfActive="true">
           <clr-input-container>
             <label>Title</label>
-            <input clrInput type="text" formControlName="title" required size="70" />
+            <input
+              clrInput
+              type="text"
+              formControlName="title"
+              required
+              size="70"
+            />
             <clr-control-error>The title is required</clr-control-error>
           </clr-input-container>
           <clr-input-container>
             <label>Slug</label>
-            <input clrInput type="text" formControlName="slug" required size="70" />
+            <input
+              clrInput
+              type="text"
+              formControlName="slug"
+              required
+              size="70"
+            />
             <clr-control-error>The slug is required</clr-control-error>
             <clr-control-helper>Page slug for this course</clr-control-helper>
           </clr-input-container>
           <clr-input-container>
             <label>Tagline</label>
             <input clrInput type="text" formControlName="tagline" size="70" />
-            <clr-control-helper>Headline text displayed at the top of course page</clr-control-helper>
+            <clr-control-helper
+              >Headline text displayed at the top of course
+              page</clr-control-helper
+            >
           </clr-input-container>
           <clr-select-container>
             <label>Status</label>
             <select clrSelect formControlName="status">
-              <option value="pending_confirmation">
-                Pending Confirmation
-              </option>
-              <option value="confirmed">
-                Confirmed
-              </option>
+              <option value="pending_confirmation">Pending Confirmation</option>
+              <option value="confirmed">Confirmed</option>
             </select>
-            <clr-control-helper>Set the status of this course</clr-control-helper>
+            <clr-control-helper
+              >Set the status of this course</clr-control-helper
+            >
           </clr-select-container>
         </clr-tab-content>
       </clr-tab>
@@ -99,7 +117,12 @@
           </clr-input-container>
           <clr-input-container>
             <label>Meta Description</label>
-            <input clrInput type="text" formControlName="metaDescription" size="70" />
+            <input
+              clrInput
+              type="text"
+              formControlName="metaDescription"
+              size="70"
+            />
           </clr-input-container>
         </clr-tab-content>
       </clr-tab>
@@ -109,19 +132,31 @@
         <clr-tab-content *clrIfActive>
           <clr-input-container>
             <label>Location</label>
-            <input clrInput type="text" formControlName="location" placeholder="lat,lng" size="70" />
-            <clr-control-helper>Geo coordinates of the course location, in <code>lat,lng</code> format
+            <input
+              clrInput
+              type="text"
+              formControlName="location"
+              placeholder="lat,lng"
+              size="70"
+            />
+            <clr-control-helper
+              >Geo coordinates of the course location, in
+              <code>lat,lng</code> format
             </clr-control-helper>
           </clr-input-container>
           <clr-input-container>
             <label>City</label>
             <input clrInput type="text" formControlName="city" size="70" />
-            <clr-control-helper>City where the course is taking place</clr-control-helper>
+            <clr-control-helper
+              >City where the course is taking place</clr-control-helper
+            >
           </clr-input-container>
           <clr-input-container>
             <label>Address</label>
             <input clrInput type="text" formControlName="address" size="70" />
-            <clr-control-helper>Full address where the course is taking place</clr-control-helper>
+            <clr-control-helper
+              >Full address where the course is taking place</clr-control-helper
+            >
           </clr-input-container>
         </clr-tab-content>
       </clr-tab>
@@ -131,12 +166,12 @@
         <clr-tab-content *clrIfActive>
           <clr-date-container>
             <label>Start date</label>
-            <input type="date" [(clrDate)]="startDate" required formControlName="startDate">
+            <input type="date" required formControlName="startDate" />
             <clr-control-helper>First day of the course</clr-control-helper>
           </clr-date-container>
           <clr-date-container>
             <label>Last date</label>
-            <input type="date" [(clrDate)]="lastDate" required formControlName="lastDate">
+            <input type="date" required formControlName="lastDate" />
             <clr-control-helper>Last day of the course</clr-control-helper>
           </clr-date-container>
           <clr-input-container>
@@ -152,17 +187,26 @@
           <clr-input-container>
             <label>Spots</label>
             <input clrInput type="number" formControlName="spots" min="0" />
-            <clr-control-helper>Number of available spots on the course</clr-control-helper>
+            <clr-control-helper
+              >Number of available spots on the course</clr-control-helper
+            >
           </clr-input-container>
         </clr-tab-content>
       </clr-tab>
-
     </clr-tabs>
 
-    <button class="btn btn-primary pull-right" type="submit" [disabled]="!courseForm.valid"
-      *ngIf="!loading">Submit</button>
+    <button
+      class="btn btn-primary pull-right"
+      type="submit"
+      [disabled]="!courseForm.valid"
+      *ngIf="!loading"
+    >
+      Submit
+    </button>
 
-    <button class="btn btn-outline pull-right" (click)="goBack()">Cancel</button>
+    <button class="btn btn-outline pull-right" (click)="goBack()">
+      Cancel
+    </button>
   </form>
 
   <clr-spinner *ngIf="loading"></clr-spinner>

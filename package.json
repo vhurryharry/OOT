@@ -1,11 +1,11 @@
 {
 	"private": true,
 	"devDependencies": {
-		"@stoplight/spectral": "^4.2.0",
-		"husky": "^3.1.0",
-		"lint-staged": "^9.4.3",
-		"prettier": "1.18.2",
-		"redoc-cli": "^0.9.2"
+		"@stoplight/spectral": "^6.1.0",
+		"husky": "^7.0.4",
+		"lint-staged": "^12.4.0",
+		"prettier": "^2.6.2",
+		"redoc-cli": "^0.13.10"
 	},
 	"scripts": {
 		"lint": "prettier --write './**/*.{js,ts,json,scss,css,md,yml}'",

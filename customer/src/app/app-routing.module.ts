@@ -10,107 +10,122 @@ const routes: Routes = [
   {
     path: "",
     component: CondensedComponent,
-    loadChildren: "./home/home.module#HomeModule"
+    loadChildren: () => import("./home/home.module").then((x) => x.HomeModule),
   },
   {
     path: "contact",
     component: CondensedComponent,
-    loadChildren: "./contact/contact.module#ContactModule"
+    loadChildren: () =>
+      import("./contact/contact.module").then((x) => x.ContactModule),
   },
   {
     path: "about",
     component: CondensedComponent,
-    loadChildren: "./about/about.module#AboutModule"
+    loadChildren: () =>
+      import("./about/about.module").then((x) => x.AboutModule),
   },
   {
     path: "course",
     component: CondensedComponent,
-    loadChildren: "./course/course.module#CourseModule"
+    loadChildren: () =>
+      import("./course/course.module").then((x) => x.CourseModule),
   },
   {
     path: "account",
     component: CondensedComponent,
-    loadChildren: "./account/account.module#AccountModule",
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
+    loadChildren: () =>
+      import("./account/account.module").then((x) => x.AccountModule),
   },
   {
     path: "survey",
     component: CondensedComponent,
-    loadChildren: "./survey/survey.module#SurveyModule",
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
+    loadChildren: () =>
+      import("./survey/survey.module").then((x) => x.SurveyModule),
   },
   {
     path: "faq",
     component: CondensedComponent,
-    loadChildren: "./faq/faq.module#FAQModule"
+    loadChildren: () => import("./faq/faq.module").then((x) => x.FAQModule),
   },
   {
     path: "blog",
     component: CondensedComponent,
-    loadChildren: "./blog/blog.module#BlogModule"
+    loadChildren: () => import("./blog/blog.module").then((x) => x.BlogModule),
   },
   {
     path: "cart",
     component: CondensedComponent,
-    loadChildren: "./cart/cart.module#CartModule",
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
+    loadChildren: () => import("./cart/cart.module").then((x) => x.CartModule),
   },
   {
     path: "payment",
     component: CondensedComponent,
-    loadChildren: "./payment/payment.module#PaymentModule",
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
+    loadChildren: () =>
+      import("./payment/payment.module").then((x) => x.PaymentModule),
   },
   {
     path: "invoice",
     component: CondensedComponent,
-    loadChildren: "./invoice/invoice.module#InvoiceModule",
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
+    loadChildren: () =>
+      import("./invoice/invoice.module").then((x) => x.InvoiceModule),
   },
   {
     path: "login",
     component: CondensedComponent,
-    loadChildren: "./auth/login/login.module#LoginModule"
+    loadChildren: () =>
+      import("./auth/login/login.module").then((x) => x.LoginModule),
   },
   {
     path: "signup",
     component: CondensedComponent,
-    loadChildren: "./auth/signup/signup.module#SignupModule"
+    loadChildren: () =>
+      import("./auth/signup/signup.module").then((x) => x.SignupModule),
   },
   {
     path: "email-confirmation",
     component: CondensedComponent,
-    loadChildren:
-      "./auth/email-confirmation/email-confirmation.module#EmailConfirmationModule"
+    loadChildren: () =>
+      import("./auth/email-confirmation/email-confirmation.module").then(
+        (x) => x.EmailConfirmationModule
+      ),
   },
   {
     path: "forgot-pwd",
     component: CondensedComponent,
-    loadChildren: "./auth/forgot-pwd/forgot-pwd.module#ForgotPwdModule"
+    loadChildren: () =>
+      import("./auth/forgot-pwd/forgot-pwd.module").then(
+        (x) => x.ForgotPwdModule
+      ),
   },
   {
     path: "reset-pwd",
     component: CondensedComponent,
-    loadChildren: "./auth/reset-pwd/reset-pwd.module#ResetPwdModule"
+    loadChildren: () =>
+      import("./auth/reset-pwd/reset-pwd.module").then((x) => x.ResetPwdModule),
   },
   {
     path: ":slug",
-    component: PageComponent
+    component: PageComponent,
   },
   {
     path: "**",
     redirectTo: "",
-    pathMatch: "full"
-  }
+    pathMatch: "full",
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -1,7 +1,8 @@
 <clr-datagrid
   (clrDgRefresh)="refresh($event)"
   [clrDgLoading]="loading"
-  [(clrDgSelected)]="selected">
+  [(clrDgSelected)]="selected"
+>
   <clr-dg-placeholder>No audit logs found.</clr-dg-placeholder>
 
   <clr-dg-action-bar>
@@ -11,8 +12,17 @@
         <clr-icon shape="caret down"></clr-icon>
       </button>
       <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
-        <button type="button" (click)="onExportAll()" clrDropdownItem>Export all</button>
-        <button type="button" (click)="onExportSelected()" [disabled]="selected.length === 0" clrDropdownItem>Export selected</button>
+        <button type="button" (click)="onExportAll()" clrDropdownItem>
+          Export all
+        </button>
+        <button
+          type="button"
+          (click)="onExportSelected()"
+          [disabled]="selected.length === 0"
+          clrDropdownItem
+        >
+          Export selected
+        </button>
       </clr-dropdown-menu>
     </clr-dropdown>
   </clr-dg-action-bar>
@@ -25,19 +35,22 @@
   <clr-dg-column [clrDgField]="'new'">New</clr-dg-column>
   <clr-dg-column [clrDgField]="'created_at'">Created at</clr-dg-column>
 
-  <clr-dg-row *ngFor="let audit-log of audit-logs" [clrDgItem]="audit-log">
-    <clr-dg-cell>{{audit-log.tableName}}</clr-dg-cell>
-    <clr-dg-cell>{{audit-log.tableId}}</clr-dg-cell>
-    <clr-dg-cell>{{audit-log.user}}</clr-dg-cell>
-    <clr-dg-cell>{{audit-log.action}}</clr-dg-cell>
-    <clr-dg-cell>{{audit-log.old}}</clr-dg-cell>
-    <clr-dg-cell>{{audit-log.new}}</clr-dg-cell>
-    <clr-dg-cell>{{audit-log.createdAt | date:'short'}}</clr-dg-cell>
+  <clr-dg-row *ngFor="let auditLog of auditLogs" [clrDgItem]="auditLog">
+    <clr-dg-cell>{{ auditLog.tableName }}</clr-dg-cell>
+    <clr-dg-cell>{{ auditLog.tableId }}</clr-dg-cell>
+    <clr-dg-cell>{{ auditLog.user }}</clr-dg-cell>
+    <clr-dg-cell>{{ auditLog.action }}</clr-dg-cell>
+    <clr-dg-cell>{{ auditLog.old }}</clr-dg-cell>
+    <clr-dg-cell>{{ auditLog.new }}</clr-dg-cell>
+    <clr-dg-cell>{{ auditLog.createdAt | date: "short" }}</clr-dg-cell>
   </clr-dg-row>
 
   <clr-dg-footer>
-    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-    of {{total}} audit-logs
-    <clr-dg-pagination #pagination [clrDgTotalItems]="total"></clr-dg-pagination>
+    {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+    {{ total }} audit-logs
+    <clr-dg-pagination
+      #pagination
+      [clrDgTotalItems]="total"
+    ></clr-dg-pagination>
   </clr-dg-footer>
 </clr-datagrid>
