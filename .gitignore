@@ -37,7 +37,7 @@ proxy.conf.json
 package-lock.json
 yarn.lock
 composer.lock
-.env
+
 
 .yarn
 

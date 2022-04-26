@@ -55,6 +55,7 @@ class Demo extends AbstractSeed
             $id = Uuid::uuid4()->toString();
             $combo = [];
             $date = $faker->dateTimeThisMonth();
+            $endTime = $faker->dateTimeThisMonth();
             $categories = "{";
 
             $catCount = rand(1,5);
@@ -78,11 +79,15 @@ class Demo extends AbstractSeed
                 'spots' => 32,
                 'location' => sprintf('(%s,%s)', $faker->latitude, $faker->longitude),
                 'start_date' => $date->format('Y-m-d'),
+                'last_date' => $endTime->format('Y-m-d'),
+                'status' => 'active',
                 'city' => $faker->city,
                 'address' => $faker->address,
                 'hero' => $faker->bs,
                 'tagline' => $faker->catchPhrase,
-                'categories' => $categories
+                'categories' => $categories,
+                'start_time' => $date->format('H:i:s'),
+                'end_time' => $endTime->format('H:i:s'),
             ];
 
             // Options
@@ -126,8 +131,8 @@ class Demo extends AbstractSeed
             // Testimonial
             foreach (range(1, $faker->numberBetween(2, 8)) as $index) {
                 $courseTestimonials[] = [
-                    'title' => $faker->sentence(),
-                    'content' => $faker->paragraphs(1, true),
+                    'author_text' => $faker->sentence(),
+                    'testimonial' => $faker->paragraphs(1, true),
                     'course' => $id,
                     'author' => $faker->randomElement($customers)['id'],
                 ];
@@ -144,7 +149,7 @@ class Demo extends AbstractSeed
             // Reservation
             foreach ($faker->randomElements($customers, rand(1, 32)) as $customer) {
                 $courseReservation[] = [
-                    'number' => Uuid::uuid4()->toString(),
+                    'id' => Uuid::uuid4()->toString(),
                     'course_id' => $id,
                     'customer_id' => $customer['id'],
                     'status' => $faker->randomElement(['pending_confirmation', 'paid', 'finished']),

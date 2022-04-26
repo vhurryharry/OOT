@@ -110,37 +110,37 @@ class Base extends AbstractSeed
     {
         $testimonials = [
             [
-                'title' => 'The quality and range of instruction were at a level that far surpassed my expectations.'
+                'testimonial' => 'The quality and range of instruction were at a level that far surpassed my expectations.'
             ],
             [
-                'title' => 'Fabulous course with incredible amounts of information that will be used as a reference guide for years to come.'
+                'testimonial' => 'Fabulous course with incredible amounts of information that will be used as a reference guide for years to come.'
             ],
             [
-                'title' => 'I loved every minute of it. I am very proud to be part of this group.'
+                'testimonial' => 'I loved every minute of it. I am very proud to be part of this group.'
             ],
             [
-                'title' => 'I highly recommend it. Every day was absolutely worth it.'
+                'testimonial' => 'I highly recommend it. Every day was absolutely worth it.'
             ],
             [
-                'title' => 'Whether you’re a chef, an importer like me, no matter what area you’re in, you should do this course.'
+                'testimonial' => 'Whether you’re a chef, an importer like me, no matter what area you’re in, you should do this course.'
             ],
             [
-                'title' => 'I enjoyed from the first thing in the morning to the last minute when I go home. The course was extremely well done.'
+                'testimonial' => 'I enjoyed from the first thing in the morning to the last minute when I go home. The course was extremely well done.'
             ],
             [
-                'title' => 'The course was eye-opening and led by inspiring experts.'
+                'testimonial' => 'The course was eye-opening and led by inspiring experts.'
             ],
             [
-                'title' => 'An awesome course. Very excited to stay in touch with all of my new colleagues and educate more and more.'
+                'testimonial' => 'An awesome course. Very excited to stay in touch with all of my new colleagues and educate more and more.'
             ],
             [
-                'title' => 'Best class ever for learning about what I love.'
+                'testimonial' => 'Best class ever for learning about what I love.'
             ],
             [
-                'title' => 'This was awesome! Thank you so much for offering this program in California.'
+                'testimonial' => 'This was awesome! Thank you so much for offering this program in California.'
             ],
             [
-                'title' => 'Thanks for a wonderful week! I’ve found my tribe!'
+                'testimonial' => 'Thanks for a wonderful week! I’ve found my tribe!'
             ],
         ];
 

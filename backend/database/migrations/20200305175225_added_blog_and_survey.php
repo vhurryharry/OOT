@@ -20,7 +20,8 @@ class AddedBlogAndSurvey extends AbstractMigration
             ->create();
 
         $blogCategory = $this->table('blog_category')
-            ->addColumn('category', 'string');
+            ->addColumn('category', 'string')
+            ->create();
 
         $surveyQuestion = $this->table('survey_question');
         $surveyQuestion->addColumn('question', 'string')
